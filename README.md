@@ -10,8 +10,8 @@ Test: Run node -v. The version should be higher than v0.10.32
  You will need
  
  ```
- git clone https://github.com/VARJSAXO/openapi-feature-sample.git
- cd openapi-feature-sample
+ git clone https://github.com/SaxoBank/openapi-samples-feature.git
+ cd openapi-samples-feature
  npm install
  npm start
  ```
