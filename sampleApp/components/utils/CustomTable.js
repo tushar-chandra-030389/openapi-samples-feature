@@ -12,7 +12,6 @@ export default class CustomTable extends React.Component {
     }
 
     generateHeaders () {
-        this.setData();
         return map(this.data[0], (value, key) => {
             return <TableHeaderColumn width={this.props.width} dataField={key} isKey={this.props.keyField === key} dataSort={findIndex(this.props.dataSortFields, (field) => field == key) !== -1}>{last(split(key, '.'))}</TableHeaderColumn>
         });
@@ -26,6 +25,7 @@ export default class CustomTable extends React.Component {
     }
 
     render () {
+        this.setData();
         return (
             <div>
                 { !isEmpty(this.data) ? (<BootstrapTable data={this.data} striped condensed hover>{this.generateHeaders()}</BootstrapTable>) : null }
