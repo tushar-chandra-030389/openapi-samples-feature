@@ -15,7 +15,7 @@ export default (props) => {
 		    <ButtonToolbar>
 		        <DropdownButton bsStyle="primary" title={props.state.assetType} id="dropdown-size-large" onSelect = {props.onAssetTypeSelected} >
 		        	{assetTypes}
-		        </DropdownButton> 
+		        </DropdownButton>
 		        { props.state.hasInstruments ?
 		        	props.parent ?
 			        (<DropdownButton bsStyle="primary" title={props.state.instrument} id="dropdown-size-large" onSelect = {props.onInstrumentSelected}>
@@ -28,13 +28,7 @@ export default (props) => {
 				        	<SearchInput className="search-input" onChange={props.searchUpdated}/>
 				      	</InputGroup>
 			        	<br/><br/><br/>
-						<BootstrapTable data={data} striped condensed hover>
-						    <TableHeaderColumn dataField="Identifier" isKey dataAlign="center" dataSort>Identifier / Uic</TableHeaderColumn>
-						    <TableHeaderColumn dataField="Symbol" dataSort>Symbol</TableHeaderColumn>
-						    <TableHeaderColumn dataField="Description">Instrument Name</TableHeaderColumn>
-						    <TableHeaderColumn dataField="AssetType">AssetType</TableHeaderColumn>
-						    <TableHeaderColumn dataField="ExchangeId">Exchange ID</TableHeaderColumn>
-						</BootstrapTable>
+						<CustomTable data={data} keyField='Identifier' dataSortFields={['Identifier', 'Symbol']} width='150'/>
 					</div>)
 				: null }
 		    </ButtonToolbar>

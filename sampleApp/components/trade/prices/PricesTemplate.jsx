@@ -44,7 +44,7 @@ export default (props) => {
                                     </Table>
                                 </Panel>
                             </Accordion>
-                            
+
                         </Col>
                         <Col sm={6}>
                             <Accordion defaultActiveKey="1">

@@ -1,31 +1,35 @@
 import React from 'react';
-import { map } from 'lodash'
-import { Table } from 'react-bootstrap';
+import { map, split, last, findIndex, forEach, isEmpty } from 'lodash'
+import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+import { flatten } from 'flat';
 
 export default class CustomTable extends React.Component {
     constructor(props){
         super(props);
+        this.generateHeaders = this.generateHeaders.bind(this);
+        this.setData = this.setData.bind(this);
+        this.data = [];
     }
 
-    render() {
+    generateHeaders () {
+        this.setData();
+        return map(this.data[0], (value, key) => {
+            return <TableHeaderColumn width={this.props.width} dataField={key} isKey={this.props.keyField === key} dataSort={findIndex(this.props.dataSortFields, (field) => field == key) !== -1}>{last(split(key, '.'))}</TableHeaderColumn>
+        });
+    }
+
+    setData () {
+        this.data = [];
+        forEach(this.props.data, (object) => {
+            this.data.push((flatten(object, {safe: true})));
+        });
+    }
+
+    render () {
         return (
-            <Table striped bordered condensed hover>
-                <thead>
-                    <tr>
-                        {map(this.props.cols, (col) =>
-                             <th key={col.key}> {col.label} </th>)}
-                    </tr>
-                </thead>
-                <tbody>
-                    { this.props.Data ?
-                        (map(this.props.Data, (item)=>
-                        <tr>
-                          { map(this.props.cols, (col) => <td className={ this.props.cellcolor } >{ item[col.key] }</td>)}
-                        </tr>)
-                        ):null
-                    }
-              </tbody>
-          </Table>
-        );
+            <div>
+                { !isEmpty(this.data) ? (<BootstrapTable data={this.data} striped condensed hover>{this.generateHeaders()}</BootstrapTable>) : null }
+            </div>
+        )
     }
 }
