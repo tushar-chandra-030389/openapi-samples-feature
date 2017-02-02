@@ -1,12 +1,12 @@
 import React from 'react';
 
-export default class Details extends React.Component{
-    constructor(props) {
-        super(props);
-    }
-    
-    render () {
-        return (
+export default class Details extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return (
             <div className="Details">
                 <div className="DetailsHeader">
                     <div className="DetailsTitle">
@@ -18,6 +18,6 @@ export default class Details extends React.Component{
                 </div>
                 {this.props.children}
             </div>
-        );
-    }
-};
+    );
+  }
+}

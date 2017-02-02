@@ -1,11 +1,11 @@
 import React from 'react';
 import { ButtonToolbar, DropdownButton, MenuItem, InputGroup} from 'react-bootstrap';
-import SearchInput, { createFilter } from 'react-search-input'
+import SearchInput, { createFilter } from 'react-search-input';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-import { filter } from 'lodash'
+import { filter } from 'lodash';
+import CustomTable from '../../utils/CustomTable';
 
 const KEYS_TO_FILTERS = ['Description', 'Symbol'];
-
 export default (props) => {
     let instruments = props.instrumentList.map((instrument) =>  <MenuItem eventKey = {instrument} key = {instrument.Symbol}> {instrument.Description} </MenuItem> );
     let assetTypes = props.assetTypes.map((assetType) => <MenuItem eventKey = {assetType} key = {assetType}> {assetType} </MenuItem> );

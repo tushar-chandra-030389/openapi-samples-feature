@@ -7,7 +7,7 @@ export default (props) => {
 
     return (
         <div className="padBox">
-            {props.instrumentSelected ? (
+            {props.state.instrumentSelected ? (
                 <div>
                     <Row>
                         <Col sm={6}>
