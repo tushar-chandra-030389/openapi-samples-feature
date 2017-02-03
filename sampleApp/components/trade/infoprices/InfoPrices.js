@@ -1,21 +1,17 @@
 import React from 'react';
 import { merge, transform, toArray, uniq, forEach } from 'lodash';
+import { bindHandlers } from 'react-bind-handlers';
 import API from '../../utils/API';
 import Details from '../../Details';
 import Instrument from '../../ref/instruments/Instruments';
 import InfoPricesTemplate from './InfoPricesTemplate';
 
-export default class InfoPrices extends React.Component {
+class InfoPrices extends React.Component {
   constructor(props) {
     super(props);
     this.instruments = {};
     this.assetTypes = [];
     this.description = 'Shows how to get prices and other trade related information and keep the prices updated as events are recieved over the streaming channel.';
-    this.onInstrumentSelected = this.onInstrumentSelected.bind(this);
-    this.updateInstrumentData = this.updateInstrumentData.bind(this);
-    this.fetchInstrumentsData = this.fetchInstrumentsData.bind(this);
-    this.updateSubscribedInstruments = this.updateSubscribedInstruments.bind(this);
-    this.subscribeInstruments = this.subscribeInstruments.bind(this);
     this.state = {
       instrumentSelected: false,
       instrumentsSubscribed: false,
@@ -23,15 +19,15 @@ export default class InfoPrices extends React.Component {
     };
   }
 
-  onInstrumentSelected(instrument) {
+  handleInstrumentSelected(instrument) {
     API.getInfoPrices({
       AssetType: instrument.AssetType,
       Uic: instrument.Identifier,
-    }, this.updateInstrumentData,
+    }, this.handleUpdateInstrumentData,
 		(result) => console.log(result));
   }
 
-  updateInstrumentData(data) {
+  handleUpdateInstrumentData(data) {
     this.instruments[data.Uic] = data;
     this.assetTypes.push(data.AssetType);
     this.setState({
@@ -39,7 +35,7 @@ export default class InfoPrices extends React.Component {
     });
   }
 
-  updateSubscribedInstruments(instruments) {
+  handleUpdateSubscribedInstruments(instruments) {
     const instrumentData = instruments.Data;
     forEach(instrumentData, (value, index) => {
       merge(this.instruments[instrumentData[index].Uic], instrumentData[index]);
@@ -47,7 +43,7 @@ export default class InfoPrices extends React.Component {
     this.setState({ changed: true });
   }
 
-  subscribeInstruments() {
+  handleSubscribeInstruments() {
     if (!this.state.instrumentsSubscribed) {
       forEach(uniq(this.assetTypes), (value) => {
         const uics = transform(this.instruments, ((concat, instrument) => {
@@ -55,7 +51,7 @@ export default class InfoPrices extends React.Component {
             concat.uic = concat.uic ? `${concat.uic},${instrument.Uic}` : instrument.Uic;
           }
         }), {});
-        API.subscribeInfoPrices({ Uics: uics.uic, AssetType: value }, this.updateSubscribedInstruments);
+        API.subscribeInfoPrices({ Uics: uics.uic, AssetType: value }, this.handleUpdateSubscribedInstruments);
       });
       this.setState({
         instrumentsSubscribed: true,
@@ -68,14 +64,14 @@ export default class InfoPrices extends React.Component {
     }
   }
 
-  fetchInstrumentsData() {
+  handleFetchInstrumentsData() {
     forEach(uniq(this.assetTypes), (value) => {
       const uics = transform(this.instruments, ((concat, instrument) => {
         if (instrument.AssetType === value) {
           concat.uic = concat.uic ? `${concat.uic},${instrument.Uic}` : instrument.Uic;
         }
       }), {});
-      API.getInfoPricesList({ Uics: uics.uic, AssetType: value }, this.updateSubscribedInstruments);
+      API.getInfoPricesList({ Uics: uics.uic, AssetType: value }, this.handleUpdateSubscribedInstruments);
     });
   }
 
@@ -88,10 +84,12 @@ export default class InfoPrices extends React.Component {
 
   render() {
     return (
-      <Details Title="Info Prices" Description={this.description}>
-        <Instrument parent="true" onInstrumentSelected={this.onInstrumentSelected} />
-        <InfoPricesTemplate state={this.state} getInstrumentData={toArray(this.instruments)} subscribeInstruments={this.subscribeInstruments} fetchInstrumentsData={this.fetchInstrumentsData} />
+      <Details Title='Info Prices' Description={this.description}>
+        <Instrument parent='true' onInstrumentSelected={this.handleInstrumentSelected} />
+        <InfoPricesTemplate state={this.state} getInstrumentData={toArray(this.instruments)} handleSubscribeInstruments={this.handleSubscribeInstruments} handleFetchInstrumentsData={this.handleFetchInstrumentsData} />
       </Details>
     );
   }
 }
+
+export default bindHandlers(InfoPrices)

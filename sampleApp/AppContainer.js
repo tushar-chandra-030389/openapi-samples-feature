@@ -2,7 +2,7 @@ import React from 'react';
 import TopBar from './components/TopBar';
 import SideBar from './components/SideBar';
 
-export default class App extends React.Component {
+export default class App extends React.PureComponent {
   constructor(props) {
     super(props);
   }

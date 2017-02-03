@@ -1,10 +1,10 @@
-// This File lists API's from client lib and explains the request parameters.
-// For further details please refer reference documentation at https://developer.saxobank.com/sim/openapi/help/refdoc/v1
+// this file lists API's from client lib and explains the request parameters
+// for further details please refer reference documentation at https://developer.saxobank.com/sim/openapi/help/refdoc/v1
 import DataService from './DataService';
 
 export default {
-    // Fetch instruments from client lib based on AssetType. eg.
-    // Eg: Query Params : { AssetType: 'FxSpot' }
+  // fetch instruments from client lib based on AssetType.
+  // eg: Query Params : { AssetType: 'FxSpot' }
   getInstruments: (instrumentData, successCallback, errorCallback) => {
     const data = {
       method: 'get',
@@ -14,8 +14,8 @@ export default {
     };
     DataService.getData(data, successCallback, errorCallback);
   },
-    // Fetch Info Prices for a particular instrument based on AssetType and Uic. eg.
-    // Eg: Query Params : { AssetType: 'FxSpot', Uic: 21 }
+  // fetch Info Prices for a particular instrument based on AssetType and Uic
+  // eg: Query Params : { AssetType: 'FxSpot', Uic: 21 }
   getInfoPrices: (instrumentData, successCallback, errorCallback) => {
     const data = {
       method: 'get',
@@ -36,8 +36,8 @@ export default {
     };
     DataService.getData(data, successCallback, errorCallback);
   },
-    // Fetch Info Prices for a set of instruments based on AssetType and Uics. eg.
-    // Eg: Query Params : { AssetType: 'FxSpot', Uics: 21,2 }
+  // fetch Info Prices for a set of instruments based on AssetType and Uics
+  // eg: Query Params : { AssetType: 'FxSpot', Uics: 21,2 }
   getInfoPricesList: (instrumentData, successCallback, errorCallback) => {
     const data = {
       method: 'get',
@@ -58,15 +58,15 @@ export default {
     };
     DataService.getData(data, successCallback, errorCallback);
   },
-    /* Subscribe to Info prices for a set of instruments based on AssetType and Uics. eg.
-     Eg: Query Params : {
-            Arguments: {
-                AssetType: 'FxSpot',
-                Uics: 21,2
-            },
-            RefreshRate: 5
-        }
-    */
+  /*  subscribe to Info prices for a set of instruments based on AssetType and Uics.
+      eg: Query Params : {
+          Arguments: {
+              AssetType: 'FxSpot',
+              Uics: 21,2
+          },
+          RefreshRate: 5
+      }
+  */
   subscribeInfoPrices: (instrumentData, successCallback, errorCallback) => {
     const data = {
       serviceGroup: 'trade',
@@ -89,15 +89,15 @@ export default {
     };
     DataService.subscribe(data, successCallback, errorCallback);
   },
-    /* Subscribe to Prices for a single instrument based on AssetType and Uic. eg.
-     Eg: Query Params : {
-            Arguments: {
-                AssetType: 'FxSpot',
-                Uic: 21
-            },
-            RefreshRate: 5
-        }
-    */
+  /*  subscribe to Prices for a single instrument based on AssetType and Uic.
+      eg: Query Params : {
+          Arguments: {
+              AssetType: 'FxSpot',
+              Uic: 21
+          },
+          RefreshRate: 5
+      }
+  */
   subscribePrices: (instrumentData, successCallback, errorCallback) => {
     const data = {
       serviceGroup: 'trade',
@@ -123,11 +123,11 @@ export default {
     };
     DataService.subscribe(data, successCallback, errorCallback);
   },
-    // Delete subscription
+  // delete subscriptions
   disposeSubscription: (successCallback, errorCallback) => {
     DataService.disposeSubscription(successCallback, errorCallback);
   },
-    // Fetch Account details.
+  // fetch Account details
   getAccountInfo: (successCallback, errorCallback) => {
     const data = {
       method: 'get',
@@ -137,7 +137,7 @@ export default {
     };
     DataService.getData(data, successCallback, errorCallback);
   },
-    // Place order
+  // place order
   placeOrder: (order, successCallback, errorCallback) => {
     const data = {
       method: 'post',
@@ -146,10 +146,10 @@ export default {
       queryParams: null,
       body: order,
     };
-        // Describes how to call OpenApi using open source Iit library.
+    // describes how to call OpenApi using open source Iit library
     DataService.getData(data, successCallback, errorCallback);
   },
-    // Create Order Subscription.
+  // create order subscription
   createOrderSubscription: (subscriptionArgs, successCallback, errorCallback) => {
     const data = {
       serviceGroup: 'port',
@@ -159,7 +159,7 @@ export default {
     DataService.subscribe(data, successCallback, errorCallback);
   },
 
-    // Create Positions Subscription.
+  // create positions subscription
   createPositionsSubscription: (subscriptionArgs, successCallback, errorCallback) => {
     const data = {
       serviceGroup: 'port',

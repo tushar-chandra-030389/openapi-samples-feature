@@ -7,6 +7,8 @@ import Introduction from './components/Introduction';
 import Home from './components/Home';
 import InfoPrices from './components/trade/infoprices/InfoPrices';
 import Prices from './components/trade/prices/Prices';
+import OptionChain from './components/trade/optionchain/OptionChain';
+
 import Order from './components/trade/orders/Order';
 import Instruments from './components/ref/instruments/Instruments';
 
@@ -18,6 +20,7 @@ const Routes = () => (
       <Route path="intro" component={Introduction} />
       <Route path="infoPrices" component={InfoPrices} />
       <Route path="prices" component={Prices} />
+      <Route path="options" component={OptionChain} />
       <Route path="orders" component={Order} />
       <Route path="instruments" component={Instruments} />
     </Route>

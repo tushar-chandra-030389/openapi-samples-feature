@@ -4,11 +4,11 @@ import CustomTable from '../../utils/CustomTable';
 
 export default (props) => {
 	return (
-		<div className="padBox">
+		<div className='padBox'>
 			{props.state.instrumentSelected ? (
 				<ButtonToolbar>
-					<Button bsStyle="primary" onClick={props.subscribeInstruments}>{props.state.instrumentsSubscribed ? 'Unsubscribe': 'Subscribe'}</Button>
-		 			<Button bsStyle="primary" onClick={props.fetchInstrumentsData} disabled={props.state.instrumentsSubscribed}>Get Prices</Button>
+					<Button bsStyle='primary' onClick={props.handleSubscribeInstruments}>{props.state.instrumentsSubscribed ? 'Unsubscribe': 'Subscribe'}</Button>
+		 			<Button bsStyle='primary' onClick={props.handleFetchInstrumentsData} disabled={props.state.instrumentsSubscribed}>Get Prices</Button>
 		 		</ButtonToolbar>
 		    ): null }
 		    <br/>

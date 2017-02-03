@@ -13,10 +13,10 @@ export default class TopBar extends React.PureComponent {
         </Navbar.Header>
         <Navbar.Collapse>
           <Nav pullRight>
-            <NavItem eventKey={1} href="#" className="navItems"> LOGIN</NavItem>
-            <NavItem eventKey={2} className="navItems"><Link to="home">ACCESS TOKEN </Link></NavItem>
-            <Navbar.Brand className="pullRight">
-              <a href="https://developer.saxobank.com/sim/openapi/portal/" target="_blank"> Developer's Portal </a>
+            <NavItem eventKey={1} href='#' className='navItems'> LOGIN</NavItem>
+            <NavItem eventKey={2} className='navItems'><Link to='home'>ACCESS TOKEN </Link></NavItem>
+            <Navbar.Brand className='pullRight'>
+              <a href='https://developer.saxobank.com/sim/openapi/portal/' target='_blank'> Developer's Portal </a>
             </Navbar.Brand>
           </Nav>
         </Navbar.Collapse>

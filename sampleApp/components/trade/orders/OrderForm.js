@@ -1,14 +1,15 @@
 import React from 'react';
 import { Button, Form, FormGroup, FormControl, ControlLabel, Col, Row, Panel } from 'react-bootstrap';
+import { bindHandlers } from 'react-bind-handlers';
 import API from '../../utils/API';
 
 const OrderTypes = ['Market', 'Limit'];
 const OrderDurationTypes = ['DayOrder', 'GoodTillCancel', 'ImmediateOrCancel'];
 
-export default class OrderForm extends React.Component {
+class OrderForm extends React.Component {
   constructor(props) {
     super(props);
-    // currentOrder contains mim required parameters for placing an order.
+    // currentOrder contains mim required parameters for placing an order
     this.currentOrder = {
       // default values on UI.
       Uic: '',
@@ -31,7 +32,7 @@ export default class OrderForm extends React.Component {
       OrderRelation: 'StandAlone',
       // currently sample works for StandAlone orders only. Work to be done for other OrderRelations
     };
-    // need only for UI handling.
+    // need only for UI handling
     this.Ask = 0.0;
     this.Bid = 0.0;
     this.Symbol = '';
@@ -39,84 +40,74 @@ export default class OrderForm extends React.Component {
     this.responsText = '';
     this.state = { updated: false };
     this.getJSON = this.getJSON.bind(this);
-    this.setOrderRequestParams = this.setOrderRequestParams.bind(this);
-    this.onChangeRequestParams = this.onChangeRequestParams.bind(this);
-    this.onSelectOrderDuration = this.onSelectOrderDuration.bind(this);
-    this.onSelectOrderType = this.onSelectOrderType.bind(this);
-    this.onChangeAmount = this.onChangeAmount.bind(this);
-    this.onChangeOrderPrice = this.onChangeOrderPrice.bind(this);
-    this.onSelectBuySell = this.onSelectBuySell.bind(this);
-    this.placeOrder = this.placeOrder.bind(this);
-    this.onPlaceOrderSuccess = this.onPlaceOrderSuccess.bind(this);
-    this.onPlaceOrderFailure = this.onPlaceOrderFailure.bind(this);
   }
 
-  setOrderRequestParams() {
+  handleSetOrderRequestParams() {
     this.orderRequestParams = this.getJSON(this.currentOrder);
     this.setState({ updated: true });
   }
 
   // function to handle UI updates and modify currentOrderModel
-  onSelectOrderType(event) {
+  handleSelectOrderType(event) {
     this.currentOrder.OrderType = event.target.value;
-    this.setOrderRequestParams();
+    this.handleSetOrderRequestParams();
   }
 
   getJSON(order) {
     if (!order) return;
     return `${JSON.stringify(order, null, 3)
       .replace(/&/g, '&amp;')
-      .replace(/\\"/g, '&quot;')
+      .replace(/\\'/g, '&quot;')
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;')}\n`;
   }
 
   // function to handle UI updates and modify currentOrderModel
-  onSelectOrderDuration(event) {
+  handleSelectOrderDuration(event) {
     this.currentOrder.OrderDuration.DurationType = event.target.value;
-    this.setOrderRequestParams();
+    this.handleSetOrderRequestParams();
   }
 
-  onChangeAmount(event) {
+  handleChangeAmount(event) {
     this.currentOrder.Amount = event.target.value;
-    this.setOrderRequestParams();
+    this.handleSetOrderRequestParams();
   }
 
-  onSelectBuySell(event) {
+  handleSelectBuySell(event) {
     this.currentOrder.BuySell = event.target.value;
     this.currentOrder.OrderPrice = this.currentOrder.BuySell === 'Buy' ? this.Ask : this.Bid;
-    this.setOrderRequestParams();
+    this.handleSetOrderRequestParams();
   }
 
-  onChangeOrderPrice(event) {
+  handleChangeOrderPrice(event) {
     this.currentOrder.OrderPrice = event.target.value;
-    this.setOrderRequestParams();
+    this.handleSetOrderRequestParams();
   }
 
-  onChangeRequestParams(event) {
+  handleChangeRequestParams(event) {
     this.orderRequestParams = this.getJSON(event.target.value);
     this.setState({ updated: true });
   }
 
-  placeOrder() {
-    API.placeOrder(JSON.parse(this.orderRequestParams), this.onPlaceOrderSuccess, this.onPlaceOrderFailure);
+  handlePlaceOrder() {
+    API.placeOrder(JSON.parse(this.orderRequestParams), this.handlePlaceOrderSuccess, this.handlePlaceOrderFailure);
   }
 
   // calback: Order placed successfully.
-  onPlaceOrderSuccess(result) {
+  handlePlaceOrderSuccess(result) {
     this.responsText = this.getJSON(result);
     this.setState({ updated: true });
   }
 
   // calback: Order Failure.
-  onPlaceOrderFailure(result) {
+  handlePlaceOrderFailure(result) {
     this.responsText = this.getJSON(result);
     this.setState({ updated: true });
   }
 
   render() {
     this.currentOrder.AccountKey = (this.props.accountInfo.AccountKey ? this.props.accountInfo.AccountKey : '');
-    const pnlHeader = `Order Details. AccountKey - ${this.props.accountInfo.AccountKey ? this.props.accountInfo.AccountKey : ''}`;
+    const pnlHeader = `Order Details. AccountKey - ${this.currentOrder.AccountKey}`;
     if (this.props.instrumentInfo && this.currentOrder.Uic !== this.props.instrumentInfo.Uic) {
       const instrumentInfo = this.props.instrumentInfo;
       this.currentOrder.Amount = instrumentInfo.Quote.Amount;
@@ -130,25 +121,25 @@ export default class OrderForm extends React.Component {
     }
     return (
       <div>
-        <Panel header={pnlHeader} className="panel-primary">
+        <Panel header={pnlHeader} className='panel-primary'>
           <Form>
             <FormGroup>
               <Row>
                 <Col sm={3}>
                   <ControlLabel >Instrument (UIC: {this.currentOrder.Uic})</ControlLabel>
-                  <FormControl readOnly="readOnly" type="text" placeholder="Symbol" value={this.Symbol} />
+                  <FormControl readOnly='readOnly' type='text' placeholder='Symbol' value={this.Symbol} />
                 </Col>
                 <Col sm={3}>
                   <ControlLabel >AssetType</ControlLabel>
-                  <FormControl readOnly="readOnly" type="text" placeholder="AssetType" value={this.currentOrder.AssetType} />
+                  <FormControl readOnly='readOnly' type='text' placeholder='AssetType' value={this.currentOrder.AssetType} />
                 </Col>
                 <Col sm={3}>
                   <ControlLabel>Ask Price</ControlLabel>
-                  <FormControl type="text" readOnly="readOnly" placeholder="Ask Price" value={this.Ask} />
+                  <FormControl type='text' readOnly='readOnly' placeholder='Ask Price' value={this.Ask} />
                 </Col>
                 <Col sm={3} >
                   <ControlLabel>Bid Price</ControlLabel>
-                  <FormControl type="text" readOnly="readOnly" placeholder="Bid Price" value={this.Bid} />
+                  <FormControl type='text' readOnly='readOnly' placeholder='Bid Price' value={this.Bid} />
                 </Col>
               </Row>
             </FormGroup>
@@ -156,17 +147,17 @@ export default class OrderForm extends React.Component {
               <Row>
                 <Col sm={3}>
                   <ControlLabel>BuySell</ControlLabel>
-                  <FormControl componentClass="select" value={this.currentOrder.BuySell} onChange={this.onSelectBuySell} >
-                    <option value="Buy">Buy</option><option value="Sell">Sell</option>
+                  <FormControl componentClass='select' value={this.currentOrder.BuySell} onChange={this.handleSelectBuySell} >
+                    <option value='Buy'>Buy</option><option value='Sell'>Sell</option>
                   </FormControl>
                 </Col>
                 <Col sm={3}>
                   <ControlLabel>Order Price</ControlLabel>
-                  <FormControl type="text" placeholder="Order Price" value={this.currentOrder.OrderPrice} onChange={this.onChangeOrderPrice} />
+                  <FormControl type='text' placeholder='Order Price' value={this.currentOrder.OrderPrice} onChange={this.handleChangeOrderPrice} />
                 </Col>
                 <Col sm={3}>
                   <ControlLabel>Order Amount</ControlLabel>
-                  <FormControl type="text" placeholder="Amount" value={this.currentOrder.Amount} onChange={this.onChangeAmount} />
+                  <FormControl type='text' placeholder='Amount' value={this.currentOrder.Amount} onChange={this.handleChangeAmount} />
                 </Col>
               </Row>
             </FormGroup>
@@ -174,31 +165,31 @@ export default class OrderForm extends React.Component {
               <Row>
                 <Col sm={3}>
                   <ControlLabel>Order Type</ControlLabel>
-                  <FormControl componentClass="select" value={this.currentOrder.OrderType} onChange={this.onSelectOrderType} >
+                  <FormControl componentClass='select' value={this.currentOrder.OrderType} onChange={this.handleSelectOrderType} >
                     {OrderTypes.map((type) => (<option key={type} value={type}>{type}</option>))}
                   </FormControl>
                 </Col>
                 <Col sm={3} >
                   <ControlLabel>Order Duration</ControlLabel>
-                  <FormControl componentClass="select" value={this.currentOrder.Duration} onChange={this.onSelectOrderDuration}>
+                  <FormControl componentClass='select' value={this.currentOrder.Duration} onChange={this.handleSelectOrderDuration}>
                     {OrderDurationTypes.map((type) => (<option key={type} value={type}>{type}</option>))}
                   </FormControl>
                 </Col>
               </Row>
             </FormGroup>
-            <FormGroup bsSize="large">
+            <FormGroup bsSize='large'>
               <Row>
                 <Col sm={9} >
-                  <Panel header="Request Parameters" className="panel-primary" collapsible>
-                    <FormControl componentClass="textarea" placeholder="Request Parameter" rows={6} value={this.orderRequestParams} onChange={this.onChangeRequestParams} />
+                  <Panel header='Request Parameters' className='panel-primary' collapsible>
+                    <FormControl componentClass='textarea' placeholder='Request Parameter' rows={6} value={this.orderRequestParams} onChange={this.handleChangeRequestParams} />
                   </Panel>
                 </Col>
-                <Col sm={3}><Button bsStyle="primary" block onClick={this.placeOrder}>Place Order</Button></Col>
+                <Col sm={3}><Button bsStyle='primary' block onClick={this.handlePlaceOrder}>Place Order</Button></Col>
               </Row>
               <Row>
                 <Col sm={9}>
-                  <Panel header="Response Data" className="panel-primary" collapsible>
-                    <FormControl componentClass="textarea" placeholder="Response Data" readOnly rows={6} value={this.responsText} />
+                  <Panel header='Response Data' className='panel-primary' collapsible>
+                    <FormControl componentClass='textarea' placeholder='Response Data' readOnly rows={6} value={this.responsText} />
                   </Panel>
                 </Col>
               </Row>
@@ -213,3 +204,5 @@ OrderForm.propTypes = {
   accountInfo: React.PropTypes.object.isRequired,
   instrumentInfo: React.PropTypes.object.isRequired,
 };
+
+export default bindHandlers(OrderForm)

@@ -20,8 +20,8 @@ export default {
       queryParams: params.queryParams,
       body: params.body,
     })
-        .then((result) => successCallback(result.response))
-        .catch(errorCallback);
+    .then((result) => successCallback(result.response))
+    .catch(errorCallback);
   },
 
   createStreamingObject(authToken) {
@@ -39,5 +39,4 @@ export default {
   disposeSubscription() {
     forEach(this.subscriptions, (subscription) => this.streaming.disposeSubscription(subscription));
   },
-
 };

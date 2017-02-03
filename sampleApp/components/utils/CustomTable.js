@@ -2,13 +2,16 @@ import React from 'react';
 import { map, split, last, findIndex, forEach, isEmpty } from 'lodash';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { flatten } from 'flat';
+import { bindHandlers } from 'react-bind-handlers';
 
-export default class CustomTable extends React.Component {
+class CustomTable extends React.PureComponent {
   constructor(props) {
     super(props);
-    this.generateHeaders = this.generateHeaders.bind(this);
-    this.setData = this.setData.bind(this);
     this.data = [];
+  }
+
+  componentWillMount() {
+    this.setData();
   }
 
   setData() {
@@ -31,12 +34,11 @@ export default class CustomTable extends React.Component {
   }
 
   render() {
-    this.setData();
     return (
       <div>
-          {!isEmpty(this.data) ? (<BootstrapTable data={this.data} striped condensed hover>
-             {this.generateHeaders()}
-          </BootstrapTable>) : null}
+        {!isEmpty(this.data) ? (<BootstrapTable data={this.data} striped condensed hover>
+           {this.generateHeaders()}
+        </BootstrapTable>) : null}
       </div>
     );
   }
@@ -51,3 +53,5 @@ CustomTable.propTypes = {
   width: React.PropTypes.string,
   dataSortFields: React.PropTypes.array,
 };
+
+export default bindHandlers(CustomTable);
