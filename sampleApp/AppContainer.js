@@ -1,18 +1,23 @@
 import React from 'react';
+import { last } from 'lodash';
 import TopBar from './components/TopBar';
 import SideBar from './components/SideBar';
+import Details from './components/Details';
+import PageDescMapper from './components/utils/PageDescMapper'
 
-export default class App extends React.PureComponent {
-  constructor(props) {
-    super(props);
-  }
-  render() {
-    return (
-			<div>
-				<TopBar />
-				<SideBar />
-				{this.props.children}
-			</div>
-    );
-  }
+function App({children, routes}) {
+  const descObj = PageDescMapper[last(routes).path];
+  return (
+		<div>
+			<TopBar />
+			<SideBar />
+      <Details
+        title={descObj.title}
+        description={descObj.desc}>
+			  {children}
+      </Details>
+		</div>
+  );
 }
+
+export default App;

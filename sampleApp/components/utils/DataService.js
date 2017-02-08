@@ -1,7 +1,7 @@
-import $ from '../../libs/jquery-3.1.1.js';
-import signalR from '../../libs/jquery.signalR-2.2.1.js';
-import sharedjs from '../../libs/iit-openapi';
 import { forEach } from 'lodash';
+import $ from '../../libs/jquery-3.1.1';
+import signalR from '../../libs/jquery.signalR-2.2.1';
+import sharedjs from '../../libs/iit-openapi';
 
 const transportUrl = 'https://gateway.saxobank.com/sim/openapi';
 const streamingUrl = 'https://streaming.saxotrader.com/sim/openapi';
@@ -20,7 +20,7 @@ export default {
       queryParams: params.queryParams,
       body: params.body,
     })
-    .then((result) => successCallback(result.response))
+    .then(result => successCallback(result.response))
     .catch(errorCallback);
   },
 
@@ -34,9 +34,14 @@ export default {
     const subscription = this.streaming.createSubscription(params.serviceGroup, params.endPoint,
               params.queryParams, successCallback, errorCallback);
     this.subscriptions.push(subscription);
+    return subscription;
   },
 
   disposeSubscription() {
-    forEach(this.subscriptions, (subscription) => this.streaming.disposeSubscription(subscription));
+    forEach(this.subscriptions, subscription => this.streaming.disposeSubscription(subscription));
+  },
+
+  disposeIndividualSubscription(subscription) {
+    this.streaming.disposeSubscription(subscription);
   },
 };

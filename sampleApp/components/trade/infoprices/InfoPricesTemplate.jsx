@@ -1,21 +1,39 @@
 import React from 'react';
-import { ButtonToolbar, Button, Table} from 'react-bootstrap';
+import { ButtonToolbar, Button } from 'react-bootstrap';
 import CustomTable from '../../utils/CustomTable';
 
 export default (props) => {
+	const { props : {
+		instrumentSelected,
+		instrumentsSubscribed
+	}, handleFetchInstrumentsData, getInstrumentData, handleSubscribeInstruments } = props;
+
 	return (
-		<div className='padBox'>
-			{props.state.instrumentSelected ? (
+		<div className='pad-box'>
+			{ instrumentSelected && (
 				<ButtonToolbar>
-					<Button bsStyle='primary' onClick={props.handleSubscribeInstruments}>{props.state.instrumentsSubscribed ? 'Unsubscribe': 'Subscribe'}</Button>
-		 			<Button bsStyle='primary' onClick={props.handleFetchInstrumentsData} disabled={props.state.instrumentsSubscribed}>Get Prices</Button>
+					<Button
+					  bsStyle='primary'
+					  onClick={handleSubscribeInstruments}>
+					  {instrumentsSubscribed ? 'Unsubscribe': 'Subscribe'}
+					</Button>
+		 			<Button
+		 			  bsStyle='primary'
+		 			  onClick={handleFetchInstrumentsData}
+		 			  disabled={instrumentsSubscribed}>
+		 			  Get Prices
+		 			</Button>
 		 		</ButtonToolbar>
-		    ): null }
+		    )}
 		    <br/>
 		    <br/>
-		    { props.state.instrumentSelected ? (
-		    	<CustomTable data={props.getInstrumentData} keyField='Uic' dataSortFields={['Uic', 'AssetType']} width='150'/>
-		    ) : null }
+		    { instrumentSelected && (
+		    	<CustomTable
+		    	  data={getInstrumentData}
+		    	  keyField='Uic'
+		    	  dataSortFields={['Uic', 'AssetType']}
+		    	  width='150'/>
+		    )}
 		</div>
 	)
 };

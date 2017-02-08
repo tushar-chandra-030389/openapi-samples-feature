@@ -1,4 +1,4 @@
-.SideBar {
+.sidebar {
   background: rgba(236,239,241,0.56);
   box-shadow: 3px 0 6px rgba(0,0,0,0.24);
   padding-bottom: 72px;
@@ -10,18 +10,18 @@
   left: 0;
 }
 
-.navItems a {
+.nav-items a {
   color: white !important;
 }
 
-.SideBar-Navs {
+.sidebar-navs {
   list-style-type: none;
   margin: 0;
   padding: 0;
   left: 0;
 }
 
-.Details {
+.details {
   position: absolute;
   left: 240px;
   top: 50px;
@@ -29,7 +29,7 @@
   right: 0;
 }
 
-.DetailsHeader {
+.details-header {
   box-sizing: border-box;
   box-shadow: none;
   padding: 48px 48px 32px 27px;
@@ -40,7 +40,7 @@
   color: #fff;
 }
 
-.DetailsTitle {
+.details-title {
   display: inline-block;
   font-size: 28px;
   font-weight: 400;
@@ -49,7 +49,7 @@
   margin: 0 8px 0 0;
 }
 
-.DetailsBanner {
+.details-banner {
   background: rgba(236,239,241,0.24);
   border-bottom: 1px solid #ECEFF1;
   box-sizing: border-box;
@@ -59,7 +59,7 @@
   min-height: 50px;
 }
 
-.Content {
+.content {
   position: absolute;
   left: 0;
   right: 0;
@@ -69,7 +69,7 @@
   background: #fff;
 }
 
-.padBox {
+.pad-box {
   padding: 20px;
   color: #546E7A;
 }
@@ -82,7 +82,7 @@
   color: red;
 }
 
-.pullRight {
+.pull-topbar-right {
   margin-left: 100px !important;
 }
 

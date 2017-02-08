@@ -127,6 +127,10 @@ export default {
   disposeSubscription: (successCallback, errorCallback) => {
     DataService.disposeSubscription(successCallback, errorCallback);
   },
+  // dispose individual subscription
+  disposeIndividualSubscription: (subscription, successCallback, errorCallback) => {
+    DataService.disposeIndividualSubscription(subscription, successCallback, errorCallback);
+  },
   // fetch Account details
   getAccountInfo: (successCallback, errorCallback) => {
     const data = {
@@ -156,16 +160,25 @@ export default {
       endPoint: 'v1/orders/subscriptions',
       queryParams: subscriptionArgs,
     };
-    DataService.subscribe(data, successCallback, errorCallback);
+    return DataService.subscribe(data, successCallback, errorCallback);
   },
-
   // create positions subscription
-  createPositionsSubscription: (subscriptionArgs, successCallback, errorCallback) => {
+  createPositionSubscription: (subscriptionArgs, successCallback, errorCallback) => {
     const data = {
       serviceGroup: 'port',
       endPoint: 'v1/positions/subscriptions',
       queryParams: subscriptionArgs,
     };
-    DataService.subscribe(data, successCallback, errorCallback);
+    return DataService.subscribe(data, successCallback, errorCallback);
+  },
+  // fetch client details
+  getClientInfo: (successCallback, errorCallback) => {
+    const data = {
+      method: 'get',
+      serviceGroup: 'port',
+      endPoint: 'v1/clients/me',
+      queryParams: null,
+    };
+    DataService.getData(data, successCallback, errorCallback);
   },
 };

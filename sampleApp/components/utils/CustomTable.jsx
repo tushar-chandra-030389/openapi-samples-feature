@@ -4,26 +4,30 @@ import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { flatten } from 'flat';
 import { bindHandlers } from 'react-bind-handlers';
 
-class CustomTable extends React.PureComponent {
-  constructor(props) {
-    super(props);
+class CustomTable extends React.Component {
+  constructor() {
+    super();
     this.data = [];
   }
 
   componentWillMount() {
-    this.setData();
+    this.handleData(this.props)
   }
 
-  setData() {
+  componentWillReceiveProps(newProps) {
+    this.handleData(newProps)
+  }
+
+  handleData(props) {
     this.data = [];
-    forEach(this.props.data, (object) => {
+    forEach(props.data, (object) => {
       this.data.push((flatten(object, { safe: true })));
     });
   }
 
   generateHeaders() {
     return map(this.data[0], (value, key) => {
-      const dataSort = findIndex(this.props.dataSortFields, (field) => field === key) !== -1;
+      const dataSort = findIndex(this.props.dataSortFields, field => field === key) !== -1;
       const keyField = this.props.keyField === key;
       const width = this.props.width;
       return (
@@ -36,9 +40,9 @@ class CustomTable extends React.PureComponent {
   render() {
     return (
       <div>
-        {!isEmpty(this.data) ? (<BootstrapTable data={this.data} striped condensed hover>
-           {this.generateHeaders()}
-        </BootstrapTable>) : null}
+        {!isEmpty(this.data) && (<BootstrapTable data={this.data} striped condensed hover>
+          {this.generateHeaders()}
+        </BootstrapTable>)}
       </div>
     );
   }
