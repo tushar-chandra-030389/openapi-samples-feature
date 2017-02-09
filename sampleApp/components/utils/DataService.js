@@ -10,6 +10,7 @@ export default {
   transport: {},
   streaming: {},
   subscriptions: [],
+  priceFormatter: {},
 
   createTransport(authToken) {
     this.transport = new sharedjs.openapi.TransportAuth(transportUrl, { token: authToken });
@@ -22,6 +23,7 @@ export default {
     })
     .then(result => successCallback(result.response))
     .catch(errorCallback);
+    this.createPriceFormatter();
   },
 
   createStreamingObject(authToken) {
@@ -44,4 +46,12 @@ export default {
   disposeIndividualSubscription(subscription) {
     this.streaming.disposeSubscription(subscription);
   },
+
+  createPriceFormatter() {
+    this.priceFormatter = new sharedjs.PriceFormatting();
+  },
+
+  formatPrice(value, decimals, formatFlags) {
+    return this.priceFormatter.format(value, decimals, formatFlags);
+  }
 };

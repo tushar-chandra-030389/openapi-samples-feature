@@ -10,6 +10,7 @@ class Sidebar extends React.PureComponent {
       tradeOpen: false,
       refOpen: false,
       portfolioOpen: false,
+      chartOpen: false,
     };
   }
 
@@ -62,6 +63,20 @@ class Sidebar extends React.PureComponent {
             <div>
               <ListGroup className = 'sidebar-navs'>
                 <ListGroupItem href = '#clientPortfolio'> Client Portfolio </ListGroupItem>
+              </ListGroup>
+            </div>
+          </Collapse>
+          <ListGroupItem href = '#' onClick = {this.handleCollapse} data-name='chart'>
+            Chart
+          <Glyphicon className = 'glyph pull-right' glyph = { this.getGlyphName('chart') } />
+          </ListGroupItem>
+          <Collapse in = { this.state.chartOpen }>
+            <div>
+              <ListGroup className = 'sidebar-navs'>
+                <ListGroupItem href = '#chartPolling'> Chart Polling </ListGroupItem>
+              </ListGroup>
+              <ListGroup className = 'sidebar-navs'>
+                <ListGroupItem href = '#chartStreaming'> Chart Streaming </ListGroupItem>
               </ListGroup>
             </div>
           </Collapse>

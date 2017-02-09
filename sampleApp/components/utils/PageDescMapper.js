@@ -27,6 +27,18 @@ const PageDescMapper = {
     title: 'Order',
     desc: 'Describs about order placement',
   },
+  options: {
+    title: 'Option Chain',
+    desc: 'Shows how to get option chain based on option root selected',
+  },
+  chartPolling:{
+    title: 'Chart Polling',
+    desc: 'Fetches Chart Data'
+  },
+  chartStreaming:{
+    title: 'Chart Streaming',
+    desc: ' Chart Streaming Data'
+  },
 };
 
 export default PageDescMapper;

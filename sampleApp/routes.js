@@ -10,6 +10,8 @@ import OptionChain from './components/trade/optionchain/OptionChain';
 import Order from './components/trade/orders/Order';
 import Instruments from './components/ref/instruments/InstrumentDetails';
 import ClientPortfolio from './components/portfolio/clientPortfolio/ClientPortfolio';
+import ChartPolling from './components/chart/chartPolling/ChartPolling';
+import ChartStreaming from './components/chart/chartStreaming/ChartStreaming';
 
 const Routes = () => (
   <Router history={hashHistory}>
@@ -22,7 +24,9 @@ const Routes = () => (
       <Route path="options" component={OptionChain} />
       <Route path="orders" component={Order} />
       <Route path="instruments" component={Instruments} />
-      <Route path="clientPortfolio" component={ClientPortfolio}/>
+      <Route path="clientPortfolio" component={ClientPortfolio} />
+      <Route path="chartPolling" component={ChartPolling} />
+      <Route path="chartStreaming" component={ChartStreaming} />
     </Route>
   </Router>
 );

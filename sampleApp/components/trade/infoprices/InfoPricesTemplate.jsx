@@ -32,7 +32,10 @@ export default (props) => {
 		    	  data={getInstrumentData}
 		    	  keyField='Uic'
 		    	  dataSortFields={['Uic', 'AssetType']}
-		    	  width='150'/>
+		    	  width={'150'}
+		    	  hidden={['DisplayAndFormat.Decimals', 'DisplayAndFormat.Format', 'DisplayAndFormat.OrderDecimals']}
+		    	  formatter={'DisplayAndFormat.Decimals'}
+		    	  priceFields={['Quote.Ask', 'Quote.Bid', 'Quote.Mid', 'PriceInfoDetails.LastClose', 'PriceInfoDetails.LastTraded', 'PriceInfo.High', 'PriceInfo.Low']} />
 		    )}
 		</div>
 	)

@@ -54,7 +54,7 @@ class InfoPrices extends React.PureComponent {
       forEach(uniq(this.assetTypes), (value) => {
         const uics = transform(this.instruments, ((concat, instrument) => {
           if (instrument.AssetType === value) {
-            return concat.uic = concat.uic ? `${concat.uic},${instrument.Uic}` : instrument.Uic;
+            concat.uic = concat.uic ? `${concat.uic},${instrument.Uic}` : instrument.Uic;
           }
         }), {});
         API.subscribeInfoPrices({

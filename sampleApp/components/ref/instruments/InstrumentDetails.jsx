@@ -25,7 +25,7 @@ class InstrumentDetails extends React.Component {
           data={this.state.instrumentList}
           keyField='Identifier'
           dataSortFields={['Identifier', 'Symbol']}
-          width='150'
+          width={'150'}
         />
       </div>
     );

@@ -1,8 +1,9 @@
 import React from 'react';
 import { map, split, last, findIndex, forEach, isEmpty } from 'lodash';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-import { flatten } from 'flat';
+import { flatten, noop } from 'flat';
 import { bindHandlers } from 'react-bind-handlers';
+import API from './API';
 
 class CustomTable extends React.Component {
   constructor() {
@@ -25,14 +26,25 @@ class CustomTable extends React.Component {
     });
   }
 
+  handlePriceFormatter(cell, row, formatExtraData) {
+    return API.formatPrice(cell, this.props.decimals || row[this.props.formatter]);
+  }
+
   generateHeaders() {
     return map(this.data[0], (value, key) => {
       const dataSort = findIndex(this.props.dataSortFields, field => field === key) !== -1;
       const keyField = this.props.keyField === key;
-      const width = this.props.width;
+      const hidden = findIndex(this.props.hidden, field => field === key) !== -1;
+      const dataFormat = findIndex(this.props.priceFields, field => field === key) !== -1 ?  this.handlePriceFormatter : noop;
       return (
-        <TableHeaderColumn width={width} dataField={key} isKey={keyField} dataSort={dataSort}>
-          {last(split(key, '.'))}
+        <TableHeaderColumn
+          width={this.props.width}
+          dataField={key}
+          isKey={keyField}
+          dataSort={dataSort}
+          hidden={hidden}
+          dataFormat={dataFormat}>
+        {last(split(key, '.'))}
         </TableHeaderColumn>);
     });
   }

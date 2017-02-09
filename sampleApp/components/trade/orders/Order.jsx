@@ -4,6 +4,7 @@ import { bindHandlers } from 'react-bind-handlers';
 import API from '../../utils/API';
 import DeveloperSpace from '../../utils/DeveloperSpace';
 import Instruments from '../../ref/instruments/Instruments';
+import { forEach } from 'lodash';
 
 const OrderTypes = ['Market', 'Limit'];
 const OrderDurationTypes = ['DayOrder', 'GoodTillCancel', 'ImmediateOrCancel'];
@@ -34,29 +35,47 @@ class Order extends React.PureComponent {
          StandAlone     -   No relation to other order
       */
       OrderRelation: 'StandAlone',
+      ToOpenClose:''
       // currently sample works for StandAlone orders only. Work to be done for other OrderRelations
     };
     // need only for UI handling
     this.Ask = 0.0;
     this.Bid = 0.0;
     this.Symbol = '';
-    this.callPut = CALL;
+
+    this.callPut = '';
     this.strikePrice = 0.0;
     this.expiry = '';
 
-    this.state = { updated: false, isOptionOrder: false, responsData:{} };
+    this.state = {
+      updated: false,
+      isOptionOrder: false,
+      responsData:{},
+      selectedOptionSpace: undefined,
+      accounts: []
+     };
 
-    this.accountInfo = {};
-    this.instrumentInfo= {};
+     this.optionRootData = {};
   }
   // react Event: Get Account information on mount\loading component
   componentDidMount() {
     API.getAccountInfo(this.handleAccountInfo);
   }
 
+  handleClientAccounts(response) {
+    this.clientInformation = response;
+    API.getAccountInfo(this.handleAccountInfo);
+    this.setState({
+      clientName: response.Name,
+      currentAccountId: response.DefaultAccountId
+    });
+  }
+
   // calback: successfully got account information
   handleAccountInfo(response) {
-    this.accountInfo = response.Data[0];
+    let accountArray = [];
+    forEach(response.Data, (individualAccount) => accountArray.push(individualAccount));
+    this.setState({accounts: accountArray});
     // // create Order subscription
     // this.handleCreateOrderSubscription();
     // // create Positions subscription
@@ -65,33 +84,60 @@ class Order extends React.PureComponent {
 
     // Get inforprice for instrument selected in UI
   handleInstrumentChange(instrument) {
-    const queryParams = {
-      AssetType: instrument.AssetType,
-      Uic: instrument.Identifier,
-      FieldGroups: ['DisplayAndFormat', 'PriceInfo', 'Quote'],
-    };
-    API.getInfoPrices(queryParams, this.handleInfoPrice);
+    if(this.state.isOptionOrder) {
+      this.getOptionRootInstruments(instrument);
+    }
+    else{
+      this.getIntrumentPrice(instrument);
+    }
   }
 
-    // callback on successful inforprice call
+  getIntrumentPrice(instrument) {
+      const queryParams = {
+        AssetType: instrument.AssetType,
+        Uic: instrument.Identifier,
+        FieldGroups: ['DisplayAndFormat', 'PriceInfo', 'Quote'],
+      };
+      API.getInfoPrices(queryParams, this.handleInfoPrice);
+  }
+
+  // callback on successful inforprice call
   handleInfoPrice(response) {
+    this.currentOrder.Amount = response.Quote.Amount;
+    this.currentOrder.Uic = response.Uic;
+    this.currentOrder.AssetType = response.AssetType;
+    this.currentOrder.OrderPrice = response.Quote.Ask ? response.Quote.Ask : 0.0;
+    this.Ask = response.Quote.Ask ? response.Quote.Ask : 0.0;
+    this.Bid = response.Quote.Bid ? response.Quote.Bid : 0.0;
+    this.Symbol = response.DisplayAndFormat.Symbol;
+
     this.setState({
-      updated: false
-    });
-    this.instrumentInfo = response;
-    this.currentOrder.Amount = this.instrumentInfo.Quote.Amount;
-    this.currentOrder.Uic = this.instrumentInfo.Uic;
-    this.currentOrder.AssetType = this.instrumentInfo.AssetType;
-    this.currentOrder.OrderPrice = this.instrumentInfo.Quote.Ask ? this.instrumentInfo.Quote.Ask : 0.0;
-    this.Ask = this.instrumentInfo.Quote.Ask ? this.instrumentInfo.Quote.Ask : 0.0;
-    this.Bid = this.instrumentInfo.Quote.Bid ? this.instrumentInfo.Quote.Bid : 0.0;
-    this.Symbol = this.instrumentInfo.DisplayAndFormat.Symbol;
-    this.setState({
-      updated: true
+      updated: !this.state.updated
     });
   }
 
-  handleAssetTypeChange(assetType) {
+  getOptionRootInstruments(optionRoot) {
+    API.getOptionRootInstruments(optionRoot.Identifier, this.handleOptionRootData);
+  }
+
+  handleOptionRootData(response) {
+    this.optionRootData = response;
+    this.expiry = this.getFormattedExpiry(response.DefaultExpiry);
+    this.setOptionSpace();
+
+    this.strikePrice = response.DefaultOption.StrikePrice;
+    this.callPut = response.DefaultOption.PutCall;
+    this.setInstrument();
+  }
+
+  // format date strinf to YYYY-MM-DD format.
+  getFormattedExpiry(dateStr) {
+    // getMonth() is zero-based
+    let date = new Date(dateStr), mm = date.getMonth() + 1, dd = date.getDate();
+    return [date.getFullYear(), (mm > 9 ? '' : '0') + mm, ( dd > 9 ? '' : '0') + dd].join('-');
+  }
+
+  handleAssetTypeChange(assetType, data) {
     this.setState({
       isOptionOrder: false
     });
@@ -131,8 +177,8 @@ class Order extends React.PureComponent {
     this.setState({ updated: !this.state.updated });
   }
 
-  handleChangeRequestParams(event) {
-    this.orderRequestParams = this.getJSON(event.target.value);
+  handleToOpenClose(event) {
+    this.currentOrder.ToOpenClose = event.target.value;
     this.setState({ updated: !this.state.updated });
   }
 
@@ -148,17 +194,65 @@ class Order extends React.PureComponent {
     API.placeOrder(params, this.onPlaceOrderSuccess, this.onPlaceOrderFailure)
   }
 
+  handleOptionExpiryChange(event) {
+    this.expiry = event.target.value;
+    this.setOptionSpace();
+    this.setInstrument();
+  }
+
+  handleCallPutChange(event) {
+    this.callPut = event.target.value;
+    this.setInstrument();
+  }
+
+  handleStrikePriceChange(event) {
+    this.strikePrice = event.target.value;
+    this.setInstrument();
+  }
+
+  setOptionSpace() {
+    forEach(this.optionRootData.OptionSpace, (optionSpace) => {
+      if(optionSpace.Expiry === this.expiry) {
+        this.setState({selectedOptionSpace: optionSpace });
+        return;
+      }
+    })
+  }
+
+  setInstrument() {
+    this.currentOrder.Uic = '';
+    forEach(this.state.selectedOptionSpace.SpecificOptions, (option)=>{
+      if(option.StrikePrice === parseFloat(this.strikePrice) && option.PutCall === this.callPut) {
+        this.getIntrumentPrice({AssetType:this.optionRootData.AssetType, Identifier:option.Uic});
+        return;
+      }
+    })
+
+    this.setState({ updated: !this.state.updated });
+  }
+
+  handleAccountChange(event) {
+    this.currentOrder.AccountKey = event.target.value;
+    this.setState({ updated: !this.state.updated });
+  }
+
   render() {
-    this.currentOrder.AccountKey = (this.accountInfo.AccountKey ? this.accountInfo.AccountKey : '');
-    const pnlHeader = `Order Details. AccountKey - ${this.currentOrder.AccountKey}`;
-    let orderData = this.currentOrder;
+
+    let specificOptions = [];
+    if(this.state.selectedOptionSpace) {
+      forEach(this.state.selectedOptionSpace.SpecificOptions, (option) => {
+        if(option.PutCall === this.callPut) {
+          specificOptions.push(option);
+         }
+      });
+    }
 
     return (
       <div className='pad-box' >
         <Row><Instruments onInstrumentSelected={this.handleInstrumentChange} onAssetTypeSelected={this.handleAssetTypeChange} /></Row>
         <Row>
           <Col sm={6}>
-            <Panel header={pnlHeader} className='panel-primary'>
+            <Panel header='Order Details' className='panel-primary'>
               <Form>
                 <FormGroup>
                   <Row>
@@ -180,6 +274,37 @@ class Order extends React.PureComponent {
                     </Col>
                   </Row>
                 </FormGroup>
+                {this.state.isOptionOrder &&  (
+                  <FormGroup>
+                    <Row>
+                      <Col sm={3}>
+                        <ControlLabel>Expiry</ControlLabel>
+                        <FormControl componentClass="select" placeholder="Select Expiry" value={this.expiry} onChange={this.handleOptionExpiryChange}>
+                          {this.optionRootData.OptionSpace && this.optionRootData.OptionSpace.map(item => (<option value={item.Expiry}>{item.Expiry}</option>))}
+                        </FormControl>
+                      </Col>
+                      <Col sm={3}>
+                        <ControlLabel>Call/Put</ControlLabel>
+                        <FormControl componentClass="select" value={this.callPut} onChange={this.handleCallPutChange} >
+                          <option>{CALL}</option><option>{PUT}</option>
+                        </FormControl>
+                      </Col>
+                      <Col sm={3}>
+                        <ControlLabel>Strike Price</ControlLabel>
+                        <FormControl componentClass="select" placeholder="Pick Strike" value={this.strikePrice} onChange={this.handleStrikePriceChange}>
+                          {specificOptions.map(item => (<option value={item.StrikePrice}>{item.StrikePrice}</option>))}
+                        </FormControl>
+                      </Col>
+                      <Col sm={3} >
+                        <ControlLabel>ToOpenClose</ControlLabel>
+                        <FormControl componentClass='select' value={this.currentOrder.ToOpenClose} onChange={this.handleToOpenClose}>
+                          <option value='ToOpen'>ToOpen</option><option value='ToClose'>ToClose</option>
+                        </FormControl>
+                      </Col>
+                    </Row>
+                  </FormGroup>
+                  )
+                }
                 <FormGroup>
                   <Row>
                     <Col sm={3}>
@@ -212,6 +337,12 @@ class Order extends React.PureComponent {
                         {OrderDurationTypes.map(type => (<option key={type} value={type}>{type}</option>))}
                       </FormControl>
                     </Col>
+                    <Col sm={3} >
+                      <ControlLabel>Select Account</ControlLabel>
+                      <FormControl componentClass='select' onChange={this.handleAccountChange}>
+                        {this.state.accounts.map(account => (<option key={account.AccountId} value={account.AccountKey}>{account.AccountId}</option>))}
+                      </FormControl>
+                    </Col>
                   </Row>
                 </FormGroup>
                 <FormGroup bsSize='large'>
@@ -223,7 +354,7 @@ class Order extends React.PureComponent {
             </Panel>
           </Col>
           <Col sm={6}>
-              <DeveloperSpace actionText='Place Order' onAction={this.handleDeveloperAction} requestParams={orderData} responsData={this.state.responsData}></DeveloperSpace>
+              <DeveloperSpace actionText='Place Order' onAction={this.handleDeveloperAction} requestParams={this.currentOrder} responsData={this.state.responsData}></DeveloperSpace>
           </Col>
         </Row>
       </div>);

@@ -3,19 +3,20 @@ import { bindHandlers } from 'react-bind-handlers';
 import SearchInput from 'react-search-input';
 import { InputGroup, ListGroupItem, ListGroup } from 'react-bootstrap';
 import { map } from 'lodash';
-import $ from '../../../libs/jquery-3.1.1.js';
-import Details from '../../Details';
+import $ from '../../../libs/jquery-3.1.1';
+import CustomTable from '../../utils/CustomTable'
 import API from '../../utils/API';
 
 class OptionChain extends React.PureComponent {
   constructor(props) {
     super(props);
     this.assetTypes = ['FuturesOption', 'StockOption', 'StockIndexOption'];
-    this.instrumentList = [];
-    this.description = 'Shows how to get option chain based on option root selected';
     this.items = [];
+    this.optionRootData={};
+    this.underlyingInstr = [];
     this.state = {
       hasOptionRoots: false,
+      hasUnderLying: false,
     };
   }
 
@@ -29,8 +30,9 @@ class OptionChain extends React.PureComponent {
   }
 
   handleOptionRootSelected(eventKey) {
+    this.optionRootData={};
     API.getOptionChain({
-      id: $(eventKey.target).data('uic'),
+      OptionRootId: $(eventKey.target).data('uic'),
     }, this.handleOptionDataSuccess,
       result => console.log(result),
     );
@@ -38,6 +40,8 @@ class OptionChain extends React.PureComponent {
 
   handleOptionDataSuccess(result) {
     this.items = [];
+    this.underlyingInstr = [];
+    this.optionRootData = result;
     API.getInstrumentDetails({
       AssetType: result.AssetType,
       Uic: result.DefaultOption.Uic,
@@ -50,7 +54,10 @@ class OptionChain extends React.PureComponent {
   }
 
   handleInstrDetailsSuccess(result) {
-    console.log(result);
+    this.underlyingInstr.push(result);
+    this.setState({
+      hasUnderLying: true
+    })
   }
 
   handleSearchUpdated(term) {
@@ -66,22 +73,39 @@ class OptionChain extends React.PureComponent {
 
   render() {
     return (
-      <Details Title='Info Prices' Description={this.description}>
-        <div className='pad-box'>
-          <InputGroup>
-            <InputGroup.Addon>
-              <img src='../images/search-icon.png' className='search-icon' />
-            </InputGroup.Addon>
-            <SearchInput
-              className='search-input'
-              onChange={this.handleSearchUpdated}
-            />
-          </InputGroup>
-          <div className='search-area'>
-            <ListGroup bsClass='search-group'>{this.items}</ListGroup>
-          </div>
+      <div className='pad-box'>
+        <InputGroup>
+          <InputGroup.Addon>
+            <img src='../images/search-icon.png' className='search-icon' />
+          </InputGroup.Addon>
+          <SearchInput
+            className='search-input'
+            onChange={this.handleSearchUpdated}
+          />
+        </InputGroup>
+        <div className='search-area'>
+          <ListGroup bsClass='search-group'>{this.items}</ListGroup>
         </div>
-      </Details>
+        <br />
+        <br />
+        <br />
+        <CustomTable
+          data={this.underlyingInstr}
+          keyField='Uic'
+          dataSortFields={['Uic', 'AssetType']}
+          width={'150'} />
+        { map(this.optionRootData.OptionSpace, item => (
+          <div className='pad-box'>
+            <h4><u>{item.Expiry}</u></h4>
+            <CustomTable
+              data={item.SpecificOptions}
+              keyField='Uic'
+              dataSortFields={['PutCall', 'Uic']}
+              width={'150'} />
+          </div>)
+        )}
+
+      </div>
     );
   }
 }

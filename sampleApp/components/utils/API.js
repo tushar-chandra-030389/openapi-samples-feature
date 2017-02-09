@@ -3,13 +3,24 @@
 import DataService from './DataService';
 
 export default {
-  // fetch instruments from client lib based on AssetType.
+  // fetch instruments from client lib based on AssetType
   // eg: Query Params : { AssetType: 'FxSpot' }
   getInstruments: (instrumentData, successCallback, errorCallback) => {
     const data = {
       method: 'get',
       serviceGroup: 'ref',
       endPoint: 'v1/instruments',
+      queryParams: instrumentData,
+    };
+    DataService.getData(data, successCallback, errorCallback);
+  },
+  // fetch instrument details from client lib based on Uic and AssetType
+  // eg: Query Params : { AssetType: 'FxSpot', Uic: 21 }
+  getInstrumentDetails: (instrumentData, successCallback, errorCallback) => {
+    const data = {
+      method: 'get',
+      serviceGroup: 'ref',
+      endPoint: 'v1/instruments/details/{Uic}/{AssetType}',
       queryParams: instrumentData,
     };
     DataService.getData(data, successCallback, errorCallback);
@@ -180,5 +191,48 @@ export default {
       queryParams: null,
     };
     DataService.getData(data, successCallback, errorCallback);
+  },
+  // fetch option chain based on AssetType
+  // eg: Query Params : { OptionRootId: 19 }
+  getOptionChain: (instrumentData, successCallback, errorCallback) => {
+    const data = {
+      method: 'get',
+      serviceGroup: 'ref',
+      endPoint: 'v1/instruments/contractoptionspaces/{OptionRootId}',
+      queryParams: instrumentData,
+    };
+    DataService.getData(data, successCallback, errorCallback);
+  },
+  // fetch chart data
+  getChartData: (chartData, successCallback, errorCallback) => {
+    const data = {
+      method: 'get',
+      serviceGroup: 'chart',
+      endPoint: 'v1/charts',
+       queryParams: {
+        AssetType: chartData.AssetType,
+        Uic: chartData.Uic,
+        Horizon: chartData.Horizon,
+        FieldGroups: [
+          'ChartInfo',
+          'Data',
+          'DisplayAndFormat',
+        ],
+      },
+    };
+    DataService.getData(data, successCallback, errorCallback);
+  },
+  // creates chart subscription
+  createChartSubscription: (subscriptionArgs, successCallback, errorCallback) => {
+    const data = {
+      serviceGroup: 'chart',
+      endPoint: 'v1/charts/subscriptions',
+      queryParams: subscriptionArgs,
+    };
+    return DataService.subscribe(data, successCallback, errorCallback);
+  },
+  // returns formatted price
+  formatPrice: (price, decimal, formatFlags) => {
+    return DataService.formatPrice(price, decimal, formatFlags);
   },
 };

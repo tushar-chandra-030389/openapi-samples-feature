@@ -76,7 +76,7 @@ class TradeSubscriptions extends React.PureComponent {
         data = { this.trades }
         keyField = { this.tradeTypeId }
         dataSortFields = { ['{this.tradeTypeId}'] }
-        width = '150' />
+        width = {'150'} />
     )
   }
 }
