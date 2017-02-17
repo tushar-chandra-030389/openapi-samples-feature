@@ -213,6 +213,7 @@ export default {
         AssetType: chartData.AssetType,
         Uic: chartData.Uic,
         Horizon: chartData.Horizon,
+        Count: chartData.Count,
         FieldGroups: [
           'ChartInfo',
           'Data',

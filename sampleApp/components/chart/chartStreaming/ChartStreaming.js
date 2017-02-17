@@ -7,9 +7,10 @@ import DropDown from '../../utils/DropDown';
 import Instrument from '../../ref/instruments/Instruments';
 import CustomTable from '../../utils/CustomTable';
 
-const Horizon = [ 1, 5, 10, 15, 30, 60, 120, 240, 360, 480, 1440, 10080, 43200 ];
+const Horizon = [1, 5, 10, 15, 30, 60, 120, 240, 360, 480, 1440, 10080, 43200];
+const CandleCount = [200, 400, 600, 800, 1000, 1200];
 
-class ChartPolling extends React.PureComponent {
+class ChartStreaming extends React.PureComponent {
   constructor(props) {
     super(props);
     this.instrument = {};
@@ -18,7 +19,8 @@ class ChartPolling extends React.PureComponent {
     this.state = {
       instrumentSelected: false,
       horizon: 'Select Horizon',
-      chartDataUpdated: false
+      chartDataUpdated: false,
+      candleCount : 200
     };
   }
 
@@ -35,7 +37,8 @@ class ChartPolling extends React.PureComponent {
         'Arguments': {
           'AssetType': this.instrument.AssetType,
           'Uic': this.instrument.Identifier,
-          'Horizon': this.state.horizon
+          'Horizon': this.state.horizon,
+          'Count': this.state.candleCount
         }
       };
       this.disposeSubscription();
@@ -80,6 +83,12 @@ class ChartPolling extends React.PureComponent {
     });
   }
 
+  handleCandleCount(eventKey) {
+    this.setState({
+      candleCount: eventKey
+    });
+  }
+
   render() {
     return (
       <div>
@@ -89,6 +98,12 @@ class ChartPolling extends React.PureComponent {
             title = {this.state.horizon}
             handleSelect = {this.handleHorizonSelection}
             data = {Horizon}
+          /> &nbsp;
+
+          <DropDown
+            title = {this.state.candleCount}
+            handleSelect = {this.handleCandleCount}
+            data = {CandleCount}
           /> &nbsp;
 
           <Button
@@ -108,4 +123,4 @@ class ChartPolling extends React.PureComponent {
   }
 }
 
-export default bindHandlers(ChartPolling);
+export default bindHandlers(ChartStreaming);
