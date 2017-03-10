@@ -33,7 +33,7 @@ class ChartPolling extends React.PureComponent {
     if (isNumber(this.state.horizon) && !isEmpty(this.instrument)){
       API.getChartData({
         AssetType: this.instrument.AssetType,
-        Uic: this.instrument.Identifier,
+        Uic: this.instrument.Uic,
         Horizon: this.state.horizon,
         Count: this.state.candleCount
       }, this.handleChartDataDisplay);
