@@ -1,33 +1,43 @@
 import React from 'react';
 import Column from '../../utils/Column';
-import { Row } from 'react-bootstrap';
+import { Row, ControlLabel, Panel, Col } from 'react-bootstrap';
+import CustomTable from '../../utils/CustomTable';
 
-export default ({ props : { instrumentSelected }, instrumentPrices }) => {
+export default (props) => {
+
+  const  generateHtml = (item, header) => {
+    let data = []
+    for(let name in item) {
+      if(typeof item[name] !== 'object' )
+        data.push({FieldName:name, Value: item[name]});
+    }
+
+    return ( 
+      <div>
+        <h4><strong>{header}:</strong></h4>
+        { data.length > 0 ?
+          (<CustomTable data={data} width={'300'} keyField='FieldName' />) :
+          <strong>No data available</strong>
+        }
+      </div>
+    )
+  }
+
   return (
-    <div className='pad-box'>
-      {instrumentSelected && (
-        <div>
-          <Row>
-            <Column data={instrumentPrices} header='Basic Info' size={6} />
-            <Column data={instrumentPrices.InstrumentPriceDetails} header='Price Details' size={6} />
-          </Row>
-          <Row>
-            <Column data={instrumentPrices.PriceInfoDetails} header='Price Info Details' size={6} />
-            <Column data={instrumentPrices.DisplayAndFormat} header='Display And Format' size={6} />
-          </Row>
-          <Row>
-            <Column data={instrumentPrices.Greeks} header='Greeks' size={6} />
-            <Column data={instrumentPrices.Commissions} header='Commissions' size={6} />
-          </Row>
-          <Row>
-            <Column data={instrumentPrices.PriceInfo} header='Price Info' size={6} />
-            <Column data={instrumentPrices.Quote} header='Quote' size={6} />
-          </Row>
-          <Row>
-            <Column data={instrumentPrices.MarginImpact} header='Margin Impact' size={6} />
-            <Column data={instrumentPrices.MarketDepth} header='Market Depth' size={6} />
-          </Row>
-        </div>
+    <div>
+      {props.instrumentPrices && (
+        <Panel bsStyle="primary" >
+          {generateHtml(props.instrumentPrices,'Basic Info')}
+          {generateHtml(props.instrumentPrices.PriceInfoDetails,'PriceInfoDetails')}
+          {generateHtml(props.instrumentPrices.PriceInfo,'PriceInfo')}
+          {generateHtml(props.instrumentPrices.Quote,'Quote')}
+          {generateHtml(props.instrumentPrices.InstrumentPriceDetails,'InstrumentPriceDetails')}
+          {generateHtml(props.instrumentPrices.Commissions,'Commissions')}
+          {generateHtml(props.instrumentPrices.DisplayAndFormat,'DisplayAndFormat')}
+          {generateHtml(props.instrumentPrices.Greeks,'Greeks')}
+          {generateHtml(props.instrumentPrices.MarginImpact,'MarginImpact')}
+          {generateHtml(props.instrumentPrices.MarketDepth,'MarketDepth')}
+        </Panel>
       )}
     </div>)
 };

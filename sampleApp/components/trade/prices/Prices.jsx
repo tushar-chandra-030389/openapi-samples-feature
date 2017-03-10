@@ -3,41 +3,51 @@ import { merge } from 'lodash';
 import { bindHandlers } from 'react-bind-handlers';
 import API from '../../utils/API';
 import Details from '../../Details';
-import Instruments from '../../ref/instruments/Instruments';
+import OptionInstruments from '../../ref/instruments/OptionInstruments';
 import PricesTemplate from './PricesTemplate';
+import { Col } from 'react-bootstrap';
 
 class Prices extends React.Component {
   constructor() {
     super();
-    this.instrument = {};
+    this.instrument = undefined;
     this.state = {
       instrumentSelected: false,
     };
+    this.subscription = undefined;
   }
 
   handleInstrumentSelected(instrument) {
-    API.subscribePrices({
+    //TODO : Batch Request
+    if(this.subscription) {
+      API.disposeIndividualSubscription(this.subscription);
+      this.subscription = undefined;
+    }
+
+    this.subscription = API.subscribePrices({
       AssetType: instrument.AssetType,
-      uic: instrument.Identifier,
+      uic: instrument.Uic,
     }, this.handleUpdateInstrumentData);
   }
 
   handleUpdateInstrumentData(data) {
-    this.setState({
-      instrumentSelected: true,
-    });
     if (!data.Data) {
       this.instrument = data;
     } else {
       merge(this.instrument, data.Data);
     }
+      this.setState({
+      instrumentSelected: !this.state.instrumentSelected,
+    });
   }
 
   render() {
     return (
-      <div>
-        <Instruments onInstrumentSelected={this.handleInstrumentSelected} />
-        <PricesTemplate props={this.state} instrumentPrices={this.instrument} />
+      <div className='pad-box'>
+        <Col sm={8}>
+          <OptionInstruments onInstrumentSelected={this.handleInstrumentSelected} />
+          <PricesTemplate instrumentPrices={this.instrument} />
+        </Col>
       </div>
     );
   }

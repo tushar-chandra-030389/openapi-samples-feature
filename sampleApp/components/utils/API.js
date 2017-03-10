@@ -98,7 +98,7 @@ export default {
         RefreshRate: 5,
       },
     };
-    DataService.subscribe(data, successCallback, errorCallback);
+    return DataService.subscribe(data, successCallback, errorCallback);
   },
   /*  subscribe to Prices for a single instrument based on AssetType and Uic.
       eg: Query Params : {
@@ -132,7 +132,7 @@ export default {
         RefreshRate: 5,
       },
     };
-    DataService.subscribe(data, successCallback, errorCallback);
+    return DataService.subscribe(data, successCallback, errorCallback);
   },
   // delete subscriptions
   disposeSubscription: (successCallback, errorCallback) => {

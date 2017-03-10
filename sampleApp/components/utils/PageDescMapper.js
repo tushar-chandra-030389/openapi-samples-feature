@@ -8,8 +8,8 @@ const PageDescMapper = {
     desc: 'OpenAPIs require authorization token to authenticate user.',
   },
   instruments: {
-    title: 'Instrument Details',
-    desc: 'Display Instrument details',
+    title: 'Reference Data - Instruments',
+    desc: 'The Reference Data service group provides reference data, such as instrument details, exchange info etc.. The instrument endpoints serves as the starting point for an application/user who wants to navigate the available universe of instruments and options. Each entry therefore contrains further references to instrument details or option roots, where the application can get further information about these entities.',
   },
   infoPrices: {
     title: 'Info Prices',

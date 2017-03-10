@@ -1,103 +1,144 @@
 import React from 'react';
-import { merge, transform, uniq, forEach } from 'lodash';
+import { merge } from 'lodash';
 import { bindHandlers } from 'react-bind-handlers';
 import API from '../../utils/API';
-import Instrument from '../../ref/instruments/Instruments';
+import OptionInstruments from '../../ref/instruments/OptionInstruments';
 import InfoPricesTemplate from './InfoPricesTemplate';
 
 class InfoPrices extends React.PureComponent {
   constructor(props) {
     super(props);
-    this.instruments = {};
-    this.assetTypes = [];
-    this.state = {
-      instrumentSelected: false,
-      instrumentsSubscribed: false,
-      changed: false,
-    };
+    this.state = { flag: false };
+    this.selectedInstruments = {};
+    this.selectedAssetTypes = {};
   }
 
   handleInstrumentSelected(instrument) {
-    this.setState({
-      instrumentSelected: false,
-    });
     API.getInfoPrices({
       AssetType: instrument.AssetType,
-      Uic: instrument.Identifier,
+      Uic: instrument.Uic,
     }, this.handleUpdateInstrumentData,
     result => console.log(result));
   }
 
   handleUpdateInstrumentData(data) {
-    this.instruments[data.Uic] = data;
-    this.assetTypes.push(data.AssetType);
-    this.setState({
-      instrumentSelected: true,
-    });
+    /* check assetType selection
+       new - initially set subscription undefined.
+       existing - dont do anything we might already have subscription 
+    */
+    if(!this.selectedAssetTypes[data.AssetType]) {
+        this.selectedAssetTypes[data.AssetType] = { subscription: undefined };
+    }
+    // for existing instruments, dont do anything we might already have subscription
+    if(!this.selectedInstruments[data.Uic]) {
+      this.selectedInstruments[data.Uic] = data;
+    }
+    this.setState({ flag: !this.state.flag });
   }
 
-  handleUpdateSubscribedInstruments(instruments) {
-    this.setState({
-      changed: false
-    });
-    const instrumentData = instruments.Data;
-    forEach(instrumentData, (value, index) => {
-      merge(this.instruments[instrumentData[index].Uic], instrumentData[index]);
-    });
-    this.setState({
-      changed: true
-    });
+  handleSubscribe() {
+    //TODO: Batch request
+    for(let assetType in this.selectedAssetTypes) {
+        this.createSubscription(assetType);
+      }
+    this.setState({ flag: !this.state.flag });
   }
 
-  handleSubscribeInstruments() {
-    if (!this.state.instrumentsSubscribed) {
-      forEach(uniq(this.assetTypes), (value) => {
-        const uics = transform(this.instruments, ((concat, instrument) => {
-          if (instrument.AssetType === value) {
-            concat.uic = concat.uic ? `${concat.uic},${instrument.Uic}` : instrument.Uic;
-          }
-        }), {});
-        API.subscribeInfoPrices({
-          Uics: uics.uic,
-          AssetType: value,
-        }, this.handleUpdateSubscribedInstruments);
-      });
-      this.setState({
-        instrumentsSubscribed: true,
-      });
-    } else {
-      API.disposeSubscription(() => console.log('disposed subscription successfully'),
-        () => console.log('Error disposing subscription'));
-      this.setState({
-        instrumentsSubscribed: false,
-      });
+  // openapi - create subscription.
+  createSubscription(forAssetType) {
+    // concatinate uics
+    let uics = this.getUics(forAssetType);
+    // subscribe for instruments
+    let subscription = API.subscribeInfoPrices({ Uics: uics, AssetType: forAssetType }, this.onPriceUpdate.bind(this));
+    // hold subscription
+    this.selectedAssetTypes[forAssetType].subscription = subscription;
+  }
+  
+  // openapi - callback function to handle price updates
+  onPriceUpdate(update) {
+    const instrumentData = update.Data;
+    for(let index in instrumentData) {
+      merge(this.selectedInstruments[instrumentData[index].Uic], instrumentData[index]);
+    }
+    this.setState({ flag: !this.state.flag });
+  }
+
+  handleUnsubscribe() {
+    //TODO: Batch request
+    for(var assetType in this.selectedAssetTypes) {
+      this.deleteSubscription(assetType)
+    }
+    this.setState({ flag: !this.state.flag });
+  }
+
+  // openapi - delete subscription. 
+  deleteSubscription(forAssetType) {
+    if(this.selectedAssetTypes[forAssetType].subscription) {
+      API.disposeIndividualSubscription(this.selectedAssetTypes[forAssetType].subscription);
+      this.selectedAssetTypes[forAssetType].subscription = undefined;
     }
   }
 
-  handleFetchInstrumentsData() {
-    forEach(uniq(this.assetTypes), (value) => {
-      const uics = transform(this.instruments, ((concat, instrument) => {
-        if (instrument.AssetType === value) {
-          concat.uic = concat.uic ? `${concat.uic},${instrument.Uic}` : instrument.Uic;
+  // utility function to concatinate uics.
+  getUics(forAssetType) {
+    let uics = '';
+    for(let uic in this.selectedInstruments) {
+      if( this.selectedInstruments[uic].AssetType === forAssetType ) {
+        if(uics !== '') {
+          uics = `${uic},${uics}`;
         }
-      }), {});
-      API.getInfoPricesList({
-        Uics: uics.uic,
-        AssetType: value,
-      }, this.handleUpdateSubscribedInstruments);
-    });
+        else {
+          uics = `${uic}`;
+        }
+      }
+    }
+    return uics;
+  }
+
+  handleGetInfoPrices() {
+    //TODO: Batch request
+    for(var assetType in this.selectedAssetTypes) {
+      this.fetchInfoPrice(assetType)
+    }
+  }
+
+  fetchInfoPrice(forAssetType) {
+    // concatinate uics
+    let uics = this.getUics(forAssetType);
+    API.getInfoPricesList({ Uics: uics, AssetType: forAssetType }, this.onPriceUpdate.bind(this));
+  }
+
+  // UI - required for UI to enable/disable function
+  hasSubscription() {
+    for(var assetType in this.selectedAssetTypes) {
+      if(this.selectedAssetTypes[assetType] && this.selectedAssetTypes[assetType].subscription) {
+        return true;
+      }
+    }    
+    return false;
+  }
+
+  // UI - required for UI to show/hide instrument panel
+  hasInsruments() {
+    for(var uic in this.selectedInstruments) {
+      return true;
+    }
+    return false;    
   }
 
   render() {
     return (
-      <div>
-        <Instrument onInstrumentSelected={this.handleInstrumentSelected} />
-        <InfoPricesTemplate
-          props={this.state}
-          getInstrumentData={this.instruments}
-          handleSubscribeInstruments={this.handleSubscribeInstruments}
-          handleFetchInstrumentsData={this.handleFetchInstrumentsData}
-        />
+      <div className='pad-box' >
+        <OptionInstruments onInstrumentSelected={this.handleInstrumentSelected} />
+        { this.hasInsruments() && 
+          <InfoPricesTemplate
+            instruments={this.selectedInstruments}
+            onSubscribeClick={this.handleSubscribe}
+            onUnsubscribeClick={this.handleUnsubscribe}
+            onGetInfoPricesClick={this.handleGetInfoPrices}
+            hasSubscription={this.hasSubscription()} 
+          />
+        }
       </div>
     );
   }

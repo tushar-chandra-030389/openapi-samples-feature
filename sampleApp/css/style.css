@@ -32,8 +32,8 @@
 .details-header {
   box-sizing: border-box;
   box-shadow: none;
-  padding: 48px 48px 32px 27px;
-  height: 100px;
+  padding: 20px 30px 32px 27px;
+  height: 60px;
   background-color: #1976D2;
   background: -webkit-linear-gradient(305deg,#A9A9A9,#42A5F5);
   background: linear-gradient(145deg,#A9A9A9,#42A5F5);

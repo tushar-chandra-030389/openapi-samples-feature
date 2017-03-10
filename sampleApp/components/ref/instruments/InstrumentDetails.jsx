@@ -2,31 +2,38 @@ import React from 'react';
 import { bindHandlers } from 'react-bind-handlers';
 import Instruments from './Instruments';
 import CustomTable from '../../utils/CustomTable';
+import { Col,Panel } from 'react-bootstrap';
+import OptionInstruments from './OptionInstruments'
 
-class InstrumentDetails extends React.Component {
+const checkIfOption = (assetType) => assetType === 'FuturesOption' || assetType === 'StockOption' || assetType === 'StockIndexOption';
+
+class InstrumentDetails extends React.PureComponent {
   constructor() {
     super();
-    this.state = {
-      instrumentList: [],
-    };
+    this.state = { instrumentDetails: undefined };
   }
 
-  handleAssetTypeChange(assetType, instruments) {
-    this.setState({
-      instrumentList: instruments
-    });
+  handleInstrumentSelection(instrumentDetails) {
+    this.setState({ instrumentDetails: instrumentDetails });
   }
 
   render() {
+    // making array of key-value pairs to show instrument in table.
+    let instData = []
+    for(let name in this.state.instrumentDetails) {
+        instData.push({FieldName:name, Value: this.state.instrumentDetails[name]});
+    }
+
+    let hasData = instData.length > 0;
+
     return (
-      <div className='pad-box'>
-        <Instruments onAssetTypeSelected={this.handleAssetTypeChange} />
-        <CustomTable
-          data={this.state.instrumentList}
-          keyField='Identifier'
-          dataSortFields={['Identifier', 'Symbol']}
-          width={'150'}
-        />
+      <div className='pad-box' >
+        <Col sm={8} >
+          <OptionInstruments onInstrumentSelected={this.handleInstrumentSelection} />
+          {hasData && 
+            <Panel bsStyle='primary'><CustomTable data={instData} width={'300'} keyField='FieldName' /></Panel>
+          }
+        </Col>
       </div>
     );
   }
