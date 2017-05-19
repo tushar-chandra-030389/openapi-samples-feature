@@ -5,21 +5,33 @@ import Column from '../../utils/Column';
 import DropDown from '../../utils/DropDown';
 
 export default (props) => {
-	const { state: {clientName, currentAccountId},  clientInformation, currentAccountInfo, onAccountSelection, accounts } = props;
+	const { state: {clientName, currentAccountId},
+		clientInformation,
+		currentAccountInfo,
+		onAccountSelection,
+		accounts
+	} = props;
+	const style = {
+		'margin-right': '10px'
+	}
 	return (
 		<div>
 			<Form inline>
-				<FormGroup controlId='formInlineName'>
-					<ControlLabel>Client Name</ControlLabel> &nbsp;
+				<FormGroup controlId='formInlineName' style={style}>
+					<ControlLabel style={style} >
+						Client Name
+					</ControlLabel>
 					<FormControl type='text' placeholder='Test' value={clientName} readOnly />
-				</FormGroup> &nbsp;
+				</FormGroup>
 				<FormGroup>
-					<ControlLabel>Accounts</ControlLabel> &nbsp;
+					<ControlLabel style={style}>
+						Accounts
+					</ControlLabel>
 					<DropDown
-            title={currentAccountId}
-            handleSelect={onAccountSelection}
-            data={accounts}
-           />
+						title={currentAccountId}
+						handleSelect={onAccountSelection}
+						data={accounts}
+					/>
 				</FormGroup>
 			</Form>
 			<br />

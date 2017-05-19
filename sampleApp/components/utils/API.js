@@ -182,6 +182,15 @@ export default {
     };
     return DataService.subscribe(data, successCallback, errorCallback);
   },
+  // create net positions subscription
+  createNetPositionSubscription: (subscriptionArgs, successCallback, errorCallback) => {
+    const data = {
+      serviceGroup: 'port',
+      endPoint: 'v1/netpositions/subscriptions',
+      queryParams: subscriptionArgs,
+    };
+    return DataService.subscribe(data, successCallback, errorCallback);
+  },
   // fetch client details
   getClientInfo: (successCallback, errorCallback) => {
     const data = {

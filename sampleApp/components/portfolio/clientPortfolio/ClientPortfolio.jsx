@@ -19,7 +19,7 @@ class ClientPortfolio extends React.PureComponent {
 		this.currentAccountInformation = {};
 	}
 
-	componentDidMount() {
+	componentWillMount() {
 		API.getClientInfo(this.handleClientAccounts);
 	}
 
@@ -62,10 +62,18 @@ class ClientPortfolio extends React.PureComponent {
 						<Panel header='Orders/Positions' className='panel-primary'>
 							<Tabs className='primary' defaultActiveKey={1} animation={false} id='noanim-tab-example'>
 								<Tab eventKey={1} title='Orders'>
-									<TradeSubscriptions currentAccountInformation = {this.currentAccountInformation} tradeType = 'Order' fieldGroups = {['DisplayAndFormat', 'ExchangeInfo']} />
+									<TradeSubscriptions
+										currentAccountInformation = {this.currentAccountInformation}
+										tradeType = 'Order'
+										fieldGroups = {['DisplayAndFormat', 'ExchangeInfo']}
+									/>
 								</Tab>
 								<Tab eventKey={2} title='Positions'>
-								  <TradeSubscriptions currentAccountInformation = {this.currentAccountInformation} tradeType = 'Position' fieldGroups = {['DisplayAndFormat', 'PositionBase', 'PositionView']} />
+									<TradeSubscriptions
+										currentAccountInformation = {this.currentAccountInformation}
+										tradeType = 'NetPosition'
+										fieldGroups = {['NetPositionView', 'NetPositionBase', 'DisplayAndFormat', 'ExchangeInfo', 'SingleAndClosedPositionsBase', 'SingleAndClosedPositionsView', 'SingleAndClosedPositions']}
+									/>
 								</Tab>
 							</Tabs>
 						</Panel>
