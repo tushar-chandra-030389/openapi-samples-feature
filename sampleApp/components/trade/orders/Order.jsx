@@ -41,7 +41,7 @@ class Order extends React.PureComponent {
          StandAlone     -   No relation to other order
       */
       OrderRelation: 'StandAlone',
-      ToOpenClose:''
+      ToOpenClose:'ToOpen'
       // currently sample works for StandAlone orders only. Work to be done for other OrderRelations
     };
 
@@ -160,6 +160,7 @@ class Order extends React.PureComponent {
     let orderTypeOrderDurationsAccounts = [{label:'OrderType', value:OrderTypes, componentClass:'select'},
       {label:'OrderDuration', value:OrderDurationTypes, componentClass:'select'}];
 
+    let toOpenClose = [{label:'ToOpenClose', value:['ToOpen', 'ToClose'], componentClass:'select'}];
     let accountTitle = this.state.selectedAccount ? this.state.selectedAccount.AccountId : 'Select Account';
     
     return (
@@ -183,6 +184,9 @@ class Order extends React.PureComponent {
                 }
                 <FormGroupTemplate data = {buySellPriceAmount} onChange={this.handleValueChange} />
                 <FormGroupTemplate data = {orderTypeOrderDurationsAccounts} onChange={this.handleValueChange} />
+                { this.state.optionRoot &&
+                  <FormGroupTemplate data = {toOpenClose} onChange={this.handleValueChange} />
+                }
                 <FormGroup bsSize='large'>
                   <Row><Col sm={3}>
                     <Button bsStyle='primary' block onClick={this.handlePlaceOrder}>Place Order</Button></Col>
