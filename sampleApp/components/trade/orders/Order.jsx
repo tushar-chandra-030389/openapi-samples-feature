@@ -51,7 +51,8 @@ class Order extends React.PureComponent {
       selectedOptionSpace: undefined,
       selectedAccount: undefined,
       accounts: [],
-      instrumentInfo: undefined
+      instrumentInfo: undefined,
+      supportedOrderTypes: []
      };
 
      this.optionRootData = {};
@@ -69,6 +70,7 @@ class Order extends React.PureComponent {
   }
   
   handleInstrumentChange(instrument) {
+    this.setState({ supportedOrderTypes:instrument.SupportedOrderTypes });
     API.getInfoPrices({
       AssetType: instrument.AssetType,
       Uic: instrument.Uic,
@@ -157,7 +159,7 @@ class Order extends React.PureComponent {
       {label:'OrderPrice', value:this.currentOrder.OrderPrice, componentClass:'text'},
       {label:'OrderAmount', value:this.currentOrder.Amount, componentClass:'text'}];
           
-    let orderTypeOrderDurationsAccounts = [{label:'OrderType', value:OrderTypes, componentClass:'select'},
+    let orderTypeOrderDurationsAccounts = [{label:'OrderType', value:this.state.supportedOrderTypes, componentClass:'select'},
       {label:'OrderDuration', value:OrderDurationTypes, componentClass:'select'}];
 
     let toOpenClose = [{label:'ToOpenClose', value:['ToOpen', 'ToClose'], componentClass:'select'}];
