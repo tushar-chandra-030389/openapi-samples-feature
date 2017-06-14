@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Form, FormGroup, FormControl, ControlLabel, Col, Row, Panel, DropdownButton, MenuItem, Tabs, Tab } from 'react-bootstrap';
+import { Button, Form, FormGroup, FormControl, ControlLabel, Col, Row, Panel, DropdownButton, MenuItem, Tabs, Tab,Collapse, Well } from 'react-bootstrap';
 import { bindHandlers } from 'react-bind-handlers';
 import API from '../../utils/API';
 import DeveloperSpace from '../../utils/DeveloperSpace';
@@ -52,7 +52,9 @@ class Order extends React.PureComponent {
       selectedAccount: undefined,
       accounts: [],
       instrumentInfo: undefined,
-      supportedOrderTypes: []
+      supportedOrderTypes: [],
+      takeProfitOpen: false,
+      stopLossOpen: false
      };
 
      this.optionRootData = {};
@@ -150,10 +152,10 @@ class Order extends React.PureComponent {
     symbol = this.state.instrumentInfo ? this.state.instrumentInfo.DisplayAndFormat.Symbol :'';
 
     //Define Form
-    let symbolAssestTypeAskBid = [{label:`Instrument (UIC: ${this.currentOrder.Uic})`, value:symbol, componentClass:'text'},
-      {label:'AssetType', value: this.currentOrder.AssetType, componentClass:'text'},
-      {label:'AskPrice', value: askPrice, componentClass:'text'},
-      {label:'BidPrice', value: bidPrice, componentClass:'text'}];
+    let symbolAssestTypeAskBid = [{label:`Instrument (UIC: ${this.currentOrder.Uic})`, value:symbol, componentClass:'text', readOnly:'true'},
+      {label:'AssetType', value: this.currentOrder.AssetType, componentClass:'text', readOnly:'true'},
+      {label:'AskPrice', value: askPrice, componentClass:'text', readOnly:'true'},
+      {label:'BidPrice', value: bidPrice, componentClass:'text', readOnly:'true'}];
 
     let buySellPriceAmount = [{label:'BuySell', value:['Buy', 'Sell'], componentClass:'select'},
       {label:'OrderPrice', value:this.currentOrder.OrderPrice, componentClass:'text'},
@@ -164,6 +166,12 @@ class Order extends React.PureComponent {
 
     let toOpenClose = [{label:'ToOpenClose', value:['ToOpen', 'ToClose'], componentClass:'select'}];
     let accountTitle = this.state.selectedAccount ? this.state.selectedAccount.AccountId : 'Select Account';
+
+    let takeProfit = [{label:'OrderType', value:'Limit', componentClass:'text', readOnly:'true'},
+    {label:'TakeProfitPrice', value:this.currentOrder.OrderPrice, componentClass:'text'}];
+
+    let stopLoss = [{label:'OrderType', value:['Stop', 'Trailing Stop','Stop Limit'], componentClass:'select'},
+    {label:'StopLossPrice', value:this.currentOrder.OrderPrice, componentClass:'text'}];
     
     return (
       <div className='pad-box' >
@@ -189,6 +197,34 @@ class Order extends React.PureComponent {
                 { this.state.optionRoot &&
                   <FormGroupTemplate data = {toOpenClose} onChange={this.handleValueChange} />
                 }
+                <FormGroup>
+                  <div>
+                    <Button bsStyle="link" disabled={this.state.takeProfitOpen} onClick={ ()=> this.setState({ takeProfitOpen: !this.state.takeProfitOpen })}>
+                      Take Profit
+                    </Button>
+                    <Collapse in={this.state.takeProfitOpen}>
+                      <div>
+                        <Well>
+                            <FormGroupTemplate data = {takeProfit} onChange={this.handleValueChange} />
+                            <Button bsStyle='primary' onClick={ ()=> this.setState({ takeProfitOpen: !this.state.takeProfitOpen })}>Remove</Button>
+                        </Well>
+                      </div>
+                    </Collapse>
+                    </div>
+                    <div>
+                    <Button bsStyle="link" disabled={this.state.stopLossOpen} onClick={ ()=> this.setState({ stopLossOpen: !this.state.stopLossOpen })}>
+                      Stop Loss
+                    </Button>
+                    <Collapse in={this.state.stopLossOpen}>
+                      <div>
+                        <Well>
+                            <FormGroupTemplate data = {stopLoss} onChange={this.handleValueChange} />
+                            <Button bsStyle='primary' onClick={ ()=> this.setState({ stopLossOpen: !this.state.stopLossOpen })}>Remove</Button>
+                        </Well>
+                      </div>
+                    </Collapse>
+                </div>
+                </FormGroup>
                 <FormGroup bsSize='large'>
                   <Row><Col sm={3}>
                     <Button bsStyle='primary' block onClick={this.handlePlaceOrder}>Place Order</Button></Col>
