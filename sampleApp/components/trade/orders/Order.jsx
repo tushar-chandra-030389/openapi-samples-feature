@@ -188,7 +188,7 @@ class Order extends React.PureComponent {
           <Row>
             <Panel header='Order Details' className='panel-primary'>
               <Form>
-                <FormGroupTemplate readOnly="true" data = {symbolAssestTypeAskBid} onChange={this.handleValueChange} />
+                <FormGroupTemplate data = {symbolAssestTypeAskBid} onChange={this.handleValueChange} />
                 { this.state.optionRoot &&
                   <OptionInstrumentsTemplate optionRoot={this.state.optionRoot} onInstrumentSelected={this.handleInstrumentChange}  />
                 }

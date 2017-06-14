@@ -12,7 +12,7 @@ export default (props) => {
     )
   }
 
-  const getTextCtrl = (item) => <FormControl readOnly={props.readOnly} id={item.label} type='text' value={item.value} onChange={(event)=>props.onChange(event)} />
+  const getTextCtrl = (item) => <FormControl readOnly={item.readOnly} id={item.label} type='text' value={item.value} onChange={(event)=>props.onChange(event)} />
 
   return (
     <FormGroup>
