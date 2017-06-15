@@ -26,7 +26,6 @@ class InfoPrices extends React.PureComponent {
        new - initially set subscription undefined.
        existing - dont do anything we might already have subscription 
     */
-    this.selectedAssetTypes = {};
     if(!this.selectedAssetTypes[data.AssetType]) {
         this.selectedAssetTypes[data.AssetType] = { subscription: undefined };
     }
