@@ -33,7 +33,9 @@ class Instruments extends React.PureComponent {
     this.instruments = undefined;
     this.state = {
       hasInstruments: false,
-      optionRoot: undefined
+      optionRoot: undefined,
+      assetTypeTitle : 'Select AssetType',
+      title : ''
     };
   }
 
@@ -47,6 +49,7 @@ class Instruments extends React.PureComponent {
       this.props.onAssetTypeSelected(eventKey);
     }
 
+    this.setState({assetTypeTitle: eventKey});
     if(checkIfOption(eventKey) == true) {
       this.setState({ title: 'Select OptionRoot' }); 
     }
@@ -84,6 +87,7 @@ class Instruments extends React.PureComponent {
       else {
         this.getInstrumentDetails({ Uic: instrument.Identifier, AssetType: instrument.AssetType });
       }
+      this.setState({ title: instrument.Description }); 
   }
   
   getInstrumentDetails(instrumentDetailsRequestParams) {
@@ -114,7 +118,8 @@ class Instruments extends React.PureComponent {
           onAssetTypeChange={this.handleAssetTypeSelection} 
           instruments={this.instruments} 
           onInstrumentChange={this.handleInstrumentSelection}
-          title={this.state.title} >
+          title={this.state.title}
+          assetTypeTitle={this.state.assetTypeTitle} >
           {this.props.children}
         </Instrument>
         </Row>
