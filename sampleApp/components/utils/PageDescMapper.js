@@ -25,7 +25,7 @@ const PageDescMapper = {
   },
   orders: {
     title: 'Order',
-    desc: 'Describs about order placement',
+    desc: 'Describes about order placement for StandAlone, Related or 3-way Orders',
   },
   options: {
     title: 'Option Chain',
