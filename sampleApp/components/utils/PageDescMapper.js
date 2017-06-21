@@ -39,6 +39,10 @@ const PageDescMapper = {
     title: 'Chart Streaming',
     desc: ' Chart Streaming Data'
   },
+  onboarding:{
+    title: 'Onboarding',
+    desc: 'Onboarding Form'
+  }
 };
 
 export default PageDescMapper;

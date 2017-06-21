@@ -245,4 +245,37 @@ export default {
   formatPrice: (price, decimal, formatFlags) => {
     return DataService.formatPrice(price, decimal, formatFlags);
   },
+
+  //fetches user data from openapi/port/v1/users/me
+  getLoggedInUserDetails : (successCallback, errorCallback) => {
+    const data = {
+      method : 'get',
+      serviceGroup: 'port',
+      endPoint: 'v1/users/me',
+      queryParams: null,
+    };
+    return DataService.getData(data, successCallback, errorCallback);
+  },
+
+  signupUser : (params, successCallback, errorCallback) => {
+    const data = {
+      method : 'post',
+      serviceGroup : 'cm',
+      endPoint : 'v1/signups',
+      queryParams : null,
+      body : params
+    }
+    return DataService.getData(data, successCallback, errorCallback);
+  },
+
+  attachUserDocuments : (params, file, successCallback, errorCallback) => {
+    const data = {
+      method : 'post',
+      serviceGroup : 'cm',
+      endPoint : 'v1/signups/attachments',
+      queryParams : params,
+      body : file
+    }
+    return DataService.getData(data, successCallback, errorCallback);
+  }
 };

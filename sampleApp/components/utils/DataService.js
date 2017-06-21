@@ -3,7 +3,7 @@ import $ from '../../libs/jquery-3.1.1';
 import signalR from '../../libs/jquery.signalR-2.2.1';
 import sharedjs from '../../libs/iit-openapi';
 
-const transportUrl = 'https://gateway.saxobank.com/sim/openapi';
+const transportUrl = 'https://gateway.saxobank.com/sim/openapi';;
 const streamingUrl = 'https://streaming.saxotrader.com/sim/openapi';
 
 export default {

@@ -80,6 +80,7 @@ class Sidebar extends React.PureComponent {
               </ListGroup>
             </div>
           </Collapse>
+          <ListGroupItem href='#onboarding'> Onboarding </ListGroupItem>
         </ListGroup>
       </div>
     );
