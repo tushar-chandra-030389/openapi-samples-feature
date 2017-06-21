@@ -157,7 +157,7 @@ export default {
     const data = {
       method: 'post',
       serviceGroup: 'trade',
-      endPoint: 'v1/orders',
+      endPoint: 'v2/orders',
       queryParams: null,
       body: order,
     };
@@ -168,7 +168,7 @@ export default {
   createOrderSubscription: (subscriptionArgs, successCallback, errorCallback) => {
     const data = {
       serviceGroup: 'port',
-      endPoint: 'v1/orders/subscriptions',
+      endPoint: 'v2/orders/subscriptions',
       queryParams: subscriptionArgs,
     };
     return DataService.subscribe(data, successCallback, errorCallback);

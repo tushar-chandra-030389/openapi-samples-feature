@@ -41,9 +41,14 @@ class Order extends React.PureComponent {
          StandAlone     -   No relation to other order
       */
       OrderRelation: 'StandAlone',
-      ToOpenClose:'ToOpen'
+      ToOpenClose:'ToOpen',
+      Orders:[]
       // currently sample works for StandAlone orders only. Work to be done for other OrderRelations
     };
+
+    this.takeProfitPrice = 0.0;
+    this.stopLossPrice = 0.0;
+    this.stopLossOrderType = 'Stop';
 
     this.state = { 
       updated: false,
@@ -99,8 +104,47 @@ class Order extends React.PureComponent {
   }
 
   handlePlaceOrder() {
+    this.currentOrder.Orders = [];
+    if(this.state.takeProfitOpen) {
+      //Setup related order
+      var order = this.getRelatedOrder('Limit', this.takeProfitPrice )
+      this.currentOrder.Orders.push(order);
+    }
+
+    if(this.state.stopLossOpen) {
+      //Setup another related order
+      var order = this.getRelatedOrder(this.stopLossOrderType, this.stopLossPrice )
+      this.currentOrder.Orders.push(order);      
+    }
+
     API.placeOrder(this.currentOrder, this.onPlaceOrderCallBack.bind(this), this.onPlaceOrderCallBack.bind(this));
   }
+
+  getRelatedOrder(orderType, orderPrice) {
+    return {
+      Uic: this.currentOrder.Uic,
+      AssetType: this.currentOrder.AssetType,
+      OrderType: orderType,
+      OrderPrice: orderPrice,
+      OrderDuration: this.currentOrder.OrderDuration,
+      Amount: this.currentOrder.Amount,
+      AccountKey: this.currentOrder.AccountKey,
+      BuySell: this.currentOrder.BuySell === 'Buy'? 'Sell': 'Buy',
+      /* possible order relations
+         IfDoneMaster   -   If Done Orders is a combination of an entry order and conditional orders
+                            If the order is filled, then a (slave) stop loss, limit or trailing stop will automatically be attached to the new open position
+         IfDoneSlave    -   If Done Orders is a combination of an entry order and conditional orders
+                            If the order is filled, then a (slave) stop loss, limit or trailing stop will automatically be attached to the new open position
+         IfDoneSlaveOco -   Slave order with OCO. See OCO.
+         Oco            -   One-Cancels-the-Other Order (OCO). A pair of orders stipulating that if one order is executed, then the other order is automatically canceled
+         StandAlone     -   No relation to other order
+      */
+      OrderRelation: 'IfDoneMaster',
+      ToOpenClose:'ToClose',      
+    }
+  }
+
+
 
   onPlaceOrderCallBack(result) {
     this.setState({ responsData: result });
@@ -111,7 +155,6 @@ class Order extends React.PureComponent {
   }
 
   handleValueChange(event) {
-    debugger;
     let value = event.target.value;
     switch(event.target.id) {
       case 'BuySell':
@@ -135,6 +178,15 @@ class Order extends React.PureComponent {
         break;
       case 'OrderType':
         this.currentOrder.OrderType = value;
+        break;
+      case 'TakeProfitPrice':
+        this.takeProfitPrice = value;
+        break;
+      case 'StopLossPrice':
+        this.stopLossPrice = value;
+        break;
+      case 'StopLoss-OrderType':
+        this.stopLossOrderType = value;
         break;
     }
     this.setState({ updated: !this.state.updated });
@@ -167,11 +219,11 @@ class Order extends React.PureComponent {
     let toOpenClose = [{label:'ToOpenClose', value:['ToOpen', 'ToClose'], componentClass:'select'}];
     let accountTitle = this.state.selectedAccount ? this.state.selectedAccount.AccountId : 'Select Account';
 
-    let takeProfit = [{label:'OrderType', value:'Limit', componentClass:'text', readOnly:'true'},
-    {label:'TakeProfitPrice', value:this.currentOrder.OrderPrice, componentClass:'text'}];
+    let takeProfit = [{label:'TakeProfit-OrderType', value:'Limit', componentClass:'text', readOnly:'true'},
+    {label:'TakeProfitPrice', value:this.takeProfitPrice, componentClass:'text'}];
 
-    let stopLoss = [{label:'OrderType', value:['Stop', 'Trailing Stop','Stop Limit'], componentClass:'select'},
-    {label:'StopLossPrice', value:this.currentOrder.OrderPrice, componentClass:'text'}];
+    let stopLoss = [{label:'StopLoss-OrderType', value:['StopIfTraded', 'TrailingStopIfTraded','StopLimit'], componentClass:'select'},
+    {label:'StopLossPrice', value:this.stopLossPrice, componentClass:'text'}];
     
     return (
       <div className='pad-box' >
