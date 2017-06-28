@@ -22,18 +22,15 @@ class InfoPrices extends React.PureComponent {
   }
 
   handleUpdateInstrumentData(data) {
-    /* check assetType selection
-       new - initially set subscription undefined.
-       existing - dont do anything we might already have subscription 
+    /* 
+      reset selectedAssetTypes and then set it to assetType of data
     */
-    if(!this.selectedAssetTypes[data.AssetType]) {
-        this.selectedAssetTypes[data.AssetType] = { subscription: undefined };
-    }
-    // for existing instruments, dont do anything we might already have subscription
+    this.selectedAssetTypes = {};
+    this.selectedAssetTypes[data.AssetType] = { subscription: undefined };
+    // reset selectedInstruments and then set it to data
     this.selectedInstruments = {};
-    if(!this.selectedInstruments[data.Uic]) {
-      this.selectedInstruments[data.Uic] = data;
-    }
+    this.selectedInstruments[data.Uic] = data;
+
     this.setState({ flag: !this.state.flag });
   }
 

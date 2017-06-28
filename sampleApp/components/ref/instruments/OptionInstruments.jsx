@@ -13,6 +13,7 @@ class OptionInstruments extends React.PureComponent {
   }
 
   handleOptionRoot(optionRoot) {
+    console.log("optionRoot", optionRoot);
     this.setState({ optionRoot: optionRoot });
   }
 

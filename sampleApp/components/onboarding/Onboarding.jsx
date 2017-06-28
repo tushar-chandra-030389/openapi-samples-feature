@@ -1,84 +1,18 @@
 import React from 'react';
 import { bindHandlers } from 'react-bind-handlers';
 import { forEach, find } from 'lodash';
-import OnboardingTemplate from './OnboardingTemplate';
-import OnboardingUserTemplate from './OnboardingUserTemplate';
+import OnboardingUserSignup from './OnboardingUserSignup';
+import OnboardingAttachDocuments from './OnboardingAttachDocuments';
 import API from './../utils/API';
 import Loader from '../utils/Loader';
+import RequestParams from '../utils/RequestParams';
+
 class Onboarding extends React.PureComponent {
 	constructor (props) {
 		super();
-    this.signupRequestParams = {
-			AccountInformation : {
-				CurrencyCode: "test",
-  				IntendedCommissionGroupId: "test",
-  				IntendedTemplateId: "test",
-  				OtherInstructions: "test"
-			},
-			PersonalInformation : {
-				CityOfBirth: "test",
-  				ContactInformation: {
-    				EmailAddress: "test",
-    				PrimaryPhoneNumber: {
-      					CountryCode: "test",
-      					Number: "test"
-    				},
-    				SecondaryPhoneNumber: {
-      					CountryCode: "test",
-      					Number: "test"
-    				}	
-  				},
-  				EmploymentInformation: {
-    				EmployerName: "test",
-    				OccupationTypes: [
-      					"test"
-    				],
-    				Position: "test"
-  				},
-  				FirstName: "test",
-  				LastName: "test",
-  				ResidentialAddress: {
-    				BuildingName: "test",
-    				BuildingNumber: "test",
-    				City: "test",
-    				CountryOfResidenceCode: "test",
-    				PostalCode: "test",
-    				State: "test",
-    				StreetName: "test"
-  				},
-  				ServiceLanguageCode: "test"
-			},
-			ProfileInformation : {
-				AnnualIncomeInformation: {
-    				AnnualSalaryAfterTax: "test",
-    				SecondarySourcesOfIncome: [
-      					"test"
-    				],
-   		 			SecondarySourcesOfIncomeTotal: "test"
-  				},
-  				InvestableAssets: {
-    				IntendToInvest: "test",
-    				PrimarySourcesOfWealth: [
-      					"test"
-    				],
-    				ValueOfCashAndSecurities: "test"
- 				 }	
-			},
-			RegulatoryInformation : {
-				FatcaDeclaration: {
-    				UnitedStatesCitizen: true,
-    				UnitedStatesTaxId: "test",
-    				UnitedStatesTaxLiable: false
-  				}
-			}
-		};
+    this.onboardingUserRequestParams = RequestParams.onboardingUserRequestParamaters;
 
-    this.attachUserDocumentsParams = {
-        DocumentType : 'test',
-        RenewalDate : '',
-        SignUpId : '',
-        Title : ''
-    }
+    this.attachUserDocumentsParams = RequestParams.attachUserDocumentsParameters;
 
     this.state = {
       userDetailsSubmitted : false,
@@ -91,13 +25,12 @@ class Onboarding extends React.PureComponent {
 		
 	}
 
-  populateSignUpRequestParams(data) {
-    this.signupRequestParams.PersonalInformation.FirstName = data.FirstName;
-    this.signupRequestParams.PersonalInformation.LastName = data.lastName;
-    this.signupRequestParams.PersonalInformation.ContactInformation.PrimaryPhoneNumber.Number = data.primaryPhoneNumber;
-    this.signupRequestParams.PersonalInformation.ContactInformation.SecondaryPhoneNumber.Number = data.secondaryPhoneNumber;
-    this.signupRequestParams.PersonalInformation.ContactInformation.EmailAddress = data.email;
-
+  populateonboardingUserRequestParams(data) {
+    this.onboardingUserRequestParams.PersonalInformation.FirstName = data.FirstName;
+    this.onboardingUserRequestParams.PersonalInformation.LastName = data.lastName;
+    this.onboardingUserRequestParams.PersonalInformation.ContactInformation.PrimaryPhoneNumber.Number = data.primaryPhoneNumber;
+    this.onboardingUserRequestParams.PersonalInformation.ContactInformation.SecondaryPhoneNumber.Number = data.secondaryPhoneNumber;
+    this.onboardingUserRequestParams.PersonalInformation.ContactInformation.EmailAddress = data.email;
     // TODO : fill request param using a map
   }
 
@@ -116,14 +49,17 @@ class Onboarding extends React.PureComponent {
   errorCallback(){
     this.setState({showLoader : false});
     alert("Error in submitting form");
+
+    this.clearForm();
   }
 
   submitUserDetailsHandler(data){
 		console.log("In handler")
 		console.log(data);
     this.setState({showLoader : true});
-    /*this.populateSignUpRequestParams(data);*/
-    API.signupUser(this.signupRequestParams, this.submitUserDetailsSuccessCallback.bind(this), this.errorCallback.bind(this));
+
+    /*this.populateonboardingUserRequestParams(data);*/
+    API.signupUser(this.onboardingUserRequestParams, this.submitUserDetailsSuccessCallback.bind(this), this.errorCallback.bind(this));
     this.setState({userDetailsSubmitted : true})
 
 	}
@@ -133,33 +69,34 @@ class Onboarding extends React.PureComponent {
   attachUserDocumentSuccessCallback(data){
     this.setState({showLoader : false});
     alert("Successfully attched data");
+    this.forceUpdate();
   }
 
   attachAndFinalizeUserDocumentsSuccessCallback(data){
     this.setState({showLoader : false});
     alert("successfully uploaded all tha data.");
+
+    //TODO : return to home page
   }
 
-  submitUserDetailsDocumentsHandler(data) {
-      console.log("In attach document handler");
-      console.log(data);
+  attachDocumentsSubmitHandler(data,finalize) {
       this.setState({showLoader : true});
       this.populateAttachDocumentRequestParams(data);
-      API.attachUserDocuments(this.attachUserDocumentsParams, data.document,this.attachUserDocumentSuccessCallback.bind(this), this.errorCallback.bind(this));
+      var successCallback = finalize ? this.attachUserDocumentSuccessCallback.bind(this) : this.attachAndFinalizeUserDocumentsSuccessCallback.bind(this);     
+      API.attachUserDocuments(this.attachUserDocumentsParams, data.document, successCallback, this.errorCallback.bind(this));
   }
 
-  submitAndFinalizeUserDetailsDocumentsHandler(data) {
-    this.populateAttachDocumentRequestParams(data);
-    API.attachUserDocuments(this.attachUserDocumentsParams, data.document, this.attachAndFinalizeUserDocumentsSuccessCallback.bind(this), this.errorCallback.bind(this));
+  clearForm(){
+    document.getElementById("resetId").click();
   }
 
-  
+
 
   renderOnboardingForm(){
     if(this.state.userDetailsSubmitted){
-      return <OnboardingUserTemplate submitUserDetailsDocuments={this.submitUserDetailsDocumentsHandler.bind(this)} submitAndFinalizeUserDetailsDocumentsHandler = {this.submitAndFinalizeUserDetailsDocumentsHandler.bind(this)}/>
+      return <OnboardingAttachDocuments attachDocumentsSubmitHandler={this.attachDocumentsSubmitHandler.bind(this)}/>
     }else{
-      return <OnboardingTemplate submitUserDetailsHandler = {this.submitUserDetailsHandler.bind(this)}/>
+      return <OnboardingUserSignup submitUserDetailsHandler = {this.submitUserDetailsHandler.bind(this)}/>
     }
   }
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { bindHandlers } from 'react-bind-handlers';
 import { ButtonToolbar,Row } from 'react-bootstrap';
+import { indexOf } from 'lodash';
 import { noop } from 'lodash';
 import refDataAPI from '../refDataAPI';
 import Instrument from './InstrumentTemplates'
@@ -13,7 +14,7 @@ const AllAssetTypes = [
   'StockOption', 'StockIndexOption', 'FuturesOption',
   'FxVanillaOption', 'FxKnockInOption', 'FxKnockOutOption', 'FxOneTouchOption', 'FxNoTouchOption'];
 
-const checkIfOption = (assetType) => assetType === 'FuturesOption' || assetType === 'StockOption' || assetType === 'StockIndexOption';
+const checkIfOption = (assetType) => { let index = indexOf(['StockOption', 'StockIndexOption', 'FuturesOption', 'FxVanillaOption', 'FxKnockInOption', 'FxKnockOutOption', 'FxOneTouchOption', 'FxNoTouchOption'], assetType); return index !== -1};
 
 class Instruments extends React.PureComponent {
   constructor(props) {
@@ -82,6 +83,7 @@ class Instruments extends React.PureComponent {
          false : get instrument details.
       */
       if(checkIfOption(instrument.AssetType) == true) {
+        console.log("optionSelected", instrument);
         this.props.onOptionRootSelected(instrument);
       }
       else {

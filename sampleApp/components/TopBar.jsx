@@ -16,7 +16,7 @@ function TopBar() {
             <Link to='home'>ACCESS TOKEN</Link>
           </NavItem>
           <Navbar.Brand className='pull-topbar-right'>
-            <a href='https://developer.saxobank.com/sim/openapi/portal/'
+            <a href='https://www.developer.saxo/'
               target='_blank'>
               Developer's Portal
             </a>

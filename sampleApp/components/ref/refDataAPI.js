@@ -31,7 +31,7 @@ export default {
     const data = {
       method: 'get',
       serviceGroup: 'ref',
-      endPoint: 'v1/instruments/contractoptionspaces/{OptionRootId}',
+      endPoint: 'v1/instruments/contractoptionspaces',
       queryParams: {OptionRootId: rootId},
     };
     DataService.getData(data, successCallback, errorCallback);

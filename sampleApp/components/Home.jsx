@@ -56,7 +56,7 @@ class Home extends React.PureComponent {
         <h2>
           <small>Please copy authorization token from
             <a
-              href='https://developer.saxobank.com/sim/openapi/portal/'
+              href='https://www.developer.saxo/'
               target='_blank'>
               Developer's Portal
             </a>.

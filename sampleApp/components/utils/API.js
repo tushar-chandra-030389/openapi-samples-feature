@@ -277,5 +277,15 @@ export default {
       body : file
     }
     return DataService.getData(data, successCallback, errorCallback);
+  },
+
+  getAccountOverview : (successCallback, errorCallback) => {
+    const data = {
+      method : 'get',
+      serviceGroup : 'port',
+      endPoint : 'v1/balances/me',
+      queryParams : null,
+    }
+      return DataService.getData(data, successCallback, errorCallback);
   }
 };

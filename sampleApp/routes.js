@@ -13,6 +13,8 @@ import ClientPortfolio from './components/portfolio/clientPortfolio/ClientPortfo
 import ChartPolling from './components/chart/chartPolling/ChartPolling';
 import ChartStreaming from './components/chart/chartStreaming/ChartStreaming';
 import Onboarding from './components/onboarding/Onboarding';
+import AccountOverview from './components/portfolio/AccountOverview';
+
 
 const Routes = () => (
   <Router history={hashHistory}>
@@ -26,6 +28,7 @@ const Routes = () => (
       <Route path="orders" component={Order} />
       <Route path="instruments" component={Instruments} />
       <Route path="clientPortfolio" component={ClientPortfolio} />
+      <Route path="accountOverview" component={AccountOverview} />
       <Route path="chartPolling" component={ChartPolling} />
       <Route path="chartStreaming" component={ChartStreaming} />
       <Route path="onboarding" component={Onboarding} />

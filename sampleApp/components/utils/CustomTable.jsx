@@ -91,7 +91,6 @@ class CustomTable extends React.Component {
   }
 
   render() {
-    console.log("DATA",this.data);
     return (
       <div>
         {!isEmpty(this.data) && (<BootstrapTable data={this.data} striped condensed hover>

@@ -23,6 +23,10 @@ const PageDescMapper = {
     title: 'Orders/Positions',
     desc: 'Shows only end points serving orders and positions',
   },
+  accountOverview: {
+    title : 'Account Overview',
+    desc : 'Shows the account overview like Cash and positions, Available cash. '
+  },
   orders: {
     title: 'Order',
     desc: 'Describes about order placement for StandAlone, Related or 3-way Orders',
