@@ -7,7 +7,7 @@ export default (props) => {
 	return (
 		<div>
 			<Row>
-				<Column size={10} header='Client Info: openapi/port/v1/clients/me' data={props.userData} />
+				<Column size={10} header='Client Info: openapi/port/v1/users/me' data={props.userData} />
 			</Row>
 		</div>
 	);

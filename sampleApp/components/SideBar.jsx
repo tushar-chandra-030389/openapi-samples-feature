@@ -63,7 +63,7 @@ class Sidebar extends React.PureComponent {
             <div>
               <ListGroup className = 'sidebar-navs'>
                 <ListGroupItem href = '#clientPortfolio'> Client Portfolio </ListGroupItem>
-                <ListGroupItem href = '#accountOverview'> Account Overview </ListGroupItem>
+                {/*<ListGroupItem href = '#accountOverview'> Account Overview </ListGroupItem>*/}
               </ListGroup>
             </div>
           </Collapse>

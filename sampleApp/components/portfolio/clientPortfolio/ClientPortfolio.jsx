@@ -13,7 +13,11 @@ class ClientPortfolio extends React.PureComponent {
 		this.state = {
 			clientName: '',
 			currentAccountId: '',
-			accountUpdated: false
+			accountUpdated: false,
+			flag :false,
+			clientKey : '',
+			accountKey : '',
+			accountGroupKey : ''
 		};
 		this.accounts = [];
 		this.currentAccountInformation = {};
@@ -25,17 +29,32 @@ class ClientPortfolio extends React.PureComponent {
 
 	handleAccountSelection(eventKey, key) {
 		this.currentAccountInformation = find(this.accountsInfo, (account) => account.AccountId === eventKey);
+		let balanceInfoQueryParams = {
+			ClientKey : this.currentAccountInformation.ClientKey,
+			AccountGroupKey : this.currentAccountInformation.AccountGroupKey,
+			AccountKey : this.currentAccountInformation.AccountKey
+		}
+		API.getBalancesInfo(balanceInfoQueryParams, this.handleBalanceInfo);
 		this.setState({
-			currentAccountId: eventKey
+			currentAccountId: eventKey,
+			accountkey : this.currentAccountInformation.AccountKey,
+			accountGroupKey : this.currentAccountInformation.AccountGroupKey
 		});
 	}
 
 	handleClientAccounts(response) {
 		this.clientInformation = response;
 		API.getAccountInfo(this.handleAccountInfo);
+		let balanceInfoQueryParams = {
+			ClientKey :  this.clientInformation.ClientKey,
+			AccountKey : this.clientInformation.DefaultAccountKey
+		}
+		API.getBalancesInfo(balanceInfoQueryParams, this.handleBalanceInfo);
 		this.setState({
 			clientName: response.Name,
-			currentAccountId: response.DefaultAccountId
+			currentAccountId: response.DefaultAccountId,
+			clientKey : response.ClientKey,
+			accountKey : response.DefaultAccountKey
 		});
 	}
 
@@ -49,6 +68,29 @@ class ClientPortfolio extends React.PureComponent {
 		});
 	}
 
+	handleBalanceInfo(response) {
+		this.getBalanceInfoObjectFromResponse(response);
+		this.setState({flag : !this.state.flag});
+	}
+
+	getBalanceInfoObjectFromResponse(response) {
+		this.balancesInfo = {
+			'Cash balance' : response.CashBalance,
+			'Transactions not booked' : response.TransactionsNotBooked,
+			'Value of stocks, ETFs, bounds' : response.NonMarginPositionsValue,
+			'P/L of margin positions' : response.UnrealizedMarginProfitLoss,
+			'Cost to close' : response.CostToClosePositions,
+			'Value of positions' : response.NonMarginPositionsValue + response.UnrealizedMarginProfitLoss + response.CostToClosePositions + (response.OptionPremiumsMarketValue || 0),
+			'Account value' : response.TotalValue,
+			'Not available as margin collateral' : response.MarginCollateralNotAvailable,
+			'Reserved for margin positions' : response.MarginUsedByCurrentPositions,
+			'Margin available' : response.MarginAvailableForTrading,
+			'Margin uitilisation' : response.MarginUtilizationPct,
+			'Net exposure' : response.MarginNetExposure,
+			'Exposure coverage' : response.MarginExposureCoveragePct
+		}
+	}
+
 	render() {
 		return (
 			<div className='pad-box'>
@@ -56,6 +98,7 @@ class ClientPortfolio extends React.PureComponent {
 					clientInformation = {this.clientInformation}
 					state={this.state} accounts={this.accounts}
 					currentAccountInfo = {this.currentAccountInformation}
+					balancesInfo = {this.balancesInfo}
 					onAccountSelection ={this.handleAccountSelection} />
 				<Row>
 					<Col sm={10}>

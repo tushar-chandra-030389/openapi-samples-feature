@@ -279,13 +279,24 @@ export default {
     return DataService.getData(data, successCallback, errorCallback);
   },
 
-  getAccountOverview : (successCallback, errorCallback) => {
+  getBalancesInfo : (params, successCallback, errorCallback) => {
     const data = {
       method : 'get',
       serviceGroup : 'port',
-      endPoint : 'v1/balances/me',
-      queryParams : null,
+      endPoint : 'v1/balances',
+      queryParams : params
     }
       return DataService.getData(data, successCallback, errorCallback);
+  },
+
+  getAllBalancesInfo : (successCallback, errorCallback) => {
+    const data = {
+      method : 'get',
+      serviceGroup :'port',
+      endPoint :'v1/balances/me',
+      queryParams : null
+    }
+
+    return DataService.getData(data, successCallback, errorCallback);
   }
 };

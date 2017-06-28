@@ -13,7 +13,7 @@ class AccountOverview extends React.PureComponent {
 	}
 
 	componentWillMount() {
-		API.getAccountOverview(this.handleClientAccounts);
+		API.getAllBalancesInfo(this.handleClientAccounts);
 	}
 
 	handleClientAccounts(result) {
