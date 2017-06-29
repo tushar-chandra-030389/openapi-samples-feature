@@ -25,6 +25,9 @@ class OptionInstruments extends React.PureComponent {
     if(!checkIfOption(assetType)) {
       this.setState({ optionRoot: undefined,
         instrumentDetails: undefined});
+    }else{
+      this.setState({ optionRoot : assetType,
+        instrumentDetails : undefined});
     }
   }
 

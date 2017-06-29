@@ -14,7 +14,7 @@ const AllAssetTypes = [
   'StockOption', 'StockIndexOption', 'FuturesOption',
   'FxVanillaOption', 'FxKnockInOption', 'FxKnockOutOption', 'FxOneTouchOption', 'FxNoTouchOption'];
 
-const checkIfOption = (assetType) => { let index = indexOf(['StockOption', 'StockIndexOption', 'FuturesOption', 'FxVanillaOption', 'FxKnockInOption', 'FxKnockOutOption', 'FxOneTouchOption', 'FxNoTouchOption'], assetType); return index !== -1};
+const checkIfOption = (assetType) => { let index = indexOf(['StockOption', 'StockIndexOption', 'FuturesOption'], assetType); return index !== -1};
 
 class Instruments extends React.PureComponent {
   constructor(props) {

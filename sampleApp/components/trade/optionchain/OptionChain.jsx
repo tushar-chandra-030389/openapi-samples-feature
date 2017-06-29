@@ -2,10 +2,11 @@ import React from 'react';
 import { bindHandlers } from 'react-bind-handlers';
 import SearchInput from 'react-search-input';
 import { InputGroup, ListGroupItem, ListGroup } from 'react-bootstrap';
-import { map } from 'lodash';
+import { map, groupBy } from 'lodash';
 import $ from '../../../libs/jquery-3.1.1';
-import CustomTable from '../../utils/CustomTable'
+import CustomTable from '../../utils/CustomTable';
 import API from '../../utils/API';
+import OptionChainTemplate from './OptionChainTemplate';
 
 class OptionChain extends React.PureComponent {
   constructor(props) {
@@ -42,11 +43,16 @@ class OptionChain extends React.PureComponent {
     this.items = [];
     this.underlyingInstr = [];
     this.optionRootData = result;
+    map(this.optionRootData.OptionSpace,(data) => {
+      data.ModifiedSpecificOptions = groupBy(data.SpecificOptions, (optns) => {
+        return optns.StrikePrice;
+      })
+    });
     API.getInstrumentDetails({
       AssetType: result.AssetType,
       Uic: result.DefaultOption.Uic,
     }, this.handleInstrDetailsSuccess,
-     result => console.log(result),
+     result => console.log(this.result),
     );
     this.setState({
       hasOptionRoots: false,
@@ -97,11 +103,8 @@ class OptionChain extends React.PureComponent {
         { map(this.optionRootData.OptionSpace, item => (
           <div className='pad-box'>
             <h4><u>{item.Expiry}</u></h4>
-            <CustomTable
-              data={item.SpecificOptions}
-              keyField='Uic'
-              dataSortFields={['PutCall', 'Uic']}
-              width={'150'} />
+            <OptionChainTemplate
+              data={item.ModifiedSpecificOptions} />
           </div>)
         )}
 

@@ -35,6 +35,7 @@ export default {
       queryParams: {
         AssetType: instrumentData.AssetType,
         Uic: instrumentData.Uic,
+        ExpiryDate: instrumentData.ExpiryDate,
         FieldGroups: [
           'DisplayAndFormat',
           'InstrumentPriceDetails',

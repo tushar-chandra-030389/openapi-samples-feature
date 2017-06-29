@@ -17,6 +17,7 @@ class InfoPrices extends React.PureComponent {
     API.getInfoPrices({
       AssetType: instrument.AssetType,
       Uic: instrument.Uic,
+      ExpiryDate : instrument.FxForwardMinForwardDate
     }, this.handleUpdateInstrumentData,
     result => console.log(result));
   }
