@@ -14,10 +14,12 @@ class InfoPrices extends React.PureComponent {
   }
 
   handleInstrumentSelected(instrument) {
+    let expiry =  instrument.Expiry ? instrument.Expiry : instrument.FxForwardMaxForwardDate;
     API.getInfoPrices({
       AssetType: instrument.AssetType,
       Uic: instrument.Uic,
-      ExpiryDate : instrument.FxForwardMinForwardDate
+      ExpiryDate : expiry,
+      PutCall : instrument.PutCall
     }, this.handleUpdateInstrumentData,
     result => console.log(result));
   }
@@ -105,7 +107,7 @@ class InfoPrices extends React.PureComponent {
     // concatinate uics
     let uics = this.getUics(forAssetType);
     API.getInfoPricesList({ Uics: uics, AssetType: forAssetType }, this.onPriceUpdate.bind(this));
-  }
+}
 
   // UI - required for UI to enable/disable function
   hasSubscription() {

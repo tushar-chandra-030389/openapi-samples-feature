@@ -42,6 +42,7 @@ class OptionChain extends React.PureComponent {
   handleOptionDataSuccess(result) {
     this.items = [];
     this.underlyingInstr = [];
+    this.setState({hasUnderLying: false});
     this.optionRootData = result;
     map(this.optionRootData.OptionSpace,(data) => {
       data.ModifiedSpecificOptions = groupBy(data.SpecificOptions, (optns) => {

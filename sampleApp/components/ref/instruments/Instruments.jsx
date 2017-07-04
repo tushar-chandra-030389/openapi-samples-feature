@@ -83,7 +83,6 @@ class Instruments extends React.PureComponent {
          false : get instrument details.
       */
       if(checkIfOption(instrument.AssetType) == true) {
-        console.log("optionSelected", instrument);
         this.props.onOptionRootSelected(instrument);
       }
       else {

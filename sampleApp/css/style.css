@@ -172,3 +172,8 @@
 .static-modal {
   width: 40%;
 }
+
+.option-chain-panel {
+  height: 215px;
+  overflow-y: scroll;
+}

@@ -35,5 +35,15 @@ export default {
       queryParams: {OptionRootId: rootId},
     };
     DataService.getData(data, successCallback, errorCallback);
+  },
+
+  getOptionChain: (OptionRootId, successCallback, errorCallback) => {
+    const data = {
+      method: 'get',
+      serviceGroup: 'ref',
+      endPoint: 'v1/instruments/contractoptionspaces/'+OptionRootId,
+      queryParams: null
+    };
+    DataService.getData(data, successCallback, errorCallback);
   }
 };

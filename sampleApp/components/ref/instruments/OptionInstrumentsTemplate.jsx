@@ -39,7 +39,7 @@ class OptionInstrumentsTemplate extends React.PureComponent {
   getOptionRootData(optionRoot) {
     this.selectedOptionRoot = optionRoot
     // OptionRoot information - please get underlying instruments from OptionRootId. e.g instrumentInfo.Identifier
-    refDataAPI.getOptionRootData(this.selectedOptionRoot.Identifier, this.onSuccess.bind(this));
+    refDataAPI.getOptionChain(this.selectedOptionRoot.Identifier, this.onSuccess.bind(this));
   }
 
   onSuccess(response) {

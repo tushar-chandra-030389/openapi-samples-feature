@@ -3,6 +3,7 @@ import { bindHandlers } from 'react-bind-handlers';
 import { isEmpty, isEqual, merge } from 'lodash';
 import API from '../utils/API';
 import CustomTable from '../utils/CustomTable';
+import CustomTableForPositions from '../utils/CustomTableForPositions';
 
 class TradeSubscriptions extends React.PureComponent {
   constructor(props) {
@@ -72,11 +73,16 @@ class TradeSubscriptions extends React.PureComponent {
 
   render() {
     return (
-      <CustomTable
+      <div>
+      {
+        this.props.tradeType !== 'NetPosition'? <CustomTable
         data = { this.trades }
         keyField = { this.tradeTypeId }
         dataSortFields = { ['{this.tradeTypeId}'] }
-        width = {'150'} />
+        width = {'150'} /> : 
+        <CustomTableForPositions data={this.trades} />
+      }
+      </div>
     )
   }
 }

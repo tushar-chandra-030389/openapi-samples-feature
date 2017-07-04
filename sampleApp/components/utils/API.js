@@ -36,6 +36,7 @@ export default {
         AssetType: instrumentData.AssetType,
         Uic: instrumentData.Uic,
         ExpiryDate: instrumentData.ExpiryDate,
+        PutCall: instrumentData.PutCall,
         FieldGroups: [
           'DisplayAndFormat',
           'InstrumentPriceDetails',
