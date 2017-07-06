@@ -12,7 +12,7 @@ const AllAssetTypes = [
   'CfdOnFutures', 'CfdOnIndex', 'CfdOnStock',
   'ContractFutures', 'FuturesStrategy',
   'StockOption', 'StockIndexOption', 'FuturesOption',
-  'FxVanillaOption', 'FxKnockInOption', 'FxKnockOutOption', 'FxOneTouchOption', 'FxNoTouchOption'];
+  'FxVanillaOption', 'FxOneTouchOption', 'FxNoTouchOption'];
 
 const checkIfOption = (assetType) => { let index = indexOf(['StockOption', 'StockIndexOption', 'FuturesOption'], assetType); return index !== -1};
 
