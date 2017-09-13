@@ -1,19 +1,25 @@
 import React from 'react';
 import { render } from 'react-dom';
-// import { Router, Route, hashHistory, IndexRedirect } from 'react-router';
-// import App from './modules/app/app';
-// import Introduction from './modules/introduction/Introduction';
-// import Home from './components/Home';
-// import InfoPrices from './components/trade/infoprices/InfoPrices';
-// import Prices from './components/trade/prices/Prices';
-// import OptionChain from './components/trade/optionchain/OptionChain';
-// import Order from './components/trade/orders/Order';
-// import Instruments from './components/ref/instruments/InstrumentDetails';
-// import ClientPortfolio from './components/portfolio/clientPortfolio/ClientPortfolio';
-// import ChartPolling from './components/chart/chartPolling/ChartPolling';
-// import ChartStreaming from './components/chart/chartStreaming/ChartStreaming';
-// import Onboarding from './components/onboarding/Onboarding';
-// import AccountOverview from './components/portfolio/AccountOverview';
+import { HashRouter as Router, Route, Switch } from 'react-router-dom';
+
+// components
+import App from './modules/app';
+
+
+/*import { Router, Route, hashHistory, IndexRedirect } from 'react-router';
+import App from './modules/app/app';
+import Introduction from './modules/introduction/Introduction';
+import Home from './components/Home';
+import InfoPrices from './components/trade/infoprices/InfoPrices';
+import Prices from './components/trade/prices/Prices';
+import OptionChain from './components/trade/optionchain/OptionChain';
+import Order from './components/trade/orders/Order';
+import Instruments from './components/ref/instruments/InstrumentDetails';
+import ClientPortfolio from './components/portfolio/clientPortfolio/ClientPortfolio';
+import ChartPolling from './components/chart/chartPolling/ChartPolling';
+import ChartStreaming from './components/chart/chartStreaming/ChartStreaming';
+import Onboarding from './components/onboarding/Onboarding';
+import AccountOverview from './components/portfolio/AccountOverview';*/
 
 
 /*const Routes = () => (
@@ -35,4 +41,12 @@ import { render } from 'react-dom';
     </Route>
   </Router>
 );*/
-render(<h1>Test</h1>, document.getElementById('container'));
+
+const Routes = () => (
+    <div>
+        <Router>
+            <Route exact path="/" component={App} />
+        </Router>
+    </div>
+);
+render(<Routes/>, document.getElementById('container'));
