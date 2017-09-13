@@ -1,25 +1,13 @@
-const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
-const CODE = __dirname+'/sampleApp';
 
 module.exports = {
-
   devtool: 'eval',
-
-  entry: fs.readdirSync(CODE).reduce(function (entries, dir) {
-    if (isDirectory(path.join(CODE, dir)))
-      entries[dir] = path.join(CODE, 'routes.js');
-    return entries;
-  }, {}),
-
+  entry: path.join(__dirname, 'src', 'js', 'routes.jsx'),
   output: {
-    path: 'sampleApp/__build__',
-    filename: 'routes.js',
-    chunkFilename: '[id].chunk.js',
-    publicPath: '/__build__/'
+    path: path.resolve(__dirname, 'src', 'build') ,
+    filename: 'index.js'
   },
-
   module: {
     loaders: [
       { test: /\.json$/, loader: 'json-loader' },
@@ -34,17 +22,11 @@ module.exports = {
       }
     ]
   },
-
   plugins: [
-    new webpack.optimize.CommonsChunkPlugin('shared.js')
+    // new webpack.optimize.CommonsChunkPlugin('shared.js')
   ],
   resolve: {
-    extensions: ['', '.js', '.jsx']
+    extensions: ['.js', '.jsx']
   },
-
 };
-
-function isDirectory(dir) {
-  return fs.lstatSync(dir).isDirectory();
-}
 

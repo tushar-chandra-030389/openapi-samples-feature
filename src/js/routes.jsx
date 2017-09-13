@@ -1,8 +1,8 @@
 import React from 'react';
 import { render } from 'react-dom';
 // import { Router, Route, hashHistory, IndexRedirect } from 'react-router';
-import App from './app';
-import Introduction from './components/Introduction';
+// import App from './modules/app/app';
+// import Introduction from './modules/introduction/Introduction';
 // import Home from './components/Home';
 // import InfoPrices from './components/trade/infoprices/InfoPrices';
 // import Prices from './components/trade/prices/Prices';
@@ -16,13 +16,13 @@ import Introduction from './components/Introduction';
 // import AccountOverview from './components/portfolio/AccountOverview';
 
 
-const Routes = () => (
+/*const Routes = () => (
   <Router history={hashHistory}>
     <Route path="/" component={App}>
       <IndexRedirect to="/intro" />
-      {/* <Route path="home" component={Home} /> */}
-      {/* <Route path="intro" component={Introduction} /> */}
-      {/* <Route path="infoPrices" component={InfoPrices} />
+      <Route path="home" component={Home} />
+      <Route path="intro" component={Introduction} />
+      <Route path="infoPrices" component={InfoPrices} />
       <Route path="prices" component={Prices} />
       <Route path="options" component={OptionChain} />
       <Route path="orders" component={Order} />
@@ -31,8 +31,8 @@ const Routes = () => (
       <Route path="accountOverview" component={AccountOverview} />
       <Route path="chartPolling" component={ChartPolling} />
       <Route path="chartStreaming" component={ChartStreaming} />
-      <Route path="onboarding" component={Onboarding} /> */}
+      <Route path="onboarding" component={Onboarding} />
     </Route>
   </Router>
-);
-render(<Routes />, document.getElementById('container'));
+);*/
+render(<h1>Test</h1>, document.getElementById('container'));
