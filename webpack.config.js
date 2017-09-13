@@ -2,7 +2,6 @@ const path = require('path');
 const webpack = require('webpack');
 
 module.exports = {
-  devtool: 'eval',
   entry: path.join(__dirname, 'src', 'js', 'routes.jsx'),
   output: {
     path: path.resolve(__dirname, 'src', 'build') ,
