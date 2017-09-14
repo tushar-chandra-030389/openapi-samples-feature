@@ -9,10 +9,12 @@
   "author": "SaxoBank",
   "dependencies": {
     "bootstrap": "^3.3.7",
+    "classnames": "^2.2.5",
     "flat": "^4.0.0",
     "immutability-helper": "^2.3.1",
     "lodash": "^4.17.4",
     "moment": "^2.18.1",
+    "prop-types": "^15.5.10",
     "react": "^15.6.1",
     "react-bind-handlers": "^1.0.5",
     "react-bootstrap": "^0.31.3",

@@ -41,7 +41,7 @@ module.exports = {
     // new webpack.optimize.CommonsChunkPlugin('shared.js')
   ],
   resolve: {
-    extensions: ['.js', '.jsx']
+    extensions: ['.js', '.jsx', '.json']
   },
 };
 
