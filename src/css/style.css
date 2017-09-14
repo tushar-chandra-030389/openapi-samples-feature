@@ -82,10 +82,6 @@
   color: red;
 }
 
-.pull-topbar-right {
-  margin-left: 100px !important;
-}
-
 .search-input input {
   width: 20%;
   font-size: 18px;
@@ -170,10 +166,13 @@
 }
 
 .static-modal {
-  width: 40%;
+  width: 40%; 
 }
 
 .option-chain-panel {
   height: 215px;
   overflow-y: scroll;
+}
+.topBar .container{
+  width:auto;
 }
