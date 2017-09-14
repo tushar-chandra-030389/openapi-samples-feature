@@ -24,11 +24,9 @@ class Accordion extends React.Component {
                     <Glyphicon className='glyph pull-right' glyph={glyph} />
                 </ListGroupItem>
                 <Collapse in={this.state.isOpen}>
-                    <div>
-                        <ListGroup className='sidebar-navs'>
-                            { _.map(body, (item) => <ListGroupItem key={item.title} href={item.url}>{item.title}</ListGroupItem>) }
-                        </ListGroup>
-                    </div>
+                    <ListGroup className='sidebar-navs'>
+                        { _.map(body, (item) => <ListGroupItem key={item.title} href={item.url}>{item.title}</ListGroupItem>) }
+                    </ListGroup>
                 </Collapse>
             </div>
         );
