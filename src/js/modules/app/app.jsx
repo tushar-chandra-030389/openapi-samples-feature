@@ -1,11 +1,13 @@
 import React from 'react';
+import TopBar from '../../components/topBar';
+import SideBar from '../../components/sideBar';
+import Details from '../../components/details';
 
 export default function App() {
   return (
 		<div>
-      <div>TopBar</div>
-      <div>SideBar</div>
-      <div>Details</div>
+      <TopBar />
+      <SideBar />
 		</div>
   );
 }

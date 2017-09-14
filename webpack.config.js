@@ -18,7 +18,23 @@ module.exports = {
       {
         test: /\.css$/,
         loader: 'style-loader!css-loader'
-      }
+      },
+      {
+				test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
+				loaders: ['file-loader'],
+			},
+			{
+				test: /\.(woff|woff2)$/,
+				loaders: ['url-loader'],
+			},
+			{
+				test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
+				loaders: ['url-loader'],
+			},
+			{
+				test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+				loaders: ['url-loader'],
+			}
     ]
   },
   plugins: [

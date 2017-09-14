@@ -5,6 +5,10 @@ import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 // components
 import App from './modules/app';
 
+//css
+import '../css/style.css';
+import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+
 
 /*import { Router, Route, hashHistory, IndexRedirect } from 'react-router';
 import App from './modules/app/app';

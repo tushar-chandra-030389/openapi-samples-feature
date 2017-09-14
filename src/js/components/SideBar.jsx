@@ -1,7 +1,6 @@
 import React from 'react';
 import { ListGroup, ListGroupItem, Collapse, Glyphicon } from 'react-bootstrap';
 import { bindHandlers } from 'react-bind-handlers';
-import $ from '../libs/jquery-3.1.1';
 
 class Sidebar extends React.PureComponent {
   constructor() {
@@ -15,14 +14,14 @@ class Sidebar extends React.PureComponent {
   }
 
   getGlyphName(name) {
-    return this.state[`${name}Open`] ? 'chevron-up' : 'chevron-down';
+    // return this.state[`${name}Open`] ? 'chevron-up' : 'chevron-down';
   }
 
   handleCollapse(eventKey) {
-    const stateObject = {};
-    const name = $(eventKey.target).data('name');
-    stateObject[`${name}Open`] = !this.state[`${name}Open`];
-    this.setState(stateObject);
+    // const stateObject = {};
+    // const name = $(eventKey.target).data('name');
+    // stateObject[`${name}Open`] = !this.state[`${name}Open`];
+    // this.setState(stateObject);
   }
 
   render() {
