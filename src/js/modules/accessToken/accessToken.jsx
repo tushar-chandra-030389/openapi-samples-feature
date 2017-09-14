@@ -1,6 +1,7 @@
 import React from 'react';
 import { FormControl, Panel, Button, Row } from 'react-bootstrap';
 import { bindHandlers } from 'react-bind-handlers';
+import DetailsHeader from '../../components/detailsHeader';
 // import Details from './Details';
 // import DataService from './utils/DataService';
 // import Column from './utils/Column';
@@ -8,7 +9,7 @@ import { bindHandlers } from 'react-bind-handlers';
 // import API from './utils/API';
 // import Loader from './utils/Loader';
 
-class Home extends React.PureComponent {
+class AccessToken extends React.PureComponent {
   constructor() {
     super();
     this.token = '';
@@ -50,7 +51,7 @@ class Home extends React.PureComponent {
   render() {
     return (
       <div>
-        home
+        <DetailsHeader route={this.props.match.url}/>
       {/* {this.getLoader()}
       <div className='pad-box'>
         <h3> Set Access Token </h3>
@@ -80,4 +81,4 @@ class Home extends React.PureComponent {
   }
 }
 
-export default bindHandlers(Home);
+export default bindHandlers(AccessToken);

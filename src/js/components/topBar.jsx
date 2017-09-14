@@ -13,8 +13,8 @@ function TopBar() {
       </Navbar.Header>
       <Navbar.Collapse>
         <Nav>
-          <NavItem eventKey={1} className='nav-items'>
-            <Link to='home'>ACCESS TOKEN</Link>
+          <NavItem className='nav-items'>
+            <Link to='accessToken'>ACCESS TOKEN</Link>
           </NavItem>
         </Nav>
         <Nav pullRight>
