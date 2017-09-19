@@ -2,8 +2,7 @@ import React from 'react';
 import _ from 'lodash';
 import { ListGroupItem, ListGroup } from 'react-bootstrap';
 import Accordion from './accordion';
-
-const content = require('../data/navContent');
+import * as content from '../data/navContent';
 
 export default function sideBar() {
     const navBar = _.map(content.data, (item) => {

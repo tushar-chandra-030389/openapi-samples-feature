@@ -1,11 +1,10 @@
 import React from 'react';
-import * as pageDescMapper from '../data/pageDescMapper.json';
+import * as pageDescMapper from '../data/pageDescMapper';
 
 function DetailsHeader({ route }) {
-    route= route.slice(1,route.length);
-
+    route= route.slice(1, route.length);
     return (
-        <div className='details'>
+        <div>
             <div className='details-header'>
                 <div className='details-title'>
                     {pageDescMapper[route].title}

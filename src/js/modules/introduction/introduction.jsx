@@ -3,22 +3,21 @@ import { Alert } from 'react-bootstrap';
 import DetailsHeader from '../../components/detailsHeader';
 
 const Introduction = (props) => (
-  <div>
-    <DetailsHeader route={props.match.url}/>
-    <div className='pad-box'>
-      <h2>
-        <small>
-          This application contains a number of samples to illustrate how to use the different resources and endpoints available in the Saxo Bank OpenAPI.
-            <br />
-          All samples require a valid access token, which you may obtain from the developer portal
+	<div>
+		<DetailsHeader route={props.match.url} />
+		<div>Introduction</div>
+		{/*<div className='pad-box'>
+			<h2>
+				<small>
+					This application contains a number of samples to illustrate how to use the different resources and endpoints available in the Saxo Bank OpenAPI.
+          			All samples require a valid access token, which you may obtain from the developer portal
           </small>
-      </h2>
-      <br /><br /><br />
-      <Alert bsStyle='warning'>
-        Some responses may return no samples, depending upon actual market data entitlements and the configuration of the logged in user.
-        </Alert>
-    </div>
-  </div>
+			</h2>
+			<Alert bsStyle='warning'>
+				Some responses may return no samples, depending upon actual market data entitlements and the configuration of the logged in user.
+        	</Alert>
+		</div>*/}
+	</div>
 );
 
 export default Introduction;

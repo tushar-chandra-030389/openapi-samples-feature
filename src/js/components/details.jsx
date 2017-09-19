@@ -1,16 +1,18 @@
 import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
-import AccessToken from '../modules/accessToken/accessToken';
+import UserInfo from '../modules/userInfo';
 import Introduction from '../modules/introduction/introduction';
 
 function Details(props) {
-  return (
-      <Switch>
-        <Route path="/intro" component={Introduction} />
-        <Route path="/accessToken" component={AccessToken} />
-        <Redirect exact path={`/`} to={`/intro`}/>
-      </Switch>
-  );
+    return (
+        <div className='details'>
+            <Switch>
+                <Route path='/intro' component={Introduction} />
+                <Route path='/userInfo' component={UserInfo} />
+                <Redirect exact path='/' to='/intro' />
+            </Switch>
+        </div>
+    );
 }
 
 export default Details;

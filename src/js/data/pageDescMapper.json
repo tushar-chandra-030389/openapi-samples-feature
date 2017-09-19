@@ -3,7 +3,7 @@
     "title": "Welcome to the Saxo Bank Open Api - Feature Samples",
     "desc": "Open API provides access to all of the resources and functionality required to build a high performance multi-asset trading platform. It is a sample application to explain different functionalities and features offered by OpenAPIs. OpenAPIs require authorization token."
   },
-  "accessToken": {
+  "userInfo": {
     "title": "Set Access Token",
     "desc": "OpenAPIs require authorization token to authenticate user."
   },
