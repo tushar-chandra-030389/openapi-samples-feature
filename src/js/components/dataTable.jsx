@@ -2,7 +2,7 @@ import React from 'react';
 import { Table, Panel, Accordion, Row, Col } from 'react-bootstrap';
 import _ from 'lodash';
 
-export default function DataTable(props) {
+function DataTable(props) {
 	const generateTable = (data) => _.map(data, (value, key) => {
 		if (!_.isPlainObject(value)) {
 			return (
@@ -27,3 +27,5 @@ export default function DataTable(props) {
 		</Row>
 	);
 };
+
+export default DataTable;

@@ -5,21 +5,24 @@ const streamingUrl = 'https://streaming.saxotrader.com/sim/openapi';
 
 let transport;
 let streaming;
+let prevTokenState = '';
 
 export function getTransportAuth(authToken = 'default_token') {
-    if (transport) {
+    if (transport && prevTokenState === authToken) {
         transport = transport;
     } else {
         transport = new saxo.openapi.TransportAuth(transportUrl, { token: authToken });
+        prevTokenState = authToken;
     }
     return transport;
 }
 
 export function getStreamingObj(authToken = 'default_token') {
-    if (streaming) {
+    if (streaming && prevTokenState === authToken) {
         streaming = streaming;
     } else {
         streaming = new saxo.openapi.Streaming(this.transport, streamingUrl, { getToken: () => authToken });
+        prevTokenState = authToken;
     }
     return streaming;
 }

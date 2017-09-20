@@ -3,6 +3,7 @@ import { Form, FormControl, Panel, Button, Row } from 'react-bootstrap';
 import { bindHandlers } from 'react-bind-handlers';
 import DetailsHeader from '../../components/detailsHeader';
 import DataTable from '../../components/dataTable';
+import Error from '../error';
 
 class UserInfo extends React.PureComponent {
 	constructor(props) {
@@ -21,6 +22,9 @@ class UserInfo extends React.PureComponent {
 			<div>
 				<DetailsHeader route={this.props.match.url} />
 				<div className='pad-box'>
+					<Error>
+						Please enter correct access token below.
+					</Error>
 					<h3>Set Access Token</h3>
 					<h2>
 						<small>Please copy authorization token from

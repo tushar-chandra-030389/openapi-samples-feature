@@ -2,7 +2,7 @@ import React from 'react';
 import * as pageDescMapper from '../data/pageDescMapper';
 
 function DetailsHeader({ route }) {
-    route= route.slice(1, route.length);
+    route = route.slice(1, route.length);
     return (
         <div>
             <div className='details-header'>
