@@ -2,11 +2,16 @@ import React from 'react';
 import classNames from 'classnames';
 import { Panel } from 'react-bootstrap';
 
-function Error({ children, showError }) {
-    const errorClass = classNames({ 'hide': !showError });
-    return (
-        <Panel header='Alert' bsStyle="danger" className={errorClass}>{children}</Panel>
-    );
+class Error extends React.PureComponent {
+    componentWillMount() {
+        this.props.hideError();
+    }
+    render() {
+        const errorClass = classNames({ 'hide': !this.props.showError });
+        return (
+            <Panel header='Alert' bsStyle="danger" className={errorClass}>{this.props.children}</Panel>
+        );
+    }
 }
 
 export default Error;

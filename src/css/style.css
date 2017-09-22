@@ -201,3 +201,8 @@ textarea {
 	left: 50%;
 	top: 40%;
 }
+
+.dropdown-menu {
+	max-height: 300px;
+	overflow-y: auto;
+}

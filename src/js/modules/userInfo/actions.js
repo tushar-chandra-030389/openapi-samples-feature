@@ -8,7 +8,7 @@ export function updateUserInfo(accessToken, userData) {
 }
 
 export function getUser(accessToken) {
-    return (dispatch, getStore) => {
+    return (dispatch) => {
         dispatch(loaderActions.showLoader());
         dispatch(errorActions.hideError());
         getUserDetails(accessToken)

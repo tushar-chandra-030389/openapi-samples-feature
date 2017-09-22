@@ -28,5 +28,7 @@ export function getStreamingObj(authToken = 'default_token') {
 }
 
 export function getData(params) {
-    return getTransportAuth(params.accessToken).get(params.serviceGroup, params.endPoint, null);
+    return getTransportAuth(params.accessToken).get(params.serviceGroup, params.endPoint, null, {
+        queryParams: params.queryParams
+    });
 }
