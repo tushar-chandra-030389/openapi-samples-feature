@@ -44,7 +44,7 @@ class InstrumentDetails extends React.Component {
                     <Col sm={8} >
                         <Assets onInstrumentSelected={this.handleInstrumentSelection} {...this.props}/>
                         {
-                            instData.length > 0 &&
+                            (instData.length > 0) &&
                             <Panel bsStyle='primary'>
                                 <CustomTable data={instData} width={'300'} keyField='FieldName' />
                             </Panel>
