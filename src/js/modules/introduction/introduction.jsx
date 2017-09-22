@@ -1,5 +1,6 @@
 import React from 'react';
 import { Alert } from 'react-bootstrap';
+import PropTypes from 'prop-types';
 import DetailsHeader from '../../components/detailsHeader';
 
 function Introduction(props) {
@@ -19,6 +20,10 @@ function Introduction(props) {
 			</div>
 		</div>
 	);
+}
+
+Introduction.propTypes={
+	match: PropTypes.object
 }
 
 export default Introduction;
