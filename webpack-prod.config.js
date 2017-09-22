@@ -1,6 +1,8 @@
-const webpack= require("webpack");
+const webpack = require("webpack");
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-let config= require("./webpack.config");    
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+
+let config = require("./webpack.config");
 
 config.plugins.push(
     new webpack.optimize.UglifyJsPlugin({
@@ -10,14 +12,28 @@ config.plugins.push(
             }
         }
     )
-)
+);
 
-config.plugins.push( 
+config.plugins.push(
+    new webpack.DefinePlugin({
+        'process.env': {
+            'NODE_ENV': JSON.stringify('production')
+        }
+    })
+);
+
+config.plugins.push(
     new OptimizeCssAssetsPlugin({
             assetNameRegExp: /\.css$/,
-            cssProcessorOptions: { discardComments: { removeAll: true } }
+            cssProcessorOptions: {discardComments: {removeAll: true}}
         }
     )
 )
 
-module.exports= config;
+config.plugins.push(
+    new CleanWebpackPlugin(['./src/build'], {
+        verbose: true,
+    })
+);
+
+module.exports = config;
