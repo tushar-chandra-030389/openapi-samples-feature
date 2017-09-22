@@ -19,24 +19,10 @@ export function getSymbolForID(instrumentDetails, cb, props) {
         if ((_.findIndex(idArrayForWhichSymbolRequired, field => field === key) !== -1)) {
             if (_.isArray(value)) {
                 _.forEach(value, (val, index) => {
-                    props.showLoader();
-                    props.hideLoader();
-                    getOptionRootData(props.accessToken, value)
-                    .then((result) => {
-                        cb(result.response, key, index)
-                    })
-                    .catch(() => props.showError())
-                    .then(() => props.hideLoader());
+                    _fetchOptionRootData(props, key, value, index);
                 })
             } else {
-                props.showLoader();
-                props.hideLoader();
-                getOptionRootData(props.accessToken, value)
-                .then((result) => {
-                    cb(result.response, key, null)
-                })
-                .catch(() => props.showError())
-                .then(() => props.hideLoader());
+                _fetchOptionRootData(props, key, value, null);
             }
         }
     });
@@ -51,4 +37,15 @@ export function getRenderDetails(instrumentDetails) {
         });
     }
     return instData;
+}
+
+function _fetchOptionRootData(props, key, value, index) {
+    props.showLoader();
+    props.hideLoader();
+    getOptionRootData(props.accessToken, value)
+    .then((result) => {
+        cb(result.response, key, index)
+    })
+    .catch(() => props.showError())
+    .then(() => props.hideLoader());
 }

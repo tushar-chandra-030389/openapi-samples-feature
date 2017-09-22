@@ -8,7 +8,7 @@ import { Col, Panel } from 'react-bootstrap';
 import update from 'immutability-helper';
 import moment from 'moment';
 import _ from 'lodash';
-import * as queries from './queries';
+import { getSymbolForID, getRenderDetails, getRearrangedDetails } from './queries';
 import { func } from 'prop-types'
 
 class InstrumentDetails extends React.Component {
@@ -19,9 +19,9 @@ class InstrumentDetails extends React.Component {
 
     handleInstrumentSelection(instrumentDetails) {
         //put Uic and symbol on top of instrument details
-        this.setState({ instrumentDetails: queries.getRearrangedDetails(instrumentDetails) });
+        this.setState({ instrumentDetails: getRearrangedDetails(instrumentDetails) });
 
-        queries.getSymbolForID(instrumentDetails, ((response, key, index) => {
+        getSymbolForID(instrumentDetails, ((response, key, index) => {
             if (_isNull(index)) {
                 this.setState({ instrumentDetails: update(instrumentDetails, { [key]: { $set: response.Symbol } }) });
             } else {
@@ -32,7 +32,7 @@ class InstrumentDetails extends React.Component {
 
     render() {
         // making array of key-value pairs to show instrument in table.
-        const instData = queries.getRenderDetails(this.state.instrumentDetails);
+        const instData = getRenderDetails(this.state.instrumentDetails);
         return (
             <div>
                 <DetailsHeader route={this.props.match.url} />
