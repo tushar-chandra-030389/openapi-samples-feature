@@ -15,7 +15,7 @@ module.exports = {
             'redux',
             'redux-thunk'
         ],
-        index: path.join(__dirname, 'src', 'js', 'main.js')
+        index: path.join(__dirname, 'src', 'js', 'main')
     },
 
     output: {
