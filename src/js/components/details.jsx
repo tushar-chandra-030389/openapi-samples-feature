@@ -3,7 +3,7 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import UserInfo from '../modules/userInfo';
 import Introduction from '../modules/introduction/introduction';
 
-function Details(props) {
+function Details() {
     return (
         <div className='details'>
             <Switch>
