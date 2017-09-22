@@ -4,15 +4,15 @@ import SideBar from '../../components/sideBar';
 import Details from '../../components/details';
 import Loader from '../loader';
 
-function App() {
-  return (
-		<div>
-      <TopBar />
-      <SideBar />
-      <Details />
-      <Loader />
-		</div>
-  );
-}
+const App = () => {
+    return (
+        <div>
+            <TopBar/>
+            <SideBar/>
+            <Details/>
+            <Loader/>
+        </div>
+    );
+};
 
 export default App;

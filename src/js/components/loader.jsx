@@ -3,16 +3,16 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import defaultImg from '../../images/default.gif';
 
-function Loader({ isLoading }) {
-    const loaderClass = classNames({ 'loader': true, 'hide': !isLoading })
+const Loader = ({isLoading}) => {
+    const loaderClass = classNames({'loader': true, 'hide': !isLoading})
     return (
         <div className={loaderClass}>
-			<img src={defaultImg}/>
-		</div>
+            <img src={defaultImg}/>
+        </div>
     );
-}
+};
 
-Loader.propTypes={
+Loader.propTypes = {
     isLoading: PropTypes.bool
 }
 
