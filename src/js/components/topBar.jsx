@@ -2,7 +2,7 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import {Navbar, Nav, NavItem} from 'react-bootstrap';
 
-const TopBar = () => {
+function TopBar() {
     return (
         <Navbar inverse collapseOnSelect fixedTop className={'topBar'}>
             <Navbar.Header>
@@ -26,6 +26,6 @@ const TopBar = () => {
             </Navbar.Collapse>
         </Navbar>
     );
-};
+}
 
 export default TopBar;

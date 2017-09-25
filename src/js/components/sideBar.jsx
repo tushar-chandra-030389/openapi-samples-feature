@@ -4,7 +4,7 @@ import {ListGroupItem, ListGroup} from 'react-bootstrap';
 import Accordion from './accordion';
 import * as content from '../data/navContent';
 
-const SideBar = () => {
+function SideBar() {
     const navBar = _.map(content.data, (item) => {
         if (item.url) {
             return <ListGroupItem key={item.heading} href={item.url}>{item.heading}</ListGroupItem>
@@ -20,6 +20,6 @@ const SideBar = () => {
             {navBar}
         </div>
     );
-};
+}
 
 export default SideBar;

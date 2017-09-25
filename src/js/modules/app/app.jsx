@@ -4,7 +4,7 @@ import SideBar from '../../components/sideBar';
 import Details from '../../components/details';
 import Loader from '../loader';
 
-const App = () => {
+function App() {
     return (
         <div>
             <TopBar/>
@@ -13,6 +13,6 @@ const App = () => {
             <Loader/>
         </div>
     );
-};
+}
 
 export default App;
