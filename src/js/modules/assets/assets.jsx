@@ -82,7 +82,11 @@ class Assets extends React.Component {
                 {
                     this.state.optionRootSelected && this.state.optionRoot &&
                     <Panel bsStyle="primary" >
-                        <Options optionRoot={this.state.optionRoot} onInstrumentSelected={this.handleInstrumentSelection} />
+                        <Options
+                            optionRoot={this.state.optionRoot}
+                            onInstrumentSelected={this.handleInstrumentSelection}
+                            {...this.props}
+                        />
                     </Panel>
                 }
                 {
