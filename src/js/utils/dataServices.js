@@ -6,6 +6,7 @@ const streamingUrl = 'https://streaming.saxotrader.com/sim/openapi';
 let transport;
 let streaming;
 let prevTokenState = '';
+let priceFormatter = new saxo.PriceFormatting();
 
 export function getTransportAuth(authToken = 'default_token') {
     if (transport && prevTokenState === authToken) {
@@ -31,4 +32,8 @@ export function getData(params) {
     return getTransportAuth(params.accessToken).get(params.serviceGroup, params.endPoint, null, {
         queryParams: params.queryParams
     });
+}
+
+export function formatPrice(price, decimal, formatFlags) {
+    return priceFormatter.format(price, decimal, formatFlags);
 }

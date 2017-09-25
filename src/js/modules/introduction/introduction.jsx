@@ -3,7 +3,7 @@ import {Alert} from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import DetailsHeader from '../../components/detailsHeader';
 
-const Introduction = (props) => {
+function Introduction(props) {
     return (
         <div>
             <DetailsHeader route={props.match.url}/>
@@ -22,7 +22,7 @@ const Introduction = (props) => {
             </div>
         </div>
     );
-};
+}
 
 Introduction.propTypes = {
     match: PropTypes.object

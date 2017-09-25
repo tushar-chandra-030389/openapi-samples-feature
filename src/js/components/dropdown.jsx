@@ -3,7 +3,7 @@ import {DropdownButton, MenuItem} from 'react-bootstrap';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 
-const Dropdown = ({data, title, id, itemKey, value, handleSelect}) => {
+function Dropdown({data, title, id, itemKey, value, handleSelect}) {
     return (
         <DropdownButton bsStyle='primary' id={id} title={title} onSelect={handleSelect}>
             {_.map(data, (item) => <MenuItem
@@ -15,7 +15,7 @@ const Dropdown = ({data, title, id, itemKey, value, handleSelect}) => {
             )}
         </DropdownButton>
     );
-};
+}
 
 Dropdown.propTypes = {
     data: PropTypes.array,

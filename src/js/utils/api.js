@@ -1,4 +1,4 @@
-import { getData } from './dataServices';
+import { getData, formatPrice } from './dataServices';
 
 //fetches user data from openapi/port/v1/users/me
 export function getUserDetails(accessToken) {
@@ -54,6 +54,30 @@ export function getInfoPrices(accessToken, instrumentDetails) {
                 'Quote',
             ],
         },        
+        accessToken,
+    });
+}
+
+// fetch option chain based on AssetType
+// eg: Query Params : { OptionRootId: 19 }
+export function getOptionChain(accessToken, optionId) {
+    return getData({
+        serviceGroup: 'ref',
+        endPoint: `v1/instruments/contractoptionspaces/${optionId}`,
+        queryParams: null,
+        accessToken,
+    });
+}
+
+export function getFormattedPrice(price, decimal, formatFlags) {
+    return formatPrice(price, decimal, formatFlags);
+}
+
+export function getOptionRootData(accessToken, rootId) {
+    return getData({
+        serviceGroup: 'ref',
+        endPoint: 'v1/instruments/contractoptionspaces',
+        queryParams: { OptionRootId: rootId },
         accessToken,
     });
 }

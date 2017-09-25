@@ -3,7 +3,7 @@ import {Table, Panel, Accordion, Row, Col} from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 
-const DataTable = (props) => {
+function DataTable(props) {
     const generateTable = (data) => _.map(data, (value, key) => {
         if (!_.isPlainObject(value)) {
             return (
@@ -27,7 +27,7 @@ const DataTable = (props) => {
             </Col>
         </Row>
     );
-};
+}
 
 
 DataTable.propTypes = {
