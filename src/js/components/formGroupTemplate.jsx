@@ -7,8 +7,8 @@ function getSelectCtrl(item, onChange) {
         <FormControl componentClass='select' id={item.label} onChange={onChange}>
             {
                 item.DisplayField ?
-                _.map(item.value, (data) => <option>{data[item.DisplayField]}</option>) :
-                _.map(item.value, (data) => <option>{data}</option>)
+                _.map(item.value, (data, idx) => <option key={idx}>{data[item.DisplayField]}</option>) :
+                _.map(item.value, (data, idx) => <option key={idx}>{data}</option>)
             }
         </FormControl>
     );
@@ -31,8 +31,8 @@ function FormGroupTemplate(props) {
         <FormGroup>
             <Row>
                 {
-                    _.map(props.data, (item) => (
-                        <Col sm={3}>
+                    _.map(props.data, (item, idx) => (
+                        <Col sm={3} key={idx}>
                             <ControlLabel>{item.label}</ControlLabel>
                             {item.componentClass === 'select' ? getSelectCtrl(item) : getTextCtrl(item)}
                         </Col>)

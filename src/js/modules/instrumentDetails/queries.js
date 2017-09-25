@@ -41,7 +41,7 @@ export function getRenderDetails(instrumentDetails) {
 
 function _fetchOptionRootData(props, key, value, index) {
     props.showLoader();
-    props.hideLoader();
+    props.hideError();
     getOptionRootData(props.accessToken, value)
     .then((result) => {
         cb(result.response, key, index)

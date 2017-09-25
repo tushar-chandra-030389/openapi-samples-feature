@@ -1,6 +1,7 @@
 import React from 'react';
 import { bindHandlers } from 'react-bind-handlers';
 import _ from 'lodash';
+import { Form } from 'react-bootstrap';
 import FormGroupTemplate from '../../components/formGroupTemplate';
 import { getOptionChain, getInstrumentDetails } from '../../utils/api';
 
@@ -12,7 +13,7 @@ class Options extends React.Component {
         super();
         this.state = {
             selectedOptionSpace: undefined,
-            flag: false
+            flag: false,
         };
         this.optionRootData = {}
         this.callPut = '';
@@ -22,12 +23,33 @@ class Options extends React.Component {
     }
     componentDidMount() {
         this.selectedOptionRoot = this.props.optionRoot;
+        this.fetchOptionChain();
     }
     componentWillReceiveProps(newProps) {
         if (this.selectedOptionRoot.Identifier !== newProps.optionRoot.Identifier) {
             this.selectedOptionRoot = newProps.optionRoot;
             this.fetchOptionChain();
         }
+    }
+    handleValueChange(event) {
+        let value = event.target.value;
+        switch (event.target.id) {
+            case 'Expiry':
+                this.expiry = value;
+                this.selectOptionSpace();
+                break;
+
+            case 'Call/Put':
+                this.callPut = value;
+                this.selectInstrument()
+                break;
+
+            case 'StrikePrice':
+                this.strikePrice = value;
+                this.selectInstrument()
+                break;
+        }
+        this.setState({ flag: !this.state.flag });
     }
     fetchOptionChain() {
         // OptionRoot information - please get underlying instruments from OptionRootId. e.g instrumentInfo.Identifier
@@ -108,7 +130,7 @@ class Options extends React.Component {
     }
 }
 
-OptionInstrumentsTemplate.propTypes = {
+Options.propTypes = {
     onInstrumentSelected: React.PropTypes.func.isRequired
 };
 
