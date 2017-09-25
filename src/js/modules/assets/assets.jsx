@@ -6,6 +6,7 @@ import { Panel, Form, FormControl, Row, Col} from 'react-bootstrap';
 import DatePicker from 'react-datePicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Instruments from './instruments';
+import Options from './options';
 
 class Assets extends React.Component {
     constructor() {
@@ -81,7 +82,7 @@ class Assets extends React.Component {
                 {
                     this.state.optionRootSelected && this.state.optionRoot &&
                     <Panel bsStyle="primary" >
-                        <OptionInstrumentsTemplate optionRoot={this.state.optionRoot} onInstrumentSelected={this.handleInstrumentSelection} />
+                        <Options optionRoot={this.state.optionRoot} onInstrumentSelected={this.handleInstrumentSelection} />
                     </Panel>
                 }
                 {

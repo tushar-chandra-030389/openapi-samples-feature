@@ -108,7 +108,7 @@ class Options extends React.Component {
     }
 }
 
-OptionInstrumentsTemplate.propTypes = {
+Options.propTypes = {
     onInstrumentSelected: React.PropTypes.func.isRequired
 };
 
