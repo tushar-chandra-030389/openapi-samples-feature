@@ -1,8 +1,9 @@
 import React from 'react';
+import _ from 'lodash';
 import { bindHandlers } from 'react-bind-handlers';
 import { ButtonToolbar, Row } from 'react-bootstrap';
 import * as allAssetTypes from '../../data/allAssetTypes';
-import { checkIfOption } from '../../utils/global';
+import { checkIfOption, doWithLoader } from '../../utils/global';
 import Dropdown from '../../components/dropdown';
 import { getInstruments,  getInstrumentDetails } from '../../utils/api';
 
@@ -35,14 +36,9 @@ class Instruments extends React.PureComponent {
         /* Open API to get instruments for specific AssetType
           see utils/api.js for more details
         */
-        this.props.showLoader();
-        this.props.hideError();
-        getInstruments(this.props.accessToken, eventKey)
-        .then((result) => {
+        doWithLoader(this.props, _.partial(getInstruments, this.props.accessToken, eventKey), (result) => {
             this.setState({ instruments: result.response.Data });
-        })
-        .catch(() => this.props.showError())
-        .then(() => this.props.hideLoader());
+        });
     }
     handleInstrumentSelection(instrument) {
         /* checkIfOption
@@ -62,14 +58,9 @@ class Instruments extends React.PureComponent {
         /* Open API to fecth details of the selected instrument
           see utils/api.js for more details
         */
-        this.props.showLoader();
-        this.props.hideError();
-        getInstrumentDetails(this.props.accessToken, instrument.Identifier, instrument.AssetType)
-        .then((result) => {
+        doWithLoader(this.props, _.partial(getInstrumentDetails, this.props.accessToken, instrument.Identifier, instrument.AssetType), (result) => {
             this.props.onInstrumentSelected(result.response);
-        })
-        .catch(() => this.props.showError())
-        .then(() => this.props.hideLoader());
+        });
     }
     render() {
         return (

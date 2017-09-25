@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import { getOptionRootData } from '../../utils/api';
+import { doWithLoader } from '../../utils/global';
 
 export function getRearrangedDetails(instrumentDetails) {
     return _.defaults({
@@ -19,7 +20,7 @@ export function getSymbolForID(instrumentDetails, cb, props) {
         if ((_.findIndex(idArrayForWhichSymbolRequired, field => field === key) !== -1)) {
             if (_.isArray(value)) {
                 _.forEach(value, (val, index) => {
-                    _fetchOptionRootData(props, key, value, index);
+                    _fetchOptionRootData(props, key, value, index, cb);
                 })
             } else {
                 _fetchOptionRootData(props, key, value, null);
@@ -39,13 +40,8 @@ export function getRenderDetails(instrumentDetails) {
     return instData;
 }
 
-function _fetchOptionRootData(props, key, value, index) {
-    props.showLoader();
-    props.hideError();
-    getOptionRootData(props.accessToken, value)
-    .then((result) => {
-        cb(result.response, key, index)
-    })
-    .catch(() => props.showError())
-    .then(() => props.hideLoader());
+function _fetchOptionRootData(props, key, value, index, cb) {
+    doWithLoader(props, _.partial(getOptionRootData, props.accessToken, value), (result) => {
+        cb(result.response, key, index);
+    });
 }

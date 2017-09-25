@@ -7,6 +7,7 @@ let transport;
 let streaming;
 let prevTokenState = '';
 let priceFormatter = new saxo.PriceFormatting();
+let subscriptions = [];
 
 export function getTransportAuth(authToken = 'default_token') {
     if (transport && prevTokenState === authToken) {
@@ -37,3 +38,15 @@ export function getData(params) {
 export function formatPrice(price, decimal, formatFlags) {
     return priceFormatter.format(price, decimal, formatFlags);
 }
+
+export function subscribe(params, onUpdate, onError) {
+    const subscription = getStreamingObj(params.accessToken)
+        .createSubscription(params.serviceGroup, params.endPoint, params.queryParams, onUpdate, onError);
+    subscriptions.push(subscription);
+    return subscription;
+}
+
+export function disposeIndividualSubscription(accessToken, subscription) {
+    getStreamingObj(accessToken).disposeSubscription(subscription);
+}
+

@@ -1,8 +1,8 @@
-import { getData, formatPrice } from './dataServices';
+import * as services from './dataServices';
 
 //fetches user data from openapi/port/v1/users/me
 export function getUserDetails(accessToken) {
-    return getData({
+    return services.getData({
         serviceGroup: 'port',
         endPoint: 'v1/users/me',
         accessToken,
@@ -12,7 +12,7 @@ export function getUserDetails(accessToken) {
 // fetch instruments from client lib based on AssetType
 // eg: Query Params : { AssetType: 'FxSpot' }
 export function getInstruments(accessToken, assetTypes) {
-    return getData({
+    return services.getData({
         serviceGroup: 'ref',
         endPoint: 'v1/instruments',
         queryParams: { AssetTypes: assetTypes },
@@ -23,7 +23,7 @@ export function getInstruments(accessToken, assetTypes) {
 // fetch instrument details from client lib based on Uic and AssetType
 // eg: Query Params : { AssetType: 'FxSpot', Uic: 21 }
 export function getInstrumentDetails(accessToken, uic, assetTypes) {
-    return getData({
+    return services.getData({
         serviceGroup: 'ref',
         endPoint: 'v1/instruments/details/{Uic}/{AssetType}',
         queryParams: {
@@ -37,7 +37,7 @@ export function getInstrumentDetails(accessToken, uic, assetTypes) {
 // fetch Info Prices for a particular instrument based on AssetType and Uic
 // eg: Query Params : { AssetType: 'FxSpot', Uic: 21 }
 export function getInfoPrices(accessToken, instrumentDetails) {
-    return getData({
+    return services.getData({
         serviceGroup: 'trade',
         endPoint: 'v1/infoprices',
         queryParams: {
@@ -61,7 +61,7 @@ export function getInfoPrices(accessToken, instrumentDetails) {
 // fetch option chain based on AssetType
 // eg: Query Params : { OptionRootId: 19 }
 export function getOptionChain(accessToken, optionId) {
-    return getData({
+    return services.getData({
         serviceGroup: 'ref',
         endPoint: `v1/instruments/contractoptionspaces/${optionId}`,
         queryParams: null,
@@ -70,14 +70,81 @@ export function getOptionChain(accessToken, optionId) {
 }
 
 export function getFormattedPrice(price, decimal, formatFlags) {
-    return formatPrice(price, decimal, formatFlags);
+    return services.formatPrice(price, decimal, formatFlags);
 }
 
+// fetch option chain based on AssetType
+// eg: Query Params : { OptionRootId: 19 }
 export function getOptionRootData(accessToken, rootId) {
-    return getData({
+    return services.getData({
         serviceGroup: 'ref',
         endPoint: 'v1/instruments/contractoptionspaces',
         queryParams: { OptionRootId: rootId },
+        accessToken,
+    });
+}
+
+/* subscribe to Info prices for a set of instruments based on AssetType and Uics.
+    eg: Query Params : {
+        Arguments: {
+            AssetType: 'FxSpot',
+            Uics: 21,2
+        },
+        RefreshRate: 5
+    }
+*/
+export function subscribeInfoPrices(accessToken, instrumentData, onUpdate, onError) {
+    return new Promise((resolve, reject) => {
+        const subscription = services.subscribe({
+            serviceGroup: 'trade',
+            endPoint: 'v1/infoPrices/subscriptions',
+            queryParams: {
+                Arguments: {
+                    AssetType: instrumentData.AssetType,
+                    Uics: instrumentData.Uics,
+                    FieldGroups: [
+                        'DisplayAndFormat',
+                        'InstrumentPriceDetails',
+                        'MarketDepth',
+                        'PriceInfo',
+                        'PriceInfoDetails',
+                        'Quote',
+                    ],
+                },
+                RefreshRate: 5,
+            },
+            accessToken,
+        }, onUpdate, onError);
+        resolve(subscription);
+    });
+}
+
+// remove individual subscription
+export function removeIndividualSubscription(accessToken, subscription) {
+    return new Promise((resolve, reject) => {
+        services.disposeIndividualSubscription(accessToken, subscription);
+        resolve();
+    });    
+}
+
+// fetch Info Prices for a set of instruments based on AssetType and Uics
+// eg: Query Params : { AssetType: 'FxSpot', Uics: 21,2 }
+export function getInfoPricesList(accessToken, instrumentData) {
+    return services.getData({
+        serviceGroup: 'trade',
+        endPoint: 'v1/infoprices/list',
+        queryParams: {
+            AssetType: instrumentData.AssetType,
+            Uics: instrumentData.Uics,
+            FieldGroups: [
+                'DisplayAndFormat',
+                'InstrumentPriceDetails',
+                'MarketDepth',
+                'PriceInfo',
+                'PriceInfoDetails',
+                'Quote',
+            ],
+        },
         accessToken,
     });
 }

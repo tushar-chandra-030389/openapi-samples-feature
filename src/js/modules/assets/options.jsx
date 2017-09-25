@@ -4,6 +4,7 @@ import _ from 'lodash';
 import { Form } from 'react-bootstrap';
 import FormGroupTemplate from '../../components/formGroupTemplate';
 import { getOptionChain, getInstrumentDetails } from '../../utils/api';
+import { doWithLoader } from '../../utils/global';
 
 const CALL = 'Call';
 const PUT = 'Put';
@@ -21,16 +22,19 @@ class Options extends React.Component {
         this.expiry = '';
         this.selectedOptionRoot = undefined;
     }
+
     componentDidMount() {
         this.selectedOptionRoot = this.props.optionRoot;
         this.fetchOptionChain();
     }
+    
     componentWillReceiveProps(newProps) {
         if (this.selectedOptionRoot.Identifier !== newProps.optionRoot.Identifier) {
             this.selectedOptionRoot = newProps.optionRoot;
             this.fetchOptionChain();
         }
     }
+
     handleValueChange(event) {
         let value = event.target.value;
         switch (event.target.id) {
@@ -51,13 +55,14 @@ class Options extends React.Component {
         }
         this.setState({ flag: !this.state.flag });
     }
+
     fetchOptionChain() {
         // OptionRoot information - please get underlying instruments from OptionRootId. e.g instrumentInfo.Identifier
-        getOptionChain(this.props.accessToken, this.selectedOptionRoot.Identifier)
-        .then((result) => {
+        doWithLoader(this.props, _.partial(getOptionChain, this.props.accessToken, this.selectedOptionRoot.Identifier), (result) => {
             this.onSuccess(result.response);
         });
     }
+
     onSuccess(response) {
         // response is all options avilable for OptionRootId, see 'handleInstrumentSelection'' function
         this.optionRootData = response;
@@ -72,12 +77,14 @@ class Options extends React.Component {
 
         this.selectInstrument();
     }
+
     // format date strinf to YYYY-MM-DD format.
     getFormattedExpiry(dateStr) {
         // getMonth() is zero-based
         let date = new Date(dateStr), mm = date.getMonth() + 1, dd = date.getDate();
         return [date.getFullYear(), (mm > 9 ? '' : '0') + mm, (dd > 9 ? '' : '0') + dd].join('-');
     }
+
     selectOptionSpace() {
         _.forEach(this.optionRootData.OptionSpace, (optionSpace) => {
             if (optionSpace.Expiry === this.expiry) {
@@ -95,15 +102,16 @@ class Options extends React.Component {
             }
         })
     }
+
     fetchInstrumentDetails(uic) {
         /* Open API to fetch detials of the instrument
            see utils/api.js for more details
         */
-        getInstrumentDetails(this.props.accessToken, uic, this.props.optionRoot.AssetType)
-        .then((result) => {
+        doWithLoader(this.props, _.partial(getInstrumentDetails, this.props.accessToken, uic, this.props.optionRoot.AssetType), (result) => {
             this.props.onInstrumentSelected(result.response);
         });
     }
+    
     render() {
         let specificOptions = [];
         if (this.state.selectedOptionSpace) {
