@@ -15,7 +15,7 @@ export function getInstruments(accessToken, assetTypes) {
     return services.getData({
         serviceGroup: 'ref',
         endPoint: 'v1/instruments',
-        queryParams: { AssetTypes: assetTypes },
+        queryParams: {AssetTypes: assetTypes},
         accessToken,
     });
 }
@@ -53,7 +53,17 @@ export function getInfoPrices(accessToken, instrumentDetails) {
                 'PriceInfoDetails',
                 'Quote',
             ],
-        },        
+        },
+        accessToken,
+    });
+}
+
+// fetch client details
+export function getClientInfo(accessToken) {
+    return services.getData({
+        serviceGroup: 'port',
+        endPoint: 'v1/clients/me',
+        queryParams: null,
         accessToken,
     });
 }
@@ -79,7 +89,7 @@ export function getOptionRootData(accessToken, rootId) {
     return services.getData({
         serviceGroup: 'ref',
         endPoint: 'v1/instruments/contractoptionspaces',
-        queryParams: { OptionRootId: rootId },
+        queryParams: {OptionRootId: rootId},
         accessToken,
     });
 }
@@ -119,12 +129,62 @@ export function subscribeInfoPrices(accessToken, instrumentData, onUpdate, onErr
     });
 }
 
+/*  subscribe to Prices for a single instrument based on AssetType and Uic.
+     eg: Query Params : {
+         Arguments: {
+             AssetType: 'FxSpot',
+             Uic: 21
+         },
+         RefreshRate: 5
+     }
+ */
+
+export function subscribePrices(accessToken, instrumentData, onUpdate, onError) {
+    return new Promise((resolve, reject) => {
+        const subscription = services.subscribe({
+            serviceGroup: 'trade',
+            endPoint: 'v1/Prices/subscriptions',
+            queryParams: {
+                Arguments: {
+                    AssetType: instrumentData.AssetType,
+                    Uics: instrumentData.Uics,
+                    FieldGroups: [
+                        'Commissions',
+                        'DisplayAndFormat',
+                        'Greeks',
+                        'InstrumentPriceDetails',
+                        'MarginImpact',
+                        'MarketDepth',
+                        'PriceInfo',
+                        'PriceInfoDetails',
+                        'Quote',
+                    ],
+                },
+                RefreshRate: 5,
+            },
+            accessToken,
+        }, onUpdate, onError);
+        resolve(subscription);
+    });
+}
+
+
 // remove individual subscription
 export function removeIndividualSubscription(accessToken, subscription) {
     return new Promise((resolve, reject) => {
         services.disposeIndividualSubscription(accessToken, subscription);
         resolve();
-    });    
+    });
+}
+
+// fetch Account details
+export function getAccountInfo(accessToken) {
+    return services.getData({
+        serviceGroup: 'port',
+        endPoint: 'v1/accounts/me',
+        queryParams: null,
+        accessToken,
+    });
 }
 
 // fetch Info Prices for a set of instruments based on AssetType and Uics
@@ -145,6 +205,15 @@ export function getInfoPricesList(accessToken, instrumentData) {
                 'Quote',
             ],
         },
+        accessToken,
+    });
+}
+
+export function getBalancesInfo(accessToken, params) {
+    return services.getData({
+        serviceGroup: 'port',
+        endPoint: 'v1/balances',
+        queryParams: params,
         accessToken,
     });
 }

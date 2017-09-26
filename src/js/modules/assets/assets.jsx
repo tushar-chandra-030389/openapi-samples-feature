@@ -1,17 +1,19 @@
 import React from 'react';
 import moment from 'moment';
-import { bindHandlers } from 'react-bind-handlers';
-import { checkIfOption, checkIfPutCallExpiry } from '../../utils/global';
-import { Panel, Form, FormControl, Row, Col} from 'react-bootstrap';
+import {bindHandlers} from 'react-bind-handlers';
+import {checkIfOption, checkIfPutCallExpiry} from '../../utils/global';
+import {Panel, Form, FormControl, Row, Col} from 'react-bootstrap';
 import DatePicker from 'react-datePicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import PropTypes from 'prop-types';
+
 import Instruments from './instruments';
 import Options from './options';
 
 class Assets extends React.Component {
     constructor() {
         super();
-        this.state = { optionRoot: undefined, putCallExpiryRequired: false, optionRootSelected: false };
+        this.state = {optionRoot: undefined, putCallExpiryRequired: false, optionRootSelected: false};
         this.putCallExpiry = null;
         this.putCall = "Call";
         this.expiryDate = moment();
@@ -19,7 +21,7 @@ class Assets extends React.Component {
     }
 
     handleOptionRoot(optionRoot) {
-        this.setState({ optionRoot: optionRoot });
+        this.setState({optionRoot: optionRoot});
     }
 
     handleInstrumentSelection(instrumentDetails) {
@@ -65,23 +67,25 @@ class Assets extends React.Component {
         this.putCall = event.target.value;
         this.handleInstrumentSelection(this.instrumentDetails);
     }
+
     render() {
         // making array of key-value pairs to show instrument in table.
         let instData = []
         for (let name in this.state.instrumentDetails) {
-            instData.push({ FieldName: name, Value: this.state.instrumentDetails[name] });
+            instData.push({FieldName: name, Value: this.state.instrumentDetails[name]});
         }
         return (
             <div>
                 <Instruments
+                    {...this.props}
                     onInstrumentSelected={this.handleInstrumentSelection}
                     onOptionRootSelected={this.handleOptionRoot}
                     onAssetTypeSelected={this.handleAssetTypeChange}
-                    {...this.props}
+                    onPrice
                 />
                 {
                     this.state.optionRootSelected && this.state.optionRoot &&
-                    <Panel bsStyle="primary" >
+                    <Panel bsStyle="primary">
                         <Options
                             optionRoot={this.state.optionRoot}
                             onInstrumentSelected={this.handleInstrumentSelection}
@@ -99,7 +103,8 @@ class Assets extends React.Component {
                                     <DatePicker selected={this.expiryDate} onChange={this.handleExpiryDateChange}/>
                                 </Col>
                                 <Col sm={2}>
-                                    <FormControl componentClass="select" placeholder="Call" onChange={this.handlePutCallChange}>
+                                    <FormControl componentClass="select" placeholder="Call"
+                                                 onChange={this.handlePutCallChange}>
                                         <option value="Put">Put</option>
                                         <option value="Call">Call</option>
                                     </FormControl>
@@ -114,7 +119,7 @@ class Assets extends React.Component {
 }
 
 Assets.propTypes = {
-    onInstrumentSelected: React.PropTypes.func,
+    onInstrumentSelected: PropTypes.func,
 };
 
 export default bindHandlers(Assets);

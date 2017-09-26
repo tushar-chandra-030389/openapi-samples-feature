@@ -1,10 +1,10 @@
 import React from 'react';
 import {Form, FormGroup, ControlLabel, FormControl, Row} from 'react-bootstrap';
-import {forEach, map, isArray} from 'lodash';
+// import {forEach, map, isArray} from 'lodash';
 import Column from '../../utils/Column';
 import DropDown from '../../utils/DropDown';
 
-export default (props) => {
+function ClientPortfolio(props) {
     const {
         state: {clientName, currentAccountId, clientKey, accountKey, accountGroupKey},
         clientInformation,
@@ -32,6 +32,7 @@ export default (props) => {
                         Accounts
                     </ControlLabel>
                     <DropDown
+                        id={accountKey}
                         title={currentAccountId}
                         handleSelect={onAccountSelection}
                         data={accounts}
@@ -52,4 +53,6 @@ export default (props) => {
             </Row>
         </div>
     );
-};
+}
+
+export default ClientPortfolio;
