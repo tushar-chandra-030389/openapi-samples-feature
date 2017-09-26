@@ -9,3 +9,17 @@ export function checkIfOption(asset) {
 export function checkIfPutCallExpiry(asset) {
     return (asset === 'FxVanillaOption');
 }
+
+export function doWithLoader(props, apiFunc, callback) {
+    props.showLoader();
+    props.hideError();
+    apiFunc()
+    .then((result) => {
+        if (callback) {
+            callback(result);
+        }
+        return;
+    })
+    .catch(() => props.showError())
+    .then(() => props.hideLoader());
+}
