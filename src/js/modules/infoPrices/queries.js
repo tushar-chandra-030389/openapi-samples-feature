@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import { doWithLoader } from '../../utils/global';
-import { getInfoPrices, getInfoPriceList, subscribeInfoPrices, removeIndividualSubscription } from '../../utils/api';
+import { getInfoPrices, getInfoPricesList, subscribeInfoPrices, removeIndividualSubscription } from '../../utils/api';
+import { subscribe } from '../../utils/dataServices';
 
 export function fetchInfoPrices(instrument, props, cb) {
     const expiry = instrument.Expiry ? instrument.Expiry : instrument.FxForwardMaxForwardDate;
@@ -19,13 +20,13 @@ export function isSubscribed(selectedAssetTypes) {
 }
 
 export function createSubscription(selectedAssetTypes, selectedInstruments, props, onPriceUpdate, cb) {
-    for (let assetType in this.selectedAssetTypes) {
+    for (let assetType in selectedAssetTypes) {
         let uics = _getUics(assetType, selectedInstruments);
         doWithLoader(
             props,
             _.partial(subscribeInfoPrices, props.accessToken, { Uics: uics, AssetType: assetType }, onPriceUpdate),
             (result) => {
-                cb(result.response, assetType);
+                cb(result, assetType);
             }
         );
     }
@@ -37,7 +38,7 @@ export function removeSubscription(selectedAssetTypes, props, cb) {
             doWithLoader(
                 props,
                 _.partial(removeIndividualSubscription, props.accessToken, selectedAssetTypes[assetType].subscription),
-                () => cb()
+                () => cb(assetType)
             )
         }
     }
@@ -48,7 +49,7 @@ export function fetchInfoPriceList(selectedAssetTypes, selectedInstruments, prop
         let uics = _getUics(assetType, selectedInstruments);
         doWithLoader(
             props,
-            _.partial(getInfoPriceList, props.accessToken, { Uics: uics, AssetType: assetType }),
+            _.partial(getInfoPricesList, props.accessToken, { Uics: uics, AssetType: assetType }),
             (result) => {
                 cb(result.response);
             }
@@ -59,7 +60,7 @@ export function fetchInfoPriceList(selectedAssetTypes, selectedInstruments, prop
 function _getUics(assetType, selectedInstruments) {
     let uics = '';
     for (let uic in selectedInstruments) {
-        if (selectedInstruments[uic].AssetType === assetType) {
+        if (selectedInstruments[uic].AssetType && selectedInstruments[uic].AssetType === assetType) {
             if (uics !== '') {
                 uics = `${uic},${uics}`;
             } else {

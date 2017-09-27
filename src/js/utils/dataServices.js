@@ -1,4 +1,6 @@
 import saxo from 'openapi-clientlib';
+import $ from '../../../sampleApp/libs/jquery-3.1.1';
+import signalR from '../../../sampleApp/libs/jquery.signalR-2.2.1';
 
 const transportUrl = 'https://gateway.saxobank.com/sim/openapi';
 const streamingUrl = 'https://streaming.saxotrader.com/sim/openapi';
@@ -23,7 +25,7 @@ export function getStreamingObj(authToken = 'default_token') {
     if (streaming && prevTokenState === authToken) {
         streaming = streaming;
     } else {
-        streaming = new saxo.openapi.Streaming(this.transport, streamingUrl, { getToken: () => authToken });
+        streaming = new saxo.openapi.Streaming(getTransportAuth(authToken), streamingUrl, { getToken: () => authToken });
         prevTokenState = authToken;
     }
     return streaming;
@@ -49,4 +51,3 @@ export function subscribe(params, onUpdate, onError) {
 export function disposeIndividualSubscription(accessToken, subscription) {
     getStreamingObj(accessToken).disposeSubscription(subscription);
 }
-
