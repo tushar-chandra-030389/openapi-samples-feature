@@ -22,7 +22,7 @@ export function getTransportAuth(authToken = 'default_token') {
 
 export function getStreamingObj(authToken = 'default_token') {
     if (!streaming || prevTokenState !== authToken) {
-        streaming = new saxo.openapi.Streaming(this.transport, streamingUrl, { getToken: () => authToken });
+        streaming = new saxo.openapi.Streaming(getTransportAuth(authToken), streamingUrl, { getToken: () => authToken });
         prevTokenState = authToken;
     }
     return streaming;
