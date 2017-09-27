@@ -1,12 +1,11 @@
 import React from 'react';
-import {bindHandlers} from 'react-bind-handlers';
+import { bindHandlers } from 'react-bind-handlers';
 import _ from 'lodash';
-import {Row, Col, Tabs, Tab, Panel, Alert} from 'react-bootstrap';
+import { Row, Col, Tabs, Tab, Panel, Alert } from 'react-bootstrap';
 
-import ClientPortfolioTemplate from './ClientPortfolioTemplate';
-import * as API from '../../utils/api';
-import {doWithLoader} from '../../utils/global';
-import TradeSubscriptions from './TradeSubscriptions';
+import ClientPortfolioTemplate from './clientPortfolioTemplate';
+import * as queries from './queries';
+import TradeSubscriptions from './tradeSubscriptions';
 import DetailsHeader from '../../components/detailsHeader';
 
 class ClientPortfolio extends React.PureComponent {
@@ -29,9 +28,7 @@ class ClientPortfolio extends React.PureComponent {
     }
 
     componentWillMount() {
-        doWithLoader(this.props, _.partial(API.getClientInfo, this.props.accessToken), (result) => {
-            this.handleClientAccounts(result.response);
-        });
+        queries.getInfo('getClientInfo', this.props, this.handleClientAccounts);
     }
 
     handleAccountSelection(eventKey, key) {
@@ -49,9 +46,7 @@ class ClientPortfolio extends React.PureComponent {
             AccountKey
         }
 
-        doWithLoader(this.props, _.partial(API.getBalancesInfo, this.props.accessToken, balanceInfoQueryParams), (result) => {
-            this.handleBalanceInfo(result.response);
-        });
+        queries.getInfo('getBalancesInfo', this.props, this.handleBalanceInfo, balanceInfoQueryParams);
 
         this.setState({
             currentAccountId: eventKey,
@@ -62,20 +57,16 @@ class ClientPortfolio extends React.PureComponent {
 
     handleClientAccounts(response) {
         this.clientInformation = response;
-        const {Name, DefaultAccountId, ClientKey, DefaultAccountKey} = this.clientInformation;
+        const { Name, DefaultAccountId, ClientKey, DefaultAccountKey } = this.clientInformation;
 
-        doWithLoader(this.props, _.partial(API.getAccountInfo, this.props.accessToken), (result) => {
-            this.handleAccountInfo(result.response);
-        });
+        queries.getInfo('getAccountInfo', this.props, this.handleAccountInfo);
 
         let balanceInfoQueryParams = {
             ClientKey,
             AccountKey: DefaultAccountKey
         }
 
-        doWithLoader(this.props, _.partial(API.getBalancesInfo, this.props.accessToken, balanceInfoQueryParams), (result) => {
-            this.handleBalanceInfo(result.response);
-        });
+        queries.getInfo('getBalancesInfo', this.props, this.handleBalanceInfo, balanceInfoQueryParams);
 
         this.setState({
             clientName: Name,
@@ -100,7 +91,7 @@ class ClientPortfolio extends React.PureComponent {
 
     handleBalanceInfo(response) {
         this.getBalanceInfoObjectFromResponse(response);
-        this.setState({flag: !this.state.flag});
+        this.setState({ flag: !this.state.flag });
     }
 
     getBalanceInfoObjectFromResponse(response) {
@@ -151,40 +142,45 @@ class ClientPortfolio extends React.PureComponent {
                             All samples require a valid access token, which you may obtain from the developer portal
                         </small>
                     </h2>
-                    <Alert bsStyle='warning'>
-                        Some responses may return no samples, depending upon actual market data entitlements and the
-                        configuration of the logged in user.
-                    </Alert>
-
-                    <ClientPortfolioTemplate
-                        clientInformation={this.clientInformation}
-                        state={this.state} accounts={this.accounts}
-                        currentAccountInfo={this.currentAccountInformation}
-                        balancesInfo={this.balancesInfo}
-                        onAccountSelection={this.handleAccountSelection}/>
-                    <Row>
-                        <Col sm={10}>
-                            <Panel header='Orders/Positions' className='panel-primary'>
-                                <Tabs className='primary' defaultActiveKey={1} animation={false}
-                                      id='noanim-tab-example'>
-                                    <Tab eventKey={1} title='Orders'>
-                                        <TradeSubscriptions
-                                            currentAccountInformation={this.currentAccountInformation}
-                                            tradeType='Order'
-                                            fieldGroups={['DisplayAndFormat', 'ExchangeInfo']}
-                                        />
-                                    </Tab>
-                                    <Tab eventKey={2} title='Positions'>
-                                        <TradeSubscriptions
-                                            currentAccountInformation={this.currentAccountInformation}
-                                            tradeType='NetPosition'
-                                            fieldGroups={['NetPositionView', 'NetPositionBase', 'DisplayAndFormat', 'ExchangeInfo', 'SingleAndClosedPositionsBase', 'SingleAndClosedPositionsView', 'SingleAndClosedPositions']}
-                                        />
-                                    </Tab>
-                                </Tabs>
-                            </Panel>
-                        </Col>
-                    </Row>
+                    {!this.props.accessToken ? (
+                        <Alert bsStyle='warning'>
+                            Some responses may return no samples, depending upon actual market data entitlements
+                            and
+                            the
+                            configuration of the logged in user.
+                        </Alert>) : (
+                        <div>
+                            <ClientPortfolioTemplate
+                                clientInformation={this.clientInformation}
+                                state={this.state} accounts={this.accounts}
+                                currentAccountInfo={this.currentAccountInformation}
+                                balancesInfo={this.balancesInfo}
+                                onAccountSelection={this.handleAccountSelection}/>
+                            < Row>
+                                < Col sm={10}>
+                                    <Panel header='Orders/Positions' className='panel-primary'>
+                                        <Tabs className='primary' defaultActiveKey={1} animation={false}
+                                              id='noanim-tab-example'>
+                                            <Tab eventKey={1} title='Orders'>
+                                                <TradeSubscriptions
+                                                    currentAccountInformation={this.currentAccountInformation}
+                                                    tradeType='Order'
+                                                    fieldGroups={['DisplayAndFormat', 'ExchangeInfo']}
+                                                />
+                                            </Tab>
+                                            <Tab eventKey={2} title='Positions'>
+                                                <TradeSubscriptions
+                                                    currentAccountInformation={this.currentAccountInformation}
+                                                    tradeType='NetPosition'
+                                                    fieldGroups={['NetPositionView', 'NetPositionBase', 'DisplayAndFormat', 'ExchangeInfo', 'SingleAndClosedPositionsBase', 'SingleAndClosedPositionsView', 'SingleAndClosedPositions']}
+                                                />
+                                            </Tab>
+                                        </Tabs>
+                                    </Panel>
+                                </Col>
+                            </Row>
+                        </div>)
+                    }
                 </div>
             </div>
         );

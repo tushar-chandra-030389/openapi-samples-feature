@@ -117,7 +117,7 @@ CustomTable.propTypes = {
     width: PropTypes.string,
     dataSortFields: PropTypes.array,
     decimals: PropTypes.number,
-    formatter: PropTypes.func.isRequired,
+    formatter: PropTypes.func,
     hidden: PropTypes.bool,
     priceFields: PropTypes.bool,
 };
