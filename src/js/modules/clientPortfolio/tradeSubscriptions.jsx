@@ -3,9 +3,10 @@ import {bindHandlers} from 'react-bind-handlers';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 
+import * as queries from './queries';
 import * as API from '../../utils/api';
-import CustomTable from '../../utils/CustomTable';
-import CustomTableForPositions from '../../utils/CustomTableForPositions';
+import CustomTable from '../../components/customTable';
+import CustomTableForPositions from '../../components/customTableForPositions';
 
 class TradeSubscriptions extends React.PureComponent {
     constructor(props) {

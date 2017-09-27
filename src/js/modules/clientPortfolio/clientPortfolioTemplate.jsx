@@ -1,8 +1,8 @@
 import React from 'react';
 import {Form, FormGroup, ControlLabel, FormControl, Row} from 'react-bootstrap';
 // import {forEach, map, isArray} from 'lodash';
-import Column from '../../utils/Column';
-import DropDown from '../../utils/DropDown';
+import Column from '../../components/column';
+import DropDown from '../../components/dropdown';
 
 function ClientPortfolio(props) {
     const {

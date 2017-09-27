@@ -37,7 +37,7 @@ function Column({ size, header, data }) {
 Column.propTypes = {
     size: PropTypes.number,
     header: PropTypes.string,
-    data: PropTypes.array,
+    data: PropTypes.object,
 };
 
 export default Column;
