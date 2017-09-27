@@ -14,7 +14,14 @@ class InfoPrices extends React.Component {
         this.selectedAssetTypes = {};
     }
 
+    componentWillUnmount() {
+        queries.removeSubscription(this.selectedAssetTypes, this.props, (assetType) => {
+            this.selectedAssetTypes[assetType].subscription = undefined;
+        });
+    }
+
     handleInstrumentSelected(instrument) {
+        this.handleUnsubscribe();
         queries.fetchInfoPrices(instrument, this.props, (response) => {
             // reset selectedAssetTypes and selectedInstruments, then set it to assetType of data
             this.selectedAssetTypes = {};
@@ -26,7 +33,7 @@ class InfoPrices extends React.Component {
     }
 
     handleSubscribe() {
-        queries.createSubscription(this.selectedAssetTypes, this.selectedInstruments, this.props, this.onPriceUpdate, (response, assetType) => {
+        queries.createSubscription(this.selectedAssetTypes, this.selectedInstruments, this.props, this.onPriceUpdate.bind(this), (response, assetType) => {
             this.selectedAssetTypes[assetType].subscription = response;
             this.setState({ flag: !this.state.flag });
         });

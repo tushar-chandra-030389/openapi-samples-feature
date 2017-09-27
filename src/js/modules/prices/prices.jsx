@@ -1,43 +1,48 @@
 import React from 'react';
-import {merge} from 'lodash';
-import {bindHandlers} from 'react-bind-handlers';
-import * as API from '../../utils/api';
+import _ from 'lodash';
+import { bindHandlers } from 'react-bind-handlers';
 import PropTypes from 'prop-types';
-import {Col} from 'react-bootstrap';
-
-import PricesTemplate from './PricesTemplate';
+import { Col } from 'react-bootstrap';
+import PricesTemplate from './pricesTemplate';
 import Error from '../error';
 import DetailsHeader from '../../components/detailsHeader';
 import Assets from '../assets';
+import { removeSubscription, createSubscription } from './queries';
 
 class Prices extends React.PureComponent {
     constructor() {
         super();
         this.instrument = undefined;
-        this.state = {
-            instrumentSelected: false,
-        };
         this.subscription = undefined;
+        this.state = { instrumentSelected: false };
+    }
+
+    componentWillUnmount() {
+        this.handleUnsubscribe();
     }
 
     handleInstrumentSelected(instrument) {
-        //TODO : Batch Request
-        if (this.subscription) {
-            API.removeIndividualSubscription(this.subscription);
-            this.subscription = undefined;
-        }
-
-        this.subscription = API.subscribePrices({
-            AssetType: instrument.AssetType,
-            uic: instrument.Uic,
-        }, this.handleUpdateInstrumentData);
+        this.handleUnsubscribe();
+        this.handleSubscribe(instrument);
     }
 
-    handleUpdateInstrumentData(data) {
+    handleSubscribe(instrument) {
+        createSubscription(instrument, this.props, this.onPriceUpdate.bind(this), (subscription) => {
+            this.subscription = subscription;
+        });
+    }
+
+    handleUnsubscribe() {
+        removeSubscription(this.subscription, this.props, () => {
+            this.subscription = undefined;
+        });
+    }
+
+    onPriceUpdate(data) {
         if (!data.Data) {
             this.instrument = data;
         } else {
-            merge(this.instrument, data.Data);
+            _.merge(this.instrument, data.Data);
         }
         this.setState({
             instrumentSelected: !this.state.instrumentSelected,
@@ -47,7 +52,7 @@ class Prices extends React.PureComponent {
     render() {
         return (
             <div>
-                <DetailsHeader route={this.props.match.url}/>
+                <DetailsHeader route={this.props.match.url} />
                 <div className='pad-box'>
                     <Error>
                         Enter correct access token using

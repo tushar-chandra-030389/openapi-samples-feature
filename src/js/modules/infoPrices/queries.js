@@ -39,7 +39,7 @@ export function removeSubscription(selectedAssetTypes, props, cb) {
                 props,
                 _.partial(removeIndividualSubscription, props.accessToken, selectedAssetTypes[assetType].subscription),
                 () => cb(assetType)
-            )
+            );
         }
     }
 }

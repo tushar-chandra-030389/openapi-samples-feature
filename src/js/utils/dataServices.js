@@ -1,6 +1,7 @@
 import saxo from 'openapi-clientlib';
-import $ from '../../../sampleApp/libs/jquery-3.1.1';
-import signalR from '../../../sampleApp/libs/jquery.signalR-2.2.1';
+import '../../../sampleApp/libs/jquery-3.1.1';
+// import 'jquery';
+import 'signalr';
 
 const transportUrl = 'https://gateway.saxobank.com/sim/openapi';
 const streamingUrl = 'https://streaming.saxotrader.com/sim/openapi';
