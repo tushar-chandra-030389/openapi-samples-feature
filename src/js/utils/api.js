@@ -137,8 +137,7 @@ export function subscribeInfoPrices(accessToken, instrumentData, onUpdate, onErr
          },
          RefreshRate: 5
      }
- */
-
+*/
 export function subscribePrices(accessToken, instrumentData, onUpdate, onError) {
     return new Promise((resolve) => {
         const subscription = services.subscribe({
@@ -147,7 +146,7 @@ export function subscribePrices(accessToken, instrumentData, onUpdate, onError) 
             queryParams: {
                 Arguments: {
                     AssetType: instrumentData.AssetType,
-                    Uics: instrumentData.Uics,
+                    Uic: instrumentData.Uic,
                     FieldGroups: [
                         'Commissions',
                         'DisplayAndFormat',

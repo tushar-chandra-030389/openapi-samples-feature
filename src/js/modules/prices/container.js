@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import * as errorActions from '../error/actions';
 import * as loaderActions from '../loader/actions';
-import Prices from './Prices';
+import Prices from './prices';
 
 const mapStateToProps = (store) => ({
     accessToken: store.userInfo.accessToken,

@@ -15,7 +15,8 @@ module.exports = {
             'react-bootstrap',
             'lodash',
             'redux',
-            'redux-thunk'
+            'redux-thunk',
+            'jquery'
         ],
         index: path.join(__dirname, 'src', 'js', 'main')
     },
