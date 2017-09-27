@@ -2,6 +2,8 @@ import React from 'react';
 import _ from 'lodash';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { bindHandlers } from 'react-bind-handlers';
+import PropTypes from 'prop-types';
+
 import { getFormattedPrice} from '../utils/api';
 
 class CustomTable extends React.Component {
@@ -104,13 +106,13 @@ class CustomTable extends React.Component {
 }
 
 CustomTable.propTypes = {
-    keyField: React.PropTypes.string.isRequired,
-    data: React.PropTypes.oneOfType([
-        React.PropTypes.array,
-        React.PropTypes.object,
+    keyField: PropTypes.string.isRequired,
+    data: PropTypes.oneOfType([
+        PropTypes.array,
+        PropTypes.object,
     ]).isRequired,
-    width: React.PropTypes.string,
-    dataSortFields: React.PropTypes.array,
+    width: PropTypes.string,
+    dataSortFields: PropTypes.array,
 };
 
 export default bindHandlers(CustomTable);

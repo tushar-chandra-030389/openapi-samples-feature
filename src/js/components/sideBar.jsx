@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-import { ListGroupItem, ListGroup } from 'react-bootstrap';
+import {ListGroupItem, ListGroup} from 'react-bootstrap';
 import Accordion from './accordion';
 import * as content from '../data/navContent';
 

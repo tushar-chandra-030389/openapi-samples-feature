@@ -1,6 +1,7 @@
 import React from 'react';
 import { bindHandlers } from 'react-bind-handlers';
 import _ from 'lodash';
+import PropTypes from 'prop-types';
 import { Form } from 'react-bootstrap';
 import FormGroupTemplate from '../../components/formGroupTemplate';
 import { getOptionChain, getInstrumentDetails } from '../../utils/api';
@@ -139,7 +140,7 @@ class Options extends React.Component {
 }
 
 Options.propTypes = {
-    onInstrumentSelected: React.PropTypes.func.isRequired
+    onInstrumentSelected: PropTypes.func.isRequired
 };
 
 export default bindHandlers(Options);

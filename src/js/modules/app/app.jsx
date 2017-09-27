@@ -5,14 +5,14 @@ import Details from '../../components/details';
 import Loader from '../loader';
 
 function App() {
-  return (
-		<div>
-      <TopBar />
-      <SideBar />
-      <Details />
-      <Loader />
-		</div>
-  );
+    return (
+        <div>
+            <TopBar/>
+            <SideBar/>
+            <Details/>
+            <Loader/>
+        </div>
+    );
 }
 
 export default App;

@@ -6,7 +6,7 @@ import DetailsHeader from '../../components/detailsHeader';
 import Error from '../error';
 import { Col, Panel } from 'react-bootstrap';
 import update from 'immutability-helper';
-import moment from 'moment';
+// import moment from 'moment';
 import _ from 'lodash';
 import { getSymbolForID, getRenderDetails, getRearrangedDetails } from './queries';
 import { func } from 'prop-types'
@@ -22,7 +22,7 @@ class InstrumentDetails extends React.Component {
         this.setState({ instrumentDetails: getRearrangedDetails(instrumentDetails) });
 
         getSymbolForID(instrumentDetails, ((response, key, index) => {
-            if (_isNull(index)) {
+            if (_.isNull(index)) {
                 this.setState({ instrumentDetails: update(instrumentDetails, { [key]: { $set: response.Symbol } }) });
             } else {
                 this.setState({ instrumentDetails: update(instrumentDetails, { [key]: { $splice: [[index, 1, response.Symbol]] } }) });

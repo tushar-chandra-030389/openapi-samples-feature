@@ -1,11 +1,13 @@
 import React from 'react';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import {Route, Switch, Redirect} from 'react-router-dom';
 import UserInfo from '../modules/userInfo';
 import Introduction from '../modules/introduction';
 import InstrumentDetails from '../modules/instrumentDetails';
 import InfoPrices from '../modules/infoPrices';
+import Prices from '../modules/prices';
+import ClientPortfolio from '../modules/clientPortfolio';
 
-function Details(props) {
+function Details() {
     return (
         <div className='details'>
             <Switch>
@@ -13,6 +15,8 @@ function Details(props) {
                 <Route path='/userInfo' component={UserInfo}/>
                 <Route path='/instruments' component={InstrumentDetails}/>
                 <Route path='/infoPrices' component={InfoPrices}/>
+                <Route path='/prices' component={Prices}/>
+                <Route path='/clientPortfolio' component={ClientPortfolio}/>
                 <Redirect exact path='/' to='/intro' />
             </Switch>
         </div>

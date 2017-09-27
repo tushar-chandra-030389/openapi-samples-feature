@@ -11,11 +11,19 @@ module.exports = {
             'prop-types',
             'react-bind-handlers',
             'react-router',
+            'react-router-dom',
+            'react-bootstrap',
             'lodash',
             'redux',
             'redux-thunk'
         ],
         index: path.join(__dirname, 'src', 'js', 'main')
+    },
+
+    stats: {
+        colors: true,
+        reasons: true,
+        chunks: true
     },
 
     output: {

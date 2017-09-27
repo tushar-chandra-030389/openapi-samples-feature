@@ -1,11 +1,13 @@
 import React from 'react';
 import _ from 'lodash';
-import { bindHandlers } from 'react-bind-handlers';
-import { ButtonToolbar, Row } from 'react-bootstrap';
+import {bindHandlers} from 'react-bind-handlers';
+import {ButtonToolbar, Row} from 'react-bootstrap';
+import PropTypes from 'prop-types';
+
 import * as allAssetTypes from '../../data/allAssetTypes';
-import { checkIfOption, doWithLoader } from '../../utils/global';
+import {checkIfOption, doWithLoader} from '../../utils/global';
 import Dropdown from '../../components/dropdown';
-import { getInstruments,  getInstrumentDetails } from '../../utils/api';
+import {getInstruments, getInstrumentDetails} from '../../utils/api';
 
 class Instruments extends React.PureComponent {
     constructor() {
@@ -17,29 +19,32 @@ class Instruments extends React.PureComponent {
             instruments: undefined
         };
     }
+
     handleAssetTypeSelection(eventKey) {
         // notify if any UI component using it and want to listen to asset change
         if (this.props.onAssetTypeSelected) {
             this.props.onAssetTypeSelected(eventKey);
         }
 
-        this.setState({ assetTypeTitle: eventKey });
+        this.setState({assetTypeTitle: eventKey});
         if (checkIfOption(eventKey)) {
-            this.setState({ title: 'Select OptionRoot' });
+            this.setState({title: 'Select OptionRoot'});
         }
         else {
-            this.setState({ title: 'Select Instrument' });
+            this.setState({title: 'Select Instrument'});
         }
         this.fetchInstruments(eventKey);
     }
+
     fetchInstruments(eventKey) {
         /* Open API to get instruments for specific AssetType
           see utils/api.js for more details
         */
         doWithLoader(this.props, _.partial(getInstruments, this.props.accessToken, eventKey), (result) => {
-            this.setState({ instruments: result.response.Data });
+            this.setState({instruments: result.response.Data});
         });
     }
+
     handleInstrumentSelection(instrument) {
         /* checkIfOption
            true  : simply update state to render option component.
@@ -51,7 +56,7 @@ class Instruments extends React.PureComponent {
         else {
             this.fetchInstrumentDetails(instrument);
         }
-        this.setState({ title: instrument.Description });
+        this.setState({title: instrument.Description});
     }
 
     fetchInstrumentDetails(instrument) {
@@ -62,6 +67,7 @@ class Instruments extends React.PureComponent {
             this.props.onInstrumentSelected(result.response);
         });
     }
+
     render() {
         return (
             <div className='pad-box'>
@@ -94,9 +100,9 @@ class Instruments extends React.PureComponent {
 }
 
 Instruments.propTypes = {
-    onInstrumentSelected: React.PropTypes.func.isRequired,
-    onAssetTypeSelected: React.PropTypes.func,
-    onOptionRootSelected: React.PropTypes.func.isRequired,
+    onInstrumentSelected: PropTypes.func.isRequired,
+    onAssetTypeSelected: PropTypes.func,
+    onOptionRootSelected: PropTypes.func.isRequired,
 };
 
 export default bindHandlers(Instruments);

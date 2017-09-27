@@ -1,7 +1,8 @@
 import React from 'react';
 import * as pageDescMapper from '../data/pageDescMapper';
+import PropTypes from 'prop-types';
 
-function DetailsHeader({ route }) {
+function DetailsHeader ({route}){
     route = route.slice(1, route.length);
     return (
         <div>
@@ -15,6 +16,10 @@ function DetailsHeader({ route }) {
             </div>
         </div>
     );
+}
+
+DetailsHeader.propTypes = {
+    route: PropTypes.string,
 }
 
 export default DetailsHeader;
