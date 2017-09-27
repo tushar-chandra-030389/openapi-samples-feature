@@ -6,10 +6,10 @@ config.devtool = 'source-map';
 //     {
 //         enforce: 'pre',
 //         test: /\.(js|jsx)$/,
-//         exclude: /(node_modules)/,
-//         options: {
-//             fix: true,
-//         },
+//         exclude: [/(node_modules)/,/(sampleApp)/],
+//         // options: {
+//         //     fix: true,
+//         // },
 //         loader: 'eslint-loader'
 //     }
 // )

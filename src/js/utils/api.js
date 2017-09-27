@@ -1,6 +1,6 @@
 import * as services from './dataServices';
 
-//fetches user data from openapi/port/v1/users/me
+// fetches user data from openapi/port/v1/users/me
 export function getUserDetails(accessToken) {
     return services.getData({
         serviceGroup: 'port',
@@ -15,7 +15,7 @@ export function getInstruments(accessToken, assetTypes) {
     return services.getData({
         serviceGroup: 'ref',
         endPoint: 'v1/instruments',
-        queryParams: {AssetTypes: assetTypes},
+        queryParams: { AssetTypes: assetTypes },
         accessToken,
     });
 }
@@ -32,7 +32,7 @@ export function getInstrumentDetails(accessToken, uic, assetTypes) {
         },
         accessToken,
     });
-};
+}
 
 // fetch Info Prices for a particular instrument based on AssetType and Uic
 // eg: Query Params : { AssetType: 'FxSpot', Uic: 21 }
@@ -89,7 +89,7 @@ export function getOptionRootData(accessToken, rootId) {
     return services.getData({
         serviceGroup: 'ref',
         endPoint: 'v1/instruments/contractoptionspaces',
-        queryParams: {OptionRootId: rootId},
+        queryParams: { OptionRootId: rootId },
         accessToken,
     });
 }
@@ -104,7 +104,7 @@ export function getOptionRootData(accessToken, rootId) {
     }
 */
 export function subscribeInfoPrices(accessToken, instrumentData, onUpdate, onError) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
         const subscription = services.subscribe({
             serviceGroup: 'trade',
             endPoint: 'v1/infoPrices/subscriptions',
@@ -140,7 +140,7 @@ export function subscribeInfoPrices(accessToken, instrumentData, onUpdate, onErr
  */
 
 export function subscribePrices(accessToken, instrumentData, onUpdate, onError) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
         const subscription = services.subscribe({
             serviceGroup: 'trade',
             endPoint: 'v1/Prices/subscriptions',
@@ -168,10 +168,9 @@ export function subscribePrices(accessToken, instrumentData, onUpdate, onError) 
     });
 }
 
-
 // remove individual subscription
 export function removeIndividualSubscription(accessToken, subscription) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
         services.disposeIndividualSubscription(accessToken, subscription);
         resolve();
     });
@@ -207,6 +206,10 @@ export function getInfoPricesList(accessToken, instrumentData) {
         },
         accessToken,
     });
+}
+
+export function formatPrice(price, decimal, formatFlags) {
+    return services.formatPrice(price, decimal, formatFlags);
 }
 
 export function getBalancesInfo(accessToken, params) {

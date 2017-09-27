@@ -6,13 +6,11 @@ const streamingUrl = 'https://streaming.saxotrader.com/sim/openapi';
 let transport;
 let streaming;
 let prevTokenState = '';
-let priceFormatter = new saxo.PriceFormatting();
-let subscriptions = [];
+const priceFormatter = new saxo.PriceFormatting();
+const subscriptions = [];
 
 export function getTransportAuth(authToken = 'default_token') {
-    if (transport && prevTokenState === authToken) {
-        transport = transport;
-    } else {
+    if (!(transport && prevTokenState === authToken)) {
         transport = new saxo.openapi.TransportAuth(transportUrl, { token: authToken });
         prevTokenState = authToken;
     }
@@ -20,9 +18,7 @@ export function getTransportAuth(authToken = 'default_token') {
 }
 
 export function getStreamingObj(authToken = 'default_token') {
-    if (streaming && prevTokenState === authToken) {
-        streaming = streaming;
-    } else {
+    if (!(streaming && prevTokenState === authToken)) {
         streaming = new saxo.openapi.Streaming(this.transport, streamingUrl, { getToken: () => authToken });
         prevTokenState = authToken;
     }
@@ -31,7 +27,7 @@ export function getStreamingObj(authToken = 'default_token') {
 
 export function getData(params) {
     return getTransportAuth(params.accessToken).get(params.serviceGroup, params.endPoint, null, {
-        queryParams: params.queryParams
+        queryParams: params.queryParams,
     });
 }
 
@@ -49,4 +45,3 @@ export function subscribe(params, onUpdate, onError) {
 export function disposeIndividualSubscription(accessToken, subscription) {
     getStreamingObj(accessToken).disposeSubscription(subscription);
 }
-

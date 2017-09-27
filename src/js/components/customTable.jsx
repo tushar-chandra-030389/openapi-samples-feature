@@ -4,7 +4,7 @@ import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { bindHandlers } from 'react-bind-handlers';
 import PropTypes from 'prop-types';
 
-import { getFormattedPrice} from '../utils/api';
+import { getFormattedPrice } from '../utils/api';
 
 class CustomTable extends React.Component {
     constructor() {
@@ -13,11 +13,11 @@ class CustomTable extends React.Component {
     }
 
     componentWillMount() {
-        this.handleData(this.props)
+        this.handleData(this.props);
     }
 
     componentWillReceiveProps(newProps) {
-        this.handleData(newProps)
+        this.handleData(newProps);
     }
 
     handleData(props) {
@@ -33,33 +33,36 @@ class CustomTable extends React.Component {
 
     formatColumnData(cell, row, formatExtraData) {
         switch (cell && cell.constructor.name) {
-            //format cell data if cell is an Array
-            case "Array": {
-                if (!_.isObject(cell[0])) { //if cell is an array of values return enter separated values of array
+
+            // format cell data if cell is an Array
+            case 'Array': {
+                if (!_.isObject(cell[0])) { // if cell is an array of values return enter separated values of array
                     return cell.toString().replace(/,/g, '<br>');
                 }
-                else {
-                    let keyValueArray = []; // if cell is an array of object, return enter separated value of keyValue pair of objects in array
-                    _.forEach(cell, (object) => {
-                        _.forOwn(object, (value, key) => {
-                            keyValueArray.push(key + ' : ' + value)
-                        });
-                        keyValueArray.push('<br>');
-                    })
-                    return keyValueArray.toString().replace(/,/g, '<br>');
-                }
+
+                const keyValueArray = []; // if cell is an array of object, return enter separated value of keyValue pair of objects in array
+                _.forEach(cell, (object) => {
+                    _.forOwn(object, (value, key) => {
+                        keyValueArray.push(key + ' : ' + value);
+                    });
+                    keyValueArray.push('<br>');
+                });
+                return keyValueArray.toString().replace(/,/g, '<br>');
+
                 break;
             }
+
             // format cell data if cell is an object
-            case "Object": {
-                let keyValueArray = [];
+            case 'Object': {
+                const keyValueArray = [];
                 _.forOwn(cell, (value, key) => {
-                    if (!_.isArray(value)) { //if cell is a simple object of key value, return key : value
+                    if (!_.isArray(value)) { // if cell is a simple object of key value, return key : value
                         keyValueArray.push(key + ':' + value);
-                    }
-                    else {
+                    } else {
                         let values = ''; // if cell is an object of Array, return key : [array values], eg for cell {Ask : [83.0,83.1]} return 'Ask : [ 83.0 83.1 ]'
-                        _.forEach(value, (val) => { values += ('  ' + val) });
+                        _.forEach(value, (val) => {
+                            values += ('  ' + val);
+                        });
                         keyValueArray.push(key + ': [' + values + ' ]');
                     }
                 });
@@ -73,10 +76,10 @@ class CustomTable extends React.Component {
 
     generateHeaders() {
         return _.map(this.data[0], (value, key) => {
-            const dataSort = _.findIndex(this.props.dataSortFields, field => field === key) !== -1;
+            const dataSort = _.findIndex(this.props.dataSortFields, (field) => field === key) !== -1;
             const keyField = this.props.keyField === key;
-            const hidden = _.findIndex(this.props.hidden, field => field === key) !== -1;
-            const dataFormat = _.findIndex(this.props.priceFields, field => field === key) !== -1 ? this.handlePriceFormatter : this.formatColumnData.bind(this);
+            const hidden = _.findIndex(this.props.hidden, (field) => field === key) !== -1;
+            const dataFormat = _.findIndex(this.props.priceFields, (field) => field === key) !== -1 ? this.handlePriceFormatter : this.formatColumnData.bind(this);
             return (
                 <TableHeaderColumn
                     width={this.props.width}
@@ -85,7 +88,8 @@ class CustomTable extends React.Component {
                     isKey={keyField}
                     dataSort={dataSort}
                     hidden={hidden}
-                    dataFormat={dataFormat}>
+                    dataFormat={dataFormat}
+                >
                     {_.last(_.split(key, '.'))}
                 </TableHeaderColumn>);
         });
