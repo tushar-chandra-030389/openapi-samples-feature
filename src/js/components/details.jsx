@@ -1,5 +1,6 @@
 import React from 'react';
 import {Route, Switch, Redirect} from 'react-router-dom';
+
 import UserInfo from '../modules/userInfo';
 import Introduction from '../modules/introduction';
 import InstrumentDetails from '../modules/instrumentDetails';
@@ -7,6 +8,7 @@ import InfoPrices from '../modules/infoPrices';
 import Prices from '../modules/prices';
 import ClientPortfolio from '../modules/clientPortfolio';
 import OptionChain from '../modules/optionChain';
+import ChartPolling from '../modules/charts';
 
 function Details() {
     return (
@@ -19,6 +21,8 @@ function Details() {
                 <Route path='/prices' component={Prices}/>
                 <Route path='/clientPortfolio' component={ClientPortfolio}/>
                 <Route path='/options' component={OptionChain}/>
+                <Route path='/chartPolling' component={ChartPolling}/>
+
                 <Redirect exact path='/' to='/intro' />
             </Switch>
         </div>

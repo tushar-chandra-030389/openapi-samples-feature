@@ -102,7 +102,7 @@ class Instruments extends React.PureComponent {
 Instruments.propTypes = {
     onInstrumentSelected: PropTypes.func.isRequired,
     onAssetTypeSelected: PropTypes.func,
-    onOptionRootSelected: PropTypes.func.isRequired,
+    onOptionRootSelected: PropTypes.func,
 };
 
 export default bindHandlers(Instruments);

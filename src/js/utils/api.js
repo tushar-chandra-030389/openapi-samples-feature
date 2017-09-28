@@ -68,6 +68,28 @@ export function getClientInfo(accessToken) {
     });
 }
 
+// fetch chart data
+export function getChartData(accessToken, chartData) {
+    const { AssetType, Uic, Horizon, Count } = chartData;
+
+    return services.getData({
+        serviceGroup: 'chart',
+        endPoint: 'v1/charts',
+        queryParams: {
+            AssetType,
+            Uic,
+            Horizon,
+            Count,
+            FieldGroups: [
+                'ChartInfo',
+                'Data',
+                'DisplayAndFormat',
+            ]
+        },
+        accessToken,
+    });
+}
+
 // fetch option chain based on AssetType
 // eg: Query Params : { OptionRootId: 19 }
 export function getOptionChain(accessToken, optionId) {
@@ -223,7 +245,7 @@ export function getBalancesInfo(accessToken, params) {
 }
 
 // create order subscription
-export function createOrderSubscription (accessToken, subscriptionArgs, onUpdate, onError) {
+export function createOrderSubscription(accessToken, subscriptionArgs, onUpdate, onError) {
     return new Promise((resolve, reject) => {
         const subscription = services.subscribe({
             serviceGroup: 'port',
@@ -242,9 +264,9 @@ export function createOrderSubscription (accessToken, subscriptionArgs, onUpdate
     });
 }
 
-  // create positions subscription
-  export function createPositionSubscription(accessToken, subscriptionArgs, onUpdate, onError) {
-      return new Promise((resolve, reject) => {
+// create positions subscription
+export function createPositionSubscription(accessToken, subscriptionArgs, onUpdate, onError) {
+    return new Promise((resolve, reject) => {
         const subscription = services.subscribe({
             serviceGroup: 'port',
             endPoint: 'v1/positions/subscriptions',
@@ -260,7 +282,7 @@ export function createOrderSubscription (accessToken, subscriptionArgs, onUpdate
         }, onUpdate, onError);
         resolve(subscription);
     });
-  }
+}
 
 // create net positions subscription
 export function createNetPositionSubscription(accessToken, subscriptionArgs, onUpdate, onError) {
