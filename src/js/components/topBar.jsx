@@ -1,6 +1,7 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
-import {Navbar, Nav, NavItem} from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import { Navbar, Nav, NavItem} from 'react-bootstrap';
+import { LinkContainer} from 'react-router-bootstrap';
 
 function TopBar() {
     return (
@@ -12,9 +13,9 @@ function TopBar() {
             </Navbar.Header>
             <Navbar.Collapse>
                 <Nav>
-                    <NavItem className='nav-items'>
-                        <Link to='userInfo'>ACCESS TOKEN</Link>
-                    </NavItem>
+                    <LinkContainer to="/userInfo">
+                        <NavItem className='nav-items'>ACCESS TOKEN</NavItem>
+                    </LinkContainer>
                 </Nav>
                 <Nav pullRight>
                     <Navbar.Brand>

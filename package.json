@@ -5,7 +5,7 @@
   "scripts": {
     "start": "webpack-dev-server --open --inline --no-info --content-base src --config=webpack-dev.config",
     "build": "webpack --config=webpack-prod.config && node server",
-    "eslint": "eslint sampleApp/components"
+    "eslint": "eslint --fix src/js/modules/optionChain/**"
   },
   "author": "SaxoBank",
   "dependencies": {
@@ -26,6 +26,7 @@
     "react-datepicker": "^0.54.0",
     "react-dom": "^15.6.1",
     "react-redux": "^5.0.6",
+    "react-router-bootstrap": "^0.24.4",
     "react-router-dom": "^4.2.2",
     "react-search-input": "^0.11.2",
     "redux": "^3.7.2",
