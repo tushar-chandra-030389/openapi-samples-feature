@@ -84,7 +84,7 @@ class Assets extends React.Component {
                     onPrice
                 />
                 {
-                    this.state.optionRootSelected && this.state.optionRoot &&
+                    this.state.optionRootSelected && this.state.optionRoot && this.props.showOptionsTemplate &&
                     <Panel bsStyle="primary">
                         <Options
                             optionRoot={this.state.optionRoot}
@@ -95,7 +95,7 @@ class Assets extends React.Component {
                 }
                 {
                     // this. is specific for instruments that required put/call and expiry date in info price request eg. FxVanillaOption
-                    this.state.putCallExpiryRequired &&
+                    this.state.putCallExpiryRequired && this.props.showOptionsTemplate &&
                     <Panel>
                         <Form>
                             <Row>
@@ -120,6 +120,7 @@ class Assets extends React.Component {
 
 Assets.propTypes = {
     onInstrumentSelected: PropTypes.func,
+    showOptionsTemplate: PropTypes.bool,
 };
 
 export default bindHandlers(Assets);

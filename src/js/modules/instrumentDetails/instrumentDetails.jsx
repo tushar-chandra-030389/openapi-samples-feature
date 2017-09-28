@@ -42,7 +42,7 @@ class InstrumentDetails extends React.Component {
                         <a href='#/userInfo'> this link.</a>
                     </Error>
                     <Col sm={8} >
-                        <Assets onInstrumentSelected={this.handleInstrumentSelection} {...this.props}/>
+                        <Assets showOptionsTemplate={true} onInstrumentSelected={this.handleInstrumentSelection} {...this.props}/>
                         {
                             (instData.length > 0) &&
                             <Panel bsStyle='primary'>
