@@ -59,7 +59,7 @@ class Prices extends React.PureComponent {
                         <a href='#/userInfo'> this link.</a>
                     </Error>
                     <Col sm={8}>
-                        <Assets  {...this.props} onInstrumentSelected={this.handleInstrumentSelected}/>
+                        <Assets showOptionsTemplate={true} {...this.props} onInstrumentSelected={this.handleInstrumentSelected}/>
                         <PricesTemplate instrumentPrices={this.instrument}/>
                     </Col>
                 </div>

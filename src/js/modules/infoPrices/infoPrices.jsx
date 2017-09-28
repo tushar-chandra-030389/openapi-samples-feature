@@ -77,7 +77,7 @@ class InfoPrices extends React.Component {
                         Enter correct access token using
                         <a href='#/userInfo'> this link.</a>
                     </Error>
-                    <Assets onInstrumentSelected={this.handleInstrumentSelected} {...this.props}/>
+                    <Assets showOptionsTemplate={true} onInstrumentSelected={this.handleInstrumentSelected} {...this.props}/>
                     {
                         this.hasInsruments() && 
                         <InfoPricesTemplate
