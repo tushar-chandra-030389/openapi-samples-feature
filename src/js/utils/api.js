@@ -207,15 +207,77 @@ export function getInfoPricesList(accessToken, instrumentData) {
     });
 }
 
+// returns formatted price
 export function formatPrice(price, decimal, formatFlags) {
     return services.formatPrice(price, decimal, formatFlags);
 }
 
+// return balance information
 export function getBalancesInfo(accessToken, params) {
     return services.getData({
         serviceGroup: 'port',
         endPoint: 'v1/balances',
         queryParams: params,
         accessToken,
+    });
+}
+
+// create order subscription
+export function createOrderSubscription (accessToken, subscriptionArgs, onUpdate, onError) {
+    return new Promise((resolve, reject) => {
+        const subscription = services.subscribe({
+            serviceGroup: 'port',
+            endPoint: 'v2/orders/subscriptions',
+            queryParams: {
+                Arguments: {
+                    AccountKey: subscriptionArgs.accountKey,
+                    ClientKey: subscriptionArgs.clientKey,
+                    FieldGroups: subscriptionArgs.fieldGroups,
+                },
+                RefreshRate: 5,
+            },
+            accessToken,
+        }, onUpdate, onError);
+        resolve(subscription);
+    });
+}
+
+  // create positions subscription
+  export function createPositionSubscription(accessToken, subscriptionArgs, onUpdate, onError) {
+      return new Promise((resolve, reject) => {
+        const subscription = services.subscribe({
+            serviceGroup: 'port',
+            endPoint: 'v1/positions/subscriptions',
+            queryParams: {
+                Arguments: {
+                    AccountKey: subscriptionArgs.accountKey,
+                    ClientKey: subscriptionArgs.clientKey,
+                    FieldGroups: subscriptionArgs.fieldGroups,
+                },
+                RefreshRate: 5,
+            },
+            accessToken,
+        }, onUpdate, onError);
+        resolve(subscription);
+    });
+  }
+
+// create net positions subscription
+export function createNetPositionSubscription(accessToken, subscriptionArgs, onUpdate, onError) {
+    return new Promise((resolve, reject) => {
+        const subscription = services.subscribe({
+            serviceGroup: 'port',
+            endPoint: 'v1/netpositions/subscriptions',
+            queryParams: {
+                Arguments: {
+                    AccountKey: subscriptionArgs.accountKey,
+                    ClientKey: subscriptionArgs.clientKey,
+                    FieldGroups: subscriptionArgs.fieldGroups,
+                },
+                RefreshRate: 5,
+            },
+            accessToken,
+        }, onUpdate, onError);
+        resolve(subscription);
     });
 }

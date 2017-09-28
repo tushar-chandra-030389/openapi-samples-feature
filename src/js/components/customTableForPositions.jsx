@@ -12,9 +12,8 @@ class CustomTableForPositions extends React.Component {
 
     getNetPostionsDataTable() {
         const netPositionTableArray = _.map(this.props.data, (value, key) => {
-            console.log(value);
             return (
-                <tr>
+                <tr key={key}>
                     <td>{key}</td>
                     <td>{value.NetPositionView.Status}</td>
                     <td>{value.NetPositionBase.Amount}</td>
