@@ -2,11 +2,11 @@ import React from 'react';
 import { bindHandlers } from 'react-bind-handlers';
 import _ from 'lodash';
 import { Row, Col, Tabs, Tab, Panel, Alert } from 'react-bootstrap';
-
 import ClientPortfolioTemplate from './clientPortfolioTemplate';
 import * as queries from './queries';
-import TradeSubscriptions from './tradeSubscriptions';
+import TradeSubscriptions from '../tradeSubscription';
 import DetailsHeader from '../../components/detailsHeader';
+import Error from '../error';
 
 class ClientPortfolio extends React.PureComponent {
     constructor(props) {
@@ -110,8 +110,6 @@ class ClientPortfolio extends React.PureComponent {
             MarginNetExposure,
             MarginExposureCoveragePct
         } = response;
-
-
         this.balancesInfo = {
             'Cash balance': CashBalance,
             'Transactions not booked': TransactionsNotBooked,
@@ -134,53 +132,42 @@ class ClientPortfolio extends React.PureComponent {
             <div>
                 <DetailsHeader route={this.props.match.url}/>
                 <div className='pad-box'>
-                    <h2>
-                        <small>
-                            This application contains a number of samples to illustrate how to use the different
-                            resources
-                            and endpoints available in the Saxo Bank OpenAPI.
-                            All samples require a valid access token, which you may obtain from the developer portal
-                        </small>
-                    </h2>
-                    {!this.props.accessToken ? (
-                        <Alert bsStyle='warning'>
-                            Some responses may return no samples, depending upon actual market data entitlements
-                            and
-                            the
-                            configuration of the logged in user.
-                        </Alert>) : (
-                        <div>
-                            <ClientPortfolioTemplate
-                                clientInformation={this.clientInformation}
-                                state={this.state} accounts={this.accounts}
-                                currentAccountInfo={this.currentAccountInformation}
-                                balancesInfo={this.balancesInfo}
-                                onAccountSelection={this.handleAccountSelection}/>
-                            < Row>
-                                < Col sm={10}>
-                                    <Panel header='Orders/Positions' className='panel-primary'>
-                                        <Tabs className='primary' defaultActiveKey={1} animation={false}
-                                              id='noanim-tab-example'>
-                                            <Tab eventKey={1} title='Orders'>
-                                                <TradeSubscriptions
-                                                    currentAccountInformation={this.currentAccountInformation}
-                                                    tradeType='Order'
-                                                    fieldGroups={['DisplayAndFormat', 'ExchangeInfo']}
-                                                />
-                                            </Tab>
-                                            <Tab eventKey={2} title='Positions'>
-                                                <TradeSubscriptions
-                                                    currentAccountInformation={this.currentAccountInformation}
-                                                    tradeType='NetPosition'
-                                                    fieldGroups={['NetPositionView', 'NetPositionBase', 'DisplayAndFormat', 'ExchangeInfo', 'SingleAndClosedPositionsBase', 'SingleAndClosedPositionsView', 'SingleAndClosedPositions']}
-                                                />
-                                            </Tab>
-                                        </Tabs>
-                                    </Panel>
-                                </Col>
-                            </Row>
-                        </div>)
-                    }
+                    <Error>
+                        Enter correct access token using
+                        <a href='#/userInfo'> this link.</a>
+                    </Error>
+                    <div>
+                        <ClientPortfolioTemplate
+                            clientInformation={this.clientInformation}
+                            state={this.state} accounts={this.accounts}
+                            currentAccountInfo={this.currentAccountInformation}
+                            balancesInfo={this.balancesInfo}
+                            onAccountSelection={this.handleAccountSelection}
+                        />
+                        < Row>
+                            < Col sm={10}>
+                                <Panel header='Orders/Positions' className='panel-primary'>
+                                    <Tabs className='primary' defaultActiveKey={1} animation={false}
+                                            id='noanim-tab-example'>
+                                        <Tab eventKey={1} title='Orders'>
+                                            <TradeSubscriptions
+                                                currentAccountInformation={this.currentAccountInformation}
+                                                tradeType='Order'
+                                                fieldGroups={['DisplayAndFormat', 'ExchangeInfo']}
+                                            />
+                                        </Tab>
+                                        <Tab eventKey={2} title='Positions'>
+                                            <TradeSubscriptions
+                                                currentAccountInformation={this.currentAccountInformation}
+                                                tradeType='NetPosition'
+                                                fieldGroups={['NetPositionView', 'NetPositionBase', 'DisplayAndFormat', 'ExchangeInfo', 'SingleAndClosedPositionsBase', 'SingleAndClosedPositionsView', 'SingleAndClosedPositions']}
+                                            />
+                                        </Tab>
+                                    </Tabs>
+                                </Panel>
+                            </Col>
+                        </Row>
+                    </div>
                 </div>
             </div>
         );
