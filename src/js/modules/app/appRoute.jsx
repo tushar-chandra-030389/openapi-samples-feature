@@ -1,12 +1,11 @@
 import React from 'react';
-import {render} from 'react-dom';
-import {HashRouter as Router, Route, Switch} from 'react-router-dom';
+import { HashRouter as Router, Route } from 'react-router-dom';
 import App from './app';
 
 function AppRoute() {
     return (
         <Router>
-            <Route path='/' component={App}/>
+            <Route path="/" component={App}/>
         </Router>
     );
 }
