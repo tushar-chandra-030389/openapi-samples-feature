@@ -1,3 +1,3 @@
-import ChartPolling from './container';
+import ChartPolling from './chartPolling';
 
 export default ChartPolling;

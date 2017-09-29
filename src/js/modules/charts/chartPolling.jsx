@@ -87,7 +87,8 @@ class ChartPolling extends React.PureComponent {
 
                     <Button
                         bsStyle="primary"
-                        onClick={this.handleChartData}>
+                        onClick={this.handleChartData}
+                    >
                         Get Chart Data
                     </Button>
                     {this.state.instrumentSelected &&

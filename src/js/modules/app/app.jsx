@@ -1,7 +1,7 @@
 import React from 'react';
 import TopBar from '../../components/topBar';
 import SideBar from '../../components/sideBar';
-import Details from '../../components/details';
+import Details from '../details';
 import Loader from '../loader';
 
 function App() {

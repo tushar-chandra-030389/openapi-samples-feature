@@ -1,3 +1,3 @@
-import InstrumentDetails from './container';
+import InstrumentDetails from './instrumentDetails';
 
 export default InstrumentDetails;

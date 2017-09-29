@@ -1,17 +1,19 @@
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+
 import * as errorActions from '../error/actions';
 import * as loaderActions from '../loader/actions';
-import TradeSubscriptions from './tradeSubscription';
+import Details from './details';
 
 const mapStateToProps = (store) => ({
     accessToken: store.userInfo.accessToken,    
 });
 
-const matDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = (dispatch) => ({
     hideError: () => dispatch(errorActions.hideError()),    
     showError: () => dispatch(errorActions.showError()),    
     hideLoader: () => dispatch(loaderActions.hideLoader()),    
     showLoader: () => dispatch(loaderActions.showLoader()),    
 });
 
-export default connect(mapStateToProps, matDispatchToProps)(TradeSubscriptions);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Details));
