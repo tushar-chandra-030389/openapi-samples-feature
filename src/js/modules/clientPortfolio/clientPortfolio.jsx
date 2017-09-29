@@ -121,7 +121,7 @@ class ClientPortfolio extends React.PureComponent {
             'Not available as margin collateral': MarginCollateralNotAvailable,
             'Reserved for margin positions': MarginUsedByCurrentPositions,
             'Margin available': MarginAvailableForTrading,
-            'Margin uitilisation': MarginUtilizationPct,
+            'Margin utilisation': MarginUtilizationPct,
             'Net exposure': MarginNetExposure,
             'Exposure coverage': MarginExposureCoveragePct
         }

@@ -1,3 +1,3 @@
-import ClientPortfolio from './container';
+import ClientPortfolio from './clientPortfolio';
 
 export default ClientPortfolio;

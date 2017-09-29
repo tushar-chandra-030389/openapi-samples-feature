@@ -1,3 +1,3 @@
-import InfoPrices from './container';
+import InfoPrices from './infoPrices';
 
 export default InfoPrices;

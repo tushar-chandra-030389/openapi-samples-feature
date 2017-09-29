@@ -1,5 +1,3 @@
-/* eslint import/namespace: ['error', { allowComputed: true }]*/
-
 import { doWithLoader } from '../../utils/global';
 import * as API from '../../utils/api';
 import _ from 'lodash';

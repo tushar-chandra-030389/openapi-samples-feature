@@ -1,3 +1,3 @@
-import Prices from './container';
+import Prices from './prices';
 
 export default Prices;

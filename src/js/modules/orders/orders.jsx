@@ -127,7 +127,7 @@ class Orders extends React.PureComponent {
             const order = queries.getRelatedOrder(this.stopLossOrderType, this.stopLossPrice, this.currentOrder);
             this.currentOrder.Orders.push(order);      
         }
-        queries.postOrder(this.currentOrder, props, (response) => {
+        queries.postOrder(this.currentOrder, this.props, (response) => {
             this.setState({ responsData: response });
         });
     }
@@ -204,14 +204,14 @@ class Orders extends React.PureComponent {
                     <Panel className='panel-primary'>
                         <Tabs className='primary' defaultActiveKey={1} animation={false} id='noanim-tab-example'>
                             <Tab eventKey={1} title='Orders'>
-                                <TradeSubscriptions
+                                <TradeSubscriptions {...this.props}
                                     currentAccountInformation={this.state.selectedAccount}
                                     tradeType='Order'
                                     fieldGroups={['DisplayAndFormat', 'ExchangeInfo']}
                                 />
                             </Tab>
                             <Tab eventKey={2} title='Positions'>
-                                <TradeSubscriptions
+                                <TradeSubscriptions {...this.props}
                                     currentAccountInformation={this.state.selectedAccount}
                                     tradeType='Position'
                                     fieldGroups={['DisplayAndFormat', 'PositionBase', 'PositionView']}

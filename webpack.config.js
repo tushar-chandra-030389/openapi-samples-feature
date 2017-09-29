@@ -16,7 +16,7 @@ module.exports = {
             'lodash',
             'redux',
             'redux-thunk',
-            'jquery'
+            'jquery',
         ],
         index: path.join(__dirname, 'src', 'js', 'main')
     },
@@ -75,7 +75,8 @@ module.exports = {
 
     plugins: [
         new webpack.optimize.CommonsChunkPlugin({
-            name: 'vendor'
+            name: 'vendor',
+            minChunks: 3,
         }),
 
         new HtmlWebpackPlugin({
