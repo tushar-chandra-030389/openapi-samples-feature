@@ -151,6 +151,7 @@ class ClientPortfolio extends React.PureComponent {
                                             id='noanim-tab-example'>
                                         <Tab eventKey={1} title='Orders'>
                                             <TradeSubscriptions
+                                                {...this.props}
                                                 currentAccountInformation={this.currentAccountInformation}
                                                 tradeType='Order'
                                                 fieldGroups={['DisplayAndFormat', 'ExchangeInfo']}
@@ -158,6 +159,7 @@ class ClientPortfolio extends React.PureComponent {
                                         </Tab>
                                         <Tab eventKey={2} title='Positions'>
                                             <TradeSubscriptions
+                                                {...this.props}
                                                 currentAccountInformation={this.currentAccountInformation}
                                                 tradeType='NetPosition'
                                                 fieldGroups={['NetPositionView', 'NetPositionBase', 'DisplayAndFormat', 'ExchangeInfo', 'SingleAndClosedPositionsBase', 'SingleAndClosedPositionsView', 'SingleAndClosedPositions']}

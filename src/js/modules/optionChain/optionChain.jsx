@@ -3,12 +3,12 @@ import { bindHandlers } from 'react-bind-handlers';
 import SearchInput from 'react-search-input';
 import { InputGroup, ListGroupItem, ListGroup } from 'react-bootstrap';
 import _ from 'lodash';
-import $ from 'jquery';
 
 import CustomTable from '../../components/customTable';
 import OptionChainTemplate from './optionChainTemplate';
 import * as queries from './queries';
 import Error from '../error';
+import DetailsHeader from '../../components/detailsHeader';
 
 class OptionChain extends React.PureComponent {
     constructor(props) {
@@ -37,7 +37,7 @@ class OptionChain extends React.PureComponent {
 
     handleOptionRootSelected(eventKey) {
         this.optionRootData = {};
-        const OptionRootId = $(eventKey.target).data('uic');
+        const OptionRootId = eventKey.target.getAttribute('data-uic');
         queries.getInfo('getOptionChain', this.props, this.handleOptionDataSuccess, OptionRootId);
     }
 
@@ -73,41 +73,40 @@ class OptionChain extends React.PureComponent {
 
     render() {
         return (
-            <div className="pad-box">
-                <Error>
-                    Enter correct access token using
-                    <a href="#/userInfo"> this link.</a>
-                </Error>
-                <InputGroup>
-                    <InputGroup.Addon>
-                        <img src="../images/search-icon.png" className="search-icon"/>
-                    </InputGroup.Addon>
-                    <SearchInput
-                        className="search-input"
-                        onChange={this.handleSearchUpdated}
-                    />
-                </InputGroup>
-                <div className="search-area">
-                    <ListGroup bsClass="search-group">{this.items}</ListGroup>
-                </div>
-                <br/>
-                <br/>
-                <br/>
-                <CustomTable
-                    data={this.underlyingInstr}
-                    keyField="Uic"
-                    dataSortFields={['Uic', 'AssetType']}
-                    width={'150'}
-                />
-                {_.map(this.optionRootData.OptionSpace, (item, key) => (
-                    <div className="pad-box" key={key}>
-                        <h4><u>{item.Expiry}</u></h4>
-                        <OptionChainTemplate
-                            data={item.ModifiedSpecificOptions}
+            <div>
+                <DetailsHeader route={this.props.match.url}/>
+                <div className="pad-box">
+                    <Error>
+                        Enter correct access token using
+                        <a href="#/userInfo"> this link.</a>
+                    </Error>
+                    <InputGroup>
+                        <InputGroup.Addon>
+                            <img src="../images/search-icon.png" className="search-icon"/>
+                        </InputGroup.Addon>
+                        <SearchInput
+                            className="search-input"
+                            onChange={this.handleSearchUpdated}
                         />
-                    </div>)
-                )}
-
+                    </InputGroup>
+                    <div className="search-area">
+                        <ListGroup bsClass="search-group">{this.items}</ListGroup>
+                    </div>
+                    <CustomTable
+                        data={this.underlyingInstr}
+                        keyField="Uic"
+                        dataSortFields={['Uic', 'AssetType']}
+                        width={'150'}
+                    />
+                    {_.map(this.optionRootData.OptionSpace, (item, key) => (
+                        <div className="pad-box" key={key}>
+                            <h4><u>{item.Expiry}</u></h4>
+                            <OptionChainTemplate
+                                data={item.ModifiedSpecificOptions}
+                            />
+                        </div>)
+                    )}
+                </div>
             </div>
         );
     }

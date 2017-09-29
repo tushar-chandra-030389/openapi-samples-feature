@@ -15,6 +15,10 @@ textarea {
 	left: 0;
 }
 
+.sidebar button.list-group-item {
+	font-weight: 600;
+}
+
 .nav-items a {
 	color: white !important;
 }
@@ -180,7 +184,7 @@ textarea {
 	overflow-y: scroll;
 }
 
-.topBar .container {
+.topbar .container {
 	width: auto;
 }
 

@@ -4,7 +4,7 @@ import { bindHandlers } from 'react-bind-handlers';
 import { Table } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
-class CustomTableForPositions extends React.Component {
+class CustomTableForPositions extends React.PureComponent {
     constructor() {
         super();
         this.data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];

@@ -11,7 +11,7 @@ import _ from 'lodash';
 import { getSymbolForID, getRenderDetails, getRearrangedDetails } from './queries';
 import { func } from 'prop-types'
 
-class InstrumentDetails extends React.Component {
+class InstrumentDetails extends React.PureComponent {
     constructor() {
         super();
         this.state = { instrumentDetails: undefined };

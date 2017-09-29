@@ -5,7 +5,7 @@ import { LinkContainer} from 'react-router-bootstrap';
 
 function TopBar() {
     return (
-        <Navbar inverse collapseOnSelect fixedTop className={'topBar'}>
+        <Navbar inverse collapseOnSelect fixedTop className='topbar'>
             <Navbar.Header>
                 <Navbar.Brand>
                     Open Api - Feature Samples

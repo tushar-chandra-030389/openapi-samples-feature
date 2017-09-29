@@ -6,7 +6,7 @@ import Assets from '../assets';
 import InfoPricesTemplate from './infoPricesTemplate';
 import * as queries from './queries';
 
-class InfoPrices extends React.Component {
+class InfoPrices extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = { flag: false };
