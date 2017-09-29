@@ -5,7 +5,7 @@ import { string, arrayOf, shape } from 'prop-types';
 import { bindHandlers } from 'react-bind-handlers';
 import { ListGroup, ListGroupItem, Collapse, Glyphicon } from 'react-bootstrap';
 
-class Accordion extends React.Component {
+class Accordion extends React.PureComponent {
     constructor() {
         super();
         this.state = { isOpen: false };

@@ -10,7 +10,7 @@ import { doWithLoader } from '../../utils/global';
 const CALL = 'Call';
 const PUT = 'Put';
 
-class Options extends React.Component {
+class Options extends React.PureComponent {
     constructor() {
         super();
         this.state = {

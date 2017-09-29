@@ -4,6 +4,7 @@ import { bindHandlers } from 'react-bind-handlers';
 import { Button } from 'react-bootstrap';
 
 import * as queries from './queries';
+import DetailsHeader from '../../components/detailsHeader';
 import DropDown from '../../components/dropdown';
 import Instrument from '../assets/instruments';
 import CustomTable from '../../components/customTable';
@@ -65,12 +66,13 @@ class ChartPolling extends React.PureComponent {
     render() {
         return (
             <div>
-                <Instrument {...this.props} onInstrumentSelected={this.handleInstrumentSelected}/>
+                <DetailsHeader route={this.props.match.url}/>
                 <div className="pad-box">
                     <Error>
                         Enter correct access token using
                         <a href="#/userInfo"> this link.</a>
                     </Error>
+                    <Instrument {...this.props} onInstrumentSelected={this.handleInstrumentSelected}/>
                     <DropDown
                         id="charPollingDropDown1"
                         title="Horizon1"

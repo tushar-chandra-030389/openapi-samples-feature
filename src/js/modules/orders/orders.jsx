@@ -204,14 +204,16 @@ class Orders extends React.PureComponent {
                     <Panel className='panel-primary'>
                         <Tabs className='primary' defaultActiveKey={1} animation={false} id='noanim-tab-example'>
                             <Tab eventKey={1} title='Orders'>
-                                <TradeSubscriptions {...this.props}
+                                <TradeSubscriptions
+                                    {...this.props}
                                     currentAccountInformation={this.state.selectedAccount}
                                     tradeType='Order'
                                     fieldGroups={['DisplayAndFormat', 'ExchangeInfo']}
                                 />
                             </Tab>
                             <Tab eventKey={2} title='Positions'>
-                                <TradeSubscriptions {...this.props}
+                                <TradeSubscriptions
+                                    {...this.props}
                                     currentAccountInformation={this.state.selectedAccount}
                                     tradeType='Position'
                                     fieldGroups={['DisplayAndFormat', 'PositionBase', 'PositionView']}

@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 
 import { getFormattedPrice } from '../utils/api';
 
-class CustomTable extends React.Component {
+class CustomTable extends React.PureComponent {
     constructor() {
         super();
         this.data = [];

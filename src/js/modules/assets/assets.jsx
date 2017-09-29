@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 import Instruments from './instruments';
 import Options from './options';
 
-class Assets extends React.Component {
+class Assets extends React.PureComponent {
     constructor() {
         super();
         this.state = {optionRoot: undefined, putCallExpiryRequired: false, optionRootSelected: false};
