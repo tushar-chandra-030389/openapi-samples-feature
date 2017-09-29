@@ -34,6 +34,13 @@ export function getData(params) {
     });
 }
 
+export function postData(params) {
+    return getTransportAuth(params.accessToken).post(params.serviceGroup, params.endPoint, null, {
+        queryParams: params.queryParams,
+        body: params.body,
+    });
+}
+
 export function formatPrice(price, decimal, formatFlags) {
     return priceFormatter.format(price, decimal, formatFlags);
 }

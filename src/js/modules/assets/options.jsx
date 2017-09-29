@@ -130,9 +130,7 @@ class Options extends React.Component {
             <div>
                 {
                     this.state.selectedOptionSpace &&
-                    <Form>
-                        <FormGroupTemplate data={expiryStrickCallPut} onChange={this.handleValueChange} />
-                    </Form>
+                    <FormGroupTemplate data={expiryStrickCallPut} onChange={this.handleValueChange}/>
                 }
             </div>
         );

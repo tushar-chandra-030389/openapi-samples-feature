@@ -21,7 +21,7 @@ class Assets extends React.Component {
     }
 
     handleOptionRoot(optionRoot) {
-        this.setState({optionRoot: optionRoot});
+        this.setState({ optionRoot: optionRoot });
     }
 
     handleInstrumentSelection(instrumentDetails) {
@@ -81,7 +81,6 @@ class Assets extends React.Component {
                     onInstrumentSelected={this.handleInstrumentSelection}
                     onOptionRootSelected={this.handleOptionRoot}
                     onAssetTypeSelected={this.handleAssetTypeChange}
-                    onPrice
                 />
                 {
                     this.state.optionRootSelected && this.state.optionRoot && this.props.showOptionsTemplate &&

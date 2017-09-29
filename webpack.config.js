@@ -16,7 +16,7 @@ module.exports = {
             'lodash',
             'redux',
             'redux-thunk',
-            'jquery'
+            'jquery',
         ],
         index: path.join(__dirname, 'src', 'js', 'main')
     },
@@ -75,14 +75,14 @@ module.exports = {
 
     plugins: [
         new webpack.optimize.CommonsChunkPlugin({
-            name: 'vendor'
+            name: 'vendor',
+            minChunks: 3,
         }),
 
         new HtmlWebpackPlugin({
             template: __dirname + '/src/index.html',
             title: 'Dynamic Html',
         }),
-        // new webpack.optimize.CommonsChunnpm install html-webpack-plugin --save-devkPlugin('shared.js')
     ],
 
     resolve: {

@@ -9,6 +9,7 @@ import Prices from '../prices';
 import ClientPortfolio from '../clientPortfolio';
 import OptionChain from '../optionChain';
 import ChartPolling from '../charts';
+import Orders from '../orders';
 
 function Details(props) {
     return (
@@ -23,7 +24,7 @@ function Details(props) {
                        component={(routeProps) => <ClientPortfolio {...props} {...routeProps} />}/>
                 <Route path='/options' component={(routeProps) => <OptionChain {...props} {...routeProps}/>}/>
                 <Route path='/chartPolling' component={(routeProps) => <ChartPolling {...props} {...routeProps}/>}/>
-
+                <Route path='/orders' component={(routeProps) => <Orders {...props} {...routeProps}/>}/>
                 <Redirect exact path='/' to='/intro'/>
             </Switch>
         </div>
