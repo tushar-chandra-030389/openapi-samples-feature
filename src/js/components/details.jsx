@@ -7,6 +7,7 @@ import InfoPrices from '../modules/infoPrices';
 import Prices from '../modules/prices';
 import ClientPortfolio from '../modules/clientPortfolio';
 import OptionChain from '../modules/optionChain';
+import Orders from '../modules/orders';
 
 function Details() {
     return (
@@ -19,6 +20,7 @@ function Details() {
                 <Route path='/prices' component={Prices}/>
                 <Route path='/clientPortfolio' component={ClientPortfolio}/>
                 <Route path='/options' component={OptionChain}/>
+                <Route path='/orders' component={Orders}/>
                 <Redirect exact path='/' to='/intro' />
             </Switch>
         </div>

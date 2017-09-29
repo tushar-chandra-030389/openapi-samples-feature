@@ -4,7 +4,7 @@ import { getInfoPrices, getInfoPricesList, subscribeInfoPrices, removeIndividual
 import { subscribe } from '../../utils/dataServices';
 
 export function fetchInfoPrices(instrument, props, cb) {
-    const expiry = instrument.Expiry ? instrument.Expiry : instrument.FxForwardMaxForwardDate;
+    instrument.expiry = instrument.Expiry ? instrument.Expiry : instrument.FxForwardMaxForwardDate;
     doWithLoader(props, _.partial(getInfoPrices, props.accessToken, instrument), (result) => {
         cb(result.response);
     });

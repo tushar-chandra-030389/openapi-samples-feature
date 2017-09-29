@@ -1,13 +1,13 @@
 import React from 'react';
 import _ from 'lodash';
-import {bindHandlers} from 'react-bind-handlers';
-import {ButtonToolbar, Row} from 'react-bootstrap';
+import { bindHandlers } from 'react-bind-handlers';
+import { ButtonToolbar, Row } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 import * as allAssetTypes from '../../data/allAssetTypes';
-import {checkIfOption, doWithLoader} from '../../utils/global';
+import { checkIfOption, doWithLoader } from '../../utils/global';
 import Dropdown from '../../components/dropdown';
-import {getInstruments, getInstrumentDetails} from '../../utils/api';
+import { getInstruments, getInstrumentDetails } from '../../utils/api';
 
 class Instruments extends React.PureComponent {
     constructor() {

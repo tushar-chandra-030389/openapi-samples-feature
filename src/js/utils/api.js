@@ -43,7 +43,7 @@ export function getInfoPrices(accessToken, instrumentDetails) {
         queryParams: {
             AssetType: instrumentDetails.AssetType,
             Uic: instrumentDetails.Uic,
-            ExpiryDate: instrumentDetails.ExpiryDate,
+            ExpiryDate: instrumentDetails.expiry,
             PutCall: instrumentDetails.PutCall,
             FieldGroups: [
                 'DisplayAndFormat',
@@ -279,5 +279,16 @@ export function createNetPositionSubscription(accessToken, subscriptionArgs, onU
             accessToken,
         }, onUpdate, onError);
         resolve(subscription);
+    });
+}
+
+// place order
+export function placeOrder(accessToken, order) {
+    return services.postData({
+        serviceGroup: 'trade',
+        endPoint: 'v2/orders',
+        queryParams: null,
+        body: order,
+        accessToken,
     });
 }

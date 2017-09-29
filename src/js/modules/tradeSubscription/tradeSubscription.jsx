@@ -79,10 +79,4 @@ class TradeSubscriptions extends React.PureComponent {
     }
 }
 
-TradeSubscriptions.propTypes = {
-    currentAccountInformation: PropTypes.object.isRequired,
-    tradeType: PropTypes.string.isRequired,
-    fieldGroups: PropTypes.array.isRequired
-};
-
 export default bindHandlers(TradeSubscriptions);
