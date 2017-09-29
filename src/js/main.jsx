@@ -7,11 +7,6 @@ import loaderReducer from './modules/loader/reducer';
 import errorReducer from './modules/error/reducer';
 import userInfoReducer from './modules/userInfo/reducer';
 import AppRoute from './modules/app';
-import '../css/style.css';
-
-//css
-import '../css/style.css';
-import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
 const reducer = combineReducers({
     loader: loaderReducer,

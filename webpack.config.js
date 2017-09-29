@@ -82,7 +82,6 @@ module.exports = {
             template: __dirname + '/src/index.html',
             title: 'Dynamic Html',
         }),
-        // new webpack.optimize.CommonsChunnpm install html-webpack-plugin --save-devkPlugin('shared.js')
     ],
 
     resolve: {
