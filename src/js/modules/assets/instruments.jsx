@@ -1,13 +1,11 @@
 import React from 'react';
-import _ from 'lodash';
 import { bindHandlers } from 'react-bind-handlers';
 import { ButtonToolbar, Row } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-
 import * as allAssetTypes from '../../data/allAssetTypes';
-import { checkIfOption, doWithLoader } from '../../utils/global';
+import { checkIfOption } from '../../utils/global';
 import Dropdown from '../../components/dropdown';
-import { getInstruments, getInstrumentDetails } from '../../utils/api';
+import { fetchInstruments, fetchInstrumentDetails } from './queries';
 
 class Instruments extends React.PureComponent {
     constructor() {
@@ -25,7 +23,6 @@ class Instruments extends React.PureComponent {
         if (this.props.onAssetTypeSelected) {
             this.props.onAssetTypeSelected(eventKey);
         }
-
         this.setState({assetTypeTitle: eventKey});
         if (checkIfOption(eventKey)) {
             this.setState({title: 'Select OptionRoot'});
@@ -33,15 +30,8 @@ class Instruments extends React.PureComponent {
         else {
             this.setState({title: 'Select Instrument'});
         }
-        this.fetchInstruments(eventKey);
-    }
-
-    fetchInstruments(eventKey) {
-        /* Open API to get instruments for specific AssetType
-          see utils/api.js for more details
-        */
-        doWithLoader(this.props, _.partial(getInstruments, this.props.accessToken, eventKey), (result) => {
-            this.setState({instruments: result.response.Data});
+        fetchInstruments(eventKey, this.props, (response) => {
+            this.setState({instruments: response.Data});
         });
     }
 
@@ -54,18 +44,11 @@ class Instruments extends React.PureComponent {
             this.props.onOptionRootSelected(instrument);
         }
         else {
-            this.fetchInstrumentDetails(instrument);
+            fetchInstrumentDetails(instrument, this.props, (response) => {
+                this.props.onInstrumentSelected(response);
+            });
         }
         this.setState({title: instrument.Description});
-    }
-
-    fetchInstrumentDetails(instrument) {
-        /* Open API to fecth details of the selected instrument
-          see utils/api.js for more details
-        */
-        doWithLoader(this.props, _.partial(getInstrumentDetails, this.props.accessToken, instrument.Identifier, instrument.AssetType), (result) => {
-            this.props.onInstrumentSelected(result.response);
-        });
     }
 
     render() {

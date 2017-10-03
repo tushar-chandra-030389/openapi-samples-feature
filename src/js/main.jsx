@@ -15,6 +15,10 @@ const reducer = combineReducers({
 });
 const store = createStore(reducer, applyMiddleware(thunk));
 
+if (IS_DEV_ENV) {
+	window.$store = store;
+}
+
 render(
     <Provider store={store}>
         <AppRoute />

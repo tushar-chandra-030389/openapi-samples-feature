@@ -4,8 +4,8 @@ import _ from 'lodash';
 import PropTypes from 'prop-types';
 import { Form } from 'react-bootstrap';
 import FormGroupTemplate from '../../components/formGroupTemplate';
-import { getOptionChain, getInstrumentDetails } from '../../utils/api';
-import { doWithLoader } from '../../utils/global';
+import { fetchOptionChain, getFormattedExpiry, fetchInstrumentDetails } from './queries';
+import { getOptionChain, getInstrumentDetails,  } from '../../utils/api';
 
 const CALL = 'Call';
 const PUT = 'Put';
@@ -26,13 +26,17 @@ class Options extends React.PureComponent {
 
     componentDidMount() {
         this.selectedOptionRoot = this.props.optionRoot;
-        this.fetchOptionChain();
+        fetchOptionChain(this.selectedOptionRoot, this.props,(response) => {
+            this.onSuccess(response);
+        });
     }
     
     componentWillReceiveProps(newProps) {
         if (this.selectedOptionRoot.Identifier !== newProps.optionRoot.Identifier) {
             this.selectedOptionRoot = newProps.optionRoot;
-            this.fetchOptionChain();
+            fetchOptionChain(this.selectedOptionRoot, this.props,(response) => {
+                this.onSuccess(response);
+            });
         }
     }
 
@@ -57,18 +61,11 @@ class Options extends React.PureComponent {
         this.setState({ flag: !this.state.flag });
     }
 
-    fetchOptionChain() {
-        // OptionRoot information - please get underlying instruments from OptionRootId. e.g instrumentInfo.Identifier
-        doWithLoader(this.props, _.partial(getOptionChain, this.props.accessToken, this.selectedOptionRoot.Identifier), (result) => {
-            this.onSuccess(result.response);
-        });
-    }
-
     onSuccess(response) {
         // response is all options avilable for OptionRootId, see 'handleInstrumentSelection'' function
         this.optionRootData = response;
         // getFormattedExpiry is kind of hack, work is progress to have same expiry format in different places in response json.
-        this.expiry = this.getFormattedExpiry(response.DefaultExpiry);
+        this.expiry = getFormattedExpiry(response.DefaultExpiry);
 
         // select specific option on UI, generally DefaultOption in response json.
         this.strikePrice = response.DefaultOption.StrikePrice;
@@ -77,13 +74,6 @@ class Options extends React.PureComponent {
         this.selectOptionSpace();
 
         this.selectInstrument();
-    }
-
-    // format date strinf to YYYY-MM-DD format.
-    getFormattedExpiry(dateStr) {
-        // getMonth() is zero-based
-        let date = new Date(dateStr), mm = date.getMonth() + 1, dd = date.getDate();
-        return [date.getFullYear(), (mm > 9 ? '' : '0') + mm, (dd > 9 ? '' : '0') + dd].join('-');
     }
 
     selectOptionSpace() {
@@ -98,19 +88,12 @@ class Options extends React.PureComponent {
     selectInstrument() {
         _.forEach(this.state.selectedOptionSpace.SpecificOptions, (option) => {
             if (option.StrikePrice === parseFloat(this.strikePrice) && option.PutCall === this.callPut) {
-                this.fetchInstrumentDetails(option.Uic);
+                fetchInstrumentDetails({ Identifier: option.Uic , AssetType: this.props.optionRoot.AssetType}, this.props, (response) => {
+                    this.props.onInstrumentSelected(response);
+                });
                 return;
             }
         })
-    }
-
-    fetchInstrumentDetails(uic) {
-        /* Open API to fetch detials of the instrument
-           see utils/api.js for more details
-        */
-        doWithLoader(this.props, _.partial(getInstrumentDetails, this.props.accessToken, uic, this.props.optionRoot.AssetType), (result) => {
-            this.props.onInstrumentSelected(result.response);
-        });
     }
     
     render() {

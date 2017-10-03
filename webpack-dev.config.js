@@ -1,3 +1,4 @@
+const webpack = require("webpack");
 let config = require("./webpack.config");
 
 config.devtool = 'source-map';
@@ -13,5 +14,14 @@ config.devtool = 'source-map';
 //         loader: 'eslint-loader'
 //     }
 // )
+
+config.plugins.push(
+    new webpack.DefinePlugin({
+        'process.env': {
+            'NODE_ENV': JSON.stringify('development')
+        },
+        IS_DEV_ENV: true
+    })
+);
 
 module.exports = config;
