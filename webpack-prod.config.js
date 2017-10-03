@@ -18,7 +18,8 @@ config.plugins.push(
     new webpack.DefinePlugin({
         'process.env': {
             'NODE_ENV': JSON.stringify('production')
-        }
+        },
+        IS_DEV_ENV: false
     })
 );
 
