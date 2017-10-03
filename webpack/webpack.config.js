@@ -18,7 +18,7 @@ module.exports = {
             'redux-thunk',
             'jquery',
         ],
-        index: path.join(__dirname, 'src', 'js', 'main')
+        index: path.join(__dirname, '../src', 'js', 'main')
     },
 
     stats: {
@@ -28,7 +28,7 @@ module.exports = {
     },
 
     output: {
-        path: path.resolve(__dirname, 'src', 'build'),
+        path: path.resolve(__dirname, '../src', 'build'),
         filename: '[name][chunkhash].js',
     },
 
@@ -80,7 +80,7 @@ module.exports = {
         }),
 
         new HtmlWebpackPlugin({
-            template: __dirname + '/src/index.html',
+            template:path.resolve(__dirname, '../src', 'index.html'),
             title: 'Dynamic Html',
         }),
     ],

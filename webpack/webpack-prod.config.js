@@ -1,6 +1,7 @@
 const webpack = require("webpack");
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const path = require('path');
 
 let config = require("./webpack.config");
 
@@ -32,7 +33,8 @@ config.plugins.push(
 )
 
 config.plugins.push(
-    new CleanWebpackPlugin(['./src/build'], {
+    new CleanWebpackPlugin([path.resolve(__dirname, '../src/build')], {
+        root: process.cwd(), // without this ,it was throwing error ' directory is outside of the project root. Skipping...'
         verbose: true,
     })
 );
