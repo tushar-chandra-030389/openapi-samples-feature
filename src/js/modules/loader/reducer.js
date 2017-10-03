@@ -1,24 +1,25 @@
 import * as actionTypes from './actionTypes';
+import _ from 'lodash';
 
 const initialState = { isLoading: false };
 
-function _showLoader(state) {
-    return Object.assign({}, state, { isLoading: true });
+function showLoader(state) {
+    return _.defaults({ isLoading: true }, state);
 }
 
-function _hideLoader(state) {
-    return Object.assign({}, state, { isLoading: false });
+function hideLoader(state) {
+    return _.defaults({ isLoading: false }, state);
 }
 
 export default function(state = initialState, action) {
-    switch (action.type) {        
+    switch (action.type) {
         case actionTypes.SHOW_LOADER:
-            return _showLoader(state);
+            return showLoader(state);
 
         case actionTypes.HIDE_LOADER:
-            return _hideLoader(state);
+            return hideLoader(state);
 
         default:
             return state;
     }
-} 
+}

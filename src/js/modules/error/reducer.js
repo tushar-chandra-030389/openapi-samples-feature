@@ -1,24 +1,25 @@
 import * as actionTypes from './actionTypes';
+import _ from 'lodash';
 
 const initialState = { showError: false };
 
-function _showError(state) {
-    return Object.assign({}, state, { showError: true });
+function showError(state) {
+    return _.defaults({ showError: true }, state);
 }
 
-function _hideError(state) {
-    return Object.assign({}, state, { showError: false });
+function hideError(state) {
+    return _.defaults({ showError: false }, state);
 }
 
 export default function(state = initialState, action) {
-    switch (action.type) {        
+    switch (action.type) {
         case actionTypes.SHOW_ERROR:
-            return _showError(state);
+            return showError(state);
 
         case actionTypes.HIDE_ERROR:
-            return _hideError(state);
+            return hideError(state);
 
         default:
             return state;
     }
-} 
+}
