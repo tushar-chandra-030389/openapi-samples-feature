@@ -3,6 +3,7 @@ import { bindHandlers } from 'react-bind-handlers';
 import SearchInput from 'react-search-input';
 import { InputGroup, ListGroupItem, ListGroup } from 'react-bootstrap';
 import _ from 'lodash';
+import PropTypes from 'prop-types';
 
 import CustomTable from '../../components/customTable';
 import OptionChainTemplate from './optionChainTemplate';
@@ -111,5 +112,13 @@ class OptionChain extends React.PureComponent {
         );
     }
 }
+
+OptionChain.propTypes = {
+    match: PropTypes.shape(
+        {
+            url: PropTypes.string,
+        }
+    ),
+};
 
 export default bindHandlers(OptionChain);

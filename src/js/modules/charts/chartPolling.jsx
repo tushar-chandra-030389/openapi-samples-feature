@@ -2,6 +2,7 @@ import React from 'react';
 import _ from 'lodash';
 import { bindHandlers } from 'react-bind-handlers';
 import { Button } from 'react-bootstrap';
+import PropTypes from 'prop-types';
 
 import * as queries from './queries';
 import DetailsHeader from '../../components/detailsHeader';
@@ -107,5 +108,13 @@ class ChartPolling extends React.PureComponent {
         );
     }
 }
+
+ChartPolling.propTypes = {
+    match: PropTypes.shape(
+        {
+            url: PropTypes.string,
+        }
+    ),
+};
 
 export default bindHandlers(ChartPolling);
