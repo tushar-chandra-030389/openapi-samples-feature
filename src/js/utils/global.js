@@ -14,12 +14,12 @@ export function doWithLoader(props, apiFunc, callback) {
     props.showLoader();
     props.hideError();
     apiFunc()
-    .then((result) => {
-        if (callback) {
-            callback(result);
-        }
-        return;
-    })
-    .catch(() => props.showError())
-    .then(() => props.hideLoader());
+        .then((result) => {
+            if (callback) {
+                callback(result);
+            }
+
+        })
+        .catch(() => props.showError())
+        .then(() => props.hideLoader());
 }

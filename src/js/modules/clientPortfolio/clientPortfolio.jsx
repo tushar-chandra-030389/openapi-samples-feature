@@ -1,7 +1,9 @@
 import React from 'react';
 import { bindHandlers } from 'react-bind-handlers';
 import _ from 'lodash';
-import { Row, Col, Tabs, Tab, Panel, Alert } from 'react-bootstrap';
+import { Row, Col, Tabs, Tab, Panel } from 'react-bootstrap';
+import PropTypes from 'prop-types';
+
 import ClientPortfolioTemplate from './clientPortfolioTemplate';
 import * as queries from './queries';
 import TradeSubscriptions from '../tradeSubscription';
@@ -12,7 +14,7 @@ class ClientPortfolio extends React.PureComponent {
     constructor(props) {
         super(props);
 
-        let accountsInfo = {};
+        this.accountsInfo = {};
         this.accounts = [];
         this.currentAccountInformation = {};
 
@@ -23,7 +25,7 @@ class ClientPortfolio extends React.PureComponent {
             flag: false,
             clientKey: '',
             accountKey: '',
-            accountGroupKey: ''
+            accountGroupKey: '',
         };
     }
 
@@ -31,27 +33,27 @@ class ClientPortfolio extends React.PureComponent {
         queries.getInfo('getClientInfo', this.props, this.handleClientAccounts);
     }
 
-    handleAccountSelection(eventKey, key) {
+    handleAccountSelection(eventKey) {
         this.currentAccountInformation = _.find(this.accountsInfo, (account) => account.AccountId === eventKey);
 
         const {
             ClientKey,
             AccountGroupKey,
-            AccountKey
+            AccountKey,
         } = this.currentAccountInformation;
 
-        let balanceInfoQueryParams = {
+        const balanceInfoQueryParams = {
             ClientKey,
             AccountGroupKey,
-            AccountKey
-        }
+            AccountKey,
+        };
 
         queries.getInfo('getBalancesInfo', this.props, this.handleBalanceInfo, balanceInfoQueryParams);
 
         this.setState({
             currentAccountId: eventKey,
             accountKey: AccountKey,
-            accountGroupKey: AccountGroupKey
+            accountGroupKey: AccountGroupKey,
         });
     }
 
@@ -61,10 +63,10 @@ class ClientPortfolio extends React.PureComponent {
 
         queries.getInfo('getAccountInfo', this.props, this.handleAccountInfo);
 
-        let balanceInfoQueryParams = {
+        const balanceInfoQueryParams = {
             ClientKey,
-            AccountKey: DefaultAccountKey
-        }
+            AccountKey: DefaultAccountKey,
+        };
 
         queries.getInfo('getBalancesInfo', this.props, this.handleBalanceInfo, balanceInfoQueryParams);
 
@@ -72,7 +74,7 @@ class ClientPortfolio extends React.PureComponent {
             clientName: Name,
             currentAccountId: DefaultAccountId,
             clientKey: ClientKey,
-            accountKey: DefaultAccountKey
+            accountKey: DefaultAccountKey,
         });
     }
 
@@ -80,12 +82,14 @@ class ClientPortfolio extends React.PureComponent {
     handleAccountInfo(response) {
         this.accountsInfo = response.Data;
 
-        _.forEach(this.accountsInfo, (individualAccount) => this.accounts.push(individualAccount.AccountId));
+        // _.map(this.accountsInfo, (individualAccount) => this.accounts.push(individualAccount.AccountId));
+
+        this.accounts = _.map(this.accountsInfo, 'AccountId');
 
         this.currentAccountInformation = _.find(this.accountsInfo, (account) => account.AccountId === this.state.currentAccountId);
 
         this.setState({
-            accountUpdated: true
+            accountUpdated: true,
         });
     }
 
@@ -108,7 +112,7 @@ class ClientPortfolio extends React.PureComponent {
             MarginAvailableForTrading,
             MarginUtilizationPct,
             MarginNetExposure,
-            MarginExposureCoveragePct
+            MarginExposureCoveragePct,
         } = response;
         this.balancesInfo = {
             'Cash balance': CashBalance,
@@ -123,18 +127,18 @@ class ClientPortfolio extends React.PureComponent {
             'Margin available': MarginAvailableForTrading,
             'Margin utilisation': MarginUtilizationPct,
             'Net exposure': MarginNetExposure,
-            'Exposure coverage': MarginExposureCoveragePct
-        }
+            'Exposure coverage': MarginExposureCoveragePct,
+        };
     }
 
     render() {
         return (
             <div>
                 <DetailsHeader route={this.props.match.url}/>
-                <div className='pad-box'>
+                <div className="pad-box">
                     <Error>
                         Enter correct access token using
-                        <a href='#/userInfo'> this link.</a>
+                        <a href="#/userInfo"> this link.</a>
                     </Error>
                     <div>
                         <ClientPortfolioTemplate
@@ -146,23 +150,30 @@ class ClientPortfolio extends React.PureComponent {
                         />
                         < Row>
                             < Col sm={10}>
-                                <Panel header='Orders/Positions' className='panel-primary'>
-                                    <Tabs className='primary' defaultActiveKey={1} animation={false}
-                                            id='noanim-tab-example'>
-                                        <Tab eventKey={1} title='Orders'>
+                                <Panel header="Orders/Positions" className="panel-primary">
+                                    <Tabs className="primary" defaultActiveKey={1} animation={false}
+                                        id="noanim-tab-example"
+                                    >
+                                        <Tab eventKey={1} title="Orders">
                                             <TradeSubscriptions
                                                 {...this.props}
                                                 currentAccountInformation={this.currentAccountInformation}
-                                                tradeType='Order'
+                                                tradeType="Order"
                                                 fieldGroups={['DisplayAndFormat', 'ExchangeInfo']}
                                             />
                                         </Tab>
-                                        <Tab eventKey={2} title='Positions'>
+                                        <Tab eventKey={2} title="Positions">
                                             <TradeSubscriptions
                                                 {...this.props}
                                                 currentAccountInformation={this.currentAccountInformation}
-                                                tradeType='NetPosition'
-                                                fieldGroups={['NetPositionView', 'NetPositionBase', 'DisplayAndFormat', 'ExchangeInfo', 'SingleAndClosedPositionsBase', 'SingleAndClosedPositionsView', 'SingleAndClosedPositions']}
+                                                tradeType="NetPosition"
+                                                fieldGroups={['NetPositionView',
+                                                    'NetPositionBase',
+                                                    'DisplayAndFormat',
+                                                    'ExchangeInfo',
+                                                    'SingleAndClosedPositionsBase',
+                                                    'SingleAndClosedPositionsView',
+                                                    'SingleAndClosedPositions']}
                                             />
                                         </Tab>
                                     </Tabs>
@@ -175,5 +186,13 @@ class ClientPortfolio extends React.PureComponent {
         );
     }
 }
+
+ClientPortfolio.propTypes = {
+    match: PropTypes.shape(
+        {
+            url: PropTypes.string,
+        }
+    ),
+};
 
 export default bindHandlers(ClientPortfolio);

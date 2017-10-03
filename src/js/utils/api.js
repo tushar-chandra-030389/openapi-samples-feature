@@ -84,7 +84,7 @@ export function getChartData(accessToken, chartData) {
                 'ChartInfo',
                 'Data',
                 'DisplayAndFormat',
-            ]
+            ],
         },
         accessToken,
     });
@@ -246,7 +246,7 @@ export function getBalancesInfo(accessToken, params) {
 
 // create order subscription
 export function createOrderSubscription(accessToken, subscriptionArgs, onUpdate, onError) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
         const subscription = services.subscribe({
             serviceGroup: 'port',
             endPoint: 'v2/orders/subscriptions',
@@ -266,7 +266,7 @@ export function createOrderSubscription(accessToken, subscriptionArgs, onUpdate,
 
 // create positions subscription
 export function createPositionSubscription(accessToken, subscriptionArgs, onUpdate, onError) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
         const subscription = services.subscribe({
             serviceGroup: 'port',
             endPoint: 'v1/positions/subscriptions',
@@ -286,7 +286,7 @@ export function createPositionSubscription(accessToken, subscriptionArgs, onUpda
 
 // create net positions subscription
 export function createNetPositionSubscription(accessToken, subscriptionArgs, onUpdate, onError) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
         const subscription = services.subscribe({
             serviceGroup: 'port',
             endPoint: 'v1/netpositions/subscriptions',
