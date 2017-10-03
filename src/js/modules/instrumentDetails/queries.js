@@ -14,7 +14,6 @@ export function getRearrangedDetails(instrumentDetails) {
 
 export function getSymbolForID(instrumentDetails, cb, props) {
     const idArrayForWhichSymbolRequired = ['RelatedOptionRoots'];
-    let updatedDetails;
     _.forOwn(instrumentDetails, (value, key) => {
         //get symbol for the IDs in array 'idArrayforWhichSymbolRequired'
         if ((_.findIndex(idArrayForWhichSymbolRequired, field => field === key) !== -1)) {
