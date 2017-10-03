@@ -1,7 +1,7 @@
 import React from 'react';
-import _ from 'lodash';
 import { bindHandlers } from 'react-bind-handlers';
-import PropTypes from 'prop-types';
+import { object } from 'prop-types';
+import _ from 'lodash';
 import { Col } from 'react-bootstrap';
 import PricesTemplate from './pricesTemplate';
 import Error from '../error';
@@ -39,27 +39,29 @@ class Prices extends React.PureComponent {
     }
 
     onPriceUpdate(data) {
-        if (!data.Data) {
-            this.instrument = data;
+        if (data.Data) {
+            this.instrument = _.defaults(data.Data, this.instrument);
+
+            // _.merge(this.instrument, data.Data);
         } else {
-            _.merge(this.instrument, data.Data);
+            this.instrument = _.defaults(data, this.instrument);
+
+            // _.merge(this.instrument, data);
         }
-        this.setState({
-            instrumentSelected: !this.state.instrumentSelected,
-        });
+        this.setState({ instrumentSelected: !this.state.instrumentSelected });
     }
 
     render() {
         return (
             <div>
                 <DetailsHeader route={this.props.match.url} />
-                <div className='pad-box'>
+                <div className="pad-box">
                     <Error>
                         Enter correct access token using
-                        <a href='#/userInfo'> this link.</a>
+                        <a href="#/userInfo"> this link.</a>
                     </Error>
                     <Col sm={8}>
-                        <Assets showOptionsTemplate={true} {...this.props} onInstrumentSelected={this.handleInstrumentSelected}/>
+                        <Assets showOptionsTemplate {...this.props} onInstrumentSelected={this.handleInstrumentSelected}/>
                         <PricesTemplate instrumentPrices={this.instrument}/>
                     </Col>
                 </div>
@@ -68,11 +70,8 @@ class Prices extends React.PureComponent {
     }
 }
 
-Prices.propTypes = {
-    hideError: PropTypes.func,
-    showError: PropTypes.func,
-    hideLoader: PropTypes.func,
-    showLoader: PropTypes.func,
-}
+Prices.propTypes = { match: object };
+
+Prices.defaultProps = { match: {} };
 
 export default bindHandlers(Prices);
