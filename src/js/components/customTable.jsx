@@ -10,9 +10,6 @@ class CustomTable extends React.PureComponent {
     constructor() {
         super();
         this.data = [];
-    }
-
-    componentWillMount() {
         this.handleData(this.props);
     }
 

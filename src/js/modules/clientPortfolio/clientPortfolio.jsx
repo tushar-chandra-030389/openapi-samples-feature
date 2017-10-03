@@ -27,7 +27,7 @@ class ClientPortfolio extends React.PureComponent {
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         queries.getInfo('getClientInfo', this.props, this.handleClientAccounts);
     }
 
