@@ -4,42 +4,42 @@ import { doWithLoader } from '../../utils/global';
 
 export function getRearrangedDetails(instrumentDetails) {
     return _.defaults({
-            'Uic': instrumentDetails.Uic
-        }, {
-            'Symbol': instrumentDetails.Symbol
-        },
-        instrumentDetails
+        'Uic': instrumentDetails.Uic,
+    }, {
+        'Symbol': instrumentDetails.Symbol,
+    },
+    instrumentDetails
     );
 }
 
 export function getSymbolForID(instrumentDetails, cb, props) {
     const idArrayForWhichSymbolRequired = ['RelatedOptionRoots'];
     _.forOwn(instrumentDetails, (value, key) => {
-        //get symbol for the IDs in array 'idArrayforWhichSymbolRequired'
-        if ((_.findIndex(idArrayForWhichSymbolRequired, field => field === key) !== -1)) {
+        // get symbol for the IDs in array 'idArrayforWhichSymbolRequired'
+        if (_.some(idArrayForWhichSymbolRequired, (field) => field === key)) {
             if (_.isArray(value)) {
                 _.forEach(value, (val, index) => {
-                    _fetchOptionRootData(props, key, value, index, cb);
-                })
+                    fetchOptionRootData(props, key, value, index, cb);
+                });
             } else {
-                _fetchOptionRootData(props, key, value, null);
+                fetchOptionRootData(props, key, value, null, cb);
             }
         }
     });
 }
 
 export function getRenderDetails(instrumentDetails) {
-    let instData = []
-    for (let name in instrumentDetails) {
-        instData.push({
-            FieldName: name,
-            Value: instrumentDetails[name]
+    const instData = _.reduce(instrumentDetails, (result, value, key) => {
+        result.push({
+            FieldName: key,
+            Value: value,
         });
-    }
+        return result;
+    }, []);
     return instData;
 }
 
-function _fetchOptionRootData(props, key, value, index, cb) {
+function fetchOptionRootData(props, key, value, index, cb) {
     doWithLoader(props, _.partial(getOptionRootData, props.accessToken, value), (result) => {
         cb(result.response, key, index);
     });

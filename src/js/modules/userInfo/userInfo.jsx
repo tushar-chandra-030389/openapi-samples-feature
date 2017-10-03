@@ -2,7 +2,7 @@ import React from 'react';
 import { Form, FormControl, Panel, Button } from 'react-bootstrap';
 import { bindHandlers } from 'react-bind-handlers';
 import DetailsHeader from '../../components/detailsHeader';
-import PropTypes from 'prop-types';
+import { object, string, func } from 'prop-types';
 import DataTable from '../../components/dataTable';
 import Error from '../error';
 
@@ -58,10 +58,15 @@ class UserInfo extends React.PureComponent {
 }
 
 UserInfo.propTypes = {
-    accessToken: PropTypes.string,
-    userData: PropTypes.object,
-    match: PropTypes.object,
-    getUserDetails: PropTypes.func.isRequired,
+    accessToken: string,
+    userData: object,
+    match: object,
+    getUserDetails: func.isRequired,
+};
+
+UserInfo.defaultProps = {
+    userData: {},
+    match: {},
 };
 
 export default bindHandlers(UserInfo);

@@ -5,11 +5,9 @@ import CustomTable from '../../components/customTable';
 import DetailsHeader from '../../components/detailsHeader';
 import Error from '../error';
 import { Col, Panel } from 'react-bootstrap';
-import update from 'immutability-helper';
-// import moment from 'moment';
 import _ from 'lodash';
 import { getSymbolForID, getRenderDetails, getRearrangedDetails } from './queries';
-import { func } from 'prop-types'
+import { object } from 'prop-types';
 
 class InstrumentDetails extends React.PureComponent {
     constructor() {
@@ -18,16 +16,18 @@ class InstrumentDetails extends React.PureComponent {
     }
 
     handleInstrumentSelection(instrumentDetails) {
-        //put Uic and symbol on top of instrument details
+        // put Uic and symbol on top of instrument details
         this.setState({ instrumentDetails: getRearrangedDetails(instrumentDetails) });
 
-        getSymbolForID(instrumentDetails, ((response, key, index) => {
-            if (_.isNull(index)) {
-                this.setState({ instrumentDetails: update(instrumentDetails, { [key]: { $set: response.Symbol } }) });
+        getSymbolForID(instrumentDetails, (response, key, index) => {
+            if (index || index === 0) {
+                this.setState({
+                    instrumentDetails: _.defaults({ [key]: instrumentDetails[key].splice(index, 1, response.Symbol) }, instrumentDetails),
+                });
             } else {
-                this.setState({ instrumentDetails: update(instrumentDetails, { [key]: { $splice: [[index, 1, response.Symbol]] } }) });
+                this.setState({ instrumentDetails: _.defaults({ [key]: response.Symbol }, instrumentDetails) });
             }
-        }).bind(this), this.props);
+        }, this.props);
     }
 
     render() {
@@ -36,17 +36,17 @@ class InstrumentDetails extends React.PureComponent {
         return (
             <div>
                 <DetailsHeader route={this.props.match.url} />
-                <div className='pad-box' >
+                <div className="pad-box" >
                     <Error>
                         Enter correct access token using
-                        <a href='#/userInfo'> this link.</a>
+                        <a href="#/userInfo"> this link.</a>
                     </Error>
                     <Col sm={8} >
-                        <Assets showOptionsTemplate={true} onInstrumentSelected={this.handleInstrumentSelection} {...this.props}/>
+                        <Assets showOptionsTemplate onInstrumentSelected={this.handleInstrumentSelection} {...this.props}/>
                         {
                             (instData.length > 0) &&
-                            <Panel bsStyle='primary'>
-                                <CustomTable data={instData} width={'300'} keyField='FieldName' />
+                            <Panel bsStyle="primary">
+                                <CustomTable data={instData} width={'300'} keyField="FieldName" />
                             </Panel>
                         }
                     </Col>
@@ -56,11 +56,8 @@ class InstrumentDetails extends React.PureComponent {
     }
 }
 
-InstrumentDetails.propTypes = {
-    hideError: func,
-    showError: func,
-    hideLoader: func,
-    showLoader: func,
-}
+InstrumentDetails.propTypes = { match: object };
+
+InstrumentDetails.defaultProps = { match: {} };
 
 export default bindHandlers(InstrumentDetails);
