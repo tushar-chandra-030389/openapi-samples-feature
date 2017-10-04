@@ -46,7 +46,6 @@ class TradeSubscriptions extends React.PureComponent {
     }
 
     handleTradeUpdate(response) {
-        const data = response.Data;
         this.setState({ tradeUpdated: false });
         this.trades = queries.getUpdatedTrades(this.trades, this.tradeTypeId, response.Data);
         this.setState({ tradeUpdated: true });
@@ -65,18 +64,23 @@ class TradeSubscriptions extends React.PureComponent {
         return (
             <div>
                 {
-                    this.props.tradeType !== 'NetPosition' ?
+                    this.props.tradeType === 'NetPosition' ?
+                        <CustomTableForPositions data={this.trades}/> :
                         <CustomTable
                             data={this.trades}
                             keyField={this.tradeTypeId}
                             dataSortFields={['{this.tradeTypeId}']}
                             width={'150'}
-                        /> :
-                        <CustomTableForPositions data={this.trades}/>
+                        />
                 }
             </div>
         );
     }
 }
+
+TradeSubscriptions.propTypes = {
+    tradeType: PropTypes.string,
+    fieldGroups: PropTypes.array,
+};
 
 export default bindHandlers(TradeSubscriptions);

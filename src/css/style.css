@@ -1,4 +1,4 @@
-textarea {
+textarea.form-group.form-control {
 	width: 100%;
 	resize: vertical;
 	min-height: 80px;

@@ -11,21 +11,29 @@ import OptionChain from 'src/js/modules/optionChain';
 import ChartPolling from 'src/js/modules/charts';
 import Orders from 'src/js/modules/orders';
 
+const resourcePage =
+    (Comp, props) => (routeProps) =>
+        React.createElement(Comp, {
+            ...props, ...routeProps,
+        });
+
 function Details(props) {
     return (
         <div className="details">
             <Switch>
-                <Route path="/intro" component={(routeProps) => <Introduction {...props} {...routeProps}/>}/>
-                <Route path="/userInfo" component={(routeProps) => <UserInfo {...props} {...routeProps}/>}/>
-                <Route path="/instruments" component={(routeProps) => <InstrumentDetails {...props} {...routeProps}/>}/>
-                <Route path="/infoPrices" component={(routeProps) => <InfoPrices {...props} {...routeProps}/>}/>
-                <Route path="/prices" component={(routeProps) => <Prices {...props} {...routeProps} />}/>
-                <Route path="/clientPortfolio"
-                    component={(routeProps) => <ClientPortfolio {...props} {...routeProps} />}
+                <Route path="/intro"
+                    component={resourcePage(Introduction, props)}
                 />
-                <Route path="/options" component={(routeProps) => <OptionChain {...props} {...routeProps}/>}/>
-                <Route path="/chartPolling" component={(routeProps) => <ChartPolling {...props} {...routeProps}/>}/>
-                <Route path="/orders" component={(routeProps) => <Orders {...props} {...routeProps}/>}/>
+                <Route path="/userInfo" component={resourcePage(UserInfo, props)}/>
+                <Route path="/instruments" component={resourcePage(InstrumentDetails, props)}/>
+                <Route path="/infoPrices" component={resourcePage(InfoPrices, props)}/>
+                <Route path="/prices" component={resourcePage(Prices, props)}/>
+                <Route path="/clientPortfolio"
+                    component={resourcePage(ClientPortfolio, props)}
+                />
+                <Route path="/options" component={resourcePage(OptionChain, props)}/>
+                <Route path="/chartPolling" component={resourcePage(ChartPolling, props)}/>
+                <Route path="/orders" component={resourcePage(Orders, props)}/>
                 <Redirect exact path="/" to="/intro"/>
             </Switch>
         </div>

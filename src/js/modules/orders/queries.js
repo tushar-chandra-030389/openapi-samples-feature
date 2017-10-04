@@ -166,11 +166,14 @@ export function getRelatedOrder(orderType, orderPrice, currentOrder) {
 
         /* possible order relations
             IfDoneMaster   -   If Done Orders is a combination of an entry order and conditional orders
-                                If the order is filled, then a (slave) stop loss, limit or trailing stop will automatically be attached to the new open position
+                                If the order is filled, then a (slave) stop loss, limit or trailing stop
+                                will automatically be attached to the new open position
             IfDoneSlave    -   If Done Orders is a combination of an entry order and conditional orders
-                                If the order is filled, then a (slave) stop loss, limit or trailing stop will automatically be attached to the new open position
+                                If the order is filled, then a (slave) stop loss, limit or trailing stop
+                                will automatically be attached to the new open position
             IfDoneSlaveOco -   Slave order with OCO. See OCO.
-            Oco            -   One-Cancels-the-Other Order (OCO). A pair of orders stipulating that if one order is executed, then the other order is automatically canceled
+            Oco            -   One-Cancels-the-Other Order (OCO). A pair of orders stipulating that if
+                                one order is executed, then the other order is automatically canceled
             StandAlone     -   No relation to other order
         */
         OrderRelation: 'IfDoneMaster',
@@ -184,7 +187,7 @@ export function fetchInfoPrices(instrument, props, cb) {
 }
 
 export function postOrder(order, props, cb) {
-    doWithLoader(props, _.partial(placeOrder, props.accessToken, order), (reslut) => cb(result.response));
+    doWithLoader(props, _.partial(placeOrder, props.accessToken, order), (result) => cb(result.response));
 }
 
 export function fetchAccountInfo(props, cb) {
@@ -192,7 +195,6 @@ export function fetchAccountInfo(props, cb) {
 }
 
 export function getAccountArray(accountInfo) {
-    const accountArray = [];
-    _.forEach(accountInfo.Data, (individualAccount) => accountArray.push(individualAccount));
+    const accountArray = _.clone(accountInfo.Data);
     return accountArray;
 }

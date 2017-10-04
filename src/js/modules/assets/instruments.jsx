@@ -2,7 +2,8 @@ import React from 'react';
 import { bindHandlers } from 'react-bind-handlers';
 import { ButtonToolbar, Row } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import * as allAssetTypes from 'src/js/data/allAssetTypes';
+
+import * as allAssetTypes from 'src/js/data/allAssetTypes.json';
 import { checkIfOption } from 'src/js/utils/global';
 import Dropdown from 'src/js/components/dropdown';
 import { fetchInstruments, fetchInstrumentDetails } from './queries';
@@ -83,6 +84,7 @@ Instruments.propTypes = {
     onInstrumentSelected: PropTypes.func.isRequired,
     onAssetTypeSelected: PropTypes.func,
     onOptionRootSelected: PropTypes.func,
+    assetTypes: PropTypes.array,
 };
 
 export default bindHandlers(Instruments);

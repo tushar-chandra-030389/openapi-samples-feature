@@ -12,7 +12,7 @@ import { object } from 'prop-types';
 class InstrumentDetails extends React.PureComponent {
     constructor() {
         super();
-        this.state = { instrumentDetails: undefined };
+        this.state = { instrumentDetails: null };
     }
 
     handleInstrumentSelection(instrumentDetails) {

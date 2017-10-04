@@ -2,6 +2,8 @@ import React from 'react';
 import { bindHandlers } from 'react-bind-handlers';
 import { Button, FormGroup, Well, Row, Col, Panel, Tabs, Tab, Form, Collapse } from 'react-bootstrap';
 import * as queries from './queries';
+import PropTypes from 'prop-types';
+
 import DetailsHeader from 'src/js/components/detailsHeader';
 import Error from 'src/js/modules/error';
 import Instruments from 'src/js/modules/assets/instruments';
@@ -29,11 +31,14 @@ class Orders extends React.PureComponent {
 
             /* possible order relations
                IfDoneMaster   -   If Done Orders is a combination of an entry order and conditional orders
-                                  If the order is filled, then a (slave) stop loss, limit or trailing stop will automatically be attached to the new open position
+                                  If the order is filled, then a (slave) stop loss, limit or trailing stop
+                                  will automatically be attached to the new open position
                IfDoneSlave    -   If Done Orders is a combination of an entry order and conditional orders
-                                  If the order is filled, then a (slave) stop loss, limit or trailing stop will automatically be attached to the new open position
+                                  If the order is filled, then a (slave) stop loss, limit or trailing stop
+                                  will automatically be attached to the new open position
                IfDoneSlaveOco -   Slave order with OCO. See OCO.
-               Oco            -   One-Cancels-the-Other Order (OCO). A pair of orders stipulating that if one order is executed, then the other order is automatically canceled
+               Oco            -   One-Cancels-the-Other Order (OCO). A pair of orders stipulating that if
+                                    one order is executed, then the other order is automatically canceled
                StandAlone     -   No relation to other order
             */
             OrderRelation: 'StandAlone',
@@ -162,34 +167,56 @@ class Orders extends React.PureComponent {
                     </Instruments>
                     <Panel header="Order Details" className="panel-primary">
                         <Form>
-                            <FormGroupTemplate data={queries.getAskBidFormData(this.state.instrumentInfo, this.currentOrder)} onChange={this.handleValueChange}/>
+                            <FormGroupTemplate
+                                data={queries.getAskBidFormData(this.state.instrumentInfo, this.currentOrder)}
+                                onChange={this.handleValueChange}
+                            />
                             {this.state.optionRoot &&
-                                <Options {...this.props} optionRoot={this.state.optionRoot} onInstrumentSelected={this.handleInstrumentChange}/>
+                            <Options {...this.props} optionRoot={this.state.optionRoot}
+                                onInstrumentSelected={this.handleInstrumentChange}
+                            />
                             }
-                            <FormGroupTemplate data={queries.getBuySellFormData(this.currentOrder)} onChange={this.handleValueChange}/>
-                            <FormGroupTemplate data={queries.orderTypeDurationFormData(this.state.supportedOrderTypes)} onChange={this.handleValueChange}/>
+                            <FormGroupTemplate data={queries.getBuySellFormData(this.currentOrder)}
+                                onChange={this.handleValueChange}
+                            />
+                            <FormGroupTemplate data={queries.orderTypeDurationFormData(this.state.supportedOrderTypes)}
+                                onChange={this.handleValueChange}
+                            />
                             {this.state.optionRoot &&
-                                <FormGroupTemplate data={queries.openCloseFormData()} onChange={this.handleValueChange} />
+                            <FormGroupTemplate data={queries.openCloseFormData()} onChange={this.handleValueChange}/>
                             }
                             <FormGroup>
                                 <div>
-                                    <Button bsStyle="link" disabled={this.state.takeProfitOpen} onClick={this.handleProfitBtnClick}>Take Profit</Button>
+                                    <Button bsStyle="link" disabled={this.state.takeProfitOpen}
+                                        onClick={this.handleProfitBtnClick}
+                                    >Take Profit</Button>
                                     <Collapse in={this.state.takeProfitOpen}>
                                         <div>
                                             <Well>
-                                                <FormGroupTemplate data={queries.takeProfitFormData(this.takeProfitPrice)} onChange={this.handleValueChange}/>
-                                                <Button bsStyle="primary" onClick={this.handleProfitBtnClick}>Remove</Button>
+                                                <FormGroupTemplate
+                                                    data={queries.takeProfitFormData(this.takeProfitPrice)}
+                                                    onChange={this.handleValueChange}
+                                                />
+                                                <Button bsStyle="primary"
+                                                    onClick={this.handleProfitBtnClick}
+                                                >Remove</Button>
                                             </Well>
                                         </div>
                                     </Collapse>
                                 </div>
                                 <div>
-                                    <Button bsStyle="link" disabled={this.state.stopLossOpen} onClick={this.handleLossBtnClick}>Stop Loss</Button>
+                                    <Button bsStyle="link" disabled={this.state.stopLossOpen}
+                                        onClick={this.handleLossBtnClick}
+                                    >Stop Loss</Button>
                                     <Collapse in={this.state.stopLossOpen}>
                                         <div>
                                             <Well>
-                                                <FormGroupTemplate data={queries.stopLossFormData(this.stopLossPrice)} onChange={this.handleValueChange}/>
-                                                <Button bsStyle="primary" onClick={this.handleLossBtnClick}>Remove</Button>
+                                                <FormGroupTemplate data={queries.stopLossFormData(this.stopLossPrice)}
+                                                    onChange={this.handleValueChange}
+                                                />
+                                                <Button bsStyle="primary"
+                                                    onClick={this.handleLossBtnClick}
+                                                >Remove</Button>
                                             </Well>
                                         </div>
                                     </Collapse>
@@ -198,7 +225,8 @@ class Orders extends React.PureComponent {
                             <FormGroup bsSize="large">
                                 <Row>
                                     <Col sm={3}>
-                                        <Button bsStyle="primary" block onClick={this.handlePlaceOrder}>Place Order</Button>
+                                        <Button bsStyle="primary" block onClick={this.handlePlaceOrder}>Place
+                                            Order</Button>
                                     </Col>
                                 </Row>
                             </FormGroup>
@@ -229,5 +257,13 @@ class Orders extends React.PureComponent {
         );
     }
 }
+
+Orders.propTypes = {
+    match: PropTypes.shape(
+        {
+            url: PropTypes.string,
+        }
+    ),
+};
 
 export default bindHandlers(Orders);

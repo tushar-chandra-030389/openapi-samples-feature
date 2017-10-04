@@ -122,7 +122,7 @@ CustomTable.propTypes = {
     dataSortFields: PropTypes.array,
     decimals: PropTypes.number,
     formatExtraData: PropTypes.func,
-    formatter: PropTypes.func,
+    formatter: PropTypes.string,
     hidden: PropTypes.bool,
     priceFields: PropTypes.array,
 };
