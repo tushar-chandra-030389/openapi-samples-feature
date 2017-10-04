@@ -1,8 +1,8 @@
 import React from 'react';
-import TopBar from '../../components/topBar';
-import SideBar from '../../components/sideBar';
-import Details from '../details';
-import Loader from '../loader';
+import TopBar from 'src/js/components/topBar';
+import SideBar from 'src/js/components/sideBar';
+import Details from 'src/js/modules/details';
+import Loader from 'src/js/modules/loader';
 
 function App() {
     return (

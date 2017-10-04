@@ -2,8 +2,8 @@ import React from 'react';
 import { Form, FormGroup, ControlLabel, FormControl, Row } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
-import Column from '../../components/column';
-import DropDown from '../../components/dropdown';
+import Column from 'src/js/components/column';
+import DropDown from 'src/js/components/dropdown';
 
 function ClientPortfolio(props) {
     const {

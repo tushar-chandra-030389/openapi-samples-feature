@@ -1,5 +1,5 @@
-import { doWithLoader } from '../../utils/global';
-import * as API from '../../utils/api';
+import { doWithLoader } from 'src/js/utils/global';
+import * as API from 'src/js/utils/api';
 
 export function unSubscribe(props, subscription, cb) {
     doWithLoader(props, _.partial(API.removeIndividualSubscription, props.accessToken, subscription), () => cb());

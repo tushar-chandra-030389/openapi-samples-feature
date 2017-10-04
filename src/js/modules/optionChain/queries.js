@@ -1,5 +1,5 @@
-import { doWithLoader } from '../../utils/global';
-import * as API from '../../utils/api';
+import { doWithLoader } from 'src/js/utils/global';
+import * as API from 'src/js/utils/api';
 import _ from 'lodash';
 
 export function getInfo(fn, props, callBack, param1, param2) {

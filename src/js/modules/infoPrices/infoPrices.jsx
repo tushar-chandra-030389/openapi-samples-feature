@@ -2,9 +2,9 @@ import React from 'react';
 import { bindHandlers } from 'react-bind-handlers';
 import { object } from 'prop-types';
 import _ from 'lodash';
-import DetailsHeader from '../../components/detailsHeader';
-import Error from '../error';
-import Assets from '../assets';
+import DetailsHeader from 'src/js/components/detailsHeader';
+import Error from 'src/js/modules/error';
+import Assets from 'src/js/modules/assets';
 import InfoPricesTemplate from './infoPricesTemplate';
 import * as queries from './queries';
 

@@ -2,14 +2,14 @@ import React from 'react';
 import { bindHandlers } from 'react-bind-handlers';
 import { Button, FormGroup, Well, Row, Col, Panel, Tabs, Tab, Form, Collapse } from 'react-bootstrap';
 import * as queries from './queries';
-import DetailsHeader from '../../components/detailsHeader';
-import Error from '../error';
-import Instruments from '../assets/instruments';
-import Options from '../assets/options';
-import Dropdown from '../../components/dropdown';
-import FormGroupTemplate from '../../components/formGroupTemplate';
-import TradeSubscriptions from '../tradeSubscription';
-import { checkIfOption } from '../../utils/global';
+import DetailsHeader from 'src/js/components/detailsHeader';
+import Error from 'src/js/modules/error';
+import Instruments from 'src/js/modules/assets/instruments';
+import Options from 'src/js/modules/assets/options';
+import Dropdown from 'src/js/components/dropdown';
+import FormGroupTemplate from 'src/js/components/formGroupTemplate';
+import TradeSubscriptions from 'src/js/modules/tradeSubscription';
+import { checkIfOption } from 'src/js/utils/global';
 
 class Orders extends React.PureComponent {
     constructor() {

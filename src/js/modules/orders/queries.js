@@ -1,6 +1,6 @@
 import _ from 'lodash';
-import { getInfoPrices, placeOrder, getAccountInfo } from '../../utils/api';
-import { doWithLoader } from '../../utils/global';
+import { getInfoPrices, placeOrder, getAccountInfo } from 'src/js/utils/api';
+import { doWithLoader } from 'src/js/utils/global';
 
 export function getAskBidFormData(instrumentInfo, currentOrder) {
     const askPrice = instrumentInfo ? instrumentInfo.Quote.Ask : 0.0;

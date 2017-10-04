@@ -1,15 +1,15 @@
 import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 
-import UserInfo from '../userInfo';
-import Introduction from '../introduction';
-import InstrumentDetails from '../instrumentDetails';
-import InfoPrices from '../infoPrices';
-import Prices from '../prices';
-import ClientPortfolio from '../clientPortfolio';
-import OptionChain from '../optionChain';
-import ChartPolling from '../charts';
-import Orders from '../orders';
+import UserInfo from 'src/js/modules/userInfo';
+import Introduction from 'src/js/modules/introduction';
+import InstrumentDetails from 'src/js/modules/instrumentDetails';
+import InfoPrices from 'src/js/modules/infoPrices';
+import Prices from 'src/js/modules/prices';
+import ClientPortfolio from 'src/js/modules/clientPortfolio';
+import OptionChain from 'src/js/modules/optionChain';
+import ChartPolling from 'src/js/modules/charts';
+import Orders from 'src/js/modules/orders';
 
 function Details(props) {
     return (

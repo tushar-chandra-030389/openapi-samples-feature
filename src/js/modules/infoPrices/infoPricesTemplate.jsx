@@ -1,7 +1,7 @@
 import React from 'react';
 import { ButtonToolbar, Button, Panel } from 'react-bootstrap';
 import { object, bool, func } from 'prop-types';
-import CustomTable from '../../components/customTable';
+import CustomTable from 'src/js/components/customTable';
 
 function InfoPricesTemplate(props) {
     return (

@@ -1,12 +1,12 @@
 import React from 'react';
 import moment from 'moment';
 import {bindHandlers} from 'react-bind-handlers';
-import {checkIfOption, checkIfPutCallExpiry} from '../../utils/global';
 import {Panel, Form, FormControl, Row, Col} from 'react-bootstrap';
 import DatePicker from 'react-datePicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import PropTypes from 'prop-types';
 
+import {checkIfOption, checkIfPutCallExpiry} from 'src/js/utils/global';
 import Instruments from './instruments';
 import Options from './options';
 

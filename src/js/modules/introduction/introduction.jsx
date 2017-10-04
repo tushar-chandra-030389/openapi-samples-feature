@@ -1,7 +1,7 @@
 import React from 'react';
 import {Alert} from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import DetailsHeader from '../../components/detailsHeader';
+import DetailsHeader from 'src/js/components/detailsHeader';
 
 function Introduction(props) {
     return (

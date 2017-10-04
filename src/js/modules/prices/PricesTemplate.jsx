@@ -2,7 +2,7 @@ import React from 'react';
 import { Panel } from 'react-bootstrap';
 import _ from 'lodash';
 import { object } from 'prop-types';
-import CustomTable from '../../components/customTable';
+import CustomTable from 'src/js/components/customTable';
 
 class PricesTemplate extends React.PureComponent {
     generateHtml(item, header) {

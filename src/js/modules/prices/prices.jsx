@@ -4,9 +4,9 @@ import { object } from 'prop-types';
 import _ from 'lodash';
 import { Col } from 'react-bootstrap';
 import PricesTemplate from './pricesTemplate';
-import Error from '../error';
-import DetailsHeader from '../../components/detailsHeader';
-import Assets from '../assets';
+import Error from 'src/js/modules/error';
+import DetailsHeader from 'src/js/components/detailsHeader';
+import Assets from 'src/js/modules/assets';
 import { removeSubscription, createSubscription } from './queries';
 
 class Prices extends React.PureComponent {

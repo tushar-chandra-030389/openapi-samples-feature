@@ -1,6 +1,6 @@
 import _ from 'lodash';
-import { doWithLoader } from '../../utils/global';
-import { getInstruments, getInstrumentDetails, getOptionChain } from '../../utils/api';
+import { doWithLoader } from 'src/js/utils/global';
+import { getInstruments, getInstrumentDetails, getOptionChain } from 'src/js/utils/api';
 
 export function fetchInstruments(eventKey, props, cb) {
     doWithLoader(props, _.partial(getInstruments, props.accessToken, eventKey), (result) => cb(result.response));

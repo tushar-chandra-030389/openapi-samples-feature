@@ -2,9 +2,9 @@ import React from 'react';
 import { bindHandlers } from 'react-bind-handlers';
 import { ButtonToolbar, Row } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import * as allAssetTypes from '../../data/allAssetTypes';
-import { checkIfOption } from '../../utils/global';
-import Dropdown from '../../components/dropdown';
+import * as allAssetTypes from 'src/js/data/allAssetTypes';
+import { checkIfOption } from 'src/js/utils/global';
+import Dropdown from 'src/js/components/dropdown';
 import { fetchInstruments, fetchInstrumentDetails } from './queries';
 
 class Instruments extends React.PureComponent {

@@ -1,7 +1,7 @@
 import * as actionTypes from './actionTypes';
-import * as loaderActions from '../loader/actions';
-import * as errorActions from '../error/actions';
-import { getUserDetails } from '../../utils/api';
+import * as loaderActions from 'src/js/modules/loader/actions';
+import * as errorActions from 'src/js/modules/error/actions';
+import { getUserDetails } from 'src/js/utils/api';
 
 export function updateUserInfo(accessToken, userData) {
     return { type: actionTypes.UPDATE_USER_INFO, accessToken, userData };

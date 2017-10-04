@@ -3,7 +3,6 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-
     entry: {
         vendor: [
             'react',
@@ -80,12 +79,16 @@ module.exports = {
         }),
 
         new HtmlWebpackPlugin({
-            template:path.resolve(__dirname, '../src', 'index.html'),
+            template: path.resolve(__dirname, '../src', 'index.html'),
             title: 'Dynamic Html',
         }),
     ],
 
     resolve: {
+        modules: [
+            path.resolve(__dirname, '../'),
+            'node_modules',
+        ],
         extensions: ['.js', '.jsx', '.json']
     },
 

@@ -1,6 +1,6 @@
 import _ from 'lodash';
-import { doWithLoader } from '../../utils/global';
-import { getInfoPrices, getInfoPricesList, subscribeInfoPrices, removeIndividualSubscription } from '../../utils/api';
+import { doWithLoader } from 'src/js/utils/global';
+import { getInfoPrices, getInfoPricesList, subscribeInfoPrices, removeIndividualSubscription } from 'src/js/utils/api';
 
 export function fetchInfoPrices(instrument, props, cb) {
     instrument.expiry = instrument.Expiry ? instrument.Expiry : instrument.FxForwardMaxForwardDate;

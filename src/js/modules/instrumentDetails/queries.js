@@ -1,6 +1,6 @@
 import _ from 'lodash';
-import { getOptionRootData } from '../../utils/api';
-import { doWithLoader } from '../../utils/global';
+import { getOptionRootData } from 'src/js/utils/api';
+import { doWithLoader } from 'src/js/utils/global';
 
 export function getRearrangedDetails(instrumentDetails) {
     return _.defaults({

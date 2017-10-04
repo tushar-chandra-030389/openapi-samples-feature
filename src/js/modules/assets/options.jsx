@@ -3,9 +3,8 @@ import { bindHandlers } from 'react-bind-handlers';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 import { Form } from 'react-bootstrap';
-import FormGroupTemplate from '../../components/formGroupTemplate';
+import FormGroupTemplate from 'src/js/components/formGroupTemplate';
 import { fetchOptionChain, getFormattedExpiry, fetchInstrumentDetails } from './queries';
-import { getOptionChain, getInstrumentDetails,  } from '../../utils/api';
 
 const CALL = 'Call';
 const PUT = 'Put';

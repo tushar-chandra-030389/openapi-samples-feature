@@ -5,11 +5,11 @@ import { Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 import * as queries from './queries';
-import DetailsHeader from '../../components/detailsHeader';
-import DropDown from '../../components/dropdown';
-import Instrument from '../assets/instruments';
-import CustomTable from '../../components/customTable';
-import Error from '../error';
+import DetailsHeader from 'src/js/components/detailsHeader';
+import DropDown from 'src/js/components/dropdown';
+import Instrument from 'src/js/modules/assets/instruments';
+import CustomTable from 'src/js/components/customTable';
+import Error from 'src/js/modules/error';
 
 const Horizon = [1, 5, 10, 15, 30, 60, 120, 240, 360, 480, 1440, 10080, 43200];
 const CandleCount = [200, 400, 600, 800, 1000, 1200];

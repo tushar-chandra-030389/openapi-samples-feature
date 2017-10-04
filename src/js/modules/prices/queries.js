@@ -1,6 +1,6 @@
 import _ from 'lodash';
-import { doWithLoader } from '../../utils/global';
-import { subscribePrices, removeIndividualSubscription } from '../../utils/api';
+import { doWithLoader } from 'src/js/utils/global';
+import { subscribePrices, removeIndividualSubscription } from 'src/js/utils/api';
 
 export function removeSubscription(subscription, props, cb) {
     if (subscription) {

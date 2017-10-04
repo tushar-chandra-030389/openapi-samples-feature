@@ -5,11 +5,11 @@ import { InputGroup, ListGroupItem, ListGroup } from 'react-bootstrap';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 
-import CustomTable from '../../components/customTable';
+import CustomTable from 'src/js/components/customTable';
 import OptionChainTemplate from './optionChainTemplate';
 import * as queries from './queries';
-import Error from '../error';
-import DetailsHeader from '../../components/detailsHeader';
+import Error from 'src/js/modules/error';
+import DetailsHeader from 'src/js/components/detailsHeader';
 
 class OptionChain extends React.PureComponent {
     constructor(props) {

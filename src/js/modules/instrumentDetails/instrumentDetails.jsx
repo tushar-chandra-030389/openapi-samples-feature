@@ -1,9 +1,9 @@
 import React from 'react';
 import { bindHandlers } from 'react-bind-handlers';
-import Assets from '../assets';
-import CustomTable from '../../components/customTable';
-import DetailsHeader from '../../components/detailsHeader';
-import Error from '../error';
+import Assets from 'src/js/modules/assets';
+import CustomTable from 'src/js/components/customTable';
+import DetailsHeader from 'src/js/components/detailsHeader';
+import Error from 'src/js/modules/error';
 import { Col, Panel } from 'react-bootstrap';
 import _ from 'lodash';
 import { getSymbolForID, getRenderDetails, getRearrangedDetails } from './queries';

@@ -1,9 +1,9 @@
 import React from 'react';
 import { Form, FormControl, Panel, Button } from 'react-bootstrap';
 import { bindHandlers } from 'react-bind-handlers';
-import DetailsHeader from '../../components/detailsHeader';
+import DetailsHeader from 'src/js/components/detailsHeader';
 import { object, string, func } from 'prop-types';
-import DataTable from '../../components/dataTable';
+import DataTable from 'src/js/components/dataTable';
 import Error from '../error';
 
 class UserInfo extends React.PureComponent {

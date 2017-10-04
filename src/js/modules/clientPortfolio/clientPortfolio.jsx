@@ -6,9 +6,9 @@ import PropTypes from 'prop-types';
 
 import ClientPortfolioTemplate from './clientPortfolioTemplate';
 import * as queries from './queries';
-import TradeSubscriptions from '../tradeSubscription';
-import DetailsHeader from '../../components/detailsHeader';
-import Error from '../error';
+import TradeSubscriptions from 'src/js/modules/tradeSubscription';
+import DetailsHeader from 'src/js/components/detailsHeader';
+import Error from 'src/js/modules/error';
 
 class ClientPortfolio extends React.PureComponent {
     constructor(props) {
