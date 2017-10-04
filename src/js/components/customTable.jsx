@@ -18,65 +18,71 @@ class CustomTable extends React.PureComponent {
     }
 
     handleData(props) {
-        this.data = [];
-        _.forEach(props.data, (object) => {
-            this.data.push(object);
-        });
+        this.data = _.clone(props.data);
     }
 
-    handlePriceFormatter(cell, row, formatExtraData) {
+    handlePriceFormatter(cell, row) {
         getFormattedPrice(cell, this.props.decimals || row[this.props.formatter]);
     }
 
-    formatColumnData(cell, row, formatExtraData) {
+    formatColumnData(cell) {
         switch (cell && cell.constructor.name) {
 
             // format cell data if cell is an Array
-            case 'Array': {
-                if (!_.isObject(cell[0])) { // if cell is an array of values return enter separated values of array
-                    return cell.toString().replace(/,/g, '<br>');
-                }
-
-                const keyValueArray = []; // if cell is an array of object, return enter separated value of keyValue pair of objects in array
-                _.forEach(cell, (object) => {
-                    _.forOwn(object, (value, key) => {
-                        keyValueArray.push(key + ' : ' + value);
-                    });
-                    keyValueArray.push('<br>');
-                });
-                return keyValueArray.toString().replace(/,/g, '<br>');
-
-                break;
-            }
+            case 'Array':
+                return this.formatArray(cell);
 
             // format cell data if cell is an object
-            case 'Object': {
-                const keyValueArray = [];
-                _.forOwn(cell, (value, key) => {
-                    if (!_.isArray(value)) { // if cell is a simple object of key value, return key : value
-                        keyValueArray.push(key + ':' + value);
-                    } else {
-                        let values = ''; // if cell is an object of Array, return key : [array values], eg for cell {Ask : [83.0,83.1]} return 'Ask : [ 83.0 83.1 ]'
-                        _.forEach(value, (val) => {
-                            values += ('  ' + val);
-                        });
-                        keyValueArray.push(key + ': [' + values + ' ]');
-                    }
-                });
-                return keyValueArray.toString().replace(/,/g, '<br>');
-                break;
-            }
+            case 'Object':
+                return this.formatObject(cell);
 
-            default: return cell;
+            default:
+                return cell;
         }
+    }
+
+    formatArray(cell) {
+        if (!_.isObject(cell[0])) { // if cell is an array of values return enter separated values of array
+            return cell.toString().replace(/,/g, '<br>');
+        }
+
+        const keyValueArray = []; // if cell is an array of object, return enter separated value of keyValue pair of objects in array
+        _.forEach(cell, (object) => {
+            _.forOwn(object, (value, key) => {
+                keyValueArray.push(key + ' : ' + value);
+            });
+            keyValueArray.push('<br>');
+        });
+        return keyValueArray.toString().replace(/,/g, '<br>');
+    }
+
+    formatObject(cell) {
+        const keyValueArray = [];
+        _.forOwn(cell, (value, key) => {
+            if (_.isArray(value)) {
+                let values = ''; // if cell is an object of Array, return key
+                // : [array values], eg for cell {Ask : [83.0,83.1]} return 'Ask : [ 83.0 83.1 ]'
+                _.forEach(value, (val) => {
+                    values += ('  ' + val);
+                });
+                keyValueArray.push(key + ': [' + values + ' ]');
+
+            } else {
+                // if cell is a simple object of key value, return key : value
+                keyValueArray.push(key + ':' + value);
+            }
+        });
+        return keyValueArray.toString().replace(/,/g, '<br>');
+
     }
 
     generateHeaders() {
         return _.map(this.data[0], (value, key) => {
-            const dataSort = _.findIndex(this.props.dataSortFields, (field) => field === key) !== -1;
+            const dataSort = _.some(this.props.dataSortFields, (field) => field === key);
             const keyField = this.props.keyField === key;
-            const hidden = _.findIndex(this.props.hidden, (field) => field === key) !== -1;
-            const dataFormat = _.findIndex(this.props.priceFields, (field) => field === key) !== -1 ? this.handlePriceFormatter : this.formatColumnData.bind(this);
+            const hidden = _.some(this.props.hidden, (field) => field === key);
+            const dataFormat = _.some(this.props.priceFields, (field) => field === key) ?
+                this.handlePriceFormatter : this.formatColumnData.bind(this);
             return (
                 <TableHeaderColumn
                     width={this.props.width}
@@ -114,6 +120,11 @@ CustomTable.propTypes = {
     ]).isRequired,
     width: PropTypes.string,
     dataSortFields: PropTypes.array,
+    decimals: PropTypes.number,
+    formatExtraData: PropTypes.func,
+    formatter: PropTypes.func,
+    hidden: PropTypes.bool,
+    priceFields: PropTypes.array,
 };
 
 export default bindHandlers(CustomTable);

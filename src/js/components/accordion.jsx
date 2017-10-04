@@ -20,10 +20,10 @@ class Accordion extends React.PureComponent {
             <div>
                 <ListGroupItem onClick={this.handleCollapse}>
                     {this.props.heading}
-                    <Glyphicon className='glyph pull-right' glyph={glyph} />
+                    <Glyphicon className="glyph pull-right" glyph={glyph} />
                 </ListGroupItem>
                 <Collapse in={this.state.isOpen}>
-                    <ListGroup className='sidebar-navs'>
+                    <ListGroup className="sidebar-navs">
                         { _.map(this.props.body, (item) => <ListGroupItem key={item.title} href={item.url}>{item.title}</ListGroupItem>) }
                     </ListGroup>
                 </Collapse>
@@ -36,8 +36,8 @@ Accordion.propTypes = {
     heading: string.isRequired,
     body: arrayOf(shape({
         title: string,
-        url: string
+        url: string,
     })),
-}
+};
 
 export default bindHandlers(Accordion);

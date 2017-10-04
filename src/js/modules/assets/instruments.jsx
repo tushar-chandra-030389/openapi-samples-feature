@@ -14,7 +14,7 @@ class Instruments extends React.PureComponent {
             optionRoot: undefined,
             assetTypeTitle: 'Select AssetType',
             title: '',
-            instruments: undefined
+            instruments: undefined,
         };
     }
 
@@ -23,15 +23,14 @@ class Instruments extends React.PureComponent {
         if (this.props.onAssetTypeSelected) {
             this.props.onAssetTypeSelected(eventKey);
         }
-        this.setState({assetTypeTitle: eventKey});
+        this.setState({ assetTypeTitle: eventKey });
         if (checkIfOption(eventKey)) {
-            this.setState({title: 'Select OptionRoot'});
-        }
-        else {
-            this.setState({title: 'Select Instrument'});
+            this.setState({ title: 'Select OptionRoot' });
+        } else {
+            this.setState({ title: 'Select Instrument' });
         }
         fetchInstruments(eventKey, this.props, (response) => {
-            this.setState({instruments: response.Data});
+            this.setState({ instruments: response.Data });
         });
     }
 
@@ -42,34 +41,32 @@ class Instruments extends React.PureComponent {
         */
         if (checkIfOption(instrument.AssetType)) {
             this.props.onOptionRootSelected(instrument);
-        }
-        else {
+        } else {
             fetchInstrumentDetails(instrument, this.props, (response) => {
                 this.props.onInstrumentSelected(response);
             });
         }
-        this.setState({title: instrument.Description});
+        this.setState({ title: instrument.Description });
     }
 
     render() {
         return (
-            <div className='pad-box'>
+            <div className="pad-box">
                 <Row>
                     <ButtonToolbar>
                         <Dropdown
                             data={this.props.assetTypes ? this.props.assetTypes : allAssetTypes.data}
                             title={this.state.assetTypeTitle}
-                            id='assetTypes'
+                            id="assetTypes"
                             handleSelect={this.handleAssetTypeSelection}
                         />
                         {
-                            this.state.instruments
-                            &&
+                            this.state.instruments &&
                             <Dropdown
                                 data={this.state.instruments}
-                                itemKey='Symbol'
-                                value='Description'
-                                id='instruments'
+                                itemKey="Symbol"
+                                value="Description"
+                                id="instruments"
                                 title={this.state.title}
                                 handleSelect={this.handleInstrumentSelection}
                             />

@@ -1,11 +1,10 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { Navbar, Nav, NavItem} from 'react-bootstrap';
-import { LinkContainer} from 'react-router-bootstrap';
+import { Navbar, Nav, NavItem } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
 
 function TopBar() {
     return (
-        <Navbar inverse collapseOnSelect fixedTop className='topbar'>
+        <Navbar inverse collapseOnSelect fixedTop className="topbar">
             <Navbar.Header>
                 <Navbar.Brand>
                     Open Api - Feature Samples
@@ -14,13 +13,13 @@ function TopBar() {
             <Navbar.Collapse>
                 <Nav>
                     <LinkContainer to="/userInfo">
-                        <NavItem className='nav-items'>ACCESS TOKEN</NavItem>
+                        <NavItem className="nav-items">ACCESS TOKEN</NavItem>
                     </LinkContainer>
                 </Nav>
                 <Nav pullRight>
                     <Navbar.Brand>
-                        <a href='https://www.developer.saxo/' target='_blank'>
-                            Developer's Portal
+                        <a href="https://www.developer.saxo/" target="_blank" rel="noopener noreferrer">
+                            Developer&#39;s Portal
                         </a>
                     </Navbar.Brand>
                 </Nav>

@@ -14,8 +14,8 @@ export function createSubscription(props, subscriptionArgs, tradeType, onUpdate,
 }
 
 export function getUpdatedTrades(currTrades, tradeTypeId, updatedTrades) {
-    for (let index in updatedTrades) {
-        let tradeId = updatedTrades[index][tradeTypeId];
+    for (const index in updatedTrades) {
+        const tradeId = updatedTrades[index][tradeTypeId];
         if (currTrades[tradeId]) {
             _.merge(currTrades[tradeId], updatedTrades[index]);
         } else {

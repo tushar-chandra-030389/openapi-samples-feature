@@ -1,14 +1,15 @@
 import React from 'react';
 import { FormGroup, FormControl, ControlLabel, Col, Row } from 'react-bootstrap';
 import _ from 'lodash';
+import PropTypes from 'prop-types';
 
 function getSelectCtrl(item, onChange) {
     return (
-        <FormControl componentClass='select' id={item.label} onChange={onChange}>
+        <FormControl componentClass="select" id={item.label} onChange={onChange}>
             {
                 item.DisplayField ?
-                _.map(item.value, (data, idx) => <option key={idx}>{data[item.DisplayField]}</option>) :
-                _.map(item.value, (data, idx) => <option key={idx}>{data}</option>)
+                    _.map(item.value, (data, idx) => <option key={idx}>{data[item.DisplayField]}</option>) :
+                    _.map(item.value, (data, idx) => <option key={idx}>{data}</option>)
             }
         </FormControl>
     );
@@ -19,7 +20,7 @@ function getTextCtrl(item, onChange) {
         <FormControl
             readOnly={item.readOnly}
             id={item.label}
-            type='text'
+            type="text"
             value={item.value ? item.value : ''}
             onChange={onChange}
         />
@@ -42,5 +43,9 @@ function FormGroupTemplate(props) {
         </FormGroup>
     );
 }
+
+FormGroupTemplate.propTypes = {
+    data: PropTypes.array,
+};
 
 export default FormGroupTemplate;

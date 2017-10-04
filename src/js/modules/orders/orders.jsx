@@ -14,6 +14,7 @@ import { checkIfOption } from 'src/js/utils/global';
 class Orders extends React.PureComponent {
     constructor() {
         super();
+
         // currentOrder contains minimum required parameters for placing an order
         this.currentOrder = {
             // default values on UI.
@@ -25,6 +26,7 @@ class Orders extends React.PureComponent {
             Amount: 0,
             AccountKey: '',
             BuySell: 'Buy',
+
             /* possible order relations
                IfDoneMaster   -   If Done Orders is a combination of an entry order and conditional orders
                                   If the order is filled, then a (slave) stop loss, limit or trailing stop will automatically be attached to the new open position
@@ -37,6 +39,7 @@ class Orders extends React.PureComponent {
             OrderRelation: 'StandAlone',
             ToOpenClose: 'ToOpen',
             Orders: [],
+
             // currently sample works for StandAlone orders only. Work to be done for other OrderRelations
         };
 
@@ -71,7 +74,7 @@ class Orders extends React.PureComponent {
             this.currentOrder.AssetType = response.AssetType;
             this.currentOrder.OrderPrice = response.Quote.Ask ? response.Quote.Ask : 0.0;
             this.setState({
-                supportedOrderTypes:instrument.SupportedOrderTypes,
+                supportedOrderTypes: instrument.SupportedOrderTypes,
                 instrumentInfo: response,
             });
         });
@@ -117,15 +120,15 @@ class Orders extends React.PureComponent {
 
     handlePlaceOrder() {
         this.currentOrder.Orders = [];
-        if(this.state.takeProfitOpen) {
-            //Setup related order
+        if (this.state.takeProfitOpen) {
+            // Setup related order
             const order = queries.getRelatedOrder('Limit', this.takeProfitPrice, this.currentOrder);
             this.currentOrder.Orders.push(order);
         }
-        if(this.state.stopLossOpen) {
-            //Setup another related order
+        if (this.state.stopLossOpen) {
+            // Setup another related order
             const order = queries.getRelatedOrder(this.stopLossOrderType, this.stopLossPrice, this.currentOrder);
-            this.currentOrder.Orders.push(order);      
+            this.currentOrder.Orders.push(order);
         }
         queries.postOrder(this.currentOrder, this.props, (response) => {
             this.setState({ responsData: response });
@@ -137,12 +140,12 @@ class Orders extends React.PureComponent {
         return (
             <div>
                 <DetailsHeader route={this.props.match.url}/>
-                <div className='pad-box'>
+                <div className="pad-box">
                     <Error>
                         Enter correct access token using
-                        <a href='#/userInfo'> this link.</a>
+                        <a href="#/userInfo"> this link.</a>
                     </Error>
-                    <Instruments 
+                    <Instruments
                         {...this.props}
                         onInstrumentSelected={this.handleInstrumentChange}
                         onOptionRootSelected={this.handleOptionRoot}
@@ -152,12 +155,12 @@ class Orders extends React.PureComponent {
                             title={accountTitle}
                             handleSelect={this.handleSelectedAccount}
                             data={this.state.accounts}
-                            itemKey='AccountId'
-                            value='AccountId'
-                            id='accounts'
+                            itemKey="AccountId"
+                            value="AccountId"
+                            id="accounts"
                         />
                     </Instruments>
-                    <Panel header='Order Details' className='panel-primary'>
+                    <Panel header="Order Details" className="panel-primary">
                         <Form>
                             <FormGroupTemplate data={queries.getAskBidFormData(this.state.instrumentInfo, this.currentOrder)} onChange={this.handleValueChange}/>
                             {this.state.optionRoot &&
@@ -175,7 +178,7 @@ class Orders extends React.PureComponent {
                                         <div>
                                             <Well>
                                                 <FormGroupTemplate data={queries.takeProfitFormData(this.takeProfitPrice)} onChange={this.handleValueChange}/>
-                                                <Button bsStyle='primary' onClick={this.handleProfitBtnClick}>Remove</Button>
+                                                <Button bsStyle="primary" onClick={this.handleProfitBtnClick}>Remove</Button>
                                             </Well>
                                         </div>
                                     </Collapse>
@@ -186,36 +189,36 @@ class Orders extends React.PureComponent {
                                         <div>
                                             <Well>
                                                 <FormGroupTemplate data={queries.stopLossFormData(this.stopLossPrice)} onChange={this.handleValueChange}/>
-                                                <Button bsStyle='primary' onClick={this.handleLossBtnClick}>Remove</Button>
+                                                <Button bsStyle="primary" onClick={this.handleLossBtnClick}>Remove</Button>
                                             </Well>
                                         </div>
                                     </Collapse>
                                 </div>
                             </FormGroup>
-                            <FormGroup bsSize='large'>
+                            <FormGroup bsSize="large">
                                 <Row>
                                     <Col sm={3}>
-                                        <Button bsStyle='primary' block onClick={this.handlePlaceOrder}>Place Order</Button>
+                                        <Button bsStyle="primary" block onClick={this.handlePlaceOrder}>Place Order</Button>
                                     </Col>
                                 </Row>
                             </FormGroup>
                         </Form>
                     </Panel>
-                    <Panel className='panel-primary'>
-                        <Tabs className='primary' defaultActiveKey={1} animation={false} id='noanim-tab-example'>
-                            <Tab eventKey={1} title='Orders'>
+                    <Panel className="panel-primary">
+                        <Tabs className="primary" defaultActiveKey={1} animation={false} id="noanim-tab-example">
+                            <Tab eventKey={1} title="Orders">
                                 <TradeSubscriptions
                                     {...this.props}
                                     currentAccountInformation={this.state.selectedAccount}
-                                    tradeType='Order'
+                                    tradeType="Order"
                                     fieldGroups={['DisplayAndFormat', 'ExchangeInfo']}
                                 />
                             </Tab>
-                            <Tab eventKey={2} title='Positions'>
+                            <Tab eventKey={2} title="Positions">
                                 <TradeSubscriptions
                                     {...this.props}
                                     currentAccountInformation={this.state.selectedAccount}
-                                    tradeType='Position'
+                                    tradeType="Position"
                                     fieldGroups={['DisplayAndFormat', 'PositionBase', 'PositionView']}
                                 />
                             </Tab>

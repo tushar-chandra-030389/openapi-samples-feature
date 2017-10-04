@@ -11,16 +11,14 @@ class CustomTableForPositions extends React.PureComponent {
     }
 
     getNetPostionsDataTable() {
-        const netPositionTableArray = _.map(this.props.data, (value, key) => {
-            return (
-                <tr key={key}>
-                    <td>{key}</td>
-                    <td>{value.NetPositionView.Status}</td>
-                    <td>{value.NetPositionBase.Amount}</td>
-                    <td>{value.NetPositionView.AverageOpenPrice}</td>
-                </tr>
-            );
-        });
+        const netPositionTableArray = _.map(this.props.data, (value, key) => (
+            <tr key={key}>
+                <td>{key}</td>
+                <td>{value.NetPositionView.Status}</td>
+                <td>{value.NetPositionBase.Amount}</td>
+                <td>{value.NetPositionView.AverageOpenPrice}</td>
+            </tr>
+        ));
 
         return netPositionTableArray;
     }

@@ -7,62 +7,62 @@ export function getAskBidFormData(instrumentInfo, currentOrder) {
     const bidPrice = instrumentInfo ? instrumentInfo.Quote.Bid : 0.0;
     const symbol = instrumentInfo ? instrumentInfo.DisplayAndFormat.Symbol : '';
     return [{
-            label: `Instrument (UIC: ${currentOrder.Uic})`,
-            value: symbol,
-            componentClass: 'text',
-            readOnly: 'true'
-        },
-        {
-            label: 'AssetType',
-            value: currentOrder.AssetType,
-            componentClass: 'text',
-            readOnly: 'true'
-        },
-        {
-            label: 'AskPrice',
-            value: askPrice,
-            componentClass: 'text',
-            readOnly: 'true'
-        },
-        {
-            label: 'BidPrice',
-            value: bidPrice,
-            componentClass: 'text',
-            readOnly: 'true'
-        }
+        label: `Instrument (UIC: ${currentOrder.Uic})`,
+        value: symbol,
+        componentClass: 'text',
+        readOnly: 'true',
+    },
+    {
+        label: 'AssetType',
+        value: currentOrder.AssetType,
+        componentClass: 'text',
+        readOnly: 'true',
+    },
+    {
+        label: 'AskPrice',
+        value: askPrice,
+        componentClass: 'text',
+        readOnly: 'true',
+    },
+    {
+        label: 'BidPrice',
+        value: bidPrice,
+        componentClass: 'text',
+        readOnly: 'true',
+    },
     ];
 }
 
 export function getBuySellFormData(currentOrder) {
     return [{
-            label: 'BuySell',
-            value: ['Buy', 'Sell'],
-            componentClass: 'select'
-        },
-        {
-            label: 'OrderPrice',
-            value: currentOrder.OrderPrice,
-            componentClass: 'text'
-        },
-        {
-            label: 'OrderAmount',
-            value: currentOrder.Amount,
-            componentClass: 'text'
-        }
+        label: 'BuySell',
+        value: ['Buy', 'Sell'],
+        componentClass: 'select',
+    },
+    {
+        label: 'OrderPrice',
+        value: currentOrder.OrderPrice,
+        componentClass: 'text',
+    },
+    {
+        label: 'OrderAmount',
+        value: currentOrder.Amount,
+        componentClass: 'text',
+    },
     ];
 }
 
 export function orderTypeDurationFormData(supportedOrderTypes) {
     return [{
-            label: 'OrderType',
-            value: supportedOrderTypes,
-            componentClass: 'select'
-        },
-        {
-            label: 'OrderDuration',
-            value: ['DayOrder', 'GoodTillCancel', 'ImmediateOrCancel'],
-            componentClass: 'select'
-        }
+        label: 'OrderType',
+        value: supportedOrderTypes,
+        componentClass: 'select',
+    },
+    {
+        label: 'OrderDuration',
+        value: ['DayOrder', 'GoodTillCancel', 'ImmediateOrCancel'],
+        componentClass: 'select',
+    },
     ];
 }
 
@@ -70,42 +70,42 @@ export function openCloseFormData() {
     return [{
         label: 'ToOpenClose',
         value: ['ToOpen', 'ToClose'],
-        componentClass: 'select'
+        componentClass: 'select',
     }];
 }
 
 export function takeProfitFormData(takeProfitPrice) {
     return [{
-            label: 'TakeProfit-OrderType',
-            value: 'Limit',
-            componentClass: 'text',
-            readOnly: 'true'
-        },
-        {
-            label: 'TakeProfitPrice',
-            value: takeProfitPrice,
-            componentClass: 'text'
-        }
+        label: 'TakeProfit-OrderType',
+        value: 'Limit',
+        componentClass: 'text',
+        readOnly: 'true',
+    },
+    {
+        label: 'TakeProfitPrice',
+        value: takeProfitPrice,
+        componentClass: 'text',
+    },
     ];
 }
 
 export function stopLossFormData(stopLossPrice) {
     return [{
-            label: 'StopLoss-OrderType',
-            value: ['StopIfTraded', 'TrailingStopIfTraded', 'StopLimit'],
-            componentClass: 'select'
-        },
-        {
-            label: 'StopLossPrice',
-            value: stopLossPrice,
-            componentClass: 'text'
-        }
-    ]
+        label: 'StopLoss-OrderType',
+        value: ['StopIfTraded', 'TrailingStopIfTraded', 'StopLimit'],
+        componentClass: 'select',
+    },
+    {
+        label: 'StopLossPrice',
+        value: stopLossPrice,
+        componentClass: 'text',
+    },
+    ];
 }
 
 export function getUpdatedValues(event, order, ask, bid) {
     const value = event.target.value;
-    switch(event.target.id) {
+    switch (event.target.id) {
         case 'BuySell':
             order.currentOrder.BuySell = value;
             order.currentOrder.OrderPrice = order.currentOrder.BuySell === 'Buy' ? ask : bid;
@@ -146,7 +146,7 @@ export function getUpdatedValues(event, order, ask, bid) {
         case 'StopLoss-OrderType':
             order.stopLossOrderType = value;
             break;
-            
+
         default:
             break;
     }
@@ -162,7 +162,8 @@ export function getRelatedOrder(orderType, orderPrice, currentOrder) {
         OrderDuration: currentOrder.OrderDuration,
         Amount: currentOrder.Amount,
         AccountKey: currentOrder.AccountKey,
-        BuySell: currentOrder.BuySell === 'Buy'? 'Sell': 'Buy',
+        BuySell: currentOrder.BuySell === 'Buy' ? 'Sell' : 'Buy',
+
         /* possible order relations
             IfDoneMaster   -   If Done Orders is a combination of an entry order and conditional orders
                                 If the order is filled, then a (slave) stop loss, limit or trailing stop will automatically be attached to the new open position
@@ -173,8 +174,8 @@ export function getRelatedOrder(orderType, orderPrice, currentOrder) {
             StandAlone     -   No relation to other order
         */
         OrderRelation: 'IfDoneMaster',
-        ToOpenClose:'ToClose',      
-    }
+        ToOpenClose: 'ToClose',
+    };
 }
 
 export function fetchInfoPrices(instrument, props, cb) {
@@ -191,7 +192,7 @@ export function fetchAccountInfo(props, cb) {
 }
 
 export function getAccountArray(accountInfo) {
-    let accountArray = [];
+    const accountArray = [];
     _.forEach(accountInfo.Data, (individualAccount) => accountArray.push(individualAccount));
     return accountArray;
 }

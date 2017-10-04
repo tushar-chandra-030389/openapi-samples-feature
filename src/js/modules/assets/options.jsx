@@ -16,7 +16,7 @@ class Options extends React.PureComponent {
             selectedOptionSpace: undefined,
             flag: false,
         };
-        this.optionRootData = {}
+        this.optionRootData = {};
         this.callPut = '';
         this.strikePrice = 0.0;
         this.expiry = '';
@@ -25,22 +25,22 @@ class Options extends React.PureComponent {
 
     componentDidMount() {
         this.selectedOptionRoot = this.props.optionRoot;
-        fetchOptionChain(this.selectedOptionRoot, this.props,(response) => {
+        fetchOptionChain(this.selectedOptionRoot, this.props, (response) => {
             this.onSuccess(response);
         });
     }
-    
+
     componentWillReceiveProps(newProps) {
         if (this.selectedOptionRoot.Identifier !== newProps.optionRoot.Identifier) {
             this.selectedOptionRoot = newProps.optionRoot;
-            fetchOptionChain(this.selectedOptionRoot, this.props,(response) => {
+            fetchOptionChain(this.selectedOptionRoot, this.props, (response) => {
                 this.onSuccess(response);
             });
         }
     }
 
     handleValueChange(event) {
-        let value = event.target.value;
+        const value = event.target.value;
         switch (event.target.id) {
             case 'Expiry':
                 this.expiry = value;
@@ -49,12 +49,12 @@ class Options extends React.PureComponent {
 
             case 'Call/Put':
                 this.callPut = value;
-                this.selectInstrument()
+                this.selectInstrument();
                 break;
 
             case 'StrikePrice':
                 this.strikePrice = value;
-                this.selectInstrument()
+                this.selectInstrument();
                 break;
         }
         this.setState({ flag: !this.state.flag });
@@ -63,12 +63,14 @@ class Options extends React.PureComponent {
     onSuccess(response) {
         // response is all options avilable for OptionRootId, see 'handleInstrumentSelection'' function
         this.optionRootData = response;
+
         // getFormattedExpiry is kind of hack, work is progress to have same expiry format in different places in response json.
         this.expiry = getFormattedExpiry(response.DefaultExpiry);
 
         // select specific option on UI, generally DefaultOption in response json.
         this.strikePrice = response.DefaultOption.StrikePrice;
         this.callPut = response.DefaultOption.PutCall;
+
         // set option space data for UI.
         this.selectOptionSpace();
 
@@ -79,7 +81,7 @@ class Options extends React.PureComponent {
         _.forEach(this.optionRootData.OptionSpace, (optionSpace) => {
             if (optionSpace.Expiry === this.expiry) {
                 this.setState({ selectedOptionSpace: optionSpace });
-                return;
+
             }
         });
     }
@@ -87,16 +89,16 @@ class Options extends React.PureComponent {
     selectInstrument() {
         _.forEach(this.state.selectedOptionSpace.SpecificOptions, (option) => {
             if (option.StrikePrice === parseFloat(this.strikePrice) && option.PutCall === this.callPut) {
-                fetchInstrumentDetails({ Identifier: option.Uic , AssetType: this.props.optionRoot.AssetType}, this.props, (response) => {
+                fetchInstrumentDetails({ Identifier: option.Uic, AssetType: this.props.optionRoot.AssetType }, this.props, (response) => {
                     this.props.onInstrumentSelected(response);
                 });
-                return;
+
             }
-        })
+        });
     }
-    
+
     render() {
-        let specificOptions = [];
+        const specificOptions = [];
         if (this.state.selectedOptionSpace) {
             _.forEach(this.state.selectedOptionSpace.SpecificOptions, (option) => {
                 if (option.PutCall === this.callPut) {
@@ -104,9 +106,9 @@ class Options extends React.PureComponent {
                 }
             });
         }
-        let expiryStrickCallPut = [{ label: 'Expiry', value: this.optionRootData.OptionSpace, DisplayField: 'Expiry', componentClass: 'select' },
-        { label: 'Call/Put', value: [CALL, PUT], componentClass: 'select' },
-        { label: 'StrikePrice', value: specificOptions, DisplayField: 'StrikePrice', componentClass: 'select' }];
+        const expiryStrickCallPut = [{ label: 'Expiry', value: this.optionRootData.OptionSpace, DisplayField: 'Expiry', componentClass: 'select' },
+            { label: 'Call/Put', value: [CALL, PUT], componentClass: 'select' },
+            { label: 'StrikePrice', value: specificOptions, DisplayField: 'StrikePrice', componentClass: 'select' }];
 
         return (
             <div>
@@ -120,7 +122,7 @@ class Options extends React.PureComponent {
 }
 
 Options.propTypes = {
-    onInstrumentSelected: PropTypes.func.isRequired
+    onInstrumentSelected: PropTypes.func.isRequired,
 };
 
 export default bindHandlers(Options);

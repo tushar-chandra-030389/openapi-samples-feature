@@ -1,27 +1,27 @@
 import React from 'react';
 import moment from 'moment';
-import {bindHandlers} from 'react-bind-handlers';
-import {Panel, Form, FormControl, Row, Col} from 'react-bootstrap';
-import DatePicker from 'react-datePicker';
+import { bindHandlers } from 'react-bind-handlers';
+import { Panel, Form, FormControl, Row, Col } from 'react-bootstrap';
+import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import PropTypes from 'prop-types';
 
-import {checkIfOption, checkIfPutCallExpiry} from 'src/js/utils/global';
+import { checkIfOption, checkIfPutCallExpiry } from 'src/js/utils/global';
 import Instruments from './instruments';
 import Options from './options';
 
 class Assets extends React.PureComponent {
     constructor() {
         super();
-        this.state = {optionRoot: undefined, putCallExpiryRequired: false, optionRootSelected: false};
+        this.state = { optionRoot: undefined, putCallExpiryRequired: false, optionRootSelected: false };
         this.putCallExpiry = null;
-        this.putCall = "Call";
+        this.putCall = 'Call';
         this.expiryDate = moment();
         this.instrumentDetails = {};
     }
 
     handleOptionRoot(optionRoot) {
-        this.setState({ optionRoot: optionRoot });
+        this.setState({ optionRoot });
     }
 
     handleInstrumentSelection(instrumentDetails) {
@@ -53,7 +53,7 @@ class Assets extends React.PureComponent {
                 optionRoot: undefined,
                 optionRootSelected: false,
                 instrumentDetails: undefined,
-                putCallExpiryRequired: false
+                putCallExpiryRequired: false,
             });
         }
     }
@@ -70,9 +70,9 @@ class Assets extends React.PureComponent {
 
     render() {
         // making array of key-value pairs to show instrument in table.
-        let instData = []
-        for (let name in this.state.instrumentDetails) {
-            instData.push({FieldName: name, Value: this.state.instrumentDetails[name]});
+        const instData = [];
+        for (const name in this.state.instrumentDetails) {
+            instData.push({ FieldName: name, Value: this.state.instrumentDetails[name] });
         }
         return (
             <div>
@@ -93,6 +93,7 @@ class Assets extends React.PureComponent {
                     </Panel>
                 }
                 {
+
                     // this. is specific for instruments that required put/call and expiry date in info price request eg. FxVanillaOption
                     this.state.putCallExpiryRequired && this.props.showOptionsTemplate &&
                     <Panel>
@@ -103,7 +104,8 @@ class Assets extends React.PureComponent {
                                 </Col>
                                 <Col sm={2}>
                                     <FormControl componentClass="select" placeholder="Call"
-                                                 onChange={this.handlePutCallChange}>
+                                        onChange={this.handlePutCallChange}
+                                    >
                                         <option value="Put">Put</option>
                                         <option value="Call">Call</option>
                                     </FormControl>
