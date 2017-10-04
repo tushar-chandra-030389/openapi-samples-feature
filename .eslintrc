@@ -21,11 +21,11 @@
         "react": {
             "version": "15.5"
         },
-        // "import/resolver": {
-        //     "@saxo/webpack-import-resolver": {
-        //         "config": "./js/build/webpack/config"
-        //     }
-        // },
+         "import/resolver": {
+           "webpack": {
+             "config": "webpack/webpack.config"
+           }
+         },
         "import/ignore": [
             "templates",
             "libs",
@@ -816,7 +816,7 @@
         // "import/no-unresolved": "error",
         "import/named": "error",
         "import/default": "error",
-        "import/namespace": "error",
+        "import/namespace": "off",
         "import/no-dynamic-require": "off",
         "import/no-internal-modules": "off",
         "import/no-restricted-paths": [
