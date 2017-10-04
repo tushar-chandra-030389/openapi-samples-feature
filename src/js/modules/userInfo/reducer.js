@@ -7,7 +7,7 @@ const initialState = {
 };
 
 function _updateUserInfo(state, data) {
-    return _.assign({}, state, { ...data });
+    return _.defaults({ ...data }, state);
 }
 
 export default function(state = initialState, action) {

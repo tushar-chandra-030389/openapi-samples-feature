@@ -1,5 +1,7 @@
 import React from 'react';
 import { bindHandlers } from 'react-bind-handlers';
+import { object } from 'prop-types';
+import _ from 'lodash';
 import DetailsHeader from '../../components/detailsHeader';
 import Error from '../error';
 import Assets from '../assets';
@@ -33,10 +35,16 @@ class InfoPrices extends React.PureComponent {
     }
 
     handleSubscribe() {
-        queries.createSubscription(this.selectedAssetTypes, this.selectedInstruments, this.props, this.onPriceUpdate.bind(this), (response, assetType) => {
-            this.selectedAssetTypes[assetType].subscription = response;
-            this.setState({ flag: !this.state.flag });
-        });
+        queries.createSubscription(
+            this.selectedAssetTypes,
+            this.selectedInstruments,
+            this.props,
+            this.onPriceUpdate.bind(this),
+            (response, assetType) => {
+                this.selectedAssetTypes[assetType].subscription = response;
+                this.setState({ flag: !this.state.flag });
+            }
+        );
     }
 
     handleUnsubscribe() {
@@ -54,9 +62,9 @@ class InfoPrices extends React.PureComponent {
 
     onPriceUpdate(update) {
         const instrumentData = update.Data;
-        for(let index in instrumentData) {
-            _.merge(this.selectedInstruments[instrumentData[index].Uic], instrumentData[index]);
-        }
+        _.forEach(instrumentData, (value) => {
+            _.merge(this.selectedInstruments[value.Uic], value);
+        });
         this.setState({ flag: !this.state.flag });
     }
 
@@ -65,33 +73,37 @@ class InfoPrices extends React.PureComponent {
     }
 
     hasInsruments() {
-        return !(_.isEmpty(this.selectedInstruments)); 
+        return !(_.isEmpty(this.selectedInstruments));
     }
 
     render() {
         return (
             <div>
                 <DetailsHeader route={this.props.match.url}/>
-                <div className='pad-box' >
+                <div className="pad-box" >
                     <Error>
                         Enter correct access token using
-                        <a href='#/userInfo'> this link.</a>
+                        <a href="#/userInfo"> this link.</a>
                     </Error>
-                    <Assets showOptionsTemplate={true} onInstrumentSelected={this.handleInstrumentSelected} {...this.props}/>
+                    <Assets showOptionsTemplate onInstrumentSelected={this.handleInstrumentSelected} {...this.props}/>
                     {
-                        this.hasInsruments() && 
+                        this.hasInsruments() &&
                         <InfoPricesTemplate
                             instruments={this.selectedInstruments}
                             onSubscribeClick={this.handleSubscribe}
                             onUnsubscribeClick={this.handleUnsubscribe}
                             onGetInfoPricesClick={this.handleGetInfoPrices}
-                            hasSubscription={this.hasSubscription()} 
+                            hasSubscription={this.hasSubscription()}
                         />
                     }
                 </div>
             </div>
-        );        
+        );
     }
 }
+
+InfoPrices.propTypes = { match: object };
+
+InfoPrices.defaultProps = { match: {} };
 
 export default bindHandlers(InfoPrices);

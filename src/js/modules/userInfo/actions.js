@@ -12,8 +12,8 @@ export function getUser(accessToken) {
         dispatch(loaderActions.showLoader());
         dispatch(errorActions.hideError());
         getUserDetails(accessToken)
-        .then((result) => dispatch(updateUserInfo(accessToken, result.response)))
-        .catch((err) => dispatch(errorActions.showError()))
-        .then(() => dispatch(loaderActions.hideLoader()));
-    }
+            .then((result) => dispatch(updateUserInfo(accessToken, result.response)))
+            .catch(() => dispatch(errorActions.showError()))
+            .then(() => dispatch(loaderActions.hideLoader()));
+    };
 }

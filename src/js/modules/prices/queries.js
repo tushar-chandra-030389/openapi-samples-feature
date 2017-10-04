@@ -15,7 +15,7 @@ export function removeSubscription(subscription, props, cb) {
 export function createSubscription(instrument, props, onPriceUpdate, cb) {
     doWithLoader(
         props,
-        _.partial(subscribePrices, props.accessToken, { AssetType: instrument.AssetType , Uic: instrument.Uic }, onPriceUpdate),
+        _.partial(subscribePrices, props.accessToken, { AssetType: instrument.AssetType, Uic: instrument.Uic }, onPriceUpdate),
         (result) => cb(result)
     );
 }

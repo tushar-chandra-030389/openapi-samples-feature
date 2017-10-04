@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import { doWithLoader } from '../../utils/global';
 import { getInfoPrices, getInfoPricesList, subscribeInfoPrices, removeIndividualSubscription } from '../../utils/api';
-import { subscribe } from '../../utils/dataServices';
 
 export function fetchInfoPrices(instrument, props, cb) {
     instrument.expiry = instrument.Expiry ? instrument.Expiry : instrument.FxForwardMaxForwardDate;
@@ -11,7 +10,12 @@ export function fetchInfoPrices(instrument, props, cb) {
 }
 
 export function isSubscribed(selectedAssetTypes) {
-    for (var assetType in selectedAssetTypes) {
+    _.forEach(selectedAssetTypes, (value) => {
+        if (value && value.subscription) {
+            return true;
+        }
+    });
+    for (const assetType in selectedAssetTypes) {
         if (selectedAssetTypes[assetType] && selectedAssetTypes[assetType].subscription) {
             return true;
         }
@@ -20,53 +24,53 @@ export function isSubscribed(selectedAssetTypes) {
 }
 
 export function createSubscription(selectedAssetTypes, selectedInstruments, props, onPriceUpdate, cb) {
-    for (let assetType in selectedAssetTypes) {
-        let uics = _getUics(assetType, selectedInstruments);
+    _.forEach(selectedAssetTypes, (value, key) => {
+        const uics = getUics(key, selectedInstruments);
         doWithLoader(
             props,
-            _.partial(subscribeInfoPrices, props.accessToken, { Uics: uics, AssetType: assetType }, onPriceUpdate),
+            _.partial(subscribeInfoPrices, props.accessToken, { Uics: uics, AssetType: key }, onPriceUpdate),
             (result) => {
-                cb(result, assetType);
+                cb(result, key);
             }
         );
-    }
+    });
 }
 
 export function removeSubscription(selectedAssetTypes, props, cb) {
-    for (let assetType in selectedAssetTypes) {
-        if (selectedAssetTypes[assetType].subscription) {
+    _.forEach(selectedAssetTypes, (value, key) => {
+        if (value.subscription) {
             doWithLoader(
                 props,
-                _.partial(removeIndividualSubscription, props.accessToken, selectedAssetTypes[assetType].subscription),
-                () => cb(assetType)
+                _.partial(removeIndividualSubscription, props.accessToken, value.subscription),
+                () => cb(key)
             );
         }
-    }
+    });
 }
 
 export function fetchInfoPriceList(selectedAssetTypes, selectedInstruments, props, cb) {
-    for(var assetType in selectedAssetTypes) {
-        let uics = _getUics(assetType, selectedInstruments);
+    _.forEach(selectedAssetTypes, (value, key) => {
+        const uics = getUics(key, selectedInstruments);
         doWithLoader(
             props,
-            _.partial(getInfoPricesList, props.accessToken, { Uics: uics, AssetType: assetType }),
+            _.partial(getInfoPricesList, props.accessToken, { Uics: uics, AssetType: key }),
             (result) => {
                 cb(result.response);
             }
         );
-    }
+    });
 }
 
-function _getUics(assetType, selectedInstruments) {
+function getUics(assetType, selectedInstruments) {
     let uics = '';
-    for (let uic in selectedInstruments) {
-        if (selectedInstruments[uic].AssetType && selectedInstruments[uic].AssetType === assetType) {
-            if (uics !== '') {
-                uics = `${uic},${uics}`;
+    _.forEach(selectedInstruments, (value, key) => {
+        if (value.AssetType && value.AssetType === assetType) {
+            if (uics === '') {
+                uics = `${key}`;
             } else {
-                uics = `${uic}`;
+                uics = `${key},${uics}`;
             }
         }
-    }
+    });
     return uics;
 }
