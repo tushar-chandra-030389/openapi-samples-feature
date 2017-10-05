@@ -2,10 +2,9 @@ import React from 'react';
 import { bindHandlers } from 'react-bind-handlers';
 import _ from 'lodash';
 import { Row, Col, Tabs, Tab, Panel } from 'react-bootstrap';
-import PropTypes from 'prop-types';
-
+import { object } from 'prop-types';
 import ClientPortfolioTemplate from './clientPortfolioTemplate';
-import * as queries from './queries';
+import { getInfo } from './queries';
 import TradeSubscriptions from 'src/js/modules/tradeSubscription';
 import DetailsHeader from 'src/js/components/detailsHeader';
 import Error from 'src/js/modules/error';
@@ -30,7 +29,7 @@ class ClientPortfolio extends React.PureComponent {
     }
 
     componentDidMount() {
-        queries.getInfo('getClientInfo', this.props, this.handleClientAccounts);
+        getInfo('getClientInfo', this.props, this.handleClientAccounts);
     }
 
     handleAccountSelection(eventKey) {
@@ -48,7 +47,7 @@ class ClientPortfolio extends React.PureComponent {
             AccountKey,
         };
 
-        queries.getInfo('getBalancesInfo', this.props, this.handleBalanceInfo, balanceInfoQueryParams);
+        getInfo('getBalancesInfo', this.props, this.handleBalanceInfo, balanceInfoQueryParams);
 
         this.setState({
             currentAccountId: eventKey,
@@ -61,14 +60,14 @@ class ClientPortfolio extends React.PureComponent {
         this.clientInformation = response;
         const { Name, DefaultAccountId, ClientKey, DefaultAccountKey } = this.clientInformation;
 
-        queries.getInfo('getAccountInfo', this.props, this.handleAccountInfo);
+        getInfo('getAccountInfo', this.props, this.handleAccountInfo);
 
         const balanceInfoQueryParams = {
             ClientKey,
             AccountKey: DefaultAccountKey,
         };
 
-        queries.getInfo('getBalancesInfo', this.props, this.handleBalanceInfo, balanceInfoQueryParams);
+        getInfo('getBalancesInfo', this.props, this.handleBalanceInfo, balanceInfoQueryParams);
 
         this.setState({
             clientName: Name,
@@ -187,12 +186,8 @@ class ClientPortfolio extends React.PureComponent {
     }
 }
 
-ClientPortfolio.propTypes = {
-    match: PropTypes.shape(
-        {
-            url: PropTypes.string,
-        }
-    ),
-};
+ClientPortfolio.propTypes = { match: object };
+
+ClientPortfolio.defaultProps = { match: {} };
 
 export default bindHandlers(ClientPortfolio);

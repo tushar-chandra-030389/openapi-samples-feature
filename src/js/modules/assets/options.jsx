@@ -1,8 +1,7 @@
 import React from 'react';
 import { bindHandlers } from 'react-bind-handlers';
 import _ from 'lodash';
-import PropTypes from 'prop-types';
-
+import { func, shape, string } from 'prop-types';
 import FormGroupTemplate from 'src/js/components/formGroupTemplate';
 import { fetchOptionChain, getFormattedExpiry, fetchInstrumentDetails } from './queries';
 
@@ -122,12 +121,8 @@ class Options extends React.PureComponent {
 }
 
 Options.propTypes = {
-    onInstrumentSelected: PropTypes.func.isRequired,
-    optionRoot: PropTypes.shape(
-        {
-            AssetType: PropTypes.string,
-        }
-    ),
+    onInstrumentSelected: func.isRequired,
+    optionRoot: shape({ AssetType: string }),
 };
 
 export default bindHandlers(Options);

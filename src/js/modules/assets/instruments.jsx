@@ -1,8 +1,7 @@
 import React from 'react';
 import { bindHandlers } from 'react-bind-handlers';
 import { ButtonToolbar, Row } from 'react-bootstrap';
-import PropTypes from 'prop-types';
-
+import { func, array } from 'prop-types';
 import * as allAssetTypes from 'src/js/data/allAssetTypes.json';
 import { checkIfOption } from 'src/js/utils/global';
 import Dropdown from 'src/js/components/dropdown';
@@ -19,7 +18,7 @@ class Instruments extends React.PureComponent {
         };
     }
 
-    handleAssetTypeSelection(eventKey) {
+    onAssetTypeSelection(eventKey) {
         // notify if any UI component using it and want to listen to asset change
         if (this.props.onAssetTypeSelected) {
             this.props.onAssetTypeSelected(eventKey);
@@ -35,7 +34,7 @@ class Instruments extends React.PureComponent {
         });
     }
 
-    handleInstrumentSelection(instrument) {
+    onInstrumentSelection(instrument) {
         /* checkIfOption
            true  : simply update state to render option component.
            false : get instrument details.
@@ -59,7 +58,7 @@ class Instruments extends React.PureComponent {
                             data={this.props.assetTypes ? this.props.assetTypes : allAssetTypes.data}
                             title={this.state.assetTypeTitle}
                             id="assetTypes"
-                            handleSelect={this.handleAssetTypeSelection}
+                            handleSelect={this.onAssetTypeSelection}
                         />
                         {
                             this.state.instruments &&
@@ -69,7 +68,7 @@ class Instruments extends React.PureComponent {
                                 value="Description"
                                 id="instruments"
                                 title={this.state.title}
-                                handleSelect={this.handleInstrumentSelection}
+                                handleSelect={this.onInstrumentSelection}
                             />
                         }
                         {this.props.children}
@@ -81,10 +80,10 @@ class Instruments extends React.PureComponent {
 }
 
 Instruments.propTypes = {
-    onInstrumentSelected: PropTypes.func.isRequired,
-    onAssetTypeSelected: PropTypes.func,
-    onOptionRootSelected: PropTypes.func,
-    assetTypes: PropTypes.array,
+    onInstrumentSelected: func.isRequired,
+    onAssetTypeSelected: func,
+    onOptionRootSelected: func,
+    assetTypes: array,
 };
 
 export default bindHandlers(Instruments);

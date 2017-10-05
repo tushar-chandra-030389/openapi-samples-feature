@@ -7,13 +7,19 @@ export function fetchInstruments(eventKey, props, cb) {
 }
 
 export function fetchInstrumentDetails(instrument, props, cb) {
-    doWithLoader(props, _.partial(
-        getInstrumentDetails, props.accessToken, instrument.Identifier, instrument.AssetType),
-    (result) => cb(result.response));
+    doWithLoader(
+        props,
+        _.partial(getInstrumentDetails, props.accessToken, instrument.Identifier, instrument.AssetType),
+        (result) => cb(result.response)
+    );
 }
 
 export function fetchOptionChain(selectedOptionRoot, props, cb) {
-    doWithLoader(props, _.partial(getOptionChain, props.accessToken, selectedOptionRoot.Identifier), (result) => cb(result.response));
+    doWithLoader(
+        props,
+        _.partial(getOptionChain, props.accessToken, selectedOptionRoot.Identifier),
+        (result) => cb(result.response)
+    );
 }
 
 export function getFormattedExpiry(dateStr) {

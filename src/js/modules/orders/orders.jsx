@@ -2,8 +2,7 @@ import React from 'react';
 import { bindHandlers } from 'react-bind-handlers';
 import { Button, FormGroup, Well, Row, Col, Panel, Tabs, Tab, Form, Collapse } from 'react-bootstrap';
 import * as queries from './queries';
-import PropTypes from 'prop-types';
-
+import { object } from 'prop-types';
 import DetailsHeader from 'src/js/components/detailsHeader';
 import Error from 'src/js/modules/error';
 import Instruments from 'src/js/modules/assets/instruments';
@@ -95,7 +94,7 @@ class Orders extends React.PureComponent {
         this.setState({ optionRoot });
     }
 
-    handleSelectedAccount(account) {
+    onAccountSelect(account) {
         this.currentOrder.AccountKey = account.AccountKey;
         this.setState({ selectedAccount: account });
     }
@@ -158,7 +157,7 @@ class Orders extends React.PureComponent {
                     >
                         <Dropdown
                             title={accountTitle}
-                            handleSelect={this.handleSelectedAccount}
+                            handleSelect={this.onAccountSelect}
                             data={this.state.accounts}
                             itemKey="AccountId"
                             value="AccountId"
@@ -258,12 +257,8 @@ class Orders extends React.PureComponent {
     }
 }
 
-Orders.propTypes = {
-    match: PropTypes.shape(
-        {
-            url: PropTypes.string,
-        }
-    ),
-};
+Orders.propTypes = { match: object };
+
+Orders.defaultProps = { match: {} };
 
 export default bindHandlers(Orders);

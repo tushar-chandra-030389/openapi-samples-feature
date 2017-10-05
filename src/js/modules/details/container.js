@@ -20,4 +20,5 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
+// using withRouter to fix the issue of react-router-dom v4 not working with the redux container
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Details));
