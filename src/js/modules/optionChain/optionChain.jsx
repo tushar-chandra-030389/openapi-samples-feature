@@ -3,11 +3,10 @@ import { bindHandlers } from 'react-bind-handlers';
 import SearchInput from 'react-search-input';
 import { InputGroup, ListGroupItem, ListGroup } from 'react-bootstrap';
 import _ from 'lodash';
-import PropTypes from 'prop-types';
-
+import { object } from 'prop-types';
 import CustomTable from 'src/js/components/customTable';
 import OptionChainTemplate from './optionChainTemplate';
-import * as queries from './queries';
+import { getInfo } from './queries';
 import Error from 'src/js/modules/error';
 import DetailsHeader from 'src/js/components/detailsHeader';
 
@@ -25,21 +24,19 @@ class OptionChain extends React.PureComponent {
     }
 
     handleInstrumentsUpdated(result) {
-        this.items =
-            _.map(result.Data, (root, key) =>
-                (<ListGroupItem key={key} data-uic={root.Identifier} onClick={this.handleOptionRootSelected}>
-                    {root.Symbol}
-                </ListGroupItem>));
+        this.items = _.map(result.Data, (root, key) => (
+            <ListGroupItem key={key} data-uic={root.Identifier} onClick={this.handleOptionRootSelected}>
+                {root.Symbol}
+            </ListGroupItem>)
+        );
 
-        this.setState({
-            hasOptionRoots: true,
-        });
+        this.setState({ hasOptionRoots: true });
     }
 
     handleOptionRootSelected(eventKey) {
         this.optionRootData = {};
         const OptionRootId = eventKey.target.getAttribute('data-uic');
-        queries.getInfo('getOptionChain', this.props, this.handleOptionDataSuccess, OptionRootId);
+        getInfo('getOptionChain', this.props, this.handleOptionDataSuccess, OptionRootId);
     }
 
     handleOptionDataSuccess(result) {
@@ -52,11 +49,9 @@ class OptionChain extends React.PureComponent {
 
         const { AssetType, DefaultOption } = result;
 
-        queries.getInfo('getInstrumentDetails', this.props, this.handleInstrDetailsSuccess, DefaultOption.Uic, AssetType);
+        getInfo('getInstrumentDetails', this.props, this.handleInstrDetailsSuccess, DefaultOption.Uic, AssetType);
 
-        this.setState({
-            hasOptionRoots: false,
-        });
+        this.setState({ hasOptionRoots: false });
     }
 
     handleInstrDetailsSuccess(result) {
@@ -68,7 +63,7 @@ class OptionChain extends React.PureComponent {
 
     handleSearchUpdated(term) {
         if (term.length > 2) {
-            queries.getInfo('getInstruments', this.props, this.handleInstrumentsUpdated, this.assetTypes);
+            getInfo('getInstruments', this.props, this.handleInstrumentsUpdated, this.assetTypes);
         }
     }
 
@@ -113,12 +108,8 @@ class OptionChain extends React.PureComponent {
     }
 }
 
-OptionChain.propTypes = {
-    match: PropTypes.shape(
-        {
-            url: PropTypes.string,
-        }
-    ),
-};
+OptionChain.propTypes = { match: object };
+
+OptionChain.defaultProps = { match: {} };
 
 export default bindHandlers(OptionChain);

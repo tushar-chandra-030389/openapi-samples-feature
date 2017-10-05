@@ -4,8 +4,7 @@ import { bindHandlers } from 'react-bind-handlers';
 import { Panel, Form, FormControl, Row, Col } from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import PropTypes from 'prop-types';
-
+import { func, bool } from 'prop-types';
 import { checkIfOption, checkIfPutCallExpiry } from 'src/js/utils/global';
 import Instruments from './instruments';
 import Options from './options';
@@ -69,17 +68,6 @@ class Assets extends React.PureComponent {
     }
 
     render() {
-        // making array of key-value pairs to show instrument in table.
-        // const instData = _.map(this.state.instrumentDetails, (value, name) => {
-        //     return {
-        //         FieldName: name,
-        //         Value: this.state.instrumentDetails[name],
-        //     };
-        // });
-
-        // for (const name in this.state.instrumentDetails) {
-        //     instData.push({ FieldName: name, Value: this.state.instrumentDetails[name] });
-        // }
         return (
             <div>
                 <Instruments
@@ -99,8 +87,6 @@ class Assets extends React.PureComponent {
                     </Panel>
                 }
                 {
-
-                    // this. is specific for instruments that required put/call and expiry date in info price request eg. FxVanillaOption
                     this.state.putCallExpiryRequired && this.props.showOptionsTemplate &&
                     <Panel>
                         <Form>
@@ -126,8 +112,10 @@ class Assets extends React.PureComponent {
 }
 
 Assets.propTypes = {
-    onInstrumentSelected: PropTypes.func,
-    showOptionsTemplate: PropTypes.bool,
+    onInstrumentSelected: func.isRequired,
+    showOptionsTemplate: bool,
 };
+
+Assets.defaultProps = { showOptionsTemplate: true };
 
 export default bindHandlers(Assets);

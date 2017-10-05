@@ -2,9 +2,8 @@ import React from 'react';
 import _ from 'lodash';
 import { bindHandlers } from 'react-bind-handlers';
 import { Button } from 'react-bootstrap';
-import PropTypes from 'prop-types';
-
-import * as queries from './queries';
+import { object } from 'prop-types';
+import { fetchChartData } from './queries';
 import DetailsHeader from 'src/js/components/detailsHeader';
 import DropDown from 'src/js/components/dropdown';
 import Instrument from 'src/js/modules/assets/instruments';
@@ -41,7 +40,7 @@ class ChartPolling extends React.PureComponent {
                 Horizon: this.state.horizon,
                 Count: this.state.candleCount,
             };
-            queries.getInfo('getChartData', this.props, this.handleChartDataDisplay, chartData);
+            fetchChartData(this.props, this.handleChartDataDisplay, chartData);
         }
     }
 
@@ -52,13 +51,13 @@ class ChartPolling extends React.PureComponent {
         });
     }
 
-    handleHorizonSelection(eventKey) {
+    onHorizonSelection(eventKey) {
         this.setState({
             horizon: eventKey,
         });
     }
 
-    handleCandleCount(eventKey) {
+    onCandleCount(eventKey) {
         this.setState({
             candleCount: eventKey,
         });
@@ -77,14 +76,14 @@ class ChartPolling extends React.PureComponent {
                     <DropDown
                         id="charPollingDropDown1"
                         title="Horizon1"
-                        handleSelect={this.handleHorizonSelection}
+                        handleSelect={this.onHorizonSelection}
                         data={Horizon}
                     /> &nbsp;
 
                     <DropDown
                         id="charPollingDropDown2"
                         title="Horizon2"
-                        handleSelect={this.handleCandleCount}
+                        handleSelect={this.onCandleCount}
                         data={CandleCount}
                     /> &nbsp;
 
@@ -109,12 +108,8 @@ class ChartPolling extends React.PureComponent {
     }
 }
 
-ChartPolling.propTypes = {
-    match: PropTypes.shape(
-        {
-            url: PropTypes.string,
-        }
-    ),
-};
+ChartPolling.propTypes = { match: object };
+
+ChartPolling.defaultProps = { match: {} };
 
 export default bindHandlers(ChartPolling);
