@@ -781,7 +781,7 @@
                 ]
             }
         ],
-        "react/jsx-handler-names": "error",
+        "react/jsx-handler-names": "off",
         "react/jsx-indent-props": [
             "error",
             4

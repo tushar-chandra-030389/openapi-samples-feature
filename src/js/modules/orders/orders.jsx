@@ -94,7 +94,7 @@ class Orders extends React.PureComponent {
         this.setState({ optionRoot });
     }
 
-    onAccountSelect(account) {
+    handleAccountSelect(account) {
         this.currentOrder.AccountKey = account.AccountKey;
         this.setState({ selectedAccount: account });
     }
@@ -157,7 +157,7 @@ class Orders extends React.PureComponent {
                     >
                         <Dropdown
                             title={accountTitle}
-                            handleSelect={this.onAccountSelect}
+                            handleSelect={this.handleAccountSelect}
                             data={this.state.accounts}
                             itemKey="AccountId"
                             value="AccountId"

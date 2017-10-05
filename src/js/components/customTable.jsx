@@ -18,7 +18,10 @@ class CustomTable extends React.PureComponent {
     }
 
     handleData(props) {
-        this.data = _.clone(props.data);
+        this.data = [];
+        _.forEach(props.data, (obj) => {
+            this.data.push(obj);
+        });
     }
 
     handlePriceFormatter(cell, row) {

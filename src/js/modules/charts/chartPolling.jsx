@@ -51,13 +51,13 @@ class ChartPolling extends React.PureComponent {
         });
     }
 
-    onHorizonSelection(eventKey) {
+    handleHorizonSelection(eventKey) {
         this.setState({
             horizon: eventKey,
         });
     }
 
-    onCandleCount(eventKey) {
+    handleCandleCount(eventKey) {
         this.setState({
             candleCount: eventKey,
         });
@@ -76,14 +76,14 @@ class ChartPolling extends React.PureComponent {
                     <DropDown
                         id="charPollingDropDown1"
                         title="Horizon1"
-                        handleSelect={this.onHorizonSelection}
+                        handleSelect={this.handleHorizonSelection}
                         data={Horizon}
                     /> &nbsp;
 
                     <DropDown
                         id="charPollingDropDown2"
                         title="Horizon2"
-                        handleSelect={this.onCandleCount}
+                        handleSelect={this.handleCandleCount}
                         data={CandleCount}
                     /> &nbsp;
 
