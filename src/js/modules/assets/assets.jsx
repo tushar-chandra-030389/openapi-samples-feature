@@ -69,17 +69,6 @@ class Assets extends React.PureComponent {
     }
 
     render() {
-        // making array of key-value pairs to show instrument in table.
-        // const instData = _.map(this.state.instrumentDetails, (value, name) => {
-        //     return {
-        //         FieldName: name,
-        //         Value: this.state.instrumentDetails[name],
-        //     };
-        // });
-
-        // for (const name in this.state.instrumentDetails) {
-        //     instData.push({ FieldName: name, Value: this.state.instrumentDetails[name] });
-        // }
         return (
             <div>
                 <Instruments

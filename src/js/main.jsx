@@ -15,13 +15,14 @@ const reducer = combineReducers({
 });
 const store = createStore(reducer, applyMiddleware(thunk));
 
+// eslint-disable-next-line no-undef
 if (IS_DEV_ENV) {
-	window.$store = store;
+    window.$store = store;
 }
 
 render(
     <Provider store={store}>
-        <AppRoute />
+        <AppRoute/>
     </Provider>,
     document.getElementById('container')
 );
