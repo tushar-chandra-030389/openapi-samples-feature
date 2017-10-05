@@ -195,6 +195,8 @@ export function fetchAccountInfo(props, cb) {
 }
 
 export function getAccountArray(accountInfo) {
-    const accountArray = _.clone(accountInfo.Data);
-    return accountArray;
+    return _.reduce(accountInfo.Data, (result, value) => {
+        result.push(value);
+        return result;
+    }, []);
 }

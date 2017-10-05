@@ -126,7 +126,7 @@ CustomTable.propTypes = {
     decimals: PropTypes.number,
     formatExtraData: PropTypes.func,
     formatter: PropTypes.string,
-    hidden: PropTypes.bool,
+    hidden: PropTypes.array,
     priceFields: PropTypes.array,
 };
 
