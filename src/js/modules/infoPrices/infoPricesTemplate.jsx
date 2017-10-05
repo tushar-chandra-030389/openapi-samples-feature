@@ -61,7 +61,6 @@ InfoPricesTemplate.propTypes = {
     onSubscribeClick: func.isRequired,
     onUnsubscribeClick: func.isRequired,
     onGetInfoPricesClick: func.isRequired,
-
 };
 
 InfoPricesTemplate.defaultProps = {

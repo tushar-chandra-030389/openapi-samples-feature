@@ -10,11 +10,6 @@ export function fetchInfoPrices(instrument, props, cb) {
 }
 
 export function isSubscribed(selectedAssetTypes) {
-    _.forEach(selectedAssetTypes, (value) => {
-        if (value && value.subscription) {
-            return true;
-        }
-    });
     for (const assetType in selectedAssetTypes) {
         if (selectedAssetTypes[assetType] && selectedAssetTypes[assetType].subscription) {
             return true;

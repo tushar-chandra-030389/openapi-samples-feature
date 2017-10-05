@@ -18,7 +18,7 @@ class Instruments extends React.PureComponent {
         };
     }
 
-    onAssetTypeSelection(eventKey) {
+    handleAssetTypeSelection(eventKey) {
         // notify if any UI component using it and want to listen to asset change
         if (this.props.onAssetTypeSelected) {
             this.props.onAssetTypeSelected(eventKey);
@@ -34,7 +34,7 @@ class Instruments extends React.PureComponent {
         });
     }
 
-    onInstrumentSelection(instrument) {
+    handleInstrumentSelection(instrument) {
         /* checkIfOption
            true  : simply update state to render option component.
            false : get instrument details.
@@ -58,7 +58,7 @@ class Instruments extends React.PureComponent {
                             data={this.props.assetTypes ? this.props.assetTypes : allAssetTypes.data}
                             title={this.state.assetTypeTitle}
                             id="assetTypes"
-                            handleSelect={this.onAssetTypeSelection}
+                            handleSelect={this.handleAssetTypeSelection}
                         />
                         {
                             this.state.instruments &&
@@ -68,7 +68,7 @@ class Instruments extends React.PureComponent {
                                 value="Description"
                                 id="instruments"
                                 title={this.state.title}
-                                handleSelect={this.onInstrumentSelection}
+                                handleSelect={this.handleInstrumentSelection}
                             />
                         }
                         {this.props.children}
