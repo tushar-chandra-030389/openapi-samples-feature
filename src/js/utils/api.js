@@ -189,6 +189,28 @@ export function subscribePrices(accessToken, instrumentData, onUpdate, onError) 
     });
 }
 
+/* handling chart streaming data*/
+
+export function subscribeChartStreamingData(accessToken, chartData, onUpdate, onError) {
+    return new Promise((resolve) => {
+        const subscription = services.subscribe({
+            serviceGroup: 'chart',
+            endPoint: 'v1/charts/subscriptions',
+            queryParams: {
+                Arguments: {
+                    AssetType: chartData.AssetType,
+                    Uic: chartData.Uic,
+                    Horizon :  chartData.Horizon,
+                    Count  : chartData.Count,
+                },
+                RefreshRate: 5,
+            },
+            accessToken,
+        }, onUpdate, (err) => {debugger;});
+        resolve(subscription);
+    });
+}
+
 // remove individual subscription
 export function removeIndividualSubscription(accessToken, subscription) {
     return new Promise((resolve) => {
