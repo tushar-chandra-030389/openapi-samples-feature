@@ -206,7 +206,7 @@ export function subscribeChartStreamingData(accessToken, chartData, onUpdate, on
                 RefreshRate: 5,
             },
             accessToken,
-        }, onUpdate, (err) => {debugger;});
+        }, onUpdate, onError);
         resolve(subscription);
     });
 }
