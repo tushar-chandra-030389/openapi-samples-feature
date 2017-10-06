@@ -46,6 +46,7 @@ class CustomTableForPositions extends React.PureComponent {
 
 CustomTableForPositions.propTypes = {
     data: PropTypes.object,
+    onlyPositionData : PropTypes.object,
 };
 
 export default bindHandlers(CustomTableForPositions);
