@@ -40,13 +40,9 @@ class Prices extends React.PureComponent {
 
     onPriceUpdate(data) {
         if (data.Data) {
-            this.instrument = _.defaults(data.Data, this.instrument);
-
-            // _.merge(this.instrument, data.Data);
+            this.instrument = _.defaultsDeep(data.Data, this.instrument);
         } else {
-            this.instrument = _.defaults(data, this.instrument);
-
-            // _.merge(this.instrument, data);
+            this.instrument = _.defaultsDeep(data, this.instrument);
         }
         this.setState({ instrumentSelected: !this.state.instrumentSelected });
     }
