@@ -1,0 +1,21 @@
+{
+  "data": [
+    "FxSpot",
+    "Bond",
+    "Cash",
+    "Stock",
+    "ManagedFund",
+    "StockIndex",
+    "CfdOnFutures",
+    "CfdOnIndex",
+    "CfdOnStock",
+    "ContractFutures",
+    "FuturesStrategy",
+    "StockOption",
+    "StockIndexOption",
+    "FuturesOption",
+    "FxVanillaOption",
+    "FxOneTouchOption",
+    "FxNoTouchOption"
+  ]
+}

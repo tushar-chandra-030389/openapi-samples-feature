@@ -43,7 +43,6 @@ class InstrumentDetails extends React.PureComponent {
   }
 
   handleInstrumentSelection(instrumentDetails) {
-    console.log(instrumentDetails);
     //put Uic and symbol on top of instrument details
     let rearrangedInstrumentDetails = defaults({'Uic':instrumentDetails.Uic}, {'Symbol':instrumentDetails.Symbol}, instrumentDetails);
     //date are received in two different forms from open API, standardize date format in instrumentDetails

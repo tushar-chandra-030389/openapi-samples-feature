@@ -1,5 +1,4 @@
 import React from 'react';
-import Column from '../../utils/Column';
 import { Row, ControlLabel, Panel, Col } from 'react-bootstrap';
 import CustomTable from '../../utils/CustomTable';
 
