@@ -25,9 +25,6 @@ class InfoPrices extends React.PureComponent {
     handleInstrumentSelected(instrument) {
         this.handleUnsubscribe();
         queries.fetchInfoPrices(instrument, this.props, (response) => {
-            // reset selectedAssetTypes and selectedInstruments, then set it to assetType of data
-            this.selectedAssetTypes = {};
-            this.selectedInstruments = {};
             this.selectedAssetTypes[response.AssetType] = { subscription: undefined };
             this.selectedInstruments[response.Uic] = response;
             this.setState({ flag: !this.state.flag });

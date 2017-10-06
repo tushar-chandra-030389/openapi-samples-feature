@@ -10,16 +10,16 @@ class CustomTable extends React.PureComponent {
     constructor(props) {
         super(props);
         this.data = [];
-        this.handleData(props);
+        this.handleData();
     }
 
     componentWillReceiveProps(newProps) {
         this.handleData(newProps);
     }
 
-    handleData(props) {
+    handleData() {
         this.data = [];
-        _.forEach(props.data, (obj) => {
+        _.forEach(this.props.data, (obj) => {
             this.data.push(obj);
         });
     }
@@ -126,7 +126,7 @@ CustomTable.propTypes = {
     decimals: PropTypes.number,
     formatExtraData: PropTypes.func,
     formatter: PropTypes.string,
-    hidden: PropTypes.bool,
+    hidden: PropTypes.array,
     priceFields: PropTypes.array,
 };
 

@@ -31,9 +31,6 @@ export function doWithLoader(props, apiFunc, callback) {
                 callback(result);
             }
         })
-        .catch((err) => {
-            debugger;
-            props.showError();
-        })
+        .catch(() => props.showError())
         .then(() => props.hideLoader());
 }
