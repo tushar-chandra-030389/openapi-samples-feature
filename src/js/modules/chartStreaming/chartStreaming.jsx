@@ -33,9 +33,7 @@ class ChartStreaming extends React.PureComponent {
     handleInstrumentSelected(instrument) {
         this.setState({
             instrumentSelected: false,
-
         });
-
         if (this.chartSubscription) {
             unSubscribeChartData(this.props, this.chartSubscription);
         }
@@ -44,7 +42,6 @@ class ChartStreaming extends React.PureComponent {
         if (this.chart) {
             this.chart.destroy();
             this.chart = null;
-
         }
         this.instrument = instrument;
     }
@@ -74,9 +71,7 @@ class ChartStreaming extends React.PureComponent {
 
         if (this.chartResponse.length === 0) {
             this.chartResponse = data;
-
             _.forEach(data, (value) => {
-
                 const yAxisPoint = value.OpenAsk;
                 const xAxisPoint = (new Date(value.Time)).getTime();
                 const axisPoint = [xAxisPoint, yAxisPoint];
@@ -86,23 +81,19 @@ class ChartStreaming extends React.PureComponent {
         } else {
             _.forEach(data, (value) => {
                 const alreadyPresent = _.findIndex(this.chartResponse, (item) => item.Time === value.Time);
-
                 if (alreadyPresent >= 0) {
                     this.chartResponse[alreadyPresent] = value;
-
                 } else {
                     this.chartResponse.concat(value);
                     const yAxisPoint = value.OpenAsk;
                     const xAxisPoint = (new Date(value.Time)).getTime();
                     this.chart.series[0].addPoint([xAxisPoint, yAxisPoint], true, true);
-
                 }
             });
 
         }
         if (this.chart === null) {
             this.chart = Highcharts.chart('dataTable', {
-
                 chart: {
                     type: 'spline',
                     animation: Highcharts.svg, // don't animate in old IE
@@ -127,7 +118,6 @@ class ChartStreaming extends React.PureComponent {
                     data: this.chartDataSet,
                 }],
             });
-
         }
 
         this.setState({
