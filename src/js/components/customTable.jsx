@@ -103,7 +103,7 @@ class CustomTable extends React.PureComponent {
 
     render() {
         return (
-            <div>
+            <div id="dataTable">
                 {
                     !_.isEmpty(this.data) &&
                     <BootstrapTable data={this.data} striped condensed hover>
