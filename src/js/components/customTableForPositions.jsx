@@ -3,7 +3,6 @@ import _ from 'lodash';
 import { bindHandlers } from 'react-bind-handlers';
 import { Table } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import ShowPositionData from './showPositionData'
 
 class CustomTableForPositions extends React.PureComponent {
     constructor() {
@@ -11,14 +10,14 @@ class CustomTableForPositions extends React.PureComponent {
         this.data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     }
 
-
     getNetPostionsDataTable() {
         const netPositionTableArray = _.map(this.props.data, (value, key) => (
-
-
-                <ShowPositionData onlyShowPositionData={this.props.onlyPositionData} key={key}/>
-
-
+            <tr key={key}>
+                <td>{key}</td>
+                <td>{value.NetPositionView.Status}</td>
+                <td>{value.NetPositionBase.Amount}</td>
+                <td>{value.NetPositionView.AverageOpenPrice}</td>
+            </tr>
         ));
 
         return netPositionTableArray;
@@ -45,14 +44,8 @@ class CustomTableForPositions extends React.PureComponent {
     }
 }
 
-CustomTableForPositions
-    .
-    propTypes = {
+CustomTableForPositions.propTypes = {
     data: PropTypes.object,
-    onlyPositionData: PropTypes.object,
 };
 
-export
-default
-
-bindHandlers(CustomTableForPositions);
+export default bindHandlers(CustomTableForPositions);

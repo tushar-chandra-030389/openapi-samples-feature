@@ -103,7 +103,7 @@ class CustomTable extends React.PureComponent {
 
     render() {
         return (
-            <div id="dataTable">
+            <div>
                 {
                     !_.isEmpty(this.data) &&
                     <BootstrapTable data={this.data} striped condensed hover>
@@ -120,7 +120,7 @@ CustomTable.propTypes = {
     data: PropTypes.oneOfType([
         PropTypes.array,
         PropTypes.object,
-    ]).isRequired,
+    ]),
     width: PropTypes.string,
     dataSortFields: PropTypes.array,
     decimals: PropTypes.number,

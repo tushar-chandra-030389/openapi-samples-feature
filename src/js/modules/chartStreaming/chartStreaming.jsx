@@ -93,7 +93,7 @@ class ChartStreaming extends React.PureComponent {
 
         }
         if (this.chart === null) {
-            this.chart = Highcharts.chart('dataTable', {
+            this.chart = Highcharts.chart('chartContainer', {
                 chart: {
                     type: 'spline',
                     animation: Highcharts.svg, // don't animate in old IE
@@ -167,14 +167,14 @@ class ChartStreaming extends React.PureComponent {
                         onClick={this.handleChartData}
                     > {'Subscribe Chart'}
                     </Button>
-
-                    <CustomTable
-                        data={this.chartResponse.Data}
-                        keyField={'Time'}
-                        dataSortFields={['Time']}
-                        width={'150'}
-                    />
-
+                    <div id="chartContainer">
+                        <CustomTable
+                            data={this.chartResponse.Data}
+                            keyField={'Time'}
+                            dataSortFields={['Time']}
+                            width={'150'}
+                        />
+                    </div>
                 </div>
             </div>
         );
