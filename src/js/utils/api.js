@@ -11,11 +11,11 @@ export function getUserDetails(accessToken) {
 
 // fetch instruments from client lib based on AssetType
 // eg: Query Params : { AssetType: 'FxSpot' }
-export function getInstruments(accessToken, assetTypes) {
+export function getInstruments(accessToken, assetTypes, keyword) {
     return services.getData({
         serviceGroup: 'ref',
         endPoint: 'v1/instruments',
-        queryParams: { AssetTypes: assetTypes },
+        queryParams: { AssetTypes: assetTypes, Keywords: keyword },
         accessToken,
     });
 }

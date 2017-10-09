@@ -63,7 +63,7 @@ class OptionChain extends React.PureComponent {
 
     handleSearchUpdated(term) {
         if (term.length > 2) {
-            getInfo('getInstruments', this.props, this.handleInstrumentsUpdated, this.assetTypes);
+            getInfo('getInstruments', this.props, this.handleInstrumentsUpdated, this.assetTypes, term);
         }
     }
 
