@@ -15,8 +15,9 @@ class PricesTemplate extends React.PureComponent {
         return (
             <div>
                 <h4><strong>{header}:</strong></h4>
-                {data.length > 0 ?
-                    (<CustomTable data={data} width={'300'} keyField="FieldName" />) :
+                {
+                    data.length > 0 ?
+                    <CustomTable data={data} width={'300'} keyField="FieldName" showUpdateAnim={true}/> :
                     <strong>No data available</strong>
                 }
             </div>

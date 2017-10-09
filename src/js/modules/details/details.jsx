@@ -8,7 +8,7 @@ import Prices from 'src/js/modules/prices';
 import ClientPortfolio from 'src/js/modules/clientPortfolio';
 import OptionChain from 'src/js/modules/optionChain';
 import ChartPolling from 'src/js/modules/charts';
-import ChartStreaming from 'src/js/modules/chartStreaming';
+// import ChartStreaming from 'src/js/modules/chartStreaming';
 
 import Orders from 'src/js/modules/orders';
 
@@ -31,7 +31,7 @@ function Details(props) {
                 <Route path="/clientPortfolio" component={resourcePage(ClientPortfolio, props)}/>
                 <Route path="/options" component={resourcePage(OptionChain, props)}/>
                 <Route path="/chartPolling" component={resourcePage(ChartPolling, props)}/>
-                <Route path="/chartStreaming" component={resourcePage(ChartStreaming, props)}/>
+                {/*<Route path="/chartStreaming" component={resourcePage(ChartStreaming, props)}/>*/}
                 <Route path="/orders" component={resourcePage(Orders, props)}/>
                 <Redirect exact path="/" to="/intro"/>
             </Switch>
