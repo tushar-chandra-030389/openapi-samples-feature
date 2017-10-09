@@ -29,7 +29,6 @@ class OptionChain extends React.PureComponent {
                 {root.Symbol}
             </ListGroupItem>)
         );
-
         this.setState({ hasOptionRoots: true });
     }
 
@@ -40,10 +39,12 @@ class OptionChain extends React.PureComponent {
     }
 
     handleOptionDataSuccess(result) {
+
         this.items = [];
         this.underlyingInstr = [];
         this.setState({ hasUnderLying: false });
         this.optionRootData = result;
+
         _.forEach(this.optionRootData.OptionSpace,
             (data) => (data.ModifiedSpecificOptions = _.groupBy(data.SpecificOptions, 'StrikePrice')));
 
@@ -55,6 +56,7 @@ class OptionChain extends React.PureComponent {
     }
 
     handleInstrDetailsSuccess(result) {
+        result = _.omit(result, ['TickSizeScheme', 'ExpiryDate']);
         this.underlyingInstr.push(result);
         this.setState({
             hasUnderLying: true,
