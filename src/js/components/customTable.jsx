@@ -157,7 +157,7 @@ CustomTable.propTypes = {
     data: PropTypes.oneOfType([
         PropTypes.array,
         PropTypes.object,
-    ]).isRequired,
+    ]),
     width: PropTypes.string,
     dataSortFields: PropTypes.array,
     decimals: PropTypes.number,
