@@ -78,7 +78,7 @@ class TradeSubscriptions extends React.PureComponent {
             });
             this.onlyPositionData[NetPositionId] = combinedPositionData;
             combinedPositionData = [];
-            console.log('this onlyPositionData with object',this.onlyPositionData);
+            //console.log('this onlyPositionData with object',this.onlyPositionData);
         })
 
     }

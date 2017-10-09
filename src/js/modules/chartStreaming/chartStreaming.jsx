@@ -103,15 +103,15 @@ class ChartStreaming extends React.PureComponent {
                     text: 'Live chart streaming data',
                 },
                 xAxis: {
-                    title : {
-                        text : 'Time'
+                    title: {
+                        text: 'Time',
                     },
                     type: 'datetime',
                 },
                 yAxis: {
                     title: {
-                        text: 'openAsk'
-                    }
+                        text: 'openAsk',
+                    },
                 },
                 series: [{
                     name: 'charts data',
