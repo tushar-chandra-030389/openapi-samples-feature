@@ -30,7 +30,7 @@ class OptionChain extends React.PureComponent {
             </ListGroupItem>)
         );
 
-        this.setState({ hasOptionRoots: true });
+        this.setState({ hasOptionRoots: !this.state.hasOptionRoots });
     }
 
     handleOptionRootSelected(eventKey) {
