@@ -1,8 +1,9 @@
 import React from 'react';
 import _ from 'lodash';
-import { bindHandlers } from 'react-bind-handlers';
-import { Table } from 'react-bootstrap';
+import {bindHandlers} from 'react-bind-handlers';
+import {Table} from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import ShowPositionData from './showPositionData'
 
 class CustomTableForPositions extends React.PureComponent {
     constructor() {
@@ -10,17 +11,24 @@ class CustomTableForPositions extends React.PureComponent {
         this.data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     }
 
+
     getNetPostionsDataTable() {
-        const netPositionTableArray = _.map(this.props.data, (value, key) => (
-            <tr key={key}>
+        //console.log('checking Data',this.props.data);
+        //console.log('checking onlypositiondata',this.props.onlyPositionData);
+        const PositionTableArray = _.map(this.props.data, (value, key) => (
+
+            <tbody key={key}>
+
+            {this.props.onlyPositionData && <tr >
                 <td>{key}</td>
                 <td>{value.NetPositionView.Status}</td>
                 <td>{value.NetPositionBase.Amount}</td>
                 <td>{value.NetPositionView.AverageOpenPrice}</td>
-            </tr>
+            </tr>}
+            {this.props.onlyPositionData && <ShowPositionData onlyShowPositionData={this.props.onlyPositionData} customKey ={key} key={key}/>}
+            </tbody>
         ));
-
-        return netPositionTableArray;
+        return PositionTableArray;
     }
 
     render() {
@@ -35,17 +43,19 @@ class CustomTableForPositions extends React.PureComponent {
                         <th>Open Price</th>
                     </tr>
                     </thead>
-                    <tbody>
+
                     {this.getNetPostionsDataTable()}
-                    </tbody>
+
                 </Table>
             </div>
         );
     }
 }
 
-CustomTableForPositions.propTypes = {
+CustomTableForPositions
+    .propTypes = {
     data: PropTypes.object,
+    onlyPositionData: PropTypes.object,
 };
 
 export default bindHandlers(CustomTableForPositions);

@@ -11,9 +11,12 @@ class TradeSubscriptions extends React.PureComponent {
         super(props);
         this.state = { tradeUpdated: false };
         this.trades = {};
+        this.postrades = {};
         this.tradeSubscription = {};
+        this.postTradeSubscription = {};
         this.currentAccountInformation = {};
         this.tradeTypeId = `${this.props.tradeType}Id`;
+        this.onlyPositionData = {};
     }
 
     componentWillReceiveProps(newProps) {
@@ -35,6 +38,19 @@ class TradeSubscriptions extends React.PureComponent {
             {
                 accountKey: this.currentAccountInformation.AccountKey,
                 clientKey: this.currentAccountInformation.ClientKey,
+                fieldGroups: ["DisplayAndFormat", "PositionBase", "PositionView"],
+            },
+            "Position",
+            this.handleTradeUpdate1,
+            (postTradeSubscription) => {
+                this.postTradeSubscription = postTradeSubscription;
+            }
+        );
+        queries.createSubscription(
+            this.props,
+            {
+                accountKey: this.currentAccountInformation.AccountKey,
+                clientKey: this.currentAccountInformation.ClientKey,
                 fieldGroups: this.props.fieldGroups,
             },
             this.props.tradeType,
@@ -43,14 +59,31 @@ class TradeSubscriptions extends React.PureComponent {
                 this.tradeSubscription = tradeSubscription;
             }
         );
+
     }
 
     handleTradeUpdate(response) {
         this.setState({ tradeUpdated: false });
         this.trades = queries.getUpdatedTrades(this.trades, this.tradeTypeId, response.Data);
         this.setState({ tradeUpdated: true });
-    }
+        _.map(this.trades, (value, key) => {
+            let NetPositionId = value.NetPositionId;
+            let combinedPositionData = [];
+            _.map(this.postrades , (valuePostTrades,keyPostTrades) => {
+                if(NetPositionId === valuePostTrades.NetPositionId){
+                    combinedPositionData.push(valuePostTrades);
+                }
+            });
+            this.onlyPositionData[NetPositionId] = combinedPositionData;
+            console.log('indide handletrade update check net position data', this.onlyPositionData);
+            console.log('checking combined positioned data',combinedPositionData);
+            //combinedPositionData = [];
+        })
 
+    }
+    handleTradeUpdate1(response) {
+        this.postrades = queries.getUpdatedTrades(this.postrades,"PositionId", response.Data);
+    }
     disposeSubscription() {
         if (!_.isEmpty(this.tradeSubscription)) {
             queries.unSubscribe(this.props, this.tradeSubscription, () => {
@@ -58,14 +91,22 @@ class TradeSubscriptions extends React.PureComponent {
                 this.tradeSubscription = {};
             });
         }
+
+        if (!_.isEmpty(this.postTradeSubscription)) {
+            queries.unSubscribe(this.props, this.postTradeSubscription, () => {
+                this.postrades = {};
+                this.postTradeSubscription = {};
+            });
+        }
     }
 
     render() {
+
         return (
             <div>
                 {
                     this.props.tradeType === 'NetPosition' ?
-                    <CustomTableForPositions data={this.trades}/> :
+                    <CustomTableForPositions data={this.trades} onlyPositionData={this.onlyPositionData} /> :
                     <CustomTable
                         data={this.trades}
                         keyField={this.tradeTypeId}
