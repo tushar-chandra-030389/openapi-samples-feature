@@ -45,6 +45,7 @@
     "babel-preset-stage-1": "^6.24.1",
     "clean-webpack-plugin": "^0.1.16",
     "css-loader": "^0.28.7",
+    "empty-module": "0.0.2",
     "eslint": "^4.1.1",
     "eslint-import-resolver-webpack": "^0.8.3",
     "eslint-loader": "^1.8.0",

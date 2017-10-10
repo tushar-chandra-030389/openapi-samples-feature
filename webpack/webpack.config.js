@@ -82,6 +82,8 @@ module.exports = {
             template: path.resolve(__dirname, '../src', 'index.html'),
             title: 'Dynamic Html',
         }),
+
+        new webpack.ContextReplacementPlugin(/\.\/locale$/, 'empty-module', false, /js$/),
     ],
 
     resolve: {
