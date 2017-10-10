@@ -5,7 +5,7 @@
   "scripts": {
     "start": "webpack-dev-server --open --inline --no-info --content-base src --config=webpack/webpack-dev.config",
     "build": "webpack --config=webpack/webpack-prod.config && node server",
-    "eslint": "eslint --fix src/js/modules/**/**"
+    "eslint": "eslint --fix src/js/components/**"
   },
   "author": "SaxoBank",
   "dependencies": {

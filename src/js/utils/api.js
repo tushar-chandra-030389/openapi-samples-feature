@@ -200,8 +200,8 @@ export function subscribeChartStreamingData(accessToken, chartData, onUpdate, on
                 Arguments: {
                     AssetType: chartData.AssetType,
                     Uic: chartData.Uic,
-                    Horizon :  chartData.Horizon,
-                    Count  : chartData.Count,
+                    Horizon: chartData.Horizon,
+                    Count: chartData.Count,
                 },
                 RefreshRate: 5,
             },
@@ -271,7 +271,7 @@ export function createOrderSubscription(accessToken, subscriptionArgs, onUpdate,
     return new Promise((resolve) => {
         const subscription = services.subscribe({
             serviceGroup: 'port',
-            endPoint: 'v2/orders/subscriptions',
+            endPoint: 'v1/orders/subscriptions',
             queryParams: {
                 Arguments: {
                     AccountKey: subscriptionArgs.accountKey,

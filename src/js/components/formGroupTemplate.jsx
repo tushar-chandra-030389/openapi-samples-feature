@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormGroup, FormControl, ControlLabel, Col, Row } from 'react-bootstrap';
 import _ from 'lodash';
-import PropTypes from 'prop-types';
+import { array, func } from 'prop-types';
 
 function getSelectCtrl(item, onChange) {
     return (
@@ -45,7 +45,8 @@ function FormGroupTemplate(props) {
 }
 
 FormGroupTemplate.propTypes = {
-    data: PropTypes.array,
+    data: array,
+    onChange: func.isRequired,
 };
 
 export default FormGroupTemplate;

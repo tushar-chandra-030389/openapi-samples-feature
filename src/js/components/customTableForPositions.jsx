@@ -28,15 +28,15 @@ class CustomTableForPositions extends React.PureComponent {
             <div>
                 <Table responsive>
                     <thead>
-                    <tr>
-                        <th>Instrument</th>
-                        <th>Status</th>
-                        <th>Amount</th>
-                        <th>Open Price</th>
-                    </tr>
+                        <tr>
+                            <th>Instrument</th>
+                            <th>Status</th>
+                            <th>Amount</th>
+                            <th>Open Price</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    {this.getNetPostionsDataTable()}
+                        {this.getNetPostionsDataTable()}
                     </tbody>
                 </Table>
             </div>

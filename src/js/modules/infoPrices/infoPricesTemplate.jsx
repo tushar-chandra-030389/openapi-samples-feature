@@ -37,7 +37,7 @@ function InfoPricesTemplate(props) {
                             keyField="Uic"
                             dataSortFields={['Uic', 'AssetType']}
                             width={'250'}
-                            showUpdateAnim={true}
+                            showUpdateAnim
                             hidden={['DisplayAndFormat.Decimals', 'DisplayAndFormat.Format', 'DisplayAndFormat.OrderDecimals']}
                             formatter={'DisplayAndFormat.Decimals'}
                             priceFields={[

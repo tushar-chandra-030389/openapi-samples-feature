@@ -3,23 +3,27 @@ import _ from 'lodash';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { bindHandlers } from 'react-bind-handlers';
 import PropTypes from 'prop-types';
-
 import { getFormattedPrice } from '../utils/api';
+
+const MutationObserver = window.MutationObserver;
 
 class CustomTable extends React.Component {
     constructor(props) {
         super(props);
         this.data = [];
+        this.dataTable = null;
         this.handleData();
     }
 
     componentDidMount() {
-        if (this.props.showUpdateAnim) {
-            const tableNode = this.refs.dataTable.refs.table;
-            const tableBodyNode = tableNode.querySelector('.react-bs-container-body table tbody');
-            this.attachAnimationEnd(tableBodyNode);
-            this.observeMutation(tableBodyNode);
+        if (MutationObserver && this.props.showUpdateAnim) {
+            this.attachAnimationEnd(this.dataTable);
+            this.observeMutation(this.dataTable);
         }
+    }
+
+    componentWillReceiveProps(newProps) {
+        this.handleData(newProps);
     }
 
     attachAnimationEnd(elm) {
@@ -38,7 +42,7 @@ class CustomTable extends React.Component {
             _.forEach(mutations, (mutation) => {
                 const target = mutation.target;
                 if (target.localName === 'div') {
-                    target.parentNode.style.animation = 'highlightAnim 1s'
+                    target.parentNode.style.animation = 'highlightAnim 1s';
                 }
             });
         });
@@ -50,15 +54,11 @@ class CustomTable extends React.Component {
         });
     }
 
-    componentWillReceiveProps(newProps) {
-        this.handleData(newProps);
-    }
-
     handleData() {
-        this.data = [];
-        _.forEach(this.props.data, (obj) => {
-            this.data.push(obj);
-        });
+        this.data = _.reduce(this.props.data, (accumulator, value) => {
+            accumulator.push(value);
+            return accumulator;
+        }, []);
     }
 
     handlePriceFormatter(cell, row) {
@@ -140,10 +140,10 @@ class CustomTable extends React.Component {
 
     render() {
         return (
-            <div>
+            <div ref={(elm) => (this.dataTable = elm)}>
                 {
                     !_.isEmpty(this.data) &&
-                    <BootstrapTable ref='dataTable' data={this.data} striped condensed hover>
+                    <BootstrapTable data={this.data} striped condensed hover>
                         {this.generateHeaders()}
                     </BootstrapTable>
                 }
