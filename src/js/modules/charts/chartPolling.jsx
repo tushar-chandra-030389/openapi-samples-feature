@@ -21,7 +21,7 @@ class ChartPolling extends React.PureComponent {
         this.state = {
             instrumentSelected: false,
             horizon: 'Horizon',
-            candleCount: 200,
+            candleCount: '200',
         };
     }
 
@@ -33,7 +33,7 @@ class ChartPolling extends React.PureComponent {
     }
 
     handleChartData() {
-        if (_.isNumber(this.state.horizon) && !_.isEmpty(this.instrument)) {
+        if (_.isNumber(parseInt(this.state.horizon)) && !_.isEmpty(this.instrument)) {
             const chartData = {
                 AssetType: this.instrument.AssetType,
                 Uic: this.instrument.Uic,
@@ -53,13 +53,13 @@ class ChartPolling extends React.PureComponent {
 
     handleHorizonSelection(eventKey) {
         this.setState({
-            horizon: eventKey,
+            horizon: eventKey.toString(),
         });
     }
 
     handleCandleCount(eventKey) {
         this.setState({
-            candleCount: eventKey,
+            candleCount: eventKey.toString(),
         });
     }
 
@@ -75,14 +75,14 @@ class ChartPolling extends React.PureComponent {
                     <Instrument {...this.props} onInstrumentSelected={this.handleInstrumentSelected}/>
                     <DropDown
                         id="charPollingDropDown1"
-                        title="Horizon1"
+                        title={this.state.horizon}
                         handleSelect={this.handleHorizonSelection}
                         data={Horizon}
                     /> &nbsp;
 
                     <DropDown
                         id="charPollingDropDown2"
-                        title="Horizon2"
+                        title={this.state.candleCount}
                         handleSelect={this.handleCandleCount}
                         data={CandleCount}
                     /> &nbsp;
