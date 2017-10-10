@@ -245,8 +245,14 @@ class Orders extends React.PureComponent {
                                 <TradeSubscriptions
                                     {...this.props}
                                     currentAccountInformation={this.state.selectedAccount}
-                                    tradeType="Position"
-                                    fieldGroups={['DisplayAndFormat', 'PositionBase', 'PositionView']}
+                                    tradeType="NetPosition"
+                                    fieldGroups={['NetPositionView',
+                                        'NetPositionBase',
+                                        'DisplayAndFormat',
+                                        'ExchangeInfo',
+                                        'SingleAndClosedPositionsBase',
+                                        'SingleAndClosedPositionsView',
+                                        'SingleAndClosedPositions']}
                                 />
                             </Tab>
                         </Tabs>
