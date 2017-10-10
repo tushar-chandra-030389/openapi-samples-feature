@@ -35,7 +35,7 @@ function FormGroupTemplate(props) {
                     _.map(props.data, (item, idx) => (
                         <Col sm={3} key={idx}>
                             <ControlLabel>{item.label}</ControlLabel>
-                            {item.componentClass === 'select' ? getSelectCtrl(item) : getTextCtrl(item)}
+                            {item.componentClass === 'select' ? getSelectCtrl(item, props.onChange) : getTextCtrl(item, props.onChange)}
                         </Col>)
                     )
                 }

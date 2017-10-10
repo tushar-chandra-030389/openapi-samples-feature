@@ -65,14 +65,14 @@ class TradeSubscriptions extends React.PureComponent {
             <div>
                 {
                     this.props.tradeType === 'NetPosition' ?
-                        <CustomTableForPositions data={this.trades}/> :
-                        <CustomTable
-                            data={this.trades}
-                            keyField={this.tradeTypeId}
-                            dataSortFields={['{this.tradeTypeId}']}
-                            width={'150'}
-                        />
-                }
+                    <CustomTableForPositions data={this.trades}/> :
+                    <CustomTable
+                        data={this.trades}
+                        keyField={this.tradeTypeId}
+                        dataSortFields={['{this.tradeTypeId}']}
+                        width={'150'}
+                    />
+                    }
             </div>
         );
     }

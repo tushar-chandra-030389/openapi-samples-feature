@@ -128,10 +128,6 @@ textarea.form-group.form-control {
 	overflow: auto;
 }
 
-/*.search-item {
-	background-color: ;
-}*/
-
 .row-head {
 	font-weight: bolder;
 }
@@ -209,4 +205,12 @@ textarea.form-group.form-control {
 .dropdown-menu {
 	max-height: 300px;
 	overflow-y: auto;
+}
+
+/* animation for highlighting live data change */
+@keyframes highlightAnim {
+	0% { background: #FF8C00; }
+	25% { background: #FFA07A; }
+	50% { background: #FFD700; }
+	100% { background: transparent; }
 }

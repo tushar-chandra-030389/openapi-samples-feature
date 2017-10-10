@@ -6,11 +6,48 @@ import PropTypes from 'prop-types';
 
 import { getFormattedPrice } from '../utils/api';
 
-class CustomTable extends React.PureComponent {
+class CustomTable extends React.Component {
     constructor(props) {
         super(props);
         this.data = [];
         this.handleData();
+    }
+
+    componentDidMount() {
+        if (this.props.showUpdateAnim) {
+            const tableNode = this.refs.dataTable.refs.table;
+            const tableBodyNode = tableNode.querySelector('.react-bs-container-body table tbody');
+            this.attachAnimationEnd(tableBodyNode);
+            this.observeMutation(tableBodyNode);
+        }
+    }
+
+    attachAnimationEnd(elm) {
+        elm.addEventListener('animationEnd', this.handleAnimationEnd, false);
+        elm.addEventListener('webkitAnimationEnd', this.handleAnimationEnd, false);
+        elm.addEventListener('mozAnimationEnd', this.handleAnimationEnd, false);
+        elm.addEventListener('msAnimationEnd', this.handleAnimationEnd, false);
+    }
+
+    handleAnimationEnd(event) {
+        event.target.style.animation = '';
+    }
+
+    observeMutation(elm) {
+        const mutationObserver = new MutationObserver((mutations) => {
+            _.forEach(mutations, (mutation) => {
+                const target = mutation.target;
+                if (target.localName === 'div') {
+                    target.parentNode.style.animation = 'highlightAnim 1s'
+                }
+            });
+        });
+        mutationObserver.observe(elm, {
+            attributes: false,
+            characterData: false,
+            childList: true,
+            subtree: true,
+        });
     }
 
     componentWillReceiveProps(newProps) {
@@ -106,7 +143,7 @@ class CustomTable extends React.PureComponent {
             <div>
                 {
                     !_.isEmpty(this.data) &&
-                    <BootstrapTable data={this.data} striped condensed hover>
+                    <BootstrapTable ref='dataTable' data={this.data} striped condensed hover>
                         {this.generateHeaders()}
                     </BootstrapTable>
                 }
@@ -120,7 +157,7 @@ CustomTable.propTypes = {
     data: PropTypes.oneOfType([
         PropTypes.array,
         PropTypes.object,
-    ]).isRequired,
+    ]),
     width: PropTypes.string,
     dataSortFields: PropTypes.array,
     decimals: PropTypes.number,
@@ -128,6 +165,9 @@ CustomTable.propTypes = {
     formatter: PropTypes.string,
     hidden: PropTypes.array,
     priceFields: PropTypes.array,
+    showUpdateAnim: PropTypes.bool,
 };
+
+CustomTable.defaultProps = { showUpdateAnim: false };
 
 export default bindHandlers(CustomTable);
