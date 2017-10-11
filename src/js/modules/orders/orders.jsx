@@ -153,8 +153,9 @@ class Orders extends React.PureComponent {
                         {...this.props}
                         onInstrumentSelected={this.handleInstrumentChange}
                         onOptionRootSelected={this.handleOptionRoot}
-                        onAssetTypeSelected={this.handleAssetTypeChange}
-                    >
+                        onAssetTypeSelected={this.handleAssetTypeChange}>
+
+                        {/*select account dropdown*/}
                         <Dropdown
                             title={accountTitle}
                             handleSelect={this.handleAccountSelect}
@@ -172,22 +173,24 @@ class Orders extends React.PureComponent {
                             />
                             {this.state.optionRoot &&
                             <Options {...this.props} optionRoot={this.state.optionRoot}
-                                onInstrumentSelected={this.handleInstrumentChange}
+                                     onInstrumentSelected={this.handleInstrumentChange}
                             />
                             }
                             <FormGroupTemplate data={queries.getBuySellFormData(this.currentOrder)}
-                                onChange={this.handleValueChange}
+                                               onChange={this.handleValueChange}
                             />
                             <FormGroupTemplate data={queries.orderTypeDurationFormData(this.state.supportedOrderTypes)}
-                                onChange={this.handleValueChange}
+                                               onChange={this.handleValueChange}
                             />
                             {this.state.optionRoot &&
                             <FormGroupTemplate data={queries.openCloseFormData()} onChange={this.handleValueChange}/>
                             }
+
                             <FormGroup>
+                                {/*take profit section*/}
                                 <div>
                                     <Button bsStyle="link" disabled={this.state.takeProfitOpen}
-                                        onClick={this.handleProfitBtnClick}
+                                            onClick={this.handleProfitBtnClick}
                                     >Take Profit</Button>
                                     <Collapse in={this.state.takeProfitOpen}>
                                         <div>
@@ -197,30 +200,33 @@ class Orders extends React.PureComponent {
                                                     onChange={this.handleValueChange}
                                                 />
                                                 <Button bsStyle="primary"
-                                                    onClick={this.handleProfitBtnClick}
+                                                        onClick={this.handleProfitBtnClick}
                                                 >Remove</Button>
                                             </Well>
                                         </div>
                                     </Collapse>
                                 </div>
+
+                                {/*stop loss section*/}
                                 <div>
                                     <Button bsStyle="link" disabled={this.state.stopLossOpen}
-                                        onClick={this.handleLossBtnClick}
+                                            onClick={this.handleLossBtnClick}
                                     >Stop Loss</Button>
                                     <Collapse in={this.state.stopLossOpen}>
                                         <div>
                                             <Well>
                                                 <FormGroupTemplate data={queries.stopLossFormData(this.stopLossPrice)}
-                                                    onChange={this.handleValueChange}
+                                                                   onChange={this.handleValueChange}
                                                 />
                                                 <Button bsStyle="primary"
-                                                    onClick={this.handleLossBtnClick}
+                                                        onClick={this.handleLossBtnClick}
                                                 >Remove</Button>
                                             </Well>
                                         </div>
                                     </Collapse>
                                 </div>
                             </FormGroup>
+
                             <FormGroup bsSize="large">
                                 <Row>
                                     <Col sm={3}>
