@@ -16,6 +16,11 @@ Test: Run node -v. The version should be higher than v0.10.32
  npm install
  npm start
  ```
- 
+
  This runs the webpack dev server, any changes you make to javascript
  files will cause the browser to reload live.
+
+Known bugs and WIP enhancements :
+1. Orders placement is not very consistent. It is still under WIP.
+2. NetPosition module is under WIP.
+3. Minor UI issues.
