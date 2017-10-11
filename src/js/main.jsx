@@ -8,6 +8,10 @@ import errorReducer from './modules/error/reducer';
 import userInfoReducer from './modules/userInfo/reducer';
 import AppRoute from './modules/app';
 
+//css
+import '../css/style.css';
+import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+
 const reducer = combineReducers({
     loader: loaderReducer,
     error: errorReducer,
