@@ -214,3 +214,26 @@ textarea.form-group.form-control {
 	50% { background: #ccc; }
 	100% { background: transparent; }
 }
+
+.table-instrument{
+	width: 55%;
+}
+
+.table-status{
+	width:10%;
+}
+
+.table-amount{
+	width:15%;
+}
+
+.table-price{
+	width:20%;
+}
+
+.table-instrument,.table-status,.table-amount,.table-price:nth-child(1){
+	padding: 8px;
+	line-height: 1.42857143;
+	vertical-align: top;
+	border-top: 1px solid #ddd;
+}

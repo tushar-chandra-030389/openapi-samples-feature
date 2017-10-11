@@ -3,7 +3,7 @@ import _ from 'lodash';
 import {bindHandlers} from 'react-bind-handlers';
 import PropTypes from 'prop-types';
 
-class ShowPositionData extends React.Component {
+class ShowPositionData extends React.PureComponent {
     constructor() {
         super();
     }
@@ -16,25 +16,24 @@ class ShowPositionData extends React.Component {
                 return _.map(value, (positionValue, positionKey) => {
                     if (key === this.props.customKey) {
                         return (
-                            <tbody key={Math.random()}>
-                            <tr>
-                                <td>{positionKey}</td>
-                                <td>{positionValue.PositionBase.Status}</td>
-                                <td>{positionValue.PositionBase.Amount}</td>
-                                <td>{positionValue.PositionBase.OpenPrice}</td>
+
+                            <tr key={Math.random()}>
+                                <td className="table-instrument">{positionKey}</td>
+                                <td className="table-status">{positionValue.PositionBase.Status}</td>
+                                <td className="table-amount">{positionValue.PositionBase.Amount}</td>
+                                <td className="table-price">{positionValue.PositionBase.OpenPrice}</td>
                             </tr>
-                            </tbody>
+
                         )
                     }
                 })
             });
             return (
-                <table className="table">
-                    {netPositionTableArray}
-                </table>
+                <tbody className="table">
+                {netPositionTableArray}
+                </tbody>
             )
         }
-        return <tbody></tbody>
     }
 }
 
