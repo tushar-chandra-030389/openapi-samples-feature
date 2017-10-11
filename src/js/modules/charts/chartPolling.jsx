@@ -33,7 +33,7 @@ class ChartPolling extends React.PureComponent {
     }
 
     handleChartData() {
-        if (_.isNumber(parseInt(this.state.horizon)) && !_.isEmpty(this.instrument)) {
+        if (_.isNumber(parseInt(this.state.horizon, 10)) && !_.isEmpty(this.instrument)) {
             const chartData = {
                 AssetType: this.instrument.AssetType,
                 Uic: this.instrument.Uic,

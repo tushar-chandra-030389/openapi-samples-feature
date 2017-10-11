@@ -24,3 +24,4 @@ Known bugs and WIP enhancements :
 1. Orders placement is not very consistent. It is still under WIP.
 2. NetPosition module is under WIP.
 3. Minor UI issues.
+4. Sometimes will navigating between pages, some residual websocket connections throw constant errors.

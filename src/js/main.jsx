@@ -8,7 +8,7 @@ import errorReducer from './modules/error/reducer';
 import userInfoReducer from './modules/userInfo/reducer';
 import AppRoute from './modules/app';
 
-//css
+// css
 import 'src/css/style.css';
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import 'src/css/react-bootstrap-table-all.min.css';
