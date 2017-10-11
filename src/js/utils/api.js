@@ -301,7 +301,9 @@ export function createPositionSubscription(accessToken, subscriptionArgs, onUpda
                 RefreshRate: 5,
             },
             accessToken,
-        }, onUpdate, onError);
+        }, onUpdate, (err)=>{
+            console.log(err);
+        });
         resolve(subscription);
     });
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { bindHandlers } from 'react-bind-handlers';
+import {bindHandlers} from 'react-bind-handlers';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 import * as queries from './queries';
@@ -9,7 +9,7 @@ import CustomTableForPositions from 'src/js/components/customTableForPositions';
 class TradeSubscriptions extends React.PureComponent {
     constructor(props) {
         super(props);
-        this.state = { tradeUpdated: false };
+        this.state = {tradeUpdated: false};
         this.trades = {};
         this.postrades = {};
         this.tradeSubscription = {};
@@ -30,60 +30,78 @@ class TradeSubscriptions extends React.PureComponent {
         this.disposeSubscription();
     }
 
+
     createTradeSubscription() {
-        this.setState({ tradeUpdated: false });
+        this.setState({tradeUpdated: false});
         this.disposeSubscription();
-        queries.createSubscription(
-            this.props,
-            {
-                accountKey: this.currentAccountInformation.AccountKey,
-                clientKey: this.currentAccountInformation.ClientKey,
-                fieldGroups: ["DisplayAndFormat", "PositionBase", "PositionView"],
-            },
-            "Position",
-            this.handleTradeUpdate1,
-            (postTradeSubscription) => {
-                this.postTradeSubscription = postTradeSubscription;
-            }
-        );
-        queries.createSubscription(
-            this.props,
-            {
-                accountKey: this.currentAccountInformation.AccountKey,
-                clientKey: this.currentAccountInformation.ClientKey,
-                fieldGroups: this.props.fieldGroups,
-            },
-            this.props.tradeType,
-            this.handleTradeUpdate,
-            (tradeSubscription) => {
-                this.tradeSubscription = tradeSubscription;
-            }
-        );
+        if (this.props.tradeType === 'Order' || this.props.tradeType === 'Position') {
+
+            queries.createSubscription(
+                this.props,
+                {
+                    accountKey: this.currentAccountInformation.AccountKey,
+                    clientKey: this.currentAccountInformation.ClientKey,
+                    fieldGroups: this.props.fieldGroups,
+                },
+                this.props.tradeType,
+                this.handleTradeUpdate,
+                (tradeSubscription) => {
+                    this.tradeSubscription = tradeSubscription;
+                }
+            );
+        }
+        if (this.props.tradeType === 'NetPosition') {
+            queries.createSubscriptionAll(
+                this.props,
+                {
+                    accountKey: this.currentAccountInformation.AccountKey,
+                    clientKey: this.currentAccountInformation.ClientKey,
+                    fieldGroups: this.props.fieldGroups,
+                },
+                {
+                    accountKey: this.currentAccountInformation.AccountKey,
+                    clientKey: this.currentAccountInformation.ClientKey,
+                    fieldGroups: ["DisplayAndFormat", "PositionBase", "PositionView"],
+                },
+                this.props.tradeType,
+                "Position",
+                this.handleTradeUpdate,
+                this.handleTradeUpdate1,
+                (tradeSubscription) => {
+                    this.tradeSubscription = tradeSubscription;
+                },
+                (postTradeSubscription) => {
+                    this.postTradeSubscription = postTradeSubscription;
+                },
+            );
+        }
 
     }
 
     handleTradeUpdate(response) {
-        this.setState({ tradeUpdated: false });
+        this.setState({tradeUpdated: false});
         this.trades = queries.getUpdatedTrades(this.trades, this.tradeTypeId, response.Data);
-        this.setState({ tradeUpdated: true });
-        _.map(this.trades, (value, key) => {
-            let NetPositionId = value.NetPositionId;
-            let combinedPositionData = [];
-            _.map(this.postrades , (valuePostTrades,keyPostTrades) => {
-                if(NetPositionId === valuePostTrades.NetPositionId){
-                    combinedPositionData.push(valuePostTrades);
-                }
-            });
-            this.onlyPositionData[NetPositionId] = combinedPositionData;
-            console.log('indide handletrade update check net position data', this.onlyPositionData);
-            console.log('checking combined positioned data',combinedPositionData);
-            //combinedPositionData = [];
-        })
+        this.setState({tradeUpdated: true});
+    }
 
-    }
     handleTradeUpdate1(response) {
-        this.postrades = queries.getUpdatedTrades(this.postrades,"PositionId", response.Data);
+        this.postrades = queries.getUpdatedTrades(this.postrades, "PositionId", response.Data);
+
+
+        if (!_.isEmpty(this.postrades)) {
+            _.map(this.trades, (value, key) => {
+                let NetPositionId = value.NetPositionId;
+                let combinedPositionData = [];
+                _.map(this.postrades, (valuePostTrades, keyPostTrades) => {
+                    if (NetPositionId === valuePostTrades.NetPositionId) {
+                        combinedPositionData.push(valuePostTrades);
+                    }
+                });
+                this.onlyPositionData[NetPositionId] = combinedPositionData;
+            })
+        }
     }
+
     disposeSubscription() {
         if (!_.isEmpty(this.tradeSubscription)) {
             queries.unSubscribe(this.props, this.tradeSubscription, () => {
@@ -106,14 +124,14 @@ class TradeSubscriptions extends React.PureComponent {
             <div>
                 {
                     this.props.tradeType === 'NetPosition' ?
-                    <CustomTableForPositions data={this.trades} onlyPositionData={this.onlyPositionData} /> :
-                    <CustomTable
-                        data={this.trades}
-                        keyField={this.tradeTypeId}
-                        dataSortFields={['{this.tradeTypeId}']}
-                        width={'150'}
-                    />
-                    }
+                        <CustomTableForPositions data={this.trades} onlyPositionData={this.onlyPositionData}/> :
+                        <CustomTable
+                            data={this.trades}
+                            keyField={this.tradeTypeId}
+                            dataSortFields={['{this.tradeTypeId}']}
+                            width={'150'}
+                        />
+                }
             </div>
         );
     }

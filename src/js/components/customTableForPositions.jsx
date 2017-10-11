@@ -5,7 +5,7 @@ import {Table} from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import ShowPositionData from './showPositionData'
 
-class CustomTableForPositions extends React.PureComponent {
+class CustomTableForPositions extends React.Component {
     constructor() {
         super();
         this.data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -13,22 +13,25 @@ class CustomTableForPositions extends React.PureComponent {
 
 
     getNetPostionsDataTable() {
-        //console.log('checking Data',this.props.data);
-        //console.log('checking onlypositiondata',this.props.onlyPositionData);
-        const PositionTableArray = _.map(this.props.data, (value, key) => (
+        if (!_.isEmpty(this.props.data)) {
+            const PositionTableArray = _.map(this.props.data, (value, index) => (
 
-            <tbody key={key}>
+                <tbody key={index}>
 
-            {this.props.onlyPositionData && <tr >
-                <td>{key}</td>
-                <td>{value.NetPositionView.Status}</td>
-                <td>{value.NetPositionBase.Amount}</td>
-                <td>{value.NetPositionView.AverageOpenPrice}</td>
-            </tr>}
-            {this.props.onlyPositionData && <ShowPositionData onlyShowPositionData={this.props.onlyPositionData} customKey ={key} key={key}/>}
-            </tbody>
-        ));
-        return PositionTableArray;
+                {this.props.onlyPositionData && <tr>
+                    <td>{index}</td>
+                    <td>{value.NetPositionView.Status}</td>
+                    <td>{value.NetPositionBase.Amount}</td>
+                    <td>{value.NetPositionView.AverageOpenPrice}</td>
+                </tr>}
+                {this.props.onlyPositionData &&
+                <ShowPositionData onlyShowPositionData={this.props.onlyPositionData} customKey={value.NetPositionId}/>}
+                </tbody>
+            ));
+
+            return PositionTableArray;
+        }
+        return <tbody></tbody>
     }
 
     render() {
