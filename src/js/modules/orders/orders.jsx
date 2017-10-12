@@ -49,7 +49,7 @@ class Orders extends React.PureComponent {
 
         this.takeProfitPrice = 0.0;
         this.stopLossPrice = 0.0;
-        this.stopLossOrderType = 'Stop';
+        this.stopLossOrderType = 'StopLimit';
 
         this.state = {
             updated: false,
@@ -132,6 +132,7 @@ class Orders extends React.PureComponent {
         if (this.state.stopLossOpen) {
             // Setup another related order
             const order = queries.getRelatedOrder(this.stopLossOrderType, this.stopLossPrice, this.currentOrder);
+            order.StopLimitPrice = this.stopLossPrice;
             this.currentOrder.Orders.push(order);
         }
         queries.postOrder(this.currentOrder, this.props, (response) => {
@@ -168,18 +169,25 @@ class Orders extends React.PureComponent {
                     </Instruments>
                     <Panel header="Order Details" className="panel-primary">
                         <Form>
+
+                            {/* row1 with ask/bid prices which are readonly*/}
                             <FormGroupTemplate
                                 data={queries.getAskBidFormData(this.state.instrumentInfo, this.currentOrder)}
                                 onChange={this.handleValueChange}
                             />
+
                             {this.state.optionRoot &&
                             <Options {...this.props} optionRoot={this.state.optionRoot}
                                 onInstrumentSelected={this.handleInstrumentChange}
                             />
                             }
+
+                            {/* row2 with manual input ask/bid prices*/}
                             <FormGroupTemplate data={queries.getBuySellFormData(this.currentOrder)}
                                 onChange={this.handleValueChange}
                             />
+
+                            {/* row3 with manual input*/}
                             <FormGroupTemplate data={queries.orderTypeDurationFormData(this.state.supportedOrderTypes)}
                                 onChange={this.handleValueChange}
                             />
@@ -243,16 +251,19 @@ class Orders extends React.PureComponent {
 
                             {/* orders tab*/}
                             <Tab eventKey={1} title="Orders">
+                                {this.state.selectedAccount &&
                                 <TradeSubscriptions
                                     {...this.props}
                                     currentAccountInformation={this.state.selectedAccount}
                                     tradeType="Order"
                                     fieldGroups={['DisplayAndFormat', 'ExchangeInfo']}
                                 />
+                                }
                             </Tab>
 
                             {/* positions tab*/}
                             <Tab eventKey={2} title="Positions">
+                                {this.state.selectedAccount &&
                                 <TradeSubscriptions
                                     {...this.props}
                                     currentAccountInformation={this.state.selectedAccount}
@@ -265,6 +276,7 @@ class Orders extends React.PureComponent {
                                         'SingleAndClosedPositionsView',
                                         'SingleAndClosedPositions']}
                                 />
+                                }
                             </Tab>
                         </Tabs>
                     </Panel>

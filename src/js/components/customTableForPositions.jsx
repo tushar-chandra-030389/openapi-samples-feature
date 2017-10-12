@@ -5,13 +5,22 @@ import { Table } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 class CustomTableForPositions extends React.PureComponent {
-    constructor() {
-        super();
-        this.data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            data: props.data,
+        };
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            data: nextProps.data,
+        });
     }
 
     getNetPostionsDataTable() {
-        const netPositionTableArray = _.map(this.props.data, (value, key) => (
+        const netPositionTableArray = _.map(this.state.data, (value, key) => (
             <tr key={key}>
                 <td>{key}</td>
                 <td>{value.NetPositionView.Status}</td>
