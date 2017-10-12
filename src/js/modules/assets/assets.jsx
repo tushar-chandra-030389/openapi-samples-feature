@@ -37,7 +37,6 @@ class Assets extends React.PureComponent {
             this.setState({
                 optionRoot: undefined,
                 optionRootSelected: true,
-                instrumentDetails: undefined,
                 putCallExpiryRequired: false,
             });
         } else if (checkIfPutCallExpiry(assetType)) {
@@ -45,13 +44,11 @@ class Assets extends React.PureComponent {
                 optionRoot: undefined,
                 optionRootSelected: false,
                 putCallExpiryRequired: true,
-                instrumentDetails: undefined,
             });
         } else {
             this.setState({
                 optionRoot: undefined,
                 optionRootSelected: false,
-                instrumentDetails: undefined,
                 putCallExpiryRequired: false,
             });
         }

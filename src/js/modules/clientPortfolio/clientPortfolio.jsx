@@ -4,7 +4,7 @@ import _ from 'lodash';
 import { Row, Col, Tabs, Tab, Panel } from 'react-bootstrap';
 import { object } from 'prop-types';
 import ClientPortfolioTemplate from './clientPortfolioTemplate';
-import { getInfo } from './queries';
+import * as queries from './queries';
 import TradeSubscriptions from 'src/js/modules/tradeSubscription';
 import DetailsHeader from 'src/js/components/detailsHeader';
 import Error from 'src/js/modules/error';
@@ -29,7 +29,7 @@ class ClientPortfolio extends React.PureComponent {
     }
 
     componentDidMount() {
-        getInfo('getClientInfo', this.props, this.handleClientAccounts);
+        queries.getInfo('fetchClientInfo', this.props, this.handleClientAccounts);
     }
 
     handleAccountSelection(eventKey) {
@@ -47,7 +47,7 @@ class ClientPortfolio extends React.PureComponent {
             AccountKey,
         };
 
-        getInfo('getBalancesInfo', this.props, this.handleBalanceInfo, balanceInfoQueryParams);
+        queries.getInfo('getBalancesInfo', this.props, this.handleBalanceInfo, balanceInfoQueryParams);
 
         this.setState({
             currentAccountId: eventKey,
@@ -60,14 +60,14 @@ class ClientPortfolio extends React.PureComponent {
         this.clientInformation = response;
         const { Name, DefaultAccountId, ClientKey, DefaultAccountKey } = this.clientInformation;
 
-        getInfo('getAccountInfo', this.props, this.handleAccountInfo);
+        queries.getInfo('getAccountInfo', this.props, this.handleAccountInfo);
 
         const balanceInfoQueryParams = {
             ClientKey,
             AccountKey: DefaultAccountKey,
         };
 
-        getInfo('getBalancesInfo', this.props, this.handleBalanceInfo, balanceInfoQueryParams);
+        queries.getInfo('getBalancesInfo', this.props, this.handleBalanceInfo, balanceInfoQueryParams);
 
         this.setState({
             clientName: Name,
@@ -80,54 +80,16 @@ class ClientPortfolio extends React.PureComponent {
     // callback: successfully got account information
     handleAccountInfo(response) {
         this.accountsInfo = response.Data;
-
-        // _.map(this.accountsInfo, (individualAccount) => this.accounts.push(individualAccount.AccountId));
-
         this.accounts = _.map(this.accountsInfo, 'AccountId');
-
         this.currentAccountInformation = _.find(this.accountsInfo, (account) => account.AccountId === this.state.currentAccountId);
-
         this.setState({
             accountUpdated: true,
         });
     }
 
     handleBalanceInfo(response) {
-        this.getBalanceInfoObjectFromResponse(response);
+        this.balancesInfo = queries.getBalanceInfoObjectFromResponse(response);
         this.setState({ flag: !this.state.flag });
-    }
-
-    getBalanceInfoObjectFromResponse(response) {
-        const {
-            CashBalance,
-            TransactionsNotBooked,
-            NonMarginPositionsValue,
-            UnrealizedMarginProfitLoss,
-            CostToClosePositions,
-            OptionPremiumsMarketValue,
-            TotalValue,
-            MarginCollateralNotAvailable,
-            MarginUsedByCurrentPositions,
-            MarginAvailableForTrading,
-            MarginUtilizationPct,
-            MarginNetExposure,
-            MarginExposureCoveragePct,
-        } = response;
-        this.balancesInfo = {
-            'Cash balance': CashBalance,
-            'Transactions not booked': TransactionsNotBooked,
-            'Value of stocks, ETFs, bounds': NonMarginPositionsValue,
-            'P/L of margin positions': UnrealizedMarginProfitLoss,
-            'Cost to close': CostToClosePositions,
-            'Value of positions': NonMarginPositionsValue + UnrealizedMarginProfitLoss + CostToClosePositions + (OptionPremiumsMarketValue || 0),
-            'Account value': TotalValue,
-            'Not available as margin collateral': MarginCollateralNotAvailable,
-            'Reserved for margin positions': MarginUsedByCurrentPositions,
-            'Margin available': MarginAvailableForTrading,
-            'Margin utilisation': MarginUtilizationPct,
-            'Net exposure': MarginNetExposure,
-            'Exposure coverage': MarginExposureCoveragePct,
-        };
     }
 
     render() {
