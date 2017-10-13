@@ -791,7 +791,9 @@
             4
         ],
         "react/jsx-key": "error",
-        "react/jsx-no-bind": "error",
+        "react/jsx-no-bind": ["error", {
+            "ignoreRefs": true
+        }],
         "react/jsx-no-comment-textnodes": "error",
         "react/jsx-no-duplicate-props": "error",
         "react/jsx-no-literals": "off",

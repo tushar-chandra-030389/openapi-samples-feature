@@ -30,6 +30,12 @@ class ChartStreaming extends React.PureComponent {
         this.chart = null;
     }
 
+    componentWillUnmount() {
+        if (this.chartSubscription) {
+            unSubscribeChartData(this.props, this.chartSubscription);
+        }
+    }
+
     handleInstrumentSelected(instrument) {
         this.setState({
             instrumentSelected: false,

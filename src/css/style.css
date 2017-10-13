@@ -209,9 +209,9 @@ textarea.form-group.form-control {
 
 /* animation for highlighting live data change */
 @keyframes highlightAnim {
-	0% { background: #666; }
-	25% { background: #999; }
-	50% { background: #ccc; }
+	0% { background: #FF8C00; }
+	25% { background: #FFA07A; }
+	50% { background: #FFD700; }
 	100% { background: transparent; }
 }
 

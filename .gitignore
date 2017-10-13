@@ -5,3 +5,5 @@ bower_components/
 build/
 dist/
 __build__/
+.idea/
+npm-debug.log

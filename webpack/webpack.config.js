@@ -32,10 +32,11 @@ module.exports = {
     },
 
     module: {
-        loaders: [{
-            test: /\.json$/,
-            loader: 'json-loader'
-        },
+        loaders: [
+            {
+                test: /\.json$/,
+                loader: 'json-loader'
+            },
             {
                 test: /\.(js|jsx)$/,
                 exclude: /node_modules/,
@@ -82,6 +83,9 @@ module.exports = {
             template: path.resolve(__dirname, '../src', 'index.html'),
             title: 'Dynamic Html',
         }),
+
+        //this is for removing './locale' not found error in momentjs.
+        new webpack.ContextReplacementPlugin(/\.\/locale$/, 'empty-module', false, /js$/),
     ],
 
     resolve: {

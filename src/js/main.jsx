@@ -8,6 +8,11 @@ import errorReducer from './modules/error/reducer';
 import userInfoReducer from './modules/userInfo/reducer';
 import AppRoute from './modules/app';
 
+// css
+import 'src/css/style.css';
+import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import 'src/css/react-bootstrap-table-all.min.css';
+
 const reducer = combineReducers({
     loader: loaderReducer,
     error: errorReducer,
@@ -15,13 +20,14 @@ const reducer = combineReducers({
 });
 const store = createStore(reducer, applyMiddleware(thunk));
 
+// eslint-disable-next-line no-undef
 if (IS_DEV_ENV) {
-	window.$store = store;
+    window.$store = store;
 }
 
 render(
     <Provider store={store}>
-        <AppRoute />
+        <AppRoute/>
     </Provider>,
     document.getElementById('container')
 );

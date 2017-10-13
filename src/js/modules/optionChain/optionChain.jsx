@@ -29,8 +29,7 @@ class OptionChain extends React.PureComponent {
                 {root.Symbol}
             </ListGroupItem>)
         );
-
-        this.setState({ hasOptionRoots: true });
+        this.setState({ hasOptionRoots: !this.state.hasOptionRoots });
     }
 
     handleOptionRootSelected(eventKey) {
@@ -40,30 +39,29 @@ class OptionChain extends React.PureComponent {
     }
 
     handleOptionDataSuccess(result) {
+
         this.items = [];
         this.underlyingInstr = [];
         this.setState({ hasUnderLying: false });
         this.optionRootData = result;
+
         _.forEach(this.optionRootData.OptionSpace,
             (data) => (data.ModifiedSpecificOptions = _.groupBy(data.SpecificOptions, 'StrikePrice')));
 
         const { AssetType, DefaultOption } = result;
-
         getInfo('getInstrumentDetails', this.props, this.handleInstrDetailsSuccess, DefaultOption.Uic, AssetType);
-
         this.setState({ hasOptionRoots: false });
     }
 
     handleInstrDetailsSuccess(result) {
+        result = _.omit(result, ['TickSizeScheme', 'ExpiryDate']);
         this.underlyingInstr.push(result);
-        this.setState({
-            hasUnderLying: true,
-        });
+        this.setState({ hasUnderLying: true });
     }
 
     handleSearchUpdated(term) {
         if (term.length > 2) {
-            getInfo('getInstruments', this.props, this.handleInstrumentsUpdated, this.assetTypes);
+            getInfo('getInstruments', this.props, this.handleInstrumentsUpdated, this.assetTypes, term);
         }
     }
 

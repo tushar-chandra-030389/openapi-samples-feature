@@ -1,5 +1,5 @@
 import saxo from 'openapi-clientlib';
-import '../../../sampleApp/libs/jquery-3.1.1';
+import 'src/js/libs/jquery-3.1.1';
 
 // import 'jquery';
 import 'signalr';

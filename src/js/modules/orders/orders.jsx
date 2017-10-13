@@ -53,7 +53,7 @@ class Orders extends React.PureComponent {
 
         this.state = {
             updated: false,
-            responsData: {},
+            responseData: {},
             selectedOptionSpace: undefined,
             selectedAccount: undefined,
             accounts: [],
@@ -135,7 +135,7 @@ class Orders extends React.PureComponent {
             this.currentOrder.Orders.push(order);
         }
         queries.postOrder(this.currentOrder, this.props, (response) => {
-            this.setState({ responsData: response });
+            this.setState({ responseData: response });
         });
     }
 
@@ -155,6 +155,8 @@ class Orders extends React.PureComponent {
                         onOptionRootSelected={this.handleOptionRoot}
                         onAssetTypeSelected={this.handleAssetTypeChange}
                     >
+
+                        {/* select account dropdown*/}
                         <Dropdown
                             title={accountTitle}
                             handleSelect={this.handleAccountSelect}
@@ -184,7 +186,9 @@ class Orders extends React.PureComponent {
                             {this.state.optionRoot &&
                             <FormGroupTemplate data={queries.openCloseFormData()} onChange={this.handleValueChange}/>
                             }
+
                             <FormGroup>
+                                {/* take profit section*/}
                                 <div>
                                     <Button bsStyle="link" disabled={this.state.takeProfitOpen}
                                         onClick={this.handleProfitBtnClick}
@@ -203,6 +207,8 @@ class Orders extends React.PureComponent {
                                         </div>
                                     </Collapse>
                                 </div>
+
+                                {/* stop loss section*/}
                                 <div>
                                     <Button bsStyle="link" disabled={this.state.stopLossOpen}
                                         onClick={this.handleLossBtnClick}
@@ -221,6 +227,7 @@ class Orders extends React.PureComponent {
                                     </Collapse>
                                 </div>
                             </FormGroup>
+
                             <FormGroup bsSize="large">
                                 <Row>
                                     <Col sm={3}>
@@ -233,6 +240,8 @@ class Orders extends React.PureComponent {
                     </Panel>
                     <Panel className="panel-primary">
                         <Tabs className="primary" defaultActiveKey={1} animation={false} id="noanim-tab-example">
+
+                            {/* orders tab*/}
                             <Tab eventKey={1} title="Orders">
                                 <TradeSubscriptions
                                     {...this.props}
@@ -241,12 +250,20 @@ class Orders extends React.PureComponent {
                                     fieldGroups={['DisplayAndFormat', 'ExchangeInfo']}
                                 />
                             </Tab>
+
+                            {/* positions tab*/}
                             <Tab eventKey={2} title="Positions">
                                 <TradeSubscriptions
                                     {...this.props}
                                     currentAccountInformation={this.state.selectedAccount}
-                                    tradeType="Position"
-                                    fieldGroups={['DisplayAndFormat', 'PositionBase', 'PositionView']}
+                                    tradeType="NetPosition"
+                                    fieldGroups={['NetPositionView',
+                                        'NetPositionBase',
+                                        'DisplayAndFormat',
+                                        'ExchangeInfo',
+                                        'SingleAndClosedPositionsBase',
+                                        'SingleAndClosedPositionsView',
+                                        'SingleAndClosedPositions']}
                                 />
                             </Tab>
                         </Tabs>
