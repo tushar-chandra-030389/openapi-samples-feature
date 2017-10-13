@@ -28,7 +28,7 @@ export function doWithLoader(props, apiFunc, callback) {
 
     if (props.accessToken) {
         apiFunc()
-        .then((result) => {
+            .then((result) => {
                 if (callback) {
                     callback(result);
                 }
@@ -41,8 +41,8 @@ export function doWithLoader(props, apiFunc, callback) {
                     props.setErrMessage(Message);
                 }
             })
-        .catch(() => props.showError())
-        .then(() => props.hideLoader());
+            .catch(() => props.showError())
+            .then(() => props.hideLoader());
 
     } else {
         props.showError();

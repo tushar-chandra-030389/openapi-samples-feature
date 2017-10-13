@@ -15,7 +15,7 @@ function setErrorMessage(msg) {
     return _.defaults({ showError: true }, { errMessage: msg });
 }
 
-export default function (state = initialState, action) {
+export default function(state = initialState, action) {
     switch (action.type) {
         case actionTypes.SHOW_ERROR:
             return showError(state);
