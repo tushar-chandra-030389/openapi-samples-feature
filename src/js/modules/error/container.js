@@ -3,7 +3,10 @@ import Error from './error';
 import * as errorActions from './actions';
 
 const mapStateToProps = (store) => {
-    return { showError: store.error.showError };
+    return {
+        showError: store.error.showError,
+        errMessage: store.error.errMessage,
+    };
 };
 
 const matDispatchToProps = (dispatch) => {
