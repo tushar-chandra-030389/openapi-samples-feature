@@ -131,6 +131,7 @@ class TradeSubscriptions extends React.PureComponent {
                             keyField={this.tradeTypeId}
                             dataSortFields={['{this.tradeTypeId}']}
                             width={'150'}
+                            showUpdateAnim
                         />
                 }
             </div>
