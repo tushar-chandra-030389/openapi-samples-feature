@@ -1,48 +1,44 @@
 import React from 'react';
 import _ from 'lodash';
-import {bindHandlers} from 'react-bind-handlers';
+import { bindHandlers } from 'react-bind-handlers';
 import PropTypes from 'prop-types';
-import {Collapse, Glyphicon, ListGroup, ListGroupItem} from 'react-bootstrap';
+import { Collapse } from 'react-bootstrap';
 
 class ShowPositionData extends React.PureComponent {
-    constructor() {
-        super();
-    }
 
     render() {
         if (!_.isEmpty(this.props.onlyShowPositionData)) {
-            const netPositionTableArray = _.map(this.props.onlyShowPositionData, (value, key) => {
-                return _.map(value, (positionValue, positionKey) => {
-                    if (key === this.props.customKey) {
-                        return (
-                            <tr key={positionKey} className="table">
-                                <td className="table-instrument">{positionKey}</td>
-                                <td className="table-status">{positionValue.PositionBase.Status}</td>
-                                <td className="table-amount">{positionValue.PositionBase.Amount}</td>
-                                <td className="table-price">{positionValue.PositionBase.OpenPrice}</td>
-                            </tr>
-                        )
-                    }
-                })
-            });
+            const netPositionTableArray = _.map(this.props.onlyShowPositionData, (value, key) => _.map(value, (positionValue, positionKey) => {
+                if (key === this.props.customKey) {
+                    return (
+                        <tr key={positionKey} className="table">
+                            <td className="table-instrument">{positionKey}</td>
+                            <td className="table-status">{positionValue.PositionBase.Status}</td>
+                            <td className="table-amount">{positionValue.PositionBase.Amount}</td>
+                            <td className="table-price">{positionValue.PositionBase.OpenPrice}</td>
+                        </tr>
+                    );
+                }
+            }));
             return (
                 <Collapse in={this.props.isOpen}>
 
-                        <tbody>
+                    <tbody>
                         {netPositionTableArray}
-                        </tbody>
+                    </tbody>
 
                 </Collapse>
-            )
+            );
         }
     }
 }
 
 ShowPositionData
     .propTypes = {
-    customKey: PropTypes.string,
-    value: PropTypes.bool,
-    onlyShowPositionData: PropTypes.object,
-};
+        customKey: PropTypes.string,
+        isOpen: PropTypes.bool,
+        value: PropTypes.bool,
+        onlyShowPositionData: PropTypes.object,
+    };
 export default bindHandlers(ShowPositionData);
 

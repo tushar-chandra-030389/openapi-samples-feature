@@ -1,5 +1,5 @@
 import React from 'react';
-import {Collapse, Glyphicon, ListGroup, ListGroupItem} from 'react-bootstrap';
+import { Glyphicon} from 'react-bootstrap';
 import {bindHandlers} from 'react-bind-handlers';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
@@ -19,25 +19,25 @@ class CustomRowForPositions extends React.PureComponent {
         return (
             <table>
                 <tbody>
-            <tr onClick={() => {
-                this.handleCollapse(this.props.index)
-            }} id={this.props.index}>
-                <td className="table-instrument">{this.props.index}</td>
-                <td className="table-status">{this.props.value.NetPositionView.Status}</td>
-                <td className="table-amount">{this.props.value.NetPositionBase.Amount}</td>
-                <td className="table-price">{this.props.value.NetPositionView.AverageOpenPrice}</td>
-                <td>
-                    <Glyphicon className="glyph pull-right" glyph={classNames({
-                        'chevron-down': !this.state.isOpen,
-                        'chevron-up': this.state.isOpen
-                    })}/>
-                </td>
+                <tr onClick={() => {
+                    this.handleCollapse(this.props.index)
+                }} id={this.props.index}>
+                    <td className="table-instrument">{this.props.index}</td>
+                    <td className="table-status">{this.props.value.NetPositionView.Status}</td>
+                    <td className="table-amount">{this.props.value.NetPositionBase.Amount}</td>
+                    <td className="table-price">{this.props.value.NetPositionView.AverageOpenPrice}</td>
+                    <td>
+                        <Glyphicon className="glyph pull-right" glyph={classNames({
+                            'chevron-down': !this.state.isOpen,
+                            'chevron-up': this.state.isOpen
+                        })}/>
+                    </td>
 
-            </tr>
+                </tr>
                 </tbody>
-            {this.props.onlyPositionData &&
-            <ShowPositionData onlyShowPositionData={this.props.onlyPositionData} isOpen={this.state.isOpen}
-                              customKey={this.props.value.NetPositionId}/>}
+                {this.props.onlyPositionData &&
+                <ShowPositionData onlyShowPositionData={this.props.onlyPositionData} isOpen={this.state.isOpen}
+                                  customKey={this.props.value.NetPositionId}/>}
             </table>
         )
     }

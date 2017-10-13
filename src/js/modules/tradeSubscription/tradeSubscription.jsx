@@ -13,7 +13,7 @@ class TradeSubscriptions extends React.PureComponent {
         this.trades = {};
         this.postrades = {};
         this.tradeSubscription = {};
-        this.postTradeSubscription = {};
+        this.posTradeSubscription = {};
         this.currentAccountInformation = {};
         this.tradeTypeId = `${this.props.tradeType}Id`;
         this.onlyPositionData = {};
@@ -29,8 +29,6 @@ class TradeSubscriptions extends React.PureComponent {
     componentWillUnmount() {
         this.disposeSubscription();
     }
-
-
     createTradeSubscription() {
         this.setState({tradeUpdated: false});
         this.disposeSubscription();
@@ -66,12 +64,12 @@ class TradeSubscriptions extends React.PureComponent {
                 this.props.tradeType,
                 "Position",
                 this.handleTradeUpdate,
-                this.handleTradeUpdate1,
+                this.handlePositionTradeUpdate,
                 (tradeSubscription) => {
                     this.tradeSubscription = tradeSubscription;
                 },
-                (postTradeSubscription) => {
-                    this.postTradeSubscription = postTradeSubscription;
+                (posTradeSubscription) => {
+                    this.posTradeSubscription = posTradeSubscription;
                 },
             );
         }
@@ -84,10 +82,8 @@ class TradeSubscriptions extends React.PureComponent {
         this.setState({tradeUpdated: true});
     }
 
-    handleTradeUpdate1(response) {
+    handlePositionTradeUpdate(response) {
         this.postrades = queries.getUpdatedTrades(this.postrades, "PositionId", response.Data);
-
-
         if (!_.isEmpty(this.postrades)) {
             _.map(this.trades, (value, key) => {
                 let NetPositionId = value.NetPositionId;
@@ -110,10 +106,10 @@ class TradeSubscriptions extends React.PureComponent {
             });
         }
 
-        if (!_.isEmpty(this.postTradeSubscription)) {
-            queries.unSubscribe(this.props, this.postTradeSubscription, () => {
+        if (!_.isEmpty(this.posTradeSubscription)) {
+            queries.unSubscribe(this.props, this.posTradeSubscription, () => {
                 this.postrades = {};
-                this.postTradeSubscription = {};
+                this.posTradeSubscription = {};
             });
         }
     }
