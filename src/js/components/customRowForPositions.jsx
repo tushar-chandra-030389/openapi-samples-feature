@@ -19,9 +19,7 @@ class CustomRowForPositions extends React.PureComponent {
         return (
             <table>
                 <tbody>
-                <tr onClick={() => {
-                    this.handleCollapse(this.props.index)
-                }} id={this.props.index}>
+                <tr onClick={this.handleCollapse} className="net-position-row" >
                     <td className="table-instrument">{this.props.index}</td>
                     <td className="table-status">{this.props.value.NetPositionView.Status}</td>
                     <td className="table-amount">{this.props.value.NetPositionBase.Amount}</td>

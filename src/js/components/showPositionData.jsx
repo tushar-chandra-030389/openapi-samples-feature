@@ -12,7 +12,7 @@ class ShowPositionData extends React.PureComponent {
                 if (key === this.props.customKey) {
                     return (
                         <tr key={positionKey} className="table">
-                            <td className="table-instrument">{positionKey}</td>
+                            <td className="table-instrument">{positionValue.PositionId}</td>
                             <td className="table-status">{positionValue.PositionBase.Status}</td>
                             <td className="table-amount">{positionValue.PositionBase.Amount}</td>
                             <td className="table-price">{positionValue.PositionBase.OpenPrice}</td>
@@ -23,7 +23,7 @@ class ShowPositionData extends React.PureComponent {
             return (
                 <Collapse in={this.props.isOpen}>
 
-                    <tbody>
+                    <tbody className="show-positions">
                         {netPositionTableArray}
                     </tbody>
 

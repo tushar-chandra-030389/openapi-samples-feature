@@ -12,13 +12,12 @@ class CustomTableForPositions extends React.PureComponent {
         this.data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     }
 
-    getNetPostionsDataTable() {
+    getNetPositionsDataTable() {
 
         if (!_.isEmpty(this.props.data)) {
             const PositionTableArray = _.map(this.props.data, (value, index) => (
                 <div key={index}>
                     <CustomRowForPositions onlyPositionData={this.props.onlyPositionData} index={index} value={value}/>
-
                 </div>));
             return PositionTableArray;
         }
@@ -37,7 +36,7 @@ class CustomTableForPositions extends React.PureComponent {
                     </tr>
                     </tbody>
                 </Table>
-                {this.getNetPostionsDataTable()}
+                {this.getNetPositionsDataTable()}
             </div>
         );
     }

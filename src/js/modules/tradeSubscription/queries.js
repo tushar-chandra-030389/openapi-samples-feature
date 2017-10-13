@@ -13,14 +13,15 @@ export function createSubscription(props, subscriptionArgs, tradeType, onUpdate,
         (result) => cb(result)
     );
 }
-export function createSubscriptionAll(props, subscriptionArgs, subscriptionArgs1, tradeType, tradeType1, onUpdate, onUpdate1, cb, cb1) {
+export function createSubscriptionAll(subscriptionArgs, subscriptionArgs1, params, cb, cb1) {
     doWithLoaderAll(
-        props,
-        _.partial(API[`create${tradeType}Subscription`], props.accessToken, subscriptionArgs, onUpdate),
-        _.partial(API[`create${tradeType1}Subscription`], props.accessToken, subscriptionArgs1, onUpdate1),
+        params.props,
+        _.partial(API[`create${params.netPositionTradeType}Subscription`], params.props.accessToken,
+            subscriptionArgs, params.netPositionTradeCallBack),
+        _.partial(API[`create${params.positionTradeType}Subscription`], params.props.accessToken,
+            subscriptionArgs1, params.positionCallBack),
         (result) => cb(result),
         (result) => cb1(result)
-
     );
 }
 
