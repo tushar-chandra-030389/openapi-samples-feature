@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
     entry: {
@@ -48,7 +49,11 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                loader: 'style-loader!css-loader'
+                use: ExtractTextPlugin.extract({
+                    fallback: "style-loader",
+                    use: "css-loader"
+                }),
+                // loader: 'style-loader!css-loader'
             },
             {
                 test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
@@ -86,6 +91,11 @@ module.exports = {
 
         //this is for removing './locale' not found error in momentjs.
         new webpack.ContextReplacementPlugin(/\.\/locale$/, 'empty-module', false, /js$/),
+
+        new ExtractTextPlugin({
+            filename: "styles.css",
+            allChunks: true,
+        }),
     ],
 
     resolve: {
