@@ -1,9 +1,8 @@
 import React from 'react';
 import _ from 'lodash';
-import {bindHandlers} from 'react-bind-handlers';
-import {Table} from 'react-bootstrap';
+import { bindHandlers } from 'react-bind-handlers';
+import { Table } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import {Collapse, Glyphicon, ListGroup, ListGroupItem} from 'react-bootstrap';
 import CustomRowForPositions from './customRowForPositions';
 
 class CustomTableForPositions extends React.PureComponent {
@@ -28,12 +27,12 @@ class CustomTableForPositions extends React.PureComponent {
             <div>
                 <Table responsive>
                     <tbody>
-                    <tr>
-                        <td className="table-instrument">Instrument</td>
-                        <td className="table-status">Status</td>
-                        <td className="table-amount">Amount</td>
-                        <td className="table-price">Open Price</td>
-                    </tr>
+                        <tr>
+                            <td className="table-instrument">Instrument</td>
+                            <td className="table-status">Status</td>
+                            <td className="table-amount">Amount</td>
+                            <td className="table-price">Open Price</td>
+                        </tr>
                     </tbody>
                 </Table>
                 {this.getNetPositionsDataTable()}
@@ -44,8 +43,8 @@ class CustomTableForPositions extends React.PureComponent {
 
 CustomTableForPositions
     .propTypes = {
-    data: PropTypes.object,
-    onlyPositionData: PropTypes.object,
-};
+        data: PropTypes.object,
+        onlyPositionData: PropTypes.object,
+    };
 
 export default bindHandlers(CustomTableForPositions);

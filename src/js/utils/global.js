@@ -35,20 +35,20 @@ export function doWithLoader(props, apiFunc, callback) {
         .then(() => props.hideLoader());
 }
 
-export function doWithLoaderAll(props, apiFunc, apiFunc1, callback, callback1) {
+export function doWithLoaderAll(props, netPositionApiFunc, positionApiFunc, netPositionCallback, positionCallback) {
     props.showLoader();
     props.hideError();
-    apiFunc()
-        .then(result1 => {
-            const intermediate = result1;
-            return Promise.all([apiFunc1(), intermediate]);
+    netPositionApiFunc()
+        .then((netPositionResult) => {
+            const intermediate = netPositionResult;
+            return Promise.all([positionApiFunc(), intermediate]);
         })
-        .then(([result2, intermediate]) => {
-            if (callback) {
-                callback(intermediate);
+        .then(([positionResult, intermediate]) => {
+            if (netPositionCallback) {
+                netPositionCallback(intermediate);
             }
-            if (callback1) {
-                callback1(result2);
+            if (positionCallback) {
+                positionCallback(positionResult);
             }
         }).catch(() => props.showError())
         .then(() => props.hideLoader());

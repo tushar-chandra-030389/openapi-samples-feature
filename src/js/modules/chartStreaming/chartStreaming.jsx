@@ -4,7 +4,7 @@ import Highcharts from 'highcharts';
 import { bindHandlers } from 'react-bind-handlers';
 import { Button } from 'react-bootstrap';
 import { object } from 'prop-types';
-import { streamChartData, unSubscribeChartData } from './queries';
+import { subscribeChartData, unsubscribeChartData } from './queries';
 import DetailsHeader from 'src/js/components/detailsHeader';
 import DropDown from 'src/js/components/dropdown';
 import Instrument from 'src/js/modules/assets/instruments';
@@ -25,14 +25,13 @@ class ChartStreaming extends React.PureComponent {
             instrumentSelected: false,
             horizon: 'Select Horizon',
             candleCount: '200',
-            flag: true,
         };
         this.chart = null;
     }
 
     componentWillUnmount() {
         if (this.chartSubscription) {
-            unSubscribeChartData(this.props, this.chartSubscription);
+            unsubscribeChartData(this.props, this.chartSubscription);
         }
     }
 
@@ -41,7 +40,7 @@ class ChartStreaming extends React.PureComponent {
             instrumentSelected: false,
         });
         if (this.chartSubscription) {
-            unSubscribeChartData(this.props, this.chartSubscription);
+            unsubscribeChartData(this.props, this.chartSubscription);
         }
         this.chartDataSet = [];
         this.chartResponse = [];
@@ -53,9 +52,7 @@ class ChartStreaming extends React.PureComponent {
     }
 
     handleChartData() {
-        this.setState({
-            flag: true,
-        });
+
         if (_.isNumber(parseInt(this.state.horizon, 10)) && !_.isEmpty(this.instrument)) {
             const chartData = {
                 AssetType: this.instrument.AssetType,
@@ -63,7 +60,7 @@ class ChartStreaming extends React.PureComponent {
                 Horizon: parseInt(this.state.horizon, 10),
                 Count: parseInt(this.state.candleCount, 10),
             };
-            streamChartData(chartData, this.props, this.handleChartUpdate, (chartSubscription) => {
+            subscribeChartData(chartData, this.props, this.handleChartUpdate, (chartSubscription) => {
                 this.chartSubscription = chartSubscription;
             });
         }
@@ -99,31 +96,7 @@ class ChartStreaming extends React.PureComponent {
 
         }
         if (this.chart === null) {
-            this.chart = Highcharts.chart('chartContainer', {
-                chart: {
-                    type: 'spline',
-                    animation: Highcharts.svg, // don't animate in old IE
-                    marginRight: 10,
-                },
-                title: {
-                    text: 'Live chart streaming data',
-                },
-                xAxis: {
-                    title: {
-                        text: 'Time',
-                    },
-                    type: 'datetime',
-                },
-                yAxis: {
-                    title: {
-                        text: 'openAsk',
-                    },
-                },
-                series: [{
-                    name: 'charts data',
-                    data: this.chartDataSet,
-                }],
-            });
+            this.handleChart();
         }
 
         this.setState({
@@ -131,7 +104,33 @@ class ChartStreaming extends React.PureComponent {
         });
 
     }
-
+    handleChart() {
+        this.chart = Highcharts.chart('chartContainer', {
+            chart: {
+                type: 'spline',
+                animation: Highcharts.svg, // don't animate in old IE
+                marginRight: 10,
+            },
+            title: {
+                text: 'Live chart streaming data',
+            },
+            xAxis: {
+                title: {
+                    text: 'Time',
+                },
+                type: 'datetime',
+            },
+            yAxis: {
+                title: {
+                    text: 'openAsk',
+                },
+            },
+            series: [{
+                name: 'charts data',
+                data: this.chartDataSet,
+            }],
+        });
+    }
     handleHorizonSelection(eventKey) {
         this.setState({
             horizon: eventKey.toString(),
