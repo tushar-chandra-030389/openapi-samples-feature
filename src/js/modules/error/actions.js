@@ -7,3 +7,7 @@ export function showError() {
 export function hideError() {
     return { type: actionTypes.HIDE_ERROR };
 }
+
+export function setErrorMessage(msg) {
+    return { type: actionTypes.ERR_MESSAGE, message: msg };
+}

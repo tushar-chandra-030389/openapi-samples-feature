@@ -59,7 +59,7 @@ export function getInfoPrices(accessToken, instrumentDetails) {
 }
 
 // fetch client details
-export function getClientInfo(accessToken) {
+export function fetchClientInfo(accessToken) {
     return services.getData({
         serviceGroup: 'port',
         endPoint: 'v1/clients/me',

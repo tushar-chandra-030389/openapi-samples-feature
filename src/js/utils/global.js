@@ -25,14 +25,29 @@ export function checkIfPutCallExpiry(asset) {
 export function doWithLoader(props, apiFunc, callback) {
     props.showLoader();
     props.hideError();
-    apiFunc()
-        .then((result) => {
-            if (callback) {
-                callback(result);
-            }
-        })
-        .catch(() => props.showError())
-        .then(() => props.hideLoader());
+
+    if (props.accessToken) {
+        apiFunc()
+            .then((result) => {
+                if (callback) {
+                    callback(result);
+                }
+            },
+            (error) => {
+                const { ErrorInfo, Message } = error.response;
+                if (ErrorInfo) {
+                    props.setErrMessage(ErrorInfo.Message);
+                } else if (Message) {
+                    props.setErrMessage(Message);
+                }
+            })
+            .catch(() => props.showError())
+            .then(() => props.hideLoader());
+
+    } else {
+        props.showError();
+        props.hideLoader();
+    }
 }
 
 export function doWithLoaderAll(props, netPositionApiFunc, positionApiFunc, netPositionCallback, positionCallback) {

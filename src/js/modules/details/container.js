@@ -17,6 +17,7 @@ const mapDispatchToProps = (dispatch) => {
         showError: () => dispatch(errorActions.showError()),
         hideLoader: () => dispatch(loaderActions.hideLoader()),
         showLoader: () => dispatch(loaderActions.showLoader()),
+        setErrMessage: (msg) => dispatch(errorActions.setErrorMessage(msg)),
     };
 };
 

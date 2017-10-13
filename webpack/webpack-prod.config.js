@@ -33,7 +33,7 @@ config.plugins.push(
 )
 
 config.plugins.push(
-    new CleanWebpackPlugin([path.resolve(__dirname, '../src/build')], {
+    new CleanWebpackPlugin([path.resolve(__dirname, '../public/build')], {
         root: process.cwd(), // without this ,it was throwing error ' directory is outside of the project root. Skipping...'
         verbose: true,
     })

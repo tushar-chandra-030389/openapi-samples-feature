@@ -6,12 +6,29 @@ import PropTypes from 'prop-types';
 import CustomRowForPositions from './customRowForPositions';
 
 class CustomTableForPositions extends React.PureComponent {
-    constructor() {
-        super();
-        this.data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            data: props.data,
+        };
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            data: nextProps.data,
+        });
     }
 
     getNetPositionsDataTable() {
+        const netPositionTableArray = _.map(this.state.data, (value, key) => (
+            <tr key={key}>
+                <td>{key}</td>
+                <td>{value.NetPositionView.Status}</td>
+                <td>{value.NetPositionBase.Amount}</td>
+                <td>{value.NetPositionView.AverageOpenPrice}</td>
+            </tr>
+        ));
 
         if (!_.isEmpty(this.props.data)) {
             const PositionTableArray = _.map(this.props.data, (value, index) => (
@@ -20,6 +37,7 @@ class CustomTableForPositions extends React.PureComponent {
                 </div>));
             return PositionTableArray;
         }
+        return netPositionTableArray;
     }
 
     render() {

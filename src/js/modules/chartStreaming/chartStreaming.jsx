@@ -86,6 +86,7 @@ class ChartStreaming extends React.PureComponent {
                 const alreadyPresent = _.findIndex(this.chartResponse, (item) => item.Time === value.Time);
                 if (alreadyPresent >= 0) {
                     this.chartResponse[alreadyPresent] = value;
+
                 } else {
                     this.chartResponse.concat(value);
                     const yAxisPoint = value.OpenAsk;

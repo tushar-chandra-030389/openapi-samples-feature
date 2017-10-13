@@ -7,6 +7,8 @@ If you're using OS X or Windows, the best way to install Node.js is to use one o
 Test: Run node -v. The version should be higher than v0.10.32
  
 ##How to start application
+
+ # Development mode
  You will need
  
  ```
@@ -20,7 +22,16 @@ Test: Run node -v. The version should be higher than v0.10.32
  This runs the webpack dev server, any changes you make to javascript
  files will cause the browser to reload live.
 
-Known bugs and WIP enhancements :
+ # Production mode
+ git clone https://github.com/SaxoBank/openapi-samples-feature.git
+ cd openapi-samples-feature
+ git checkout feature-samples-setup
+ npm install
+ npm run build
+ go to http://localhost:9000
+
+
+## Known bugs and WIP enhancements :
 1. Orders placement is not very consistent. It is still under WIP.
 2. NetPosition module is under WIP.
 3. Minor UI issues.
