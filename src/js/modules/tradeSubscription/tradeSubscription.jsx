@@ -15,19 +15,13 @@ class TradeSubscriptions extends React.PureComponent {
         this.tradeSubscription = {};
         this.posTradeSubscription = {};
         this.currentAccountInformation = {};
-        this.currentAccountInformation = this.props.currentAccountInformation;
-        this.tradeAccountSubscribed = this.currentAccountInformation.AccountId;
         this.tradeTypeId = `${this.props.tradeType}Id`;
         this.onlyPositionData = {};
     }
 
-    componentDidMount() {
-        this.createTradeSubscription();
-    }
-
     componentWillReceiveProps(newProps) {
-        this.currentAccountInformation = newProps.currentAccountInformation;
-        if (this.tradeAccountSubscribed !== this.currentAccountInformation.AccountId) {
+        if (!_.isEmpty(newProps.currentAccountInformation)) {
+            this.currentAccountInformation = newProps.currentAccountInformation;
             this.createTradeSubscription();
         }
     }
@@ -35,16 +29,11 @@ class TradeSubscriptions extends React.PureComponent {
     componentWillUnmount() {
         this.disposeSubscription();
     }
-
-    handleTradeUpdate(response) {
-        this.trades = queries.getUpdatedTrades(this.trades, this.tradeTypeId, response.Data);
-        this.setState({ tradeUpdated: !this.state.tradeUpdated });
-    }
-
     createTradeSubscription() {
         this.disposeSubscription();
 
         if (this.props.tradeType === 'Order' || this.props.tradeType === 'Position') {
+
             queries.createSubscription(
                 this.props,
                 {
@@ -56,7 +45,6 @@ class TradeSubscriptions extends React.PureComponent {
                 this.handleTradeUpdate,
                 (tradeSubscription) => {
                     this.tradeSubscription = tradeSubscription;
-                    this.tradeAccountSubscribed = this.currentAccountInformation.AccountId;
                 }
             );
         }
@@ -88,6 +76,10 @@ class TradeSubscriptions extends React.PureComponent {
                 }
             );
         }
+
+    } handleTradeUpdate(response) {
+        this.trades = queries.getUpdatedTrades(this.trades, this.tradeTypeId, response.Data);
+        this.setState({ tradeUpdated: !this.state.tradeUpdated });
     }
 
     handlePositionTradeUpdate(response) {
@@ -126,21 +118,20 @@ class TradeSubscriptions extends React.PureComponent {
     }
 
     render() {
+
         return (
             <div>
                 {
-                    this.props.tradeType === 'NetPosition' ?
+                    !_.isEmpty(this.trades) &&
+                    (this.props.tradeType === 'NetPosition' ?
                         <CustomTableForPositions data={this.trades} onlyPositionData={this.onlyPositionData}/> :
-                        !_.isEmpty(this.trades) &&
-                            (this.props.tradeType === 'NetPosition' ?
-                                <CustomTableForPositions data={this.trades}/> :
-                                <CustomTable
-                                    data={this.trades}
-                                    keyField={this.tradeTypeId}
-                                    dataSortFields={['{this.tradeTypeId}']}
-                                    width={'150'}
-                                    showUpdateAnim
-                                />)
+                        <CustomTable
+                            data={this.trades}
+                            keyField={this.tradeTypeId}
+                            dataSortFields={['{this.tradeTypeId}']}
+                            width={'150'}
+                            showUpdateAnim
+                        />)
                 }
             </div>
         );
