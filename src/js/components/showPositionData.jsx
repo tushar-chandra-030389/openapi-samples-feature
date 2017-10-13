@@ -27,11 +27,11 @@ class ShowPositionData extends React.PureComponent {
             });
             return (
                 <Collapse in={this.props.isOpen}>
-                    <table>
+
                         <tbody>
                         {netPositionTableArray}
                         </tbody>
-                    </table>
+
                 </Collapse>
             )
         }

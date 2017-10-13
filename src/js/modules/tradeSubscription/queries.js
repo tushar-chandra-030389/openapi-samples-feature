@@ -1,4 +1,4 @@
-import { doWithLoader ,doWithLoaderAll} from 'src/js/utils/global';
+import { doWithLoader, doWithLoaderAll } from 'src/js/utils/global';
 import * as API from 'src/js/utils/api';
 import _ from 'lodash';
 
@@ -13,7 +13,7 @@ export function createSubscription(props, subscriptionArgs, tradeType, onUpdate,
         (result) => cb(result)
     );
 }
-export function createSubscriptionAll(props, subscriptionArgs,subscriptionArgs1, tradeType,tradeType1, onUpdate,onUpdate1, cb,cb1) {
+export function createSubscriptionAll(props, subscriptionArgs, subscriptionArgs1, tradeType, tradeType1, onUpdate, onUpdate1, cb, cb1) {
     doWithLoaderAll(
         props,
         _.partial(API[`create${tradeType}Subscription`], props.accessToken, subscriptionArgs, onUpdate),

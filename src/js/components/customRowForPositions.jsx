@@ -17,7 +17,8 @@ class CustomRowForPositions extends React.PureComponent {
 
     render() {
         return (
-            <tbody>
+            <table>
+                <tbody>
             <tr onClick={() => {
                 this.handleCollapse(this.props.index)
             }} id={this.props.index}>
@@ -31,11 +32,13 @@ class CustomRowForPositions extends React.PureComponent {
                         'chevron-up': this.state.isOpen
                     })}/>
                 </td>
+
             </tr>
+                </tbody>
             {this.props.onlyPositionData &&
             <ShowPositionData onlyShowPositionData={this.props.onlyPositionData} isOpen={this.state.isOpen}
                               customKey={this.props.value.NetPositionId}/>}
-            </tbody>
+            </table>
         )
     }
 }

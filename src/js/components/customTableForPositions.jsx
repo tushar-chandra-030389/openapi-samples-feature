@@ -16,10 +16,10 @@ class CustomTableForPositions extends React.PureComponent {
 
         if (!_.isEmpty(this.props.data)) {
             const PositionTableArray = _.map(this.props.data, (value, index) => (
-                <Table responsive key={index}>
+                <div key={index}>
                     <CustomRowForPositions onlyPositionData={this.props.onlyPositionData} index={index} value={value}/>
 
-                </Table>));
+                </div>));
             return PositionTableArray;
         }
     }
