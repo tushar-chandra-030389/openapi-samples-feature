@@ -13,15 +13,18 @@ class TradeSubscriptions extends React.PureComponent {
         this.trades = {};
         this.postrades = {};
         this.tradeSubscription = {};
-        this.posTradeSubscription = {};
-        this.currentAccountInformation = {};
+        this.currentAccountInformation = this.props.currentAccountInformation;
+        this.tradeAccountSubscribed = this.currentAccountInformation.AccountId;
         this.tradeTypeId = `${this.props.tradeType}Id`;
-        this.onlyPositionData = {};
+    }
+
+    componentDidMount() {
+        this.createTradeSubscription();
     }
 
     componentWillReceiveProps(newProps) {
-        if (!_.isEmpty(newProps.currentAccountInformation)) {
-            this.currentAccountInformation = newProps.currentAccountInformation;
+        this.currentAccountInformation = newProps.currentAccountInformation;
+        if (this.tradeAccountSubscribed !== this.currentAccountInformation.AccountId) {
             this.createTradeSubscription();
         }
     }
@@ -29,6 +32,7 @@ class TradeSubscriptions extends React.PureComponent {
     componentWillUnmount() {
         this.disposeSubscription();
     }
+
     createTradeSubscription() {
         this.disposeSubscription();
 
@@ -45,6 +49,7 @@ class TradeSubscriptions extends React.PureComponent {
                 this.handleTradeUpdate,
                 (tradeSubscription) => {
                     this.tradeSubscription = tradeSubscription;
+                    this.tradeAccountSubscribed = this.currentAccountInformation.AccountId;
                 }
             );
         }
@@ -70,6 +75,7 @@ class TradeSubscriptions extends React.PureComponent {
                 params,
                 (tradeSubscription) => {
                     this.tradeSubscription = tradeSubscription;
+                    this.tradeAccountSubscribed = this.currentAccountInformation.AccountId;
                 },
                 (posTradeSubscription) => {
                     this.posTradeSubscription = posTradeSubscription;
@@ -77,7 +83,9 @@ class TradeSubscriptions extends React.PureComponent {
             );
         }
 
-    } handleTradeUpdate(response) {
+    }
+
+    handleTradeUpdate(response) {
         this.trades = queries.getUpdatedTrades(this.trades, this.tradeTypeId, response.Data);
         this.setState({ tradeUpdated: !this.state.tradeUpdated });
     }
@@ -118,7 +126,6 @@ class TradeSubscriptions extends React.PureComponent {
     }
 
     render() {
-
         return (
             <div>
                 {
