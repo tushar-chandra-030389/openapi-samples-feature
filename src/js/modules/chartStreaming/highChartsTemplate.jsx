@@ -46,7 +46,7 @@ class HighChartsTemplate extends React.PureComponent {
             this.chartDataSet.push(axisPoint);
         });
 
-        this.chart = Highcharts.chart('chartContainer', {
+        this.chart = Highcharts.chart(this.props.chartId, {
             chart: {
                 type: 'spline',
                 animation: Highcharts.svg, // don't animate in old IE
