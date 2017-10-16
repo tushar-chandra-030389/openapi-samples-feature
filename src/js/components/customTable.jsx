@@ -109,9 +109,7 @@ class CustomTable extends React.Component {
 
                 // if cell is an object of Array, return key
                 // : [array values], eg for cell {Ask : [83.0,83.1]} return 'Ask : [ 83.0 83.1 ]'
-                const values = _.reduce(value, (combinedValue, val) => {
-                    combinedValue + ('  ' + val);
-                });
+                const values = _.reduce(value, (combinedValue, val) => combinedValue + ('  ' + val));
                 keyValueArray.push(key + ': [' + values + ' ]');
 
             } else {
