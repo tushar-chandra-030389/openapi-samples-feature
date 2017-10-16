@@ -26,10 +26,8 @@ class ChartStreaming extends React.PureComponent {
             candleCount: '200',
             chartDataUpdated: false,
         };
-        this.chart = null;
         this.chartId = 'chartContainer';
     }
-
     componentWillUnmount() {
         if (this.chartSubscription) {
             unsubscribeChartData(this.props, this.chartSubscription);
@@ -44,11 +42,10 @@ class ChartStreaming extends React.PureComponent {
             unsubscribeChartData(this.props, this.chartSubscription);
         }
         this.chartData = [];
-        if (this.chart) {
-            this.chart.destroy();
-            this.chart = null;
-        }
         this.instrument = instrument;
+        this.setState({
+            instrumentSelected: true,
+        });
     }
 
     handleChartData() {
@@ -114,7 +111,7 @@ class ChartStreaming extends React.PureComponent {
                     > {'Subscribe Chart'}
                     </Button>
                     {!_.isEmpty(this.chartData) &&
-                    <HighChartsTemplate chartData={this.chartData} chartId={this.chartId}/>
+                    <HighChartsTemplate chartData={this.chartData} instrumentSelected={this.state.instrumentSelected} chartId={this.chartId}/>
                     }
                 </div>
             </div>

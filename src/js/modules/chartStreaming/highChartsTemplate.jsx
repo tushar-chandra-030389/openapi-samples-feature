@@ -8,38 +8,21 @@ class HighChartsTemplate extends React.PureComponent {
     constructor(props) {
         super(props);
         this.chartData = props.chartData;
-        this.chartResponse = [];
         this.chartDataSet = [];
-
+        this.chart = null;
     }
 
     componentDidMount() {
         this.initializeChart();
+
     }
 
     componentWillReceiveProps(nextProps) {
         this.handleChartUpdate(nextProps.chartData);
     }
 
-    handleChartUpdate(data) {
-        _.forEach(data, (value) => {
-            const alreadyPresent = _.findIndex(this.chartResponse, (item) => item.Time === value.Time);
-            if (alreadyPresent >= 0) {
-                this.chartResponse[alreadyPresent] = value;
-
-            } else {
-                this.chartResponse.concat(value);
-                const yAxisPoint = value.OpenAsk;
-                const xAxisPoint = (new Date(value.Time)).getTime();
-                this.chart.series[0].addPoint([xAxisPoint, yAxisPoint], true, true);
-            }
-        });
-    }
-
     initializeChart() {
-
-        this.chartResponse = this.props.chartData;
-        _.forEach(this.chartResponse, (value) => {
+        _.forEach(this.chartData, (value) => {
             const yAxisPoint = value.OpenAsk;
             const xAxisPoint = (new Date(value.Time)).getTime();
             const axisPoint = [xAxisPoint, yAxisPoint];
@@ -70,6 +53,21 @@ class HighChartsTemplate extends React.PureComponent {
                 name: 'charts data',
                 data: this.chartDataSet,
             }],
+        });
+    }
+
+    handleChartUpdate(data) {
+        _.forEach(data, (value) => {
+            const alreadyPresent = _.findIndex(this.chartData, (item) => item.Time === value.Time);
+            if (alreadyPresent >= 0) {
+                this.chartData[alreadyPresent] = value;
+
+            } else {
+                this.chartData.concat(value);
+                const yAxisPoint = value.OpenAsk;
+                const xAxisPoint = (new Date(value.Time)).getTime();
+                this.chart.series[0].addPoint([xAxisPoint, yAxisPoint], true, true);
+            }
         });
     }
 
