@@ -56,6 +56,9 @@ class TradeSubscriptions extends React.PureComponent {
             this.props.tradeType,
             this.handleTradeUpdate,
             (tradeSubscription) => {
+
+                // this is executed when subscription request is successful and
+                // we need to set local properties to the subscribed entity.
                 this.tradeSubscription = tradeSubscription;
                 this.tradeAccountSubscribed = this.currentAccountInformation.AccountId;
             }
