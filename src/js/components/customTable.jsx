@@ -106,13 +106,10 @@ class CustomTable extends React.Component {
         const keyValueArray = [];
         _.forOwn(cell, (value, key) => {
             if (_.isArray(value)) {
-                let values = ''; // if cell is an object of Array, return key
+                // if cell is an object of Array, return key
                 // : [array values], eg for cell {Ask : [83.0,83.1]} return 'Ask : [ 83.0 83.1 ]'
-                _.forEach(value, (val) => {
-                    values += ('  ' + val);
-                });
+                const values = _.reduce(value, (combinedValue, val) => combinedValue + ('  ' + val));
                 keyValueArray.push(key + ': [' + values + ' ]');
-
             } else {
                 // if cell is a simple object of key value, return key : value
                 keyValueArray.push(key + ':' + value);
