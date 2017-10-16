@@ -17,10 +17,12 @@ class TradeSubscriptions extends React.PureComponent {
         this.tradeTypeId = `${this.props.tradeType}Id`;
     }
 
+    // this function is for fetching subscription on first load.
     componentDidMount() {
         this.createTradeSubscription();
     }
 
+    // this is for handling account reselection.
     componentWillReceiveProps(newProps) {
         this.currentAccountInformation = newProps.currentAccountInformation;
         if (this.tradeAccountSubscribed !== this.currentAccountInformation.AccountId) {
@@ -28,16 +30,20 @@ class TradeSubscriptions extends React.PureComponent {
         }
     }
 
+    // subscriptions need to be destroyed while navigating away from pages.
     componentWillUnmount() {
         this.disposeSubscription();
     }
 
+    // this function handles continuous data streams from websocket.
     handleTradeUpdate(response) {
         this.trades = queries.getUpdatedTrades(this.trades, this.tradeTypeId, response.Data);
         this.setState({ tradeUpdated: !this.state.tradeUpdated });
     }
 
     createTradeSubscription() {
+
+        // dispose any residual subscriptions.
         this.disposeSubscription();
 
         queries.createSubscription(

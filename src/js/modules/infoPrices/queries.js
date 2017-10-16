@@ -19,6 +19,8 @@ export function isSubscribed(selectedAssetTypes) {
 }
 
 export function createSubscription(selectedAssetTypes, selectedInstruments, props, onPriceUpdate, cb) {
+
+    // for each type of selected asset, we need to generate subscription
     _.forEach(selectedAssetTypes, (value, key) => {
         const uics = getUics(key, selectedInstruments);
         doWithLoader(
