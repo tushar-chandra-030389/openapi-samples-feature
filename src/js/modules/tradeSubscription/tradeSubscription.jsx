@@ -16,6 +16,8 @@ class TradeSubscriptions extends React.PureComponent {
         this.currentAccountInformation = this.props.currentAccountInformation;
         this.tradeAccountSubscribed = this.currentAccountInformation.AccountId;
         this.tradeTypeId = `${this.props.tradeType}Id`;
+        this.onlyPositionData = {};
+        this.posTradeSubscription = {};
     }
 
     // this function is for fetching subscription on first load.
@@ -37,7 +39,7 @@ class TradeSubscriptions extends React.PureComponent {
     }
 
     createTradeSubscription() {
-
+        this.disposeSubscription();
         if (this.props.tradeType === 'Order' || this.props.tradeType === 'Position') {
 
             queries.createSubscription(

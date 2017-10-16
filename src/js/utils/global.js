@@ -53,18 +53,36 @@ export function doWithLoader(props, apiFunc, callback) {
 export function doWithLoaderAll(props, netPositionApiFunc, positionApiFunc, netPositionCallback, positionCallback) {
     props.showLoader();
     props.hideError();
-    netPositionApiFunc()
-        .then((netPositionResult) => {
-            const intermediate = netPositionResult;
-            return Promise.all([positionApiFunc(), intermediate]);
-        })
-        .then(([positionResult, intermediate]) => {
-            if (netPositionCallback) {
-                netPositionCallback(intermediate);
-            }
-            if (positionCallback) {
-                positionCallback(positionResult);
-            }
-        }).catch(() => props.showError())
-        .then(() => props.hideLoader());
+    if (props.accessToken) {
+        netPositionApiFunc()
+            .then((netPositionResult) => {
+                const intermediate = netPositionResult;
+                return Promise.all([positionApiFunc(), intermediate]);
+            }, (error) => {
+                const { ErrorInfo, Message } = error.response;
+                if (ErrorInfo) {
+                    props.setErrMessage(ErrorInfo.Message);
+                } else if (Message) {
+                    props.setErrMessage(Message);
+                }
+            }).then(([positionResult, intermediate]) => {
+                if (netPositionCallback) {
+                    netPositionCallback(intermediate);
+                }
+                if (positionCallback) {
+                    positionCallback(positionResult);
+                }
+            }, (error) => {
+                const { ErrorInfo, Message } = error.response;
+                if (ErrorInfo) {
+                    props.setErrMessage(ErrorInfo.Message);
+                } else if (Message) {
+                    props.setErrMessage(Message);
+                }
+            }).catch(() => props.showError())
+            .then(() => props.hideLoader());
+    } else {
+        props.showError();
+        props.hideLoader();
+    }
 }
