@@ -5,6 +5,9 @@ import * as errorActions from 'src/js/modules/error/actions';
 import * as loaderActions from 'src/js/modules/loader/actions';
 import Details from './details';
 
+// this module handles detail page which has child routing for other modules
+// like introduction, ref, portfolio and other, so store is attached here and
+// passed down as props to other modules
 const mapStateToProps = (store) => {
     return {
         accessToken: store.userInfo.accessToken,

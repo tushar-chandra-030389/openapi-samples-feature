@@ -3,14 +3,17 @@ import _ from 'lodash';
 
 const initialState = { showError: false, errMessage: '' };
 
+// this state logic help in showing error alert
 function showError(state) {
     return _.defaults({ showError: true }, state);
 }
 
+// this state logic help in hiding error alert
 function hideError(state) {
     return _.defaults({ showError: false }, state);
 }
 
+// this state logic help in showing appropriate error message as alert.
 function setErrorMessage(msg) {
     return _.defaults({ showError: true }, { errMessage: msg });
 }

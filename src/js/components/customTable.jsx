@@ -5,6 +5,8 @@ import { bindHandlers } from 'react-bind-handlers';
 import PropTypes from 'prop-types';
 import { getFormattedPrice } from '../utils/api';
 
+// Mutation observer is used for observing changes in data over the socket and handling them to show highlighted
+// periodic reflection in subscribed prices.
 const MutationObserver = window.MutationObserver;
 
 class CustomTable extends React.Component {
@@ -38,6 +40,9 @@ class CustomTable extends React.Component {
     }
 
     observeMutation(elm) {
+
+        // Here mutation observer loops through all mutation observing elements and apply animations
+        // to elements which have data mutating over the socket.
         const mutationObserver = new MutationObserver((mutations) => {
             _.forEach(mutations, (mutation) => {
                 const target = mutation.target;
@@ -46,6 +51,7 @@ class CustomTable extends React.Component {
                 }
             });
         });
+
         mutationObserver.observe(elm, {
             attributes: false,
             characterData: false,
@@ -117,6 +123,8 @@ class CustomTable extends React.Component {
     }
 
     generateHeaders() {
+
+        // this function generates table headers based on various titles of data fields.
         return _.map(this.data[0], (value, key) => {
             const dataSort = _.some(this.props.dataSortFields, (field) => field === key);
             const keyField = this.props.keyField === key;
@@ -140,6 +148,9 @@ class CustomTable extends React.Component {
 
     render() {
         return (
+
+            // ref is attached to dom so as to get reference for applying highlighted animations
+            // over changing prices or other things
             <div ref={(elm) => (this.dataTable = elm)}>
                 {
                     !_.isEmpty(this.data) &&

@@ -31,6 +31,7 @@ class InstrumentDetails extends React.PureComponent {
     }
 
     render() {
+
         // making array of key-value pairs to show instrument in table.
         const instData = getRenderDetails(this.state.instrumentDetails);
         return (

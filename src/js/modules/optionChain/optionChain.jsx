@@ -24,6 +24,8 @@ class OptionChain extends React.PureComponent {
     }
 
     handleInstrumentsUpdated(result) {
+
+        // items property contains item array which contains list items for instruments.
         this.items = _.map(result.Data, (root, key) => (
             <ListGroupItem key={key} data-uic={root.Identifier} onClick={this.handleOptionRootSelected}>
                 {root.Symbol}

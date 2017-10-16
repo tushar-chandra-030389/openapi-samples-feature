@@ -33,6 +33,9 @@ class ChartPolling extends React.PureComponent {
     }
 
     handleChartData() {
+
+        // this function handles request to display chart data
+        // based on the parameters selected.
         if (_.isNumber(parseInt(this.state.horizon, 10)) && !_.isEmpty(this.instrument)) {
             const chartData = {
                 AssetType: this.instrument.AssetType,
@@ -73,6 +76,8 @@ class ChartPolling extends React.PureComponent {
                         <a href="#/userInfo"> this link.</a>
                     </Error>
                     <Instrument {...this.props} onInstrumentSelected={this.handleInstrumentSelected}/>
+
+                    {/* drop down for selecting horizons*/}
                     <DropDown
                         id="charPollingDropDown1"
                         title={this.state.horizon}

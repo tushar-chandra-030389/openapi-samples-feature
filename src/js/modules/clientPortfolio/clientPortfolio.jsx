@@ -29,10 +29,14 @@ class ClientPortfolio extends React.PureComponent {
     }
 
     componentDidMount() {
+
+        // need to fetch client information on page loading.
         queries.getInfo('fetchClientInfo', this.props, this.handleClientAccounts);
     }
 
     handleAccountSelection(eventKey) {
+
+        // handling account selection and extracting account details
         this.currentAccountInformation = _.find(this.accountsInfo, (account) => account.AccountId === eventKey);
 
         const {
@@ -49,6 +53,7 @@ class ClientPortfolio extends React.PureComponent {
 
         queries.getInfo('getBalancesInfo', this.props, this.handleBalanceInfo, balanceInfoQueryParams);
 
+        // setting the state for new account
         this.setState({
             currentAccountId: eventKey,
             accountKey: AccountKey,
@@ -115,6 +120,8 @@ class ClientPortfolio extends React.PureComponent {
                                     <Tabs className="primary" defaultActiveKey={1} animation={false}
                                         id="noanim-tab-example"
                                     >
+
+                                        {/* orders tab*/}
                                         <Tab eventKey={1} title="Orders">
                                             <TradeSubscriptions
                                                 {...this.props}
@@ -123,6 +130,8 @@ class ClientPortfolio extends React.PureComponent {
                                                 fieldGroups={['DisplayAndFormat', 'ExchangeInfo']}
                                             />
                                         </Tab>
+
+                                        {/* positions tab*/}
                                         <Tab eventKey={2} title="Positions">
                                             <TradeSubscriptions
                                                 {...this.props}
