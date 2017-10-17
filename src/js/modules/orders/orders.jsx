@@ -54,14 +54,14 @@ class Orders extends React.PureComponent {
         this.state = {
             updated: false,
             responseData: {},
-            selectedOptionSpace: undefined,
-            selectedAccount: undefined,
+            selectedOptionSpace: null,
+            selectedAccount: null,
             accounts: [],
-            instrumentInfo: undefined,
+            instrumentInfo: null,
             supportedOrderTypes: [],
             takeProfitOpen: false,
             stopLossOpen: false,
-            optionRoot: undefined,
+            optionRoot: null,
         };
     }
 
@@ -86,7 +86,7 @@ class Orders extends React.PureComponent {
 
     handleAssetTypeChange(assetType) {
         if (!checkIfOption(assetType)) {
-            this.setState({ optionRoot: undefined });
+            this.setState({ optionRoot: null });
         }
     }
 

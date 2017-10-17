@@ -2,7 +2,7 @@ import * as actionTypes from './actionTypes';
 import _ from 'lodash';
 
 const initialState = {
-    accessToken: undefined,
+    accessToken: '',
     userData: {},
 };
 
