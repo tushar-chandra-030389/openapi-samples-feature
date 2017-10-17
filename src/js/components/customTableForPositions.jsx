@@ -20,7 +20,7 @@ class CustomTableForPositions extends React.PureComponent {
     }
 
     getNetPostionsDataTable() {
-        const netPositionTableArray = _.map(this.state.data, (value, key) => (
+        return _.map(this.state.data, (value, key) => (
             <tr key={key}>
                 <td>{key}</td>
                 <td>{value.NetPositionView.Status}</td>
@@ -28,27 +28,23 @@ class CustomTableForPositions extends React.PureComponent {
                 <td>{value.NetPositionView.AverageOpenPrice}</td>
             </tr>
         ));
-
-        return netPositionTableArray;
     }
 
     render() {
         return (
-            <div>
-                <Table responsive>
-                    <thead>
-                        <tr>
-                            <th>Instrument</th>
-                            <th>Status</th>
-                            <th>Amount</th>
-                            <th>Open Price</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {this.getNetPostionsDataTable()}
-                    </tbody>
-                </Table>
-            </div>
+            <Table responsive>
+                <thead>
+                    <tr>
+                        <th>Instrument</th>
+                        <th>Status</th>
+                        <th>Amount</th>
+                        <th>Open Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {this.getNetPostionsDataTable()}
+                </tbody>
+            </Table>
         );
     }
 }

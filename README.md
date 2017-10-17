@@ -4,7 +4,7 @@ Open API provides access to all of the resources and functionality required to b
 ## Installing Node.js
 If you're using OS X or Windows, the best way to install Node.js is to use one of the installers from the [Node.js download page](https://nodejs.org/en/download/). If you're using Linux, you can use the installer, or you can check [NodeSource's binary distributions](https://github.com/nodesource/distributions) to see whether or not there's a more recent version that works with your system.
 
-Test: Run node -v. The version should be higher than v0.10.32
+Test: Run node -v. The tested version of node- v6.9.5
  
 ##How to start application
 
@@ -14,7 +14,7 @@ Test: Run node -v. The version should be higher than v0.10.32
  ```
  git clone https://github.com/SaxoBank/openapi-samples-feature.git
  cd openapi-samples-feature
- git checkout feature-samples-setup
+ git checkout master
  npm install
  npm start
  ```
@@ -25,14 +25,7 @@ Test: Run node -v. The version should be higher than v0.10.32
  # Production mode
  git clone https://github.com/SaxoBank/openapi-samples-feature.git
  cd openapi-samples-feature
- git checkout feature-samples-setup
+ git checkout master
  npm install
  npm run build
  go to http://localhost:9000
-
-
-## Known bugs and WIP enhancements :
-1. Orders placement is not very consistent. It is still under WIP.
-2. NetPosition module is under WIP.
-3. Minor UI issues.
-4. Sometimes will navigating between pages, some residual websocket connections throw constant errors.

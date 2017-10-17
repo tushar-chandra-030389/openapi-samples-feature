@@ -7,9 +7,9 @@ function getSelectCtrl(item, onChange) {
     return (
         <FormControl componentClass="select" id={item.label} onChange={onChange}>
             {
-                item.DisplayField ?
-                    _.map(item.value, (data, idx) => <option key={idx}>{data[item.DisplayField]}</option>) :
-                    _.map(item.value, (data, idx) => <option key={idx}>{data}</option>)
+                _.map(item.value, (data, idx) => (<option
+                    key={idx}
+                >{item.DisplayField ? data[item.DisplayField] : data}</option>))
             }
         </FormControl>
     );

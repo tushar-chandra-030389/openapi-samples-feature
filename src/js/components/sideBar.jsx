@@ -11,7 +11,7 @@ function SideBar() {
         } else if (item.body) {
             return <Accordion {...item} key={item.heading}/>;
         }
-        return '';
+        return null;
 
     });
 

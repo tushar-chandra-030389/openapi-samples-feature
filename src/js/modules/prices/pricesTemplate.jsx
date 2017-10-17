@@ -5,7 +5,7 @@ import { object } from 'prop-types';
 import CustomTable from 'src/js/components/customTable';
 
 class PricesTemplate extends React.PureComponent {
-    generateHtml(item, header) {
+    generateTemplate(item, header) {
         const data = [];
         for (const name in item) {
             if (typeof item[name] !== 'object') {
@@ -33,16 +33,16 @@ class PricesTemplate extends React.PureComponent {
             <div>
                 {this.hasInstrumentPrices() && (
                     <Panel bsStyle="primary" >
-                        {this.generateHtml(this.props.instrumentPrices, 'Basic Info')}
-                        {this.generateHtml(this.props.instrumentPrices.PriceInfoDetails, 'PriceInfoDetails')}
-                        {this.generateHtml(this.props.instrumentPrices.PriceInfo, 'PriceInfo')}
-                        {this.generateHtml(this.props.instrumentPrices.Quote, 'Quote')}
-                        {this.generateHtml(this.props.instrumentPrices.InstrumentPriceDetails, 'InstrumentPriceDetails')}
-                        {this.generateHtml(this.props.instrumentPrices.Commissions, 'Commissions')}
-                        {this.generateHtml(this.props.instrumentPrices.DisplayAndFormat, 'DisplayAndFormat')}
-                        {this.generateHtml(this.props.instrumentPrices.Greeks, 'Greeks')}
-                        {this.generateHtml(this.props.instrumentPrices.MarginImpact, 'MarginImpact')}
-                        {this.generateHtml(this.props.instrumentPrices.MarketDepth, 'MarketDepth')}
+                        {this.generateTemplate(this.props.instrumentPrices, 'Basic Info')}
+                        {this.generateTemplate(this.props.instrumentPrices.PriceInfoDetails, 'PriceInfoDetails')}
+                        {this.generateTemplate(this.props.instrumentPrices.PriceInfo, 'PriceInfo')}
+                        {this.generateTemplate(this.props.instrumentPrices.Quote, 'Quote')}
+                        {this.generateTemplate(this.props.instrumentPrices.InstrumentPriceDetails, 'InstrumentPriceDetails')}
+                        {this.generateTemplate(this.props.instrumentPrices.Commissions, 'Commissions')}
+                        {this.generateTemplate(this.props.instrumentPrices.DisplayAndFormat, 'DisplayAndFormat')}
+                        {this.generateTemplate(this.props.instrumentPrices.Greeks, 'Greeks')}
+                        {this.generateTemplate(this.props.instrumentPrices.MarginImpact, 'MarginImpact')}
+                        {this.generateTemplate(this.props.instrumentPrices.MarketDepth, 'MarketDepth')}
                     </Panel>
                 )}
             </div>

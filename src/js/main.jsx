@@ -9,9 +9,7 @@ import userInfoReducer from './modules/userInfo/reducer';
 import AppRoute from './modules/app';
 
 // css
-import 'src/css/style.css';
-import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import 'src/css/react-bootstrap-table-all.min.css';
+import 'src/css';
 
 const reducer = combineReducers({
     loader: loaderReducer,
