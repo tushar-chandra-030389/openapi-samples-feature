@@ -4,6 +4,4 @@ bower_components/
 *.css.map
 build/
 dist/
-__build__/
 .idea/
-npm-debug.log

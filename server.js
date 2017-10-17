@@ -3,9 +3,6 @@ const path = require('path');
 var express = require('express');
 var app = express();
 
-// Trimming env variable for global use
-process.env.NODE_ENV = process.env.NODE_ENV ? process.env.NODE_ENV.trim() : process.env.NODE_ENV;
-
 // Serve Static Content
 app.use(express.static(__dirname + '/public/build'));
 
