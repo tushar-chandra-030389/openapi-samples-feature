@@ -20,14 +20,14 @@ class InfoPrices extends React.PureComponent {
 
         // subscription needs to be destroyed on navigating to other pages
         queries.removeSubscription(this.selectedAssetTypes, this.props, (assetType) => {
-            this.selectedAssetTypes[assetType].subscription = undefined;
+            this.selectedAssetTypes[assetType].subscription = null;
         });
     }
 
     handleInstrumentSelected(instrument) {
         this.handleUnsubscribe();
         queries.fetchInfoPrices(instrument, this.props, (response) => {
-            this.selectedAssetTypes[response.AssetType] = { subscription: undefined };
+            this.selectedAssetTypes[response.AssetType] = { subscription: null };
             this.selectedInstruments[response.Uic] = response;
             this.setState({ flag: !this.state.flag });
         });
@@ -48,7 +48,7 @@ class InfoPrices extends React.PureComponent {
 
     handleUnsubscribe() {
         queries.removeSubscription(this.selectedAssetTypes, this.props, (assetType) => {
-            this.selectedAssetTypes[assetType].subscription = undefined;
+            this.selectedAssetTypes[assetType].subscription = null;
             this.setState({ flag: !this.state.flag });
         });
     }

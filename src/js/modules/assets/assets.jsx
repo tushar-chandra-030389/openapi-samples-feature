@@ -3,7 +3,7 @@ import moment from 'moment';
 import { bindHandlers } from 'react-bind-handlers';
 import { Panel, Form, FormControl, Row, Col } from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+
 import { func, bool } from 'prop-types';
 import { checkIfOption, checkIfPutCallExpiry } from 'src/js/utils/global';
 import Instruments from './instruments';
@@ -12,7 +12,7 @@ import Options from './options';
 class Assets extends React.PureComponent {
     constructor() {
         super();
-        this.state = { optionRoot: undefined, putCallExpiryRequired: false, optionRootSelected: false };
+        this.state = { optionRoot: null, putCallExpiryRequired: false, optionRootSelected: false };
         this.putCallExpiry = null;
         this.putCall = 'Call';
         this.expiryDate = moment();
@@ -35,19 +35,19 @@ class Assets extends React.PureComponent {
     handleAssetTypeChange(assetType) {
         if (checkIfOption(assetType)) {
             this.setState({
-                optionRoot: undefined,
+                optionRoot: null,
                 optionRootSelected: true,
                 putCallExpiryRequired: false,
             });
         } else if (checkIfPutCallExpiry(assetType)) {
             this.setState({
-                optionRoot: undefined,
+                optionRoot: null,
                 optionRootSelected: false,
                 putCallExpiryRequired: true,
             });
         } else {
             this.setState({
-                optionRoot: undefined,
+                optionRoot: null,
                 optionRootSelected: false,
                 putCallExpiryRequired: false,
             });

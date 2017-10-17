@@ -8,7 +8,6 @@ module.exports = {
         vendor: [
             'react',
             'react-dom',
-            'prop-types',
             'react-bind-handlers',
             'react-router',
             'react-router-dom',
@@ -53,7 +52,6 @@ module.exports = {
                     fallback: "style-loader",
                     use: "css-loader"
                 }),
-                // loader: 'style-loader!css-loader'
             },
             {
                 test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,

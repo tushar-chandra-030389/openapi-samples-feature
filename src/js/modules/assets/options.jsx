@@ -12,14 +12,14 @@ class Options extends React.PureComponent {
     constructor() {
         super();
         this.state = {
-            selectedOptionSpace: undefined,
+            selectedOptionSpace: null,
             flag: false,
         };
         this.optionRootData = {};
         this.callPut = '';
         this.strikePrice = 0.0;
         this.expiry = '';
-        this.selectedOptionRoot = undefined;
+        this.selectedOptionRoot = null;
     }
 
     componentDidMount() {

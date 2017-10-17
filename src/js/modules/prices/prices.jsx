@@ -12,8 +12,8 @@ import { removeSubscription, createSubscription } from './queries';
 class Prices extends React.PureComponent {
     constructor() {
         super();
-        this.instrument = undefined;
-        this.subscription = undefined;
+        this.instrument = null;
+        this.subscription = null;
         this.state = { instrumentSelected: false };
     }
 
@@ -34,7 +34,7 @@ class Prices extends React.PureComponent {
 
     handleUnsubscribe() {
         removeSubscription(this.subscription, this.props, () => {
-            this.subscription = undefined;
+            this.subscription = null;
         });
     }
 

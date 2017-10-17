@@ -10,8 +10,9 @@ import AppRoute from './modules/app';
 
 // css
 import 'src/css/style.css';
-import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import 'src/css/react-bootstrap-table-all.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
+import 'react-datepicker/dist/react-datepicker.css';
 
 const reducer = combineReducers({
     loader: loaderReducer,

@@ -11,10 +11,10 @@ class Instruments extends React.PureComponent {
     constructor() {
         super();
         this.state = {
-            optionRoot: undefined,
+            optionRoot: null,
             assetTypeTitle: 'Select AssetType',
             title: '',
-            instruments: undefined,
+            instruments: null,
         };
     }
 
