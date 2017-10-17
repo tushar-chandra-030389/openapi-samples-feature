@@ -1,0 +1,10 @@
+{
+  "chartId": "chartContainer",
+  "chartType":"spline",
+  "titleText":"Live chart streaming data",
+  "xAxisTitle":"Time",
+  "yAxisTitle":"openAsk",
+  "xAxisType":"datetime",
+  "seriesName":"charts data",
+  "marginRight":10
+}

@@ -3,6 +3,7 @@ import Highcharts from 'highcharts';
 import { bindHandlers } from 'react-bind-handlers';
 import _ from 'lodash';
 import { string, array } from 'prop-types';
+import * as highChartConst from '../../data/highchartContent';
 
 class HighChartsTemplate extends React.PureComponent {
     constructor(props) {
@@ -31,26 +32,26 @@ class HighChartsTemplate extends React.PureComponent {
 
         this.chart = Highcharts.chart(this.props.chartId, {
             chart: {
-                type: 'spline',
+                type: highChartConst.chartType,
                 animation: Highcharts.svg, // don't animate in old IE
-                marginRight: 10,
+                marginRight: highChartConst.marginRight,
             },
             title: {
-                text: 'Live chart streaming data',
+                text: highChartConst.titleText,
             },
             xAxis: {
                 title: {
-                    text: 'Time',
+                    text: highChartConst.xAxisTitle,
                 },
-                type: 'datetime',
+                type: highChartConst.xAxisType,
             },
             yAxis: {
                 title: {
-                    text: 'openAsk',
+                    text: highChartConst.yAxisTitle,
                 },
             },
             series: [{
-                name: 'charts data',
+                name: highChartConst.seriesName,
                 data: this.chartDataSet,
             }],
         });

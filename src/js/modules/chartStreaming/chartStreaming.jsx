@@ -10,6 +10,7 @@ import DropDown from 'src/js/components/dropdown';
 import Instrument from 'src/js/modules/assets/instruments';
 import HighChartsTemplate from './highChartsTemplate';
 import Error from 'src/js/modules/error';
+import * as highChartConst from '../../data/highchartContent';
 
 const Horizon = [1, 5, 10, 15, 30, 60, 120, 240, 360, 480, 1440, 10080, 43200];
 const CandleCount = [200, 400, 600, 800, 1000, 1200];
@@ -26,7 +27,7 @@ class ChartStreaming extends React.PureComponent {
             candleCount: '200',
             chartDataUpdated: false,
         };
-        this.chartId = 'chartContainer';
+        this.chartId = highChartConst.chartId;
     }
     componentWillUnmount() {
         if (this.chartSubscription) {
@@ -111,7 +112,7 @@ class ChartStreaming extends React.PureComponent {
                     > {'Subscribe Chart'}
                     </Button>
                     {!_.isEmpty(this.chartData) &&
-                    <HighChartsTemplate chartData={this.chartData} instrumentSelected={this.state.instrumentSelected} chartId={this.chartId}/>
+                    <HighChartsTemplate chartData={this.chartData} chartId={this.chartId}/>
                     }
                 </div>
             </div>
