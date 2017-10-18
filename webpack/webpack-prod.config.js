@@ -1,5 +1,4 @@
 const webpack = require("webpack");
-const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const path = require('path');
 
@@ -23,14 +22,6 @@ config.plugins.push(
         IS_DEV_ENV: false
     })
 );
-
-config.plugins.push(
-    new OptimizeCssAssetsPlugin({
-            assetNameRegExp: /\.css$/,
-            cssProcessorOptions: {discardComments: {removeAll: true}}
-        }
-    )
-)
 
 config.plugins.push(
     new CleanWebpackPlugin([path.resolve(__dirname, '../public/build')], {

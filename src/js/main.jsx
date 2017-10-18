@@ -9,7 +9,7 @@ import userInfoReducer from './modules/userInfo/reducer';
 import AppRoute from './modules/app';
 
 // css
-import 'src/css';
+import 'src/css/appStyles.css';
 
 const reducer = combineReducers({
     loader: loaderReducer,
