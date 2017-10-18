@@ -23,9 +23,12 @@ Test: Run node -v. The tested version of node- v6.9.5
  files will cause the browser to reload live.
 
  # Production mode
+
+ ```
  git clone https://github.com/SaxoBank/openapi-samples-feature.git
  cd openapi-samples-feature
  git checkout master
  npm install
  npm run build
  go to http://localhost:9000
+ ```
