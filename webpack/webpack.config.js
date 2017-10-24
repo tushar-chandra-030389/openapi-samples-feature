@@ -26,8 +26,14 @@ module.exports = {
         chunks: true
     },
 
+    devServer: {
+        historyApiFallback: true,
+        contentBase: path.join(__dirname, "../"),
+    },
+
     output: {
         path: path.resolve(__dirname, '../public', 'build'),
+        publicPath: "/",
         filename: '[name][chunkhash].js',
     },
 

@@ -78,7 +78,7 @@ class OptionChain extends React.PureComponent {
                     </Error>
                     <InputGroup>
                         <InputGroup.Addon>
-                            <img src="../images/search-icon.png" className="search-icon"/>
+                            <img src="assets/images/search-icon.png" className="search-icon"/>
                         </InputGroup.Addon>
                         <SearchInput
                             className="search-input"

@@ -1,6 +1,6 @@
 import React from 'react';
 import { bindHandlers } from 'react-bind-handlers';
-import { Button, FormGroup, Well, Row, Col, Panel, Tabs, Tab, Form, Collapse } from 'react-bootstrap';
+import { Button, FormGroup, Well, Row, Col, Panel, Form, Collapse } from 'react-bootstrap';
 import * as queries from './queries';
 import { object } from 'prop-types';
 import DetailsHeader from 'src/js/components/detailsHeader';
@@ -9,7 +9,7 @@ import Instruments from 'src/js/modules/assets/instruments';
 import Options from 'src/js/modules/assets/options';
 import Dropdown from 'src/js/components/dropdown';
 import FormGroupTemplate from 'src/js/components/formGroupTemplate';
-import TradeSubscriptions from 'src/js/modules/tradeSubscription';
+import OrdersNPositionsTab from 'src/js/components/ordersNPositionsTab';
 import { checkIfOption } from 'src/js/utils/global';
 
 class Orders extends React.PureComponent {
@@ -247,38 +247,7 @@ class Orders extends React.PureComponent {
                         </Form>
                     </Panel>
                     <Panel className="panel-primary">
-                        <Tabs className="primary" defaultActiveKey={1} animation={false} id="noanim-tab-example">
-
-                            {/* orders tab*/}
-                            <Tab eventKey={1} title="Orders">
-                                {this.state.selectedAccount &&
-                                <TradeSubscriptions
-                                    {...this.props}
-                                    currentAccountInformation={this.state.selectedAccount}
-                                    tradeType="Order"
-                                    fieldGroups={['DisplayAndFormat', 'ExchangeInfo']}
-                                />
-                                }
-                            </Tab>
-
-                            {/* positions tab*/}
-                            <Tab eventKey={2} title="Positions">
-                                {this.state.selectedAccount &&
-                                <TradeSubscriptions
-                                    {...this.props}
-                                    currentAccountInformation={this.state.selectedAccount}
-                                    tradeType="NetPosition"
-                                    fieldGroups={['NetPositionView',
-                                        'NetPositionBase',
-                                        'DisplayAndFormat',
-                                        'ExchangeInfo',
-                                        'SingleAndClosedPositionsBase',
-                                        'SingleAndClosedPositionsView',
-                                        'SingleAndClosedPositions']}
-                                />
-                                }
-                            </Tab>
-                        </Tabs>
+                        <OrdersNPositionsTab selectedAccount={this.state.selectedAccount} {...this.props}/>
                     </Panel>
                 </div>
             </div>
