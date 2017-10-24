@@ -10,7 +10,7 @@ import DropDown from 'src/js/components/dropdown';
 import Instrument from 'src/js/modules/assets/instruments';
 import HighChartsTemplate from './highChartsTemplate';
 import Error from 'src/js/modules/error';
-import * as highChartConst from '../../data/highchartContent';
+import * as highChartConst from 'src/js/data/highchartContent.json';
 
 const Horizon = [1, 5, 10, 15, 30, 60, 120, 240, 360, 480, 1440, 10080, 43200];
 const CandleCount = [200, 400, 600, 800, 1000, 1200];

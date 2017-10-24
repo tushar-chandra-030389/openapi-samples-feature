@@ -40,13 +40,18 @@ class TradeSubscriptions extends React.PureComponent {
 
     createTradeSubscription() {
         this.disposeSubscription();
+        const queryKey = {
+            accountKey: this.currentAccountInformation.AccountKey,
+            clientKey: this.currentAccountInformation.ClientKey,
+
+        };
         if (this.props.tradeType === 'Order' || this.props.tradeType === 'Position') {
 
             queries.createSubscription(
                 this.props,
                 {
-                    accountKey: this.currentAccountInformation.AccountKey,
-                    clientKey: this.currentAccountInformation.ClientKey,
+                    accountKey: queryKey.accountKey,
+                    clientKey: queryKey.clientKey,
                     fieldGroups: this.props.fieldGroups,
                 },
                 this.props.tradeType,
@@ -67,13 +72,13 @@ class TradeSubscriptions extends React.PureComponent {
             };
             queries.createSubscriptionAll(
                 {
-                    accountKey: this.currentAccountInformation.AccountKey,
-                    clientKey: this.currentAccountInformation.ClientKey,
+                    accountKey: queryKey.accountKey,
+                    clientKey: queryKey.clientKey,
                     fieldGroups: this.props.fieldGroups,
                 },
                 {
-                    accountKey: this.currentAccountInformation.AccountKey,
-                    clientKey: this.currentAccountInformation.ClientKey,
+                    accountKey: queryKey.accountKey,
+                    clientKey: queryKey.clientKey,
                     fieldGroups: ['DisplayAndFormat', 'PositionBase', 'PositionView'],
                 },
                 params,
@@ -97,18 +102,21 @@ class TradeSubscriptions extends React.PureComponent {
     handlePositionTradeUpdate(response) {
         this.postrades = queries.getUpdatedTrades(this.postrades, 'PositionId', response.Data);
         if (!_.isEmpty(this.postrades)) {
-            const tradeData = _.map(this.trades, (value) => {
+            this.onlyPositionData = _.reduce(this.trades, (result, value) => {
+
                 const NetPositionId = value.NetPositionId;
                 const combinedPositionData = [];
                 const positionData = _.map(this.postrades, (valuePostTrades) => {
                     if (NetPositionId === valuePostTrades.NetPositionId) {
                         combinedPositionData.push(valuePostTrades);
                     }
+
                     return positionData;
                 });
-                this.onlyPositionData[NetPositionId] = combinedPositionData;
-                return tradeData;
-            });
+                result[NetPositionId] = combinedPositionData;
+                return result;
+            }, {});
+
         }
     }
 

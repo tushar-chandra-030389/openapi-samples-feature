@@ -16,14 +16,15 @@ class CustomRowForPositions extends React.PureComponent {
     }
 
     render() {
+        const { NetPositionView, NetPositionBase } = this.props.value;
         return (
             <table>
                 <tbody>
                     <tr onClick={this.handleCollapse} className="net-position-row" >
                         <td className="table-instrument">{this.props.index}</td>
-                        <td className="table-status">{this.props.value.NetPositionView.Status}</td>
-                        <td className="table-amount">{this.props.value.NetPositionBase.Amount}</td>
-                        <td className="table-price">{this.props.value.NetPositionView.AverageOpenPrice}</td>
+                        <td className="table-status">{NetPositionView.Status}</td>
+                        <td className="table-amount">{NetPositionBase.Amount}</td>
+                        <td className="table-price">{NetPositionView.AverageOpenPrice}</td>
                         <td>
                             <Glyphicon className="glyph pull-right" glyph={classNames({
                                 'chevron-down': !this.state.isOpen,

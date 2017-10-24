@@ -3,7 +3,7 @@ import Highcharts from 'highcharts';
 import { bindHandlers } from 'react-bind-handlers';
 import _ from 'lodash';
 import { string, array } from 'prop-types';
-import * as highChartConst from '../../data/highchartContent';
+import * as highChartConst from 'src/js/data/highchartContent.json';
 
 class HighChartsTemplate extends React.PureComponent {
     constructor(props) {
@@ -15,7 +15,6 @@ class HighChartsTemplate extends React.PureComponent {
 
     componentDidMount() {
         this.initializeChart();
-
     }
 
     componentWillReceiveProps(nextProps) {
@@ -81,9 +80,9 @@ class HighChartsTemplate extends React.PureComponent {
 }
 
 HighChartsTemplate.propTypes = {
-    chartId: string,
-    chartDataSet: array,
-    chartData: array,
+    chartId: string.isRequired,
+    chartDataSet: array.isRequired,
+    chartData: array.isRequired,
 };
 
 export default bindHandlers(HighChartsTemplate);
