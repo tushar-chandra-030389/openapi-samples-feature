@@ -13,8 +13,7 @@ config.module.loaders.push(
         },
         loader: 'eslint-loader'
     }
-)
-
+);
 
 config.plugins.push(
     new webpack.DefinePlugin({

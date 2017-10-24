@@ -9,10 +9,7 @@ import userInfoReducer from './modules/userInfo/reducer';
 import AppRoute from './modules/app';
 
 // css
-import 'src/css/style.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
-import 'react-datepicker/dist/react-datepicker.css';
+import 'src/css/appStyles.css';
 
 const reducer = combineReducers({
     loader: loaderReducer,

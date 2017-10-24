@@ -122,10 +122,9 @@ class ClientPortfolio extends React.PureComponent {
                                     >
 
                                         {/* orders tab*/}
-
                                         <Tab eventKey={1} title="Orders">
-                                            {this.currentAccountInformation &&
-                                            <TradeSubscriptions
+                                            {!_.isEmpty(this.currentAccountInformation) &&
+                                            < TradeSubscriptions
                                                 {...this.props}
                                                 currentAccountInformation={this.currentAccountInformation}
                                                 tradeType="Order"
@@ -136,8 +135,7 @@ class ClientPortfolio extends React.PureComponent {
 
                                         {/* positions tab*/}
                                         <Tab eventKey={2} title="Positions">
-
-                                            {this.currentAccountInformation &&
+                                            {!_.isEmpty(this.currentAccountInformation) &&
                                             <TradeSubscriptions
                                                 {...this.props}
                                                 currentAccountInformation={this.currentAccountInformation}
@@ -152,7 +150,6 @@ class ClientPortfolio extends React.PureComponent {
                                             />
                                             }
                                         </Tab>
-
                                     </Tabs>
                                 </Panel>
                             </Col>

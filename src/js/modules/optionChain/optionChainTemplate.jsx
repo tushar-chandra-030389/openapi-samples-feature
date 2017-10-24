@@ -6,7 +6,9 @@ import PropTypes from 'prop-types';
 function OptionChainTemplate(props) {
     const rows = [];
     _.forOwn(props.data, (val, key) => {
-        if (val[0] && val[1]) {
+        const callDataIndex = 0; // zeroth index for every entry is call data entity
+        const putDataIndex = 1; // similarly first index for every entry is putDataIndex entity
+        if (val[callDataIndex] && val[putDataIndex]) {
             rows.push(
                 <tr key={key}>
                     <td>{val[0].Uic}</td>
