@@ -75,7 +75,10 @@ class ChartPolling extends React.PureComponent {
                         Enter correct access token using
                         <a href="/userInfo"> this link.</a>
                     </Error>
-                    <Instrument {...this.props} onInstrumentSelected={this.handleInstrumentSelected}/>
+                    <Instrument {...this.props}
+                        onInstrumentSelected={this.handleInstrumentSelected}
+                        onOptionRootSelected={this.handleInstrumentSelected}
+                    />
 
                     {/* drop down for selecting horizons*/}
                     <DropDown

@@ -77,6 +77,7 @@ class Orders extends React.PureComponent {
             this.currentOrder.Uic = response.Uic;
             this.currentOrder.AssetType = response.AssetType;
             this.currentOrder.OrderPrice = response.Quote.Ask ? response.Quote.Ask : 0.0;
+            this.currentOrder.OrderType = instrument.SupportedOrderTypes[0];
             this.setState({
                 supportedOrderTypes: instrument.SupportedOrderTypes,
                 instrumentInfo: response,
