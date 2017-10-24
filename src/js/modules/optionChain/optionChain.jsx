@@ -74,7 +74,7 @@ class OptionChain extends React.PureComponent {
                 <div className="pad-box">
                     <Error>
                         Enter correct access token using
-                        <a href="#/userInfo"> this link.</a>
+                        <a href="/userInfo"> this link.</a>
                     </Error>
                     <InputGroup>
                         <InputGroup.Addon>
