@@ -1,7 +1,9 @@
 import React from 'react';
 import { Tabs, Tab } from 'react-bootstrap';
-import TradeSubscriptions from 'src/js/modules/tradeSubscription';
+import _ from 'lodash';
 import { object } from 'prop-types';
+
+import TradeSubscriptions from 'src/js/modules/tradeSubscription';
 
 class OrdersNPositionsTab extends React.PureComponent {
 
@@ -22,7 +24,7 @@ class OrdersNPositionsTab extends React.PureComponent {
 
                 {/* orders tab*/}
                 <Tab eventKey={1} title="Orders">
-                    {this.state.selectedAccount &&
+                    {!_.isEmpty(this.state.selectedAccount) &&
                     <TradeSubscriptions
                         {...this.props}
                         currentAccountInformation={this.state.selectedAccount}
@@ -34,7 +36,7 @@ class OrdersNPositionsTab extends React.PureComponent {
 
                 {/* positions tab*/}
                 <Tab eventKey={2} title="Positions">
-                    {this.state.selectedAccount &&
+                    {!_.isEmpty(this.state.selectedAccount) &&
                     <TradeSubscriptions
                         {...this.props}
                         currentAccountInformation={this.state.selectedAccount}
