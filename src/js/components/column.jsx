@@ -26,7 +26,7 @@ function Column({ size, header, data }) {
                 <Panel bsStyle="primary" header={header} eventKey="1">
                     <Table striped bordered condensed hover>
                         <tbody>
-                        {generateTable(data)}
+                            {generateTable(data)}
                         </tbody>
                     </Table>
                 </Panel>

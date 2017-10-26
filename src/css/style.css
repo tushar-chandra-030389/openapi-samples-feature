@@ -228,42 +228,43 @@ textarea.form-group.form-control {
 }
 
 .table-instrument{
-	width: 54%;
+    width: 54%;
 }
 
-.table .table-instrument:nth-child(1){
-	width:50%;
-}
-.table-status{
-	width:9%;
+.table .table-instrument:nth-child(1) {
+    width: 50%;
 }
 
-.table-amount{
-	width:15%;
+.table-status {
+    width: 9%;
+}
+
+.table-amount {
+    width: 15%;
 }
 
 .table-price{
-	width:20%;
+	width: 20%;
 }
 
-.table-instrument,.table-status,.table-amount,.table-price:nth-child(1){
-	padding: 8px;
-	line-height: 1.42857143;
-	vertical-align: top;
-	border-top: 1px solid #ddd;
+.table-instrument,.table-status,.table-amount,.table-price:nth-child(1) {
+    padding: 8px;
+    line-height: 1.42857143;
+    vertical-align: top;
+    border-top:1px solid #ddd;
 }
 
-.table-price,.arrow-icon{
-	padding: 8px;
-	line-height: 1.42857143;
-	vertical-align: top;
-	border-top: 1px solid #ddd;
+.table-price,.arrow-icon {
+    padding: 8px;
+    line-height: 1.42857143;
+    vertical-align: top;
+    border-top:1px solid #ddd;
 }
 
-.net-position-row{
-	cursor: pointer;
+.net-position-row {
+    cursor:pointer;
 }
 
-.show-positions{
-	background: #ddd;
+.show-positions {
+    background: #ddd;
 }
