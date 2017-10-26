@@ -89,7 +89,7 @@ class ChartStreaming extends React.PureComponent {
                 <div className="pad-box">
                     <Error>
                         Enter correct access token using
-                        <a href="#/userInfo"> this link.</a>
+                        <a href="/userInfo"> this link.</a>
                     </Error>
                     <Instrument {...this.props}
                         onInstrumentSelected={this.handleInstrumentSelected}

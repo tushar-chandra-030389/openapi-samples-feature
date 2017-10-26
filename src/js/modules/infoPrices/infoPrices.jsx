@@ -82,7 +82,7 @@ class InfoPrices extends React.PureComponent {
                 <div className="pad-box" >
                     <Error>
                         Enter correct access token using
-                        <a href="#/userInfo"> this link.</a>
+                        <a href="/userInfo"> this link.</a>
                     </Error>
                     <Assets showOptionsTemplate onInstrumentSelected={this.handleInstrumentSelected} {...this.props}/>
                     {

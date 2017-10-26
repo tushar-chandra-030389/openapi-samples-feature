@@ -4,15 +4,18 @@ import classNames from 'classnames';
 import { string, arrayOf, shape } from 'prop-types';
 import { bindHandlers } from 'react-bind-handlers';
 import { ListGroup, ListGroupItem, Collapse, Glyphicon } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 class Accordion extends React.PureComponent {
     constructor() {
         super();
         this.state = { isOpen: false };
     }
+
     handleCollapse() {
         this.setState({ isOpen: !this.state.isOpen });
     }
+
     render() {
         const glyph = classNames({ 'chevron-down': !this.state.isOpen, 'chevron-up': this.state.isOpen });
 
@@ -20,11 +23,15 @@ class Accordion extends React.PureComponent {
             <div>
                 <ListGroupItem onClick={this.handleCollapse}>
                     {this.props.heading}
-                    <Glyphicon className="glyph pull-right" glyph={glyph} />
+                    <Glyphicon className="glyph pull-right" glyph={glyph}/>
                 </ListGroupItem>
                 <Collapse in={this.state.isOpen}>
                     <ListGroup className="sidebar-navs">
-                        { _.map(this.props.body, (item) => <ListGroupItem key={item.title} href={item.url}>{item.title}</ListGroupItem>) }
+                        {_.map(this.props.body, (item) =>
+                            (<Link key={item.title} to={item.url}>
+                                <ListGroupItem>{item.title}</ListGroupItem>
+                            </Link>))
+                        }
                     </ListGroup>
                 </Collapse>
             </div>

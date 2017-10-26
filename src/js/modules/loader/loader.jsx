@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import { bool } from 'prop-types';
-import defaultImg from '../../../images/default.gif';
+import defaultImg from 'assets/images/default.gif';
 
 class Loader extends React.PureComponent {
     render() {

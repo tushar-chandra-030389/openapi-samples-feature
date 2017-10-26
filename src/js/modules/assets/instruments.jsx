@@ -20,9 +20,11 @@ class Instruments extends React.PureComponent {
 
     handleAssetTypeSelection(eventKey) {
         // notify if any UI component using it and want to listen to asset change
-        if (this.props.onAssetTypeSelected) {
-            this.props.onAssetTypeSelected(eventKey);
+        const { onAssetTypeSelected } = this.props;
+        if (onAssetTypeSelected) {
+            onAssetTypeSelected(eventKey);
         }
+
         this.setState({ assetTypeTitle: eventKey });
         if (checkIfOption(eventKey)) {
             this.setState({ title: 'Select OptionRoot' });
@@ -39,35 +41,38 @@ class Instruments extends React.PureComponent {
            true  : simply update state to render option component.
            false : get instrument details.
         */
+        const { onOptionRootSelected, onInstrumentSelected } = this.props;
         if (checkIfOption(instrument.AssetType)) {
-            this.props.onOptionRootSelected(instrument);
+            onOptionRootSelected(instrument);
         } else {
             fetchInstrumentDetails(instrument, this.props, (response) => {
-                this.props.onInstrumentSelected(response);
+                onInstrumentSelected(response);
             });
         }
         this.setState({ title: instrument.Description });
     }
 
     render() {
+        const { assetTypes } = this.props;
+        const { assetTypeTitle, instruments, title } = this.state;
         return (
             <div className="pad-box">
                 <Row>
                     <ButtonToolbar>
                         <Dropdown
-                            data={this.props.assetTypes ? this.props.assetTypes : allAssetTypes.data}
-                            title={this.state.assetTypeTitle}
+                            data={assetTypes || allAssetTypes.data}
+                            title={assetTypeTitle}
                             id="assetTypes"
                             handleSelect={this.handleAssetTypeSelection}
                         />
                         {
-                            this.state.instruments &&
+                            instruments &&
                             <Dropdown
-                                data={this.state.instruments}
+                                data={instruments}
                                 itemKey="Symbol"
                                 value="Description"
                                 id="instruments"
-                                title={this.state.title}
+                                title={title}
                                 handleSelect={this.handleInstrumentSelection}
                             />
                         }
