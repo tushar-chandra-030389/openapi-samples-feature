@@ -3,6 +3,7 @@ import _ from 'lodash';
 import { bindHandlers } from 'react-bind-handlers';
 import { Table } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import Rows from './rows';
 
 class CustomTableForPositions extends React.PureComponent {
 
@@ -19,8 +20,8 @@ class CustomTableForPositions extends React.PureComponent {
         });
     }
 
-    getNetPostionsDataTable() {
-        return _.map(this.state.data, (value, key) => (
+    getNetPositionsDataTable() {
+        const netPositionTableArray = _.map(this.state.data, (value, key) => (
             <tr key={key}>
                 <td>{key}</td>
                 <td>{value.NetPositionView.Status}</td>
@@ -28,29 +29,40 @@ class CustomTableForPositions extends React.PureComponent {
                 <td>{value.NetPositionView.AverageOpenPrice}</td>
             </tr>
         ));
+
+        if (!_.isEmpty(this.props.data)) {
+            const PositionTableArray = _.map(this.props.data, (value, index) => (
+                <div key={index}>
+                    <Rows positionDetails={this.props.positionDetails} index={index} value={value}/>
+                </div>));
+            return PositionTableArray;
+        }
+        return netPositionTableArray;
     }
 
     render() {
         return (
-            <Table responsive>
-                <thead>
-                    <tr>
-                        <th>Instrument</th>
-                        <th>Status</th>
-                        <th>Amount</th>
-                        <th>Open Price</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {this.getNetPostionsDataTable()}
-                </tbody>
-            </Table>
+            <div>
+                <Table responsive>
+                    <tbody>
+                        <tr>
+                            <td className="table-instrument">Instrument</td>
+                            <td className="table-status">Status</td>
+                            <td className="table-amount">Amount</td>
+                            <td className="table-price">Open Price</td>
+                        </tr>
+                    </tbody>
+                </Table>
+                {this.getNetPositionsDataTable()}
+            </div>
         );
     }
 }
 
-CustomTableForPositions.propTypes = {
-    data: PropTypes.object,
-};
+CustomTableForPositions
+    .propTypes = {
+        data: PropTypes.object,
+        positionDetails: PropTypes.object,
+    };
 
 export default bindHandlers(CustomTableForPositions);
