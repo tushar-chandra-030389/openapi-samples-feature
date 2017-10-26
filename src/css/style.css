@@ -228,13 +228,14 @@ textarea.form-group.form-control {
 }
 
 .table-instrument{
-	width: 55%;
+	width: 54%;
 }
+
 .table .table-instrument:nth-child(1){
-	width:51%;
+	width:50%;
 }
 .table-status{
-	width:10%;
+	width:9%;
 }
 
 .table-amount{
@@ -251,15 +252,18 @@ textarea.form-group.form-control {
 	vertical-align: top;
 	border-top: 1px solid #ddd;
 }
+
 .table-price,.arrow-icon{
 	padding: 8px;
 	line-height: 1.42857143;
 	vertical-align: top;
 	border-top: 1px solid #ddd;
 }
+
 .net-position-row{
 	cursor: pointer;
 }
+
 .show-positions{
 	background: #ddd;
 }

@@ -50,14 +50,14 @@ export function doWithLoader(props, apiFunc, callback) {
     }
 }
 
-export function doWithLoaderAll(props, netPositionApiFunc, positionApiFunc, netPositionCallback, positionCallback) {
+export function doWithLoaderAll(props, apiFunc, onSuccessApiFunc, callback, nextCallback) {
     props.showLoader();
     props.hideError();
     if (props.accessToken) {
-        netPositionApiFunc()
-            .then((netPositionResult) => {
-                const intermediate = netPositionResult;
-                return Promise.all([positionApiFunc(), intermediate]);
+        apiFunc()
+            .then((result) => {
+                const intermediate = result;
+                return Promise.all([onSuccessApiFunc(), intermediate]);
             }, (error) => {
                 const { ErrorInfo, Message } = error.response;
                 if (ErrorInfo) {
@@ -65,12 +65,12 @@ export function doWithLoaderAll(props, netPositionApiFunc, positionApiFunc, netP
                 } else if (Message) {
                     props.setErrMessage(Message);
                 }
-            }).then(([positionResult, intermediate]) => {
-                if (netPositionCallback) {
-                    netPositionCallback(intermediate);
+            }).then(([result, intermediate]) => {
+                if (callback) {
+                    callback(intermediate);
                 }
-                if (positionCallback) {
-                    positionCallback(positionResult);
+                if (nextCallback) {
+                    nextCallback(result);
                 }
             }, (error) => {
                 const { ErrorInfo, Message } = error.response;

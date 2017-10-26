@@ -3,9 +3,9 @@ import { Glyphicon } from 'react-bootstrap';
 import { bindHandlers } from 'react-bind-handlers';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import ShowPositionData from './showPositionData';
+import PositionDataTable from './positionDataTable';
 
-class CustomRowForPositions extends React.PureComponent {
+class Rows extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = { isOpen: false };
@@ -21,10 +21,17 @@ class CustomRowForPositions extends React.PureComponent {
             <table>
                 <tbody>
                     <tr onClick={this.handleCollapse} className="net-position-row" >
-                        <td className="table-instrument">{this.props.index}</td>
-                        <td className="table-status">{NetPositionView.Status}</td>
-                        <td className="table-amount">{NetPositionBase.Amount}</td>
-                        <td className="table-price">{NetPositionView.AverageOpenPrice}</td>
+                        <td className="table-instrument">
+                            {this.props.index}</td>
+                        <td className="table-status">
+                            {NetPositionView.Status}
+                        </td>
+                        <td className="table-amount">
+                            {NetPositionBase.Amount}
+                        </td>
+                        <td className="table-price">
+                            {NetPositionView.AverageOpenPrice}
+                        </td>
                         <td>
                             <Glyphicon className="glyph pull-right" glyph={classNames({
                                 'chevron-down': !this.state.isOpen,
@@ -35,8 +42,10 @@ class CustomRowForPositions extends React.PureComponent {
 
                     </tr>
                 </tbody>
-                {this.props.onlyPositionData &&
-                <ShowPositionData onlyShowPositionData={this.props.onlyPositionData} isOpen={this.state.isOpen}
+                {this.props.positionDetails &&
+                <PositionDataTable
+                    positionDetails={this.props.positionDetails}
+                    isOpen={this.state.isOpen}
                     customKey={this.props.value.NetPositionId}
                 />}
             </table>
@@ -44,11 +53,11 @@ class CustomRowForPositions extends React.PureComponent {
     }
 }
 
-CustomRowForPositions
+Rows
     .propTypes = {
         index: PropTypes.string,
         value: PropTypes.object,
-        onlyPositionData: PropTypes.object,
+        positionDetails: PropTypes.object,
     };
 
-export default bindHandlers(CustomRowForPositions);
+export default bindHandlers(Rows);

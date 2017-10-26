@@ -3,13 +3,13 @@ import Highcharts from 'highcharts';
 import { bindHandlers } from 'react-bind-handlers';
 import _ from 'lodash';
 import { string, array } from 'prop-types';
-import * as highChartConst from 'src/js/data/highchartContent.json';
+import * as constants from 'src/js/data/highchartConstant.json';
 
 class HighChartsTemplate extends React.PureComponent {
     constructor(props) {
         super(props);
         this.chartData = props.chartData;
-        this.chartDataSet = [];
+        this.ChartAxisPoints = [];
         this.chart = null;
     }
 
@@ -26,39 +26,39 @@ class HighChartsTemplate extends React.PureComponent {
             const yAxisPoint = value.OpenAsk;
             const xAxisPoint = (new Date(value.Time)).getTime();
             const axisPoint = [xAxisPoint, yAxisPoint];
-            this.chartDataSet.push(axisPoint);
+            this.ChartAxisPoints.push(axisPoint);
         });
 
         this.chart = Highcharts.chart(this.props.chartId, {
             chart: {
-                type: highChartConst.chartType,
+                type: constants.chartType,
                 animation: Highcharts.svg, // don't animate in old IE
-                marginRight: highChartConst.marginRight,
+                marginRight: constants.marginRight,
             },
             title: {
-                text: highChartConst.titleText,
+                text: constants.titleText,
             },
             xAxis: {
                 title: {
-                    text: highChartConst.xAxisTitle,
+                    text: constants.xAxisTitle,
                 },
-                type: highChartConst.xAxisType,
+                type: constants.xAxisType,
             },
             yAxis: {
                 title: {
-                    text: highChartConst.yAxisTitle,
+                    text: constants.yAxisTitle,
                 },
             },
             series: [{
-                name: highChartConst.seriesName,
-                data: this.chartDataSet,
+                name: constants.seriesName,
+                data: this.ChartAxisPoints,
             }],
         });
     }
 
     handleChartUpdate(data) {
         _.forEach(data, (value) => {
-            const alreadyPresent = _.findIndex(this.chartData, (item) => item.Time === value.Time);
+            const alreadyPresent = _.findIndex(this.chartData, ['Time', value.Time]);
             if (alreadyPresent >= 0) {
                 this.chartData[alreadyPresent] = value;
 
@@ -81,7 +81,7 @@ class HighChartsTemplate extends React.PureComponent {
 
 HighChartsTemplate.propTypes = {
     chartId: string.isRequired,
-    chartDataSet: array.isRequired,
+    ChartAxisPoints: array,
     chartData: array.isRequired,
 };
 

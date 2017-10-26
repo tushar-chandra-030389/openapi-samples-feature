@@ -10,7 +10,7 @@ import DropDown from 'src/js/components/dropdown';
 import Instrument from 'src/js/modules/assets/instruments';
 import HighChartsTemplate from './highChartsTemplate';
 import Error from 'src/js/modules/error';
-import * as highChartConst from 'src/js/data/highchartContent.json';
+import * as constants from 'src/js/data/highchartConstant.json';
 
 const Horizon = [1, 5, 10, 15, 30, 60, 120, 240, 360, 480, 1440, 10080, 43200];
 const CandleCount = [200, 400, 600, 800, 1000, 1200];
@@ -27,7 +27,7 @@ class ChartStreaming extends React.PureComponent {
             candleCount: '200',
             chartDataUpdated: false,
         };
-        this.chartId = highChartConst.chartId;
+        this.chartId = constants.chartId;
     }
     componentWillUnmount() {
         if (this.chartSubscription) {
@@ -91,7 +91,9 @@ class ChartStreaming extends React.PureComponent {
                         Enter correct access token using
                         <a href="#/userInfo"> this link.</a>
                     </Error>
-                    <Instrument {...this.props} onInstrumentSelected={this.handleInstrumentSelected}/>
+                    <Instrument {...this.props}
+                        onInstrumentSelected={this.handleInstrumentSelected}
+                    />
                     <DropDown
                         id="charPollingDropDown1"
                         title={this.state.horizon}
@@ -112,7 +114,10 @@ class ChartStreaming extends React.PureComponent {
                     > {'Subscribe Chart'}
                     </Button>
                     {!_.isEmpty(this.chartData) &&
-                    <HighChartsTemplate chartData={this.chartData} chartId={this.chartId}/>
+                    <HighChartsTemplate
+                        chartData={this.chartData}
+                        chartId={this.chartId}
+                    />
                     }
                 </div>
             </div>

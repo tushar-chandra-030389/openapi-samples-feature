@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { bindHandlers } from 'react-bind-handlers';
 import { Table } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import CustomRowForPositions from './customRowForPositions';
+import Rows from './rows';
 
 class CustomTableForPositions extends React.PureComponent {
 
@@ -33,7 +33,7 @@ class CustomTableForPositions extends React.PureComponent {
         if (!_.isEmpty(this.props.data)) {
             const PositionTableArray = _.map(this.props.data, (value, index) => (
                 <div key={index}>
-                    <CustomRowForPositions onlyPositionData={this.props.onlyPositionData} index={index} value={value}/>
+                    <Rows positionDetails={this.props.positionDetails} index={index} value={value}/>
                 </div>));
             return PositionTableArray;
         }
@@ -62,7 +62,7 @@ class CustomTableForPositions extends React.PureComponent {
 CustomTableForPositions
     .propTypes = {
         data: PropTypes.object,
-        onlyPositionData: PropTypes.object,
+        positionDetails: PropTypes.object,
     };
 
 export default bindHandlers(CustomTableForPositions);
