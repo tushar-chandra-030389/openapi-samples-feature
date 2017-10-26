@@ -17,7 +17,7 @@ We happily accept Pull Requests, so here are a few guidelines to get you started
 * Make commits of logical units.
 * Check for unnecessary whitespace with `git diff --check` before committing.
 * Make sure you have added the necessary tests for your changes.
-* Run _all_ the tests(is any) to assure nothing else was accidentally broken.
+* Run _all_ the tests(if any) to assure nothing else was accidentally broken.
 
 ## Submitting Changes
 
