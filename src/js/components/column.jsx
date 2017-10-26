@@ -8,16 +8,17 @@ function Column({ size, header, data }) {
     const iterateArray = (items) =>
         _.map(items, (item, key) => <span key={key}>{key === (items.length - 1) ? item : `${item} ,`}</span>);
 
-    const generateTable = (dataArr) => _.map(dataArr, (value, key) => {
-        if (!_.isPlainObject(value)) {
-            return (<tr key={key}>
-                <td><b>{key}</b></td>
+    const generateTable = (dataArr) => _.map(dataArr, (value, key) =>
+        (
+            <tr key={key}>
+                <td>
+                    <b>{key}</b>
+                </td>
                 <td>
                     {_.isArray(value) ? iterateArray(value) : `${value}`}
                 </td>
-            </tr>);
-        }
-    });
+            </tr>
+        ));
 
     return (
         <Col sm={size}>
@@ -25,7 +26,7 @@ function Column({ size, header, data }) {
                 <Panel bsStyle="primary" header={header} eventKey="1">
                     <Table striped bordered condensed hover>
                         <tbody>
-                            {generateTable(data)}
+                        {generateTable(data)}
                         </tbody>
                     </Table>
                 </Panel>

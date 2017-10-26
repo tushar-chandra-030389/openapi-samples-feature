@@ -1,11 +1,12 @@
 import React from 'react';
 import { bindHandlers } from 'react-bind-handlers';
 import _ from 'lodash';
-import { Row, Col, Tabs, Tab, Panel } from 'react-bootstrap';
+import { Row, Col, Panel } from 'react-bootstrap';
 import { object } from 'prop-types';
+import OrdersNPositionsTab from 'src/js/components/ordersNPositionsTab';
+
 import ClientPortfolioTemplate from './clientPortfolioTemplate';
 import * as queries from './queries';
-import TradeSubscriptions from 'src/js/modules/tradeSubscription';
 import DetailsHeader from 'src/js/components/detailsHeader';
 import Error from 'src/js/modules/error';
 
@@ -104,7 +105,7 @@ class ClientPortfolio extends React.PureComponent {
                 <div className="pad-box">
                     <Error>
                         Enter correct access token using
-                        <a href="#/userInfo"> this link.</a>
+                        <a href="/userInfo"> this link.</a>
                     </Error>
                     <div>
                         <ClientPortfolioTemplate
@@ -117,40 +118,7 @@ class ClientPortfolio extends React.PureComponent {
                         < Row>
                             < Col sm={10}>
                                 <Panel header="Orders/Positions" className="panel-primary">
-                                    <Tabs className="primary" defaultActiveKey={1} animation={false}
-                                        id="noanim-tab-example"
-                                    >
-
-                                        {/* orders tab*/}
-                                        <Tab eventKey={1} title="Orders">
-                                            {!_.isEmpty(this.currentAccountInformation) &&
-                                            < TradeSubscriptions
-                                                {...this.props}
-                                                currentAccountInformation={this.currentAccountInformation}
-                                                tradeType="Order"
-                                                fieldGroups={['DisplayAndFormat', 'ExchangeInfo']}
-                                            />
-                                            }
-                                        </Tab>
-
-                                        {/* positions tab*/}
-                                        <Tab eventKey={2} title="Positions">
-                                            {!_.isEmpty(this.currentAccountInformation) &&
-                                            <TradeSubscriptions
-                                                {...this.props}
-                                                currentAccountInformation={this.currentAccountInformation}
-                                                tradeType="NetPosition"
-                                                fieldGroups={['NetPositionView',
-                                                    'NetPositionBase',
-                                                    'DisplayAndFormat',
-                                                    'ExchangeInfo',
-                                                    'SingleAndClosedPositionsBase',
-                                                    'SingleAndClosedPositionsView',
-                                                    'SingleAndClosedPositions']}
-                                            />
-                                            }
-                                        </Tab>
-                                    </Tabs>
+                                    <OrdersNPositionsTab selectedAccount={this.currentAccountInformation} {...this.props}/>
                                 </Panel>
                             </Col>
                         </Row>

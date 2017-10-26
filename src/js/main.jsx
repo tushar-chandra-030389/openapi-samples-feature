@@ -6,7 +6,7 @@ import thunk from 'redux-thunk';
 import loaderReducer from './modules/loader/reducer';
 import errorReducer from './modules/error/reducer';
 import userInfoReducer from './modules/userInfo/reducer';
-import AppRoute from './modules/app';
+import App from './modules/app';
 
 // css
 import 'src/css/appStyles.css';
@@ -25,7 +25,7 @@ if (IS_DEV_ENV) {
 
 render(
     <Provider store={store}>
-        <AppRoute/>
+        <App/>
     </Provider>,
     document.getElementById('container')
 );

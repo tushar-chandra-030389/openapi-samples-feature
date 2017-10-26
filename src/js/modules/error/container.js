@@ -9,8 +9,8 @@ const mapStateToProps = (store) => {
     };
 };
 
-const matDispatchToProps = (dispatch) => {
-    return { hideError: () => dispatch(errorActions.hideError()) };
+const matDispatchToProps = {
+    hideError: errorActions.hideError,
 };
 
 export default connect(mapStateToProps, matDispatchToProps)(Error);
