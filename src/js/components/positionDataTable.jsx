@@ -12,7 +12,7 @@ class PositionDataTable extends React.PureComponent {
                 return (
                     <tr key={positionKey} className="table">
                         <td className="table-instrument">
-                            {positionValue.PositionId}
+                            {positionValue.DisplayAndFormat.Symbol}
                         </td>
                         <td className="table-status">
                             {positionValue.PositionBase.Status}
