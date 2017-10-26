@@ -243,8 +243,8 @@ textarea.form-group.form-control {
     width: 15%;
 }
 
-.table-price{
-	width: 20%;
+.table-price {
+    width: 20%;
 }
 
 .table-instrument,.table-status,.table-amount,.table-price:nth-child(1) {
