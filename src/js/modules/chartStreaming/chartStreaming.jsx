@@ -8,9 +8,9 @@ import { subscribeChartData, unsubscribeChartData } from './queries';
 import DetailsHeader from 'src/js/components/detailsHeader';
 import DropDown from 'src/js/components/dropdown';
 import Instrument from 'src/js/modules/assets/instruments';
-import HighChartsTemplate from './highChartsTemplate';
+import HighCharts from './highCharts';
 import Error from 'src/js/modules/error';
-import * as constants from 'src/js/data/highchartConstant.json';
+import { CHARTCONSTANTS } from 'src/js/utils/constants';
 
 const Horizon = [1, 5, 10, 15, 30, 60, 120, 240, 360, 480, 1440, 10080, 43200];
 const CandleCount = [200, 400, 600, 800, 1000, 1200];
@@ -27,7 +27,7 @@ class ChartStreaming extends React.PureComponent {
             candleCount: '200',
             chartDataUpdated: false,
         };
-        this.chartId = constants.chartId;
+        this.chartId = CHARTCONSTANTS.CHARTID;
     }
     componentWillUnmount() {
         if (this.chartSubscription) {
@@ -114,7 +114,7 @@ class ChartStreaming extends React.PureComponent {
                     > {'Subscribe Chart'}
                     </Button>
                     {!_.isEmpty(this.chartData) &&
-                    <HighChartsTemplate
+                    <HighCharts
                         chartData={this.chartData}
                         chartId={this.chartId}
                     />

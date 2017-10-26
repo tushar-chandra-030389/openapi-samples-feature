@@ -3,9 +3,9 @@ import Highcharts from 'highcharts';
 import { bindHandlers } from 'react-bind-handlers';
 import _ from 'lodash';
 import { string, array } from 'prop-types';
-import * as constants from 'src/js/data/highchartConstant.json';
+import { CHARTCONSTANTS } from 'src/js/utils/constants';
 
-class HighChartsTemplate extends React.PureComponent {
+class HighCharts extends React.PureComponent {
     constructor(props) {
         super(props);
         this.chartData = props.chartData;
@@ -31,26 +31,26 @@ class HighChartsTemplate extends React.PureComponent {
 
         this.chart = Highcharts.chart(this.props.chartId, {
             chart: {
-                type: constants.chartType,
+                type: CHARTCONSTANTS.CHARTTYPE,
                 animation: Highcharts.svg, // don't animate in old IE
-                marginRight: constants.marginRight,
+                marginRight: CHARTCONSTANTS.MARGINRIGHT,
             },
             title: {
-                text: constants.titleText,
+                text: CHARTCONSTANTS.TITLETEXT,
             },
             xAxis: {
                 title: {
-                    text: constants.xAxisTitle,
+                    text: CHARTCONSTANTS.XAXISTITLE,
                 },
-                type: constants.xAxisType,
+                type: CHARTCONSTANTS.XAXISTYPE,
             },
             yAxis: {
                 title: {
-                    text: constants.yAxisTitle,
+                    text: CHARTCONSTANTS.YAXISTITLE,
                 },
             },
             series: [{
-                name: constants.seriesName,
+                name: CHARTCONSTANTS.SERIESNAME,
                 data: this.ChartAxisPoints,
             }],
         });
@@ -79,10 +79,10 @@ class HighChartsTemplate extends React.PureComponent {
     }
 }
 
-HighChartsTemplate.propTypes = {
+HighCharts.propTypes = {
     chartId: string.isRequired,
     ChartAxisPoints: array,
     chartData: array.isRequired,
 };
 
-export default bindHandlers(HighChartsTemplate);
+export default bindHandlers(HighCharts);

@@ -14,9 +14,15 @@ class PositionDataTable extends React.PureComponent {
                         <td className="table-instrument">
                             {positionValue.PositionId}
                         </td>
-                        <td className="table-status">{positionValue.PositionBase.Status}</td>
-                        <td className="table-amount">{positionValue.PositionBase.Amount}</td>
-                        <td className="table-price">{positionValue.PositionBase.OpenPrice}</td>
+                        <td className="table-status">
+                            {positionValue.PositionBase.Status}
+                        </td>
+                        <td className="table-amount">
+                            {positionValue.PositionBase.Amount}
+                        </td>
+                        <td className="table-price">
+                            {positionValue.PositionBase.OpenPrice}
+                        </td>
                     </tr>
                 );
             }
