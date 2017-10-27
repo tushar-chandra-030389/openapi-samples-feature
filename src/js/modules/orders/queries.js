@@ -200,3 +200,26 @@ export function getAccountArray(accountInfo) {
         return result;
     }, []);
 }
+
+// this function checks if everything is ok with the order or else it shows custom validation error
+export function validateOrder(order, props) {
+    let isOrderOk = true;
+
+    const { Uic, AccountKey, Amount, OrderPrice } = order;
+
+    if (!Uic) {
+        props.setErrMessage('The Uic is not present. The order can\'t be placed.');
+        isOrderOk = false;
+    } else if (!AccountKey) {
+        props.setErrMessage('Please select an account before placing order.');
+        isOrderOk = false;
+    } else if (!Amount && Amount > 0) {
+        props.setErrMessage('Please fill some appropriate order quantity before placing the order.');
+        isOrderOk = false;
+    } else if (!OrderPrice && OrderPrice > 0) {
+        props.setErrMessage('Please fill an appropriate order price.');
+        isOrderOk = false;
+    }
+
+    return isOrderOk;
+}

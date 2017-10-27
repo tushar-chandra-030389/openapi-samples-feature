@@ -136,9 +136,13 @@ class Orders extends React.PureComponent {
             order.StopLimitPrice = this.stopLossPrice;
             this.currentOrder.Orders.push(order);
         }
-        queries.postOrder(this.currentOrder, this.props, (response) => {
-            this.setState({ responseData: response });
-        });
+
+        const isOrderOk = queries.validateOrder(this.currentOrder, this.props);
+        if (isOrderOk) {
+            queries.postOrder(this.currentOrder, this.props, (response) => {
+                this.setState({ responseData: response });
+            });
+        }
     }
 
     render() {
