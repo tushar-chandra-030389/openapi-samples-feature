@@ -52,6 +52,11 @@ class Assets extends React.PureComponent {
                 putCallExpiryRequired: false,
             });
         }
+
+        const { onAssetTypeSelected } = this.props;
+        if (onAssetTypeSelected) {
+            onAssetTypeSelected();
+        }
     }
 
     handleExpiryDateChange(date) {
@@ -111,6 +116,7 @@ class Assets extends React.PureComponent {
 Assets.propTypes = {
     onInstrumentSelected: func.isRequired,
     showOptionsTemplate: bool,
+    onAssetTypeSelected: func,
 };
 
 Assets.defaultProps = { showOptionsTemplate: true };
