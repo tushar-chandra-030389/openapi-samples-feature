@@ -23,6 +23,7 @@ function getTextCtrl(item, onChange) {
             type="text"
             value={item.value ? item.value : ''}
             onChange={onChange}
+            placeholder="NA"
         />
     );
 }

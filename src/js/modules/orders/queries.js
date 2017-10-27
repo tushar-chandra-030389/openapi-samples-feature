@@ -3,8 +3,8 @@ import { getInfoPrices, placeOrder, getAccountInfo } from 'src/js/utils/api';
 import { doWithLoader } from 'src/js/utils/global';
 
 export function getAskBidFormData(instrumentInfo, currentOrder) {
-    const askPrice = instrumentInfo ? instrumentInfo.Quote.Ask : 0.0;
-    const bidPrice = instrumentInfo ? instrumentInfo.Quote.Bid : 0.0;
+    const askPrice = (instrumentInfo && instrumentInfo.Quote && instrumentInfo.Quote.Ask) ? instrumentInfo.Quote.Ask : 0.0;
+    const bidPrice = (instrumentInfo && instrumentInfo.Quote && instrumentInfo.Quote.Bid) ? instrumentInfo.Quote.Bid : 0.0;
     const symbol = instrumentInfo ? instrumentInfo.DisplayAndFormat.Symbol : '';
     return [{
         label: `Instrument (UIC: ${currentOrder.Uic})`,
@@ -199,4 +199,27 @@ export function getAccountArray(accountInfo) {
         result.push(value);
         return result;
     }, []);
+}
+
+// this function checks if everything is ok with the order or else it shows custom validation error
+export function validateOrder(order, props) {
+    let isOrderOk = true;
+
+    const { Uic, AccountKey, Amount, OrderPrice } = order;
+
+    if (!Uic) {
+        props.setErrMessage('The Uic is not present. The order can\'t be placed.');
+        isOrderOk = false;
+    } else if (!AccountKey) {
+        props.setErrMessage('Please select an account before placing order.');
+        isOrderOk = false;
+    } else if (!Amount && Amount > 0) {
+        props.setErrMessage('Please fill some appropriate order quantity before placing the order.');
+        isOrderOk = false;
+    } else if (!OrderPrice && OrderPrice > 0) {
+        props.setErrMessage('Please fill an appropriate order price.');
+        isOrderOk = false;
+    }
+
+    return isOrderOk;
 }
