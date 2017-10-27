@@ -12,20 +12,25 @@ const MutationObserver = window.MutationObserver;
 class CustomTable extends React.Component {
     constructor(props) {
         super(props);
-        this.data = [];
+        this.state = {
+            data: null,
+        };
         this.dataTable = null;
-        this.handleData();
+
     }
 
     componentDidMount() {
-        if (MutationObserver && this.props.showUpdateAnim) {
+
+        const { showUpdateAnim, data } = this.props;
+        if (MutationObserver && showUpdateAnim) {
             this.attachAnimationEnd(this.dataTable);
             this.observeMutation(this.dataTable);
         }
+        this.handleData(data);
     }
 
     componentWillReceiveProps(newProps) {
-        this.handleData(newProps);
+        this.handleData(newProps.data);
     }
 
     attachAnimationEnd(elm) {
@@ -60,11 +65,12 @@ class CustomTable extends React.Component {
         });
     }
 
-    handleData() {
-        this.data = _.reduce(this.props.data, (accumulator, value) => {
+    handleData(Data) {
+        const updatedData = _.reduce(Data, (accumulator, value) => {
             accumulator.push(value);
             return accumulator;
         }, []);
+        this.setState({ data: updatedData });
     }
 
     handlePriceFormatter(cell, row) {
@@ -122,7 +128,7 @@ class CustomTable extends React.Component {
     generateHeaders() {
 
         // this function generates table headers based on various titles of data fields.
-        return _.map(this.data[0], (value, key) => {
+        return _.map(this.state.data[0], (value, key) => {
             const dataSort = _.some(this.props.dataSortFields, (field) => field === key);
             const keyField = this.props.keyField === key;
             const hidden = _.some(this.props.hidden, (field) => field === key);
@@ -144,14 +150,15 @@ class CustomTable extends React.Component {
     }
 
     render() {
+        const { data } = this.state;
         return (
 
             // ref is attached to dom so as to get reference for applying highlighted animations
             // over changing prices or other things
             <div ref={(elm) => (this.dataTable = elm)}>
                 {
-                    !_.isEmpty(this.data) &&
-                    <BootstrapTable data={this.data} striped condensed hover>
+                    !_.isEmpty(data) &&
+                    <BootstrapTable data={data} striped condensed hover>
                         {this.generateHeaders()}
                     </BootstrapTable>
                 }
@@ -165,7 +172,7 @@ CustomTable.propTypes = {
     data: PropTypes.oneOfType([
         PropTypes.array,
         PropTypes.object,
-    ]),
+    ]).isRequired,
     width: PropTypes.string,
     dataSortFields: PropTypes.array,
     decimals: PropTypes.number,

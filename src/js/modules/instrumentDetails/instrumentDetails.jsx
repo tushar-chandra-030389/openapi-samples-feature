@@ -12,20 +12,25 @@ import { object } from 'prop-types';
 class InstrumentDetails extends React.PureComponent {
     constructor() {
         super();
-        this.state = { instrumentDetails: null };
+        this.state = { instrument: null };
+    }
+
+    handleAssetTypeSelected() {
+        // we need to reset the instrument when asset type is changed.
+        this.setState({ instrument: null });
     }
 
     handleInstrumentSelection(instrumentDetails) {
         // put Uic and symbol on top of instrument details
-        this.setState({ instrumentDetails: getRearrangedDetails(instrumentDetails) });
+        this.setState({ instrument: getRearrangedDetails(instrumentDetails) });
 
         getSymbolForID(instrumentDetails, (response, key, index) => {
             if (index || index === 0) {
                 this.setState({
-                    instrumentDetails: _.defaults({ [key]: instrumentDetails[key].splice(index, 1, response.Symbol) }, instrumentDetails),
+                    instrument: _.defaults({ [key]: instrumentDetails[key].splice(index, 1, response.Symbol) }, instrumentDetails),
                 });
             } else {
-                this.setState({ instrumentDetails: _.defaults({ [key]: response.Symbol }, instrumentDetails) });
+                this.setState({ instrument: _.defaults({ [key]: response.Symbol }, instrumentDetails) });
             }
         }, this.props);
     }
@@ -33,21 +38,25 @@ class InstrumentDetails extends React.PureComponent {
     render() {
 
         // making array of key-value pairs to show instrument in table.
-        const instData = getRenderDetails(this.state.instrumentDetails);
+        const instData = getRenderDetails(this.state.instrument);
         return (
             <div>
-                <DetailsHeader route={this.props.match.url} />
-                <div className="pad-box" >
+                <DetailsHeader route={this.props.match.url}/>
+                <div className="pad-box">
                     <Error>
                         Enter correct access token using
                         <a href="/userInfo"> this link.</a>
                     </Error>
-                    <Col sm={8} >
-                        <Assets showOptionsTemplate onInstrumentSelected={this.handleInstrumentSelection} {...this.props}/>
+                    <Col sm={8}>
+                        <Assets showOptionsTemplate
+                            {...this.props}
+                            onInstrumentSelected={this.handleInstrumentSelection}
+                            onAssetTypeSelected={this.handleAssetTypeSelected}
+                        />
                         {
                             (instData.length > 0) &&
                             <Panel bsStyle="primary">
-                                <CustomTable data={instData} width={'300'} keyField="FieldName" />
+                                <CustomTable data={instData} width={'300'} keyField="FieldName"/>
                             </Panel>
                         }
                     </Col>

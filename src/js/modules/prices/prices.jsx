@@ -24,6 +24,10 @@ class Prices extends React.PureComponent {
     handleAssetTypeSelected() {
         // we need to reset the instrument when asset type is changed.
         this.handleUnsubscribe();
+        this.resetInstrument();
+    }
+
+    resetInstrument() {
         this.instrument = null;
         this.setState({ instrumentSelected: !this.state.instrumentSelected });
     }
@@ -40,6 +44,7 @@ class Prices extends React.PureComponent {
     }
 
     handleUnsubscribe() {
+        this.resetInstrument();
         removeSubscription(this.subscription, this.props, () => {
             this.subscription = null;
         });
