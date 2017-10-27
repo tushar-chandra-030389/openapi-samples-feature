@@ -3,8 +3,8 @@ import { getInfoPrices, placeOrder, getAccountInfo } from 'src/js/utils/api';
 import { doWithLoader } from 'src/js/utils/global';
 
 export function getAskBidFormData(instrumentInfo, currentOrder) {
-    const askPrice = instrumentInfo ? instrumentInfo.Quote.Ask : 0.0;
-    const bidPrice = instrumentInfo ? instrumentInfo.Quote.Bid : 0.0;
+    const askPrice = (instrumentInfo && instrumentInfo.Quote && instrumentInfo.Quote.Ask) ? instrumentInfo.Quote.Ask : 0.0;
+    const bidPrice = (instrumentInfo && instrumentInfo.Quote && instrumentInfo.Quote.Bid) ? instrumentInfo.Quote.Bid : 0.0;
     const symbol = instrumentInfo ? instrumentInfo.DisplayAndFormat.Symbol : '';
     return [{
         label: `Instrument (UIC: ${currentOrder.Uic})`,

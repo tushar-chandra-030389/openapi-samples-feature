@@ -21,7 +21,7 @@ function getTextCtrl(item, onChange) {
             readOnly={item.readOnly}
             id={item.label}
             type="text"
-            value={item.value ? item.value : ''}
+            value={item.value ? item.value : 0.0}
             onChange={onChange}
         />
     );
