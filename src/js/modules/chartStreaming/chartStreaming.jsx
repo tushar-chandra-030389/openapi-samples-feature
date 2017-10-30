@@ -91,8 +91,8 @@ class ChartStreaming extends React.PureComponent {
                         Enter correct access token using
                         <a href="/userInfo"> this link.</a>
                     </Error>
-                    <Instrument {...this.props}
-                        onInstrumentSelected={this.handleInstrumentSelected}
+                    <Instrument {...this.props} onInstrumentSelected={this.handleInstrumentSelected}
+                       onOptionRootSelected={this.handleInstrumentSelected}
                     />
                     <DropDown
                         id="charPollingDropDown1"

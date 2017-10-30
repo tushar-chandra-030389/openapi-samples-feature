@@ -26,6 +26,7 @@ class CustomTableForPositions extends React.PureComponent {
                 <td>{value.DisplayAndFormat.Symbol}</td>
                 <td>{value.NetPositionView.Status}</td>
                 <td>{value.NetPositionBase.Amount}</td>
+                <td>{value.NetPositionBase.Exposure}</td>
                 <td>{value.NetPositionView.AverageOpenPrice}</td>
             </tr>
         ));
@@ -49,6 +50,9 @@ class CustomTableForPositions extends React.PureComponent {
                             <td className="table-instrument">Instrument</td>
                             <td className="table-status">Status</td>
                             <td className="table-amount">Amount</td>
+                            <td className="table-exposure">Exposure</td>
+                            <td className="table-profit-loss">P/L</td>
+                            <td className="table-profit-loss-base">P/L (Base)</td>
                             <td className="table-price">Open Price</td>
                         </tr>
                     </tbody>
