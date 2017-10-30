@@ -29,6 +29,15 @@ class Rows extends React.PureComponent {
                         <td className="table-amount">
                             {NetPositionBase.Amount}
                         </td>
+                        <td className="table-exposure">
+                            {NetPositionView.Exposure}
+                        </td>
+                        <td className="table-profit-loss">
+                            {NetPositionView.ProfitLossOnTrade}
+                        </td>
+                        <td className="table-profit-loss-base">
+                            {NetPositionView.ProfitLossOnTradeInBaseCurrency}
+                        </td>
                         <td className="table-price">
                             {NetPositionView.AverageOpenPrice}
                         </td>

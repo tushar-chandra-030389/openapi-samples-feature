@@ -228,11 +228,11 @@ textarea.form-group.form-control {
 }
 
 .table-instrument{
-    width: 54%;
+    width: 17%;
 }
 
 .table .table-instrument:nth-child(1) {
-    width: 50%;
+    width: 16%;
 }
 
 .table-status {
@@ -243,11 +243,23 @@ textarea.form-group.form-control {
     width: 15%;
 }
 
+.table-exposure {
+    width: 15%;
+}
+
+.table-profit-loss {
+    width: 15%;
+}
+
+.table-profit-loss-base {
+    width: 15%;
+}
+
 .table-price {
     width: 20%;
 }
 
-.table-instrument,.table-status,.table-amount,.table-price:nth-child(1) {
+.table-instrument,.table-status,.table-amount,.table-exposure,.table-profit-loss,.table-profit-loss-base,.table-price:nth-child(1) {
     padding: 8px;
     line-height: 1.42857143;
     vertical-align: top;

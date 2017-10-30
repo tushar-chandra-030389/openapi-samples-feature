@@ -20,6 +20,19 @@ class PositionDataTable extends React.PureComponent {
                         <td className="table-amount">
                             {positionValue.PositionBase.Amount}
                         </td>
+
+                        {positionValue.PositionView ? <td className="table-exposure">
+                            {positionValue.PositionView.Exposure}
+                        </td> : <td className="table-exposure"></td> }
+
+                        {positionValue.PositionView ? <td className="table-profit-loss">
+                            {positionValue.PositionView.ProfitLossOnTrade}
+                        </td> : <td className="table-profit-loss"></td> }
+
+                        {positionValue.PositionView ? <td className="table-profit-loss-base">
+                            {positionValue.PositionView.ProfitLossOnTradeInBaseCurrency}
+                        </td> : <td className="table-profit-loss-base"></td> }
+
                         <td className="table-price">
                             {positionValue.PositionBase.OpenPrice}
                         </td>

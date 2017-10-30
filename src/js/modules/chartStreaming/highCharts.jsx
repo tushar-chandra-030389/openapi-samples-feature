@@ -61,12 +61,12 @@ class HighCharts extends React.PureComponent {
             const alreadyPresent = _.findIndex(this.chartData, ['Time', value.Time]);
             if (alreadyPresent >= 0) {
                 this.chartData[alreadyPresent] = value;
-
             } else {
-                this.chartData.concat(value);
-                const yAxisPoint = value.OpenAsk;
-                const xAxisPoint = (new Date(value.Time)).getTime();
+                const appendData = this.chartData[this.chartData.length - 1];
+                const yAxisPoint = appendData.OpenAsk;
+                const xAxisPoint = (new Date(appendData.Time)).getTime();
                 this.chart.series[0].addPoint([xAxisPoint, yAxisPoint], true, true);
+                this.chartData[this.chartData.length - 1] = value;
             }
         });
     }
