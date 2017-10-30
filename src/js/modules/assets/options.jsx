@@ -2,7 +2,7 @@ import React from 'react';
 import { bindHandlers } from 'react-bind-handlers';
 import _ from 'lodash';
 import { func, shape, string } from 'prop-types';
-import FormGroupTemplate from 'src/js/components/formGroupTemplate';
+import FormGroupTemplate from 'src/js/components/form/formGroupTemplate';
 import { fetchOptionChain, getFormattedExpiry, fetchInstrumentDetails } from './queries';
 
 const CALL = 'Call';

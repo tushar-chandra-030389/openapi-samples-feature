@@ -92,7 +92,7 @@ class ChartStreaming extends React.PureComponent {
                         <a href="/userInfo"> this link.</a>
                     </Error>
                     <Instrument {...this.props} onInstrumentSelected={this.handleInstrumentSelected}
-                       onOptionRootSelected={this.handleInstrumentSelected}
+                        onOptionRootSelected={this.handleInstrumentSelected}
                     />
                     <DropDown
                         id="charPollingDropDown1"
