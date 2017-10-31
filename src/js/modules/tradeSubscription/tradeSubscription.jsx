@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import * as queries from './queries';
 import CustomTable from 'src/js/components/customTable';
 import CustomTableForPositions from 'src/js/components/customTableForPositions';
-import { TRADINGTYPE } from 'src/js/utils/constants';
+import { TRADE_TYPE } from 'src/js/utils/constants';
 
 class TradeSubscriptions extends React.PureComponent {
     constructor(props) {
@@ -46,7 +46,7 @@ class TradeSubscriptions extends React.PureComponent {
             clientKey: this.currentAccountInformation.ClientKey,
         };
 
-        if (this.props.tradeType === TRADINGTYPE.ORDER || this.props.tradeType === TRADINGTYPE.POSITION) {
+        if (this.props.tradeType === TRADE_TYPE.ORDER || this.props.tradeType === TRADE_TYPE.POSITION) {
 
             queries.createSubscription(
                 this.props,
@@ -63,11 +63,11 @@ class TradeSubscriptions extends React.PureComponent {
                 }
             );
         }
-        if (this.props.tradeType === TRADINGTYPE.NETPOSITION) {
+        if (this.props.tradeType === TRADE_TYPE.NETPOSITION) {
             const params = {
                 'props': this.props,
                 'netPositionTradeType': this.props.tradeType,
-                'positionTradeType': TRADINGTYPE.POSITION,
+                'positionTradeType': TRADE_TYPE.POSITION,
                 'netPositionTradeCallBack': this.handleTradeUpdate,
                 'positionCallBack': this.handlePositionTradeUpdate,
             };
