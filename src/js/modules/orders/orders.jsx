@@ -4,11 +4,11 @@ import { bindHandlers } from 'react-bind-handlers';
 import { Panel } from 'react-bootstrap';
 import * as queries from './queries';
 import { object } from 'prop-types';
+import _ from 'lodash';
+
 import DetailsHeader from 'src/js/components/detailsHeader';
 import Error from 'src/js/modules/error';
 import Instruments from 'src/js/modules/assets/instruments';
-import _ from 'lodash';
-
 import Dropdown from 'src/js/components/dropdown';
 import FormTemplate from 'src/js/components/form/formTemplate';
 import OrdersNPositionsTab from 'src/js/components/ordersNPositionsTab';
