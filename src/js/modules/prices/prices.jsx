@@ -21,24 +21,36 @@ class Prices extends React.PureComponent {
         this.handleUnsubscribe();
     }
 
+    handleAssetTypeSelected() {
+        // we need to reset the instrument when asset type is changed.
+        this.handleUnsubscribe();
+        this.resetInstrument();
+    }
+
+    resetInstrument() {
+        this.instrument = null;
+        this.setState({ instrumentSelected: !this.state.instrumentSelected });
+    }
+
     handleInstrumentSelected(instrument) {
         this.handleUnsubscribe();
         this.handleSubscribe(instrument);
     }
 
     handleSubscribe(instrument) {
-        createSubscription(instrument, this.props, this.onPriceUpdate.bind(this), (subscription) => {
+        createSubscription(instrument, this.props, this.handlePriceUpdate, (subscription) => {
             this.subscription = subscription;
         });
     }
 
     handleUnsubscribe() {
+        this.resetInstrument();
         removeSubscription(this.subscription, this.props, () => {
             this.subscription = null;
         });
     }
 
-    onPriceUpdate(data) {
+    handlePriceUpdate(data) {
         if (data.Data) {
             this.instrument = _.defaultsDeep(data.Data, this.instrument);
         } else {
@@ -50,14 +62,17 @@ class Prices extends React.PureComponent {
     render() {
         return (
             <div>
-                <DetailsHeader route={this.props.match.url} />
+                <DetailsHeader route={this.props.match.url}/>
                 <div className="pad-box">
                     <Error>
                         Enter correct access token using
                         <a href="/userInfo"> this link.</a>
                     </Error>
                     <Col sm={8}>
-                        <Assets showOptionsTemplate {...this.props} onInstrumentSelected={this.handleInstrumentSelected}/>
+                        <Assets showOptionsTemplate {...this.props}
+                            onInstrumentSelected={this.handleInstrumentSelected}
+                            onAssetTypeSelected={this.handleAssetTypeSelected}
+                        />
                         <PricesTemplate instrumentPrices={this.instrument}/>
                     </Col>
                 </div>

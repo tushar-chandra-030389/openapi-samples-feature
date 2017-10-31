@@ -110,8 +110,8 @@ export function getFormattedPrice(price, decimal, formatFlags) {
 export function getOptionRootData(accessToken, rootId) {
     return services.getData({
         serviceGroup: 'ref',
-        endPoint: 'v1/instruments/contractoptionspaces',
-        queryParams: { OptionRootId: rootId },
+        endPoint: `v1/instruments/contractoptionspaces/${rootId}`,
+        queryParams: null,
         accessToken,
     });
 }

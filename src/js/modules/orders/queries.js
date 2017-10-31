@@ -1,10 +1,16 @@
 import _ from 'lodash';
-import { getInfoPrices, placeOrder, getAccountInfo } from 'src/js/utils/api';
+import {
+    getInfoPrices,
+    placeOrder,
+    getAccountInfo,
+    subscribePrices,
+    removeIndividualSubscription,
+} from 'src/js/utils/api';
 import { doWithLoader } from 'src/js/utils/global';
 
 export function getAskBidFormData(instrumentInfo, currentOrder) {
-    const askPrice = instrumentInfo ? instrumentInfo.Quote.Ask : 0.0;
-    const bidPrice = instrumentInfo ? instrumentInfo.Quote.Bid : 0.0;
+    const askPrice = (instrumentInfo && instrumentInfo.Quote && instrumentInfo.Quote.Ask) ? instrumentInfo.Quote.Ask : 0.0;
+    const bidPrice = (instrumentInfo && instrumentInfo.Quote && instrumentInfo.Quote.Bid) ? instrumentInfo.Quote.Bid : 0.0;
     const symbol = instrumentInfo ? instrumentInfo.DisplayAndFormat.Symbol : '';
     return [{
         label: `Instrument (UIC: ${currentOrder.Uic})`,
@@ -33,7 +39,23 @@ export function getAskBidFormData(instrumentInfo, currentOrder) {
     ];
 }
 
-export function getBuySellFormData(currentOrder) {
+export function getBuySellFormData(currentOrder, instrumentInfo) {
+
+    function setOrderPrice() {
+
+        // this function is for setting order price box according to the options selected. If
+        // Order Type is 'Market', then order tab is disabled and Ask Price is shown for 'Buy' Option and Bid for 'Sell'(or else condition)
+        // If Order Type is something else like 'Limit', then order price box is enabled for user to fill its entry.
+        if (currentOrder.OrderType === 'Market' && instrumentInfo) {
+            if (currentOrder['BuySell'] === 'Buy') {
+                return instrumentInfo.Quote.Ask;
+            }
+            return instrumentInfo.Quote.Bid;
+        }
+        return currentOrder.OrderPrice;
+
+    }
+
     return [{
         label: 'BuySell',
         value: ['Buy', 'Sell'],
@@ -41,21 +63,25 @@ export function getBuySellFormData(currentOrder) {
     },
     {
         label: 'OrderPrice',
-        value: currentOrder.OrderPrice,
+        value: setOrderPrice(),
         componentClass: 'text',
+        readOnly: currentOrder.OrderType === 'Market',
     },
     {
         label: 'OrderAmount',
         value: currentOrder.Amount,
         componentClass: 'text',
     },
-    ];
+
+    ]
+    ;
 }
 
-export function orderTypeDurationFormData(supportedOrderTypes) {
+export function orderTypeDurationFormData(supportedOrderTypes, refHandler) {
     return [{
         label: 'OrderType',
         value: supportedOrderTypes,
+        ref: refHandler,
         componentClass: 'select',
     },
     {
@@ -200,3 +226,49 @@ export function getAccountArray(accountInfo) {
         return result;
     }, []);
 }
+
+// methods for handling subscription for prices
+export function removeSubscription(subscription, props, cb) {
+    if (subscription) {
+        doWithLoader(
+            props,
+            _.partial(removeIndividualSubscription, props.accessToken, subscription),
+            () => cb()
+        );
+    }
+}
+
+export function createSubscription(instrument, props, onPriceUpdate, cb) {
+    doWithLoader(
+        props,
+        _.partial(subscribePrices, props.accessToken, {
+            AssetType: instrument.AssetType,
+            Uic: instrument.Uic,
+        }, onPriceUpdate),
+        (result) => cb(result)
+    );
+}
+
+// this function checks if everything is ok with the order or else it shows custom validation error
+export function validateOrder(order, props) {
+    let isOrderOk = true;
+
+    const { Uic, AccountKey, Amount, OrderPrice } = order;
+
+    if (!Uic) {
+        props.setErrMessage('The Uic is not present. The order can\'t be placed.');
+        isOrderOk = false;
+    } else if (!AccountKey) {
+        props.setErrMessage('Please select an account before placing order.');
+        isOrderOk = false;
+    } else if (!Amount && Amount > 0) {
+        props.setErrMessage('Please fill some appropriate order quantity before placing the order.');
+        isOrderOk = false;
+    } else if (!OrderPrice && OrderPrice > 0) {
+        props.setErrMessage('Please fill an appropriate order price.');
+        isOrderOk = false;
+    }
+
+    return isOrderOk;
+}
+

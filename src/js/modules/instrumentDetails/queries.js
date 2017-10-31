@@ -29,11 +29,16 @@ export function getSymbolForID(instrumentDetails, cb, props) {
 }
 
 export function getRenderDetails(instrumentDetails) {
+
     const instData = _.reduce(instrumentDetails, (result, value, key) => {
-        result.push({
-            FieldName: key,
-            Value: value,
-        });
+
+        // 'TickSizeScheme gives [Object object] error on ui, that's why it is removed.
+        if (key !== 'TickSizeScheme') {
+            result.push({
+                FieldName: key,
+                Value: value,
+            });
+        }
         return result;
     }, []);
     return instData;
