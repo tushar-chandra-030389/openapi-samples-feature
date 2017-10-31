@@ -20,8 +20,8 @@ class CustomTableForPositions extends React.PureComponent {
         });
     }
 
-    getNetPositionsDataTable() {
-        const netPositionTableArray = _.map(this.state.data, (value, key) => (
+    getRows() {
+        const customTableGroup = _.map(this.state.data, (value, key) => (
             <tr key={key}>
                 <td>{value.DisplayAndFormat.Symbol}</td>
                 <td>{value.NetPositionView.Status}</td>
@@ -32,13 +32,13 @@ class CustomTableForPositions extends React.PureComponent {
         ));
 
         if (!_.isEmpty(this.props.data)) {
-            const PositionTableArray = _.map(this.props.data, (value, index) => (
+            const customTable = _.map(this.props.data, (value, index) => (
                 <div key={index}>
                     <Rows positionDetails={this.props.positionDetails} index={value.DisplayAndFormat.Symbol} value={value}/>
                 </div>));
-            return PositionTableArray;
+            return customTable;
         }
-        return netPositionTableArray;
+        return customTableGroup;
     }
 
     render() {
@@ -57,7 +57,7 @@ class CustomTableForPositions extends React.PureComponent {
                         </tr>
                     </tbody>
                 </Table>
-                {this.getNetPositionsDataTable()}
+                {this.getRows()}
             </div>
         );
     }
