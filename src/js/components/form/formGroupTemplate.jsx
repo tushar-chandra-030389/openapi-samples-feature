@@ -5,11 +5,10 @@ import { array, func } from 'prop-types';
 
 function getSelectCtrl(item, onChange) {
     return (
-        <FormControl componentClass="select" id={item.label} onChange={onChange}>
+        <FormControl componentClass="select" id={item.label} onChange={onChange} ref={item.label === 'OrderType' ? item.ref : null}>
             {
-                _.map(item.value, (data, idx) => (<option
-                    key={idx}
-                >{item.DisplayField ? data[item.DisplayField] : data}</option>))
+                _.map(item.value, (data, idx) =>
+                    <option key={idx}>{item.DisplayField ? data[item.DisplayField] : data}</option>)
             }
         </FormControl>
     );

@@ -1,14 +1,16 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { bindHandlers } from 'react-bind-handlers';
-import { Button, FormGroup, Well, Row, Col, Panel, Form, Collapse } from 'react-bootstrap';
+import { Panel } from 'react-bootstrap';
 import * as queries from './queries';
 import { object } from 'prop-types';
+import _ from 'lodash';
+
 import DetailsHeader from 'src/js/components/detailsHeader';
 import Error from 'src/js/modules/error';
 import Instruments from 'src/js/modules/assets/instruments';
-import Options from 'src/js/modules/assets/options';
 import Dropdown from 'src/js/components/dropdown';
-import FormGroupTemplate from 'src/js/components/formGroupTemplate';
+import FormTemplate from 'src/js/components/form/formTemplate';
 import OrdersNPositionsTab from 'src/js/components/ordersNPositionsTab';
 import { checkIfOption } from 'src/js/utils/global';
 
@@ -51,6 +53,9 @@ class Orders extends React.PureComponent {
         this.stopLossPrice = 0.0;
         this.stopLossOrderType = 'StopLimit';
 
+        // this is for storing reference of order type dropdown for resetting it later on.
+        this.OrderTypeRef = null;
+
         this.state = {
             updated: false,
             responseData: {},
@@ -71,6 +76,14 @@ class Orders extends React.PureComponent {
         });
     }
 
+    componentWillUnmount() {
+        this.handleUnsubscribe();
+    }
+
+    handleRef(elm) {
+        this.OrderTypeRef = elm;
+    }
+
     handleInstrumentChange(instrument) {
         queries.fetchInfoPrices(instrument, this.props, (response) => {
             this.currentOrder.Amount = response.Quote.Amount;
@@ -82,7 +95,34 @@ class Orders extends React.PureComponent {
                 supportedOrderTypes: instrument.SupportedOrderTypes,
                 instrumentInfo: response,
             });
+            this.handleUnsubscribe();
+            this.handleSubscribe(instrument);
+
+            // this is for resetting the ordertype to default value while changing instrument.
+            ReactDOM.findDOMNode(this.OrderTypeRef).value = '';
         });
+
+    }
+
+    handleSubscribe(instrument) {
+        queries.createSubscription(instrument, this.props, this.handlePriceUpdate, (subscription) => {
+            this.subscription = subscription;
+        });
+    }
+
+    handleUnsubscribe() {
+        queries.removeSubscription(this.subscription, this.props, () => {
+            this.subscription = null;
+        });
+    }
+
+    handlePriceUpdate(data) {
+        const { Data } = data;
+
+        // we are taking 'Quote' only because we want only price updates (especially ask and bid).
+        if (Data && Data.Quote) {
+            this.setState({ instrumentInfo: _.defaultsDeep(data.Data, this.state.instrumentInfo) });
+        }
     }
 
     handleAssetTypeChange(assetType) {
@@ -100,42 +140,8 @@ class Orders extends React.PureComponent {
         this.setState({ selectedAccount: account });
     }
 
-    handleValueChange(event) {
-        const updatedValues = queries.getUpdatedValues(event, {
-            currentOrder: this.currentOrder,
-            takeProfitPrice: this.takeProfitPrice,
-            stopLossPrice: this.stopLossPrice,
-            stopLossOrderType: this.stopLossOrderType,
-        }, this.Ask, this.Bid);
-        this.currentOrder = updatedValues.currentOrder;
-        this.takeProfitPrice = updatedValues.takeProfitPrice;
-        this.stopLossPrice = updatedValues.stopLossPrice;
-        this.stopLossOrderType = updatedValues.stopLossOrderType;
-
-        this.setState({ updated: !this.state.updated });
-    }
-
-    handleProfitBtnClick() {
-        this.setState({ takeProfitOpen: !this.state.takeProfitOpen });
-    }
-
-    handleLossBtnClick() {
-        this.setState({ stopLossOpen: !this.state.stopLossOpen });
-    }
-
-    handlePlaceOrder() {
-        this.currentOrder.Orders = [];
-        if (this.state.takeProfitOpen) {
-            // Setup related order
-            const order = queries.getRelatedOrder('Limit', this.takeProfitPrice, this.currentOrder);
-            this.currentOrder.Orders.push(order);
-        }
-        if (this.state.stopLossOpen) {
-            // Setup another related order
-            const order = queries.getRelatedOrder(this.stopLossOrderType, this.stopLossPrice, this.currentOrder);
-            order.StopLimitPrice = this.stopLossPrice;
-            this.currentOrder.Orders.push(order);
-        }
+    handlePlaceOrder(currentOrder) {
+        this.currentOrder = currentOrder;
 
         const isOrderOk = queries.validateOrder(this.currentOrder, this.props);
         if (isOrderOk) {
@@ -173,83 +179,17 @@ class Orders extends React.PureComponent {
                         />
                     </Instruments>
                     <Panel header="Order Details" className="panel-primary">
-                        <Form>
-
-                            {/* row1 with ask/bid prices which are readonly*/}
-                            <FormGroupTemplate
-                                data={queries.getAskBidFormData(this.state.instrumentInfo, this.currentOrder)}
-                                onChange={this.handleValueChange}
-                            />
-
-                            {this.state.optionRoot &&
-                            <Options {...this.props} optionRoot={this.state.optionRoot}
-                                onInstrumentSelected={this.handleInstrumentChange}
-                            />
-                            }
-
-                            {/* row2 with manual input ask/bid prices*/}
-                            <FormGroupTemplate data={queries.getBuySellFormData(this.currentOrder)}
-                                onChange={this.handleValueChange}
-                            />
-
-                            {/* row3 with manual input*/}
-                            <FormGroupTemplate data={queries.orderTypeDurationFormData(this.state.supportedOrderTypes)}
-                                onChange={this.handleValueChange}
-                            />
-                            {this.state.optionRoot &&
-                            <FormGroupTemplate data={queries.openCloseFormData()} onChange={this.handleValueChange}/>
-                            }
-
-                            <FormGroup>
-                                {/* take profit section*/}
-                                <div>
-                                    <Button bsStyle="link" disabled={this.state.takeProfitOpen}
-                                        onClick={this.handleProfitBtnClick}
-                                    >Take Profit</Button>
-                                    <Collapse in={this.state.takeProfitOpen}>
-                                        <div>
-                                            <Well>
-                                                <FormGroupTemplate
-                                                    data={queries.takeProfitFormData(this.takeProfitPrice)}
-                                                    onChange={this.handleValueChange}
-                                                />
-                                                <Button bsStyle="primary"
-                                                    onClick={this.handleProfitBtnClick}
-                                                >Remove</Button>
-                                            </Well>
-                                        </div>
-                                    </Collapse>
-                                </div>
-
-                                {/* stop loss section*/}
-                                <div>
-                                    <Button bsStyle="link" disabled={this.state.stopLossOpen}
-                                        onClick={this.handleLossBtnClick}
-                                    >Stop Loss</Button>
-                                    <Collapse in={this.state.stopLossOpen}>
-                                        <div>
-                                            <Well>
-                                                <FormGroupTemplate data={queries.stopLossFormData(this.stopLossPrice)}
-                                                    onChange={this.handleValueChange}
-                                                />
-                                                <Button bsStyle="primary"
-                                                    onClick={this.handleLossBtnClick}
-                                                >Remove</Button>
-                                            </Well>
-                                        </div>
-                                    </Collapse>
-                                </div>
-                            </FormGroup>
-
-                            <FormGroup bsSize="large">
-                                <Row>
-                                    <Col sm={3}>
-                                        <Button bsStyle="primary" block onClick={this.handlePlaceOrder}>Place
-                                            Order</Button>
-                                    </Col>
-                                </Row>
-                            </FormGroup>
-                        </Form>
+                        <FormTemplate
+                            {...this.state}
+                            {...this.props}
+                            queries={queries}
+                            handleValueChange={this.handleValueChange}
+                            handleInstrumentChange={this.handleInstrumentChange}
+                            handleRef={this.handleRef}
+                            currentOrder={this.currentOrder}
+                            handleProfitBtnClick={this.handleProfitBtnClick}
+                            handlePlaceOrder={this.handlePlaceOrder}
+                        />
                     </Panel>
                     <Panel className="panel-primary">
                         <OrdersNPositionsTab selectedAccount={this.state.selectedAccount} {...this.props}/>
