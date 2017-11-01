@@ -7,6 +7,13 @@ export const HIGH_CHART_CONFIG = {
     XAXIS_TYPE: 'datetime',
     SERIES_NAME: 'charts data',
     MARGIN_RIGHT: 10,
+    PLOTLINE_VALUE: 0,
+    PLOTLINE_COLOR: 'green',
+    PLOTLINE_DASHSTYLE: 'shortdash',
+    PLOTLINE_WIDTH: 2,
+    PLOTLINE_ZINDEX: 9,
+    PLOTLINE_LABEL_TEXT: 0,
+
 };
 
 export const TRADE_TYPE = {
