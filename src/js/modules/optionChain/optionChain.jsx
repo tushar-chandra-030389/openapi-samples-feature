@@ -82,7 +82,6 @@ class OptionChain extends React.PureComponent {
     handleSubscriptionDestroyed() {
         this.subscription = null;
         this.expiries = [];
-        this.setState({ hasStrikePrices: !this.state.hasStrikePrices });
     }
 
     handleSubscriptionRequestError(res) {

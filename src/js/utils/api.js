@@ -218,7 +218,7 @@ export function subscribeOptionsChain(accessToken, optionsData, onUpdate, onErro
     return new Promise((resolve) => {
         const subscription = services.subscribe({
             serviceGroup: 'trade',
-            endPoint: 'v1/optionschain/subscriptions/active',
+            endPoint: 'v1/optionschain/subscriptions',
             queryParams: {
                 Arguments: {
                     AssetType,
