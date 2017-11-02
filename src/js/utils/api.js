@@ -211,6 +211,28 @@ export function subscribeChartStreamingData(accessToken, chartData, onUpdate, on
     });
 }
 
+// subscribe to Optionschain
+export function subscribeOptionsChain(accessToken, optionsData, onUpdate, onError) {
+    const { AssetType, OptionRootId } = optionsData;
+
+    return new Promise((resolve) => {
+        const subscription = services.subscribe({
+            serviceGroup: 'trade',
+            endPoint: 'v1/optionschain/subscriptions/active',
+            queryParams: {
+                Arguments: {
+                    AssetType,
+                    Identifier: OptionRootId,
+                    MaxStrikesPerExpiry: 4,
+                },
+                RefreshRate: 2000,
+            },
+            accessToken,
+        }, onUpdate, onError);
+        resolve(subscription);
+    });
+}
+
 // remove individual subscription
 export function removeIndividualSubscription(accessToken, subscription) {
     return new Promise((resolve) => {
