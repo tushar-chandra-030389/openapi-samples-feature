@@ -101,11 +101,18 @@ class OptionChain extends React.PureComponent {
                             strikeArr.push(val);
                         }
                     });
-                    const obj = {
-                        expiryDate: new Date(value.Expiry).toString(),
-                        strikeArr,
-                    };
-                    this.expiries.push(obj);
+
+                    const expiryDate = new Date(value.Expiry).toString();
+
+                    // this is for checking if the record is previously present inside this.expiries
+                    const isRecordPresent = _.find(this.expiries, { expiryDate });
+                    if (!isRecordPresent) {
+                        const obj = {
+                            expiryDate,
+                            strikeArr,
+                        };
+                        this.expiries.push(obj);
+                    }
                 }
             });
             this.setState({ hasStrikePrices: !this.state.hasStrikePrices });
