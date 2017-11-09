@@ -13,6 +13,8 @@ export const HIGH_CHART_CONFIG = {
     PLOTLINE_WIDTH: 2,
     PLOTLINE_ZINDEX: 9,
     PLOTLINE_LABEL_TEXT: 0,
+    CHART_UP_COLOR: 'green',
+    CHART_DOWN_COLOR: 'red',
 
 };
 
