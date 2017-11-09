@@ -59,7 +59,7 @@ class HighCharts extends React.PureComponent {
             plotOptions: {
                 candlestick: {
                     color: HIGH_CHART_CONFIG.CHART_DOWN_COLOR,
-                    upColor: HIGH_CHART_CONFIG.CHART_DOWN_COLOR
+                    upColor: HIGH_CHART_CONFIG.CHART_UP_COLOR,
                 },
             },
             series: [{
@@ -72,11 +72,11 @@ class HighCharts extends React.PureComponent {
     }
 
     handleChartUpdate(data) {
+        const series = this.chart.series[0];
+        const plotLines = series.yAxis.options.plotLines[0];
         _.forEach(data, (value) => {
             const index = _.findIndex(this.chartData, ['Time', value.Time]);
-            const series = this.chart.series[0];
             if (index >= 0) {
-                const plotLines = series.yAxis.options.plotLines[0];
                 this.chartData[index] = value;
                 series.yData[this.chartData.length - 1][0] = value.OpenAsk;
                 series.yData[this.chartData.length - 1][1] = value.HighAsk;
