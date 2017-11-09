@@ -58,8 +58,8 @@ class HighCharts extends React.PureComponent {
             ],
             plotOptions: {
                 candlestick: {
-                    color: 'red',
-                    upColor: 'green',
+                    color: HIGH_CHART_CONFIG.CHART_DOWN_COLOR,
+                    upColor: HIGH_CHART_CONFIG.CHART_DOWN_COLOR
                 },
             },
             series: [{
