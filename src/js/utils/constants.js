@@ -1,6 +1,6 @@
 export const HIGH_CHART_CONFIG = {
     CHART_ID: 'chartContainer',
-    CHART_TYPE: 'spline',
+    CHART_TYPE: 'candlestick',
     TITLE_TEXT: 'Live chart streaming data',
     XAXIS_TITLE: 'Time',
     YAXIS_TITLE: 'openAsk',
