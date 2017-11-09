@@ -14,7 +14,11 @@ import * as allAssetTypes from 'src/js/data/allAssetTypes.json';
 class OptionChain extends React.PureComponent {
     constructor(props) {
         super(props);
-        this.assetTypes = allAssetTypes.data || ['FuturesOption', 'StockOption', 'StockIndexOption'];
+        this.assetTypes = ['FuturesOption',
+            'StockOption',
+            'StockIndexOption',
+            'FxSpot',
+        ];
         this.items = [];
         this.optionRootData = {};
         this.underlyingInstr = [];
@@ -157,7 +161,7 @@ class OptionChain extends React.PureComponent {
                         data={this.underlyingInstr}
                         keyField="Uic"
                         dataSortFields={['Uic', 'AssetType']}
-                        width={'150'}
+                        width={'200'}
                     />
                     {this.expiries.length > 0 &&
                     _.map(this.expiries, (item, key) => (
