@@ -24,17 +24,15 @@ class HighCharts extends React.PureComponent {
     initializeChart() {
         _.forEach(this.chartData, (value) => {
             const yAxisOpenAsk = value.OpenAsk;
-            const yAxisCloseAsk = value.CloseAsk;
-            const yAxisCloseBid = value.CloseBid;
             const yAxisHighAsk = value.HighAsk;
-
+            const yAxisLowAsk = value.LowAsk;
+            const yAxisCloseAsk = value.CloseAsk;
             const xAxisPoint = (new Date(value.Time)).getTime();
-            const axisPoint = [xAxisPoint, yAxisOpenAsk, yAxisCloseAsk, yAxisCloseBid, yAxisHighAsk];
+            const axisPoint = [xAxisPoint, yAxisOpenAsk, yAxisHighAsk, yAxisLowAsk, yAxisCloseAsk];
             this.chartAxisPoints.push(axisPoint);
         });
 
         this.chart = Highcharts.stockChart(this.props.chartId, {
-
             title: {
                 text: HIGH_CHART_CONFIG.TITLE_TEXT,
             },
@@ -58,18 +56,18 @@ class HighCharts extends React.PureComponent {
                 }],
             },
             ],
+            plotOptions: {
+                candlestick: {
+                    color: 'red',
+                    upColor: 'green',
+                },
+            },
             series: [{
                 type: HIGH_CHART_CONFIG.CHART_TYPE,
                 name: HIGH_CHART_CONFIG.SERIES_NAME,
                 data: this.chartAxisPoints,
             }],
 
-            plotOptions: {
-                candlestick: {
-                    downColor: 'red',
-                    upColor: 'silver',
-                },
-            },
         });
     }
 
@@ -81,20 +79,20 @@ class HighCharts extends React.PureComponent {
                 const plotLines = series.yAxis.options.plotLines[0];
                 this.chartData[index] = value;
                 series.yData[this.chartData.length - 1][0] = value.OpenAsk;
-                series.yData[this.chartData.length - 1][1] = value.CloseAsk;
-                series.yData[this.chartData.length - 1][2] = value.CloseBid;
-                series.yData[this.chartData.length - 1][3] = value.HighAsk;
-                plotLines.value = value.CloseAsk;
-                plotLines.label.text = value.CloseAsk;
+                series.yData[this.chartData.length - 1][1] = value.HighAsk;
+                series.yData[this.chartData.length - 1][2] = value.LowAsk;
+                series.yData[this.chartData.length - 1][3] = value.CloseAsk;
+                plotLines.value = value.OpenAsk;
+                plotLines.label.text = value.OpenAsk + ' (OpenAsk)';
                 series.yAxis.update();
             } else {
                 const lastChartData = this.chartData[this.chartData.length - 1];
                 const yAxisOpenAsk = lastChartData.OpenAsk;
-                const yAxisCloseAsk = lastChartData.CloseAsk;
-                const yAxisCloseBid = lastChartData.CloseBid;
                 const yAxisHighAsk = lastChartData.HighAsk;
+                const yAxisLowAsk = lastChartData.LowAsk;
+                const yAxisCloseAsk = lastChartData.CloseAsk;
                 const xAxisPoint = (new Date(lastChartData.Time)).getTime();
-                series.addPoint([xAxisPoint, yAxisOpenAsk, yAxisCloseAsk, yAxisCloseBid, yAxisHighAsk], true, true);
+                series.addPoint([xAxisPoint, yAxisOpenAsk, yAxisHighAsk, yAxisLowAsk, yAxisCloseAsk], true, true);
                 this.chartData[this.chartData.length - 1] = value;
             }
         });
