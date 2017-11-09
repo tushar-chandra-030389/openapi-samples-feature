@@ -319,6 +319,7 @@ export function createPositionSubscription(accessToken, subscriptionArgs, onUpda
                     AccountKey: subscriptionArgs.accountKey,
                     ClientKey: subscriptionArgs.clientKey,
                     FieldGroups: subscriptionArgs.fieldGroups,
+                    NetPositionId: subscriptionArgs.NetPositionId,
                 },
                 RefreshRate: 5,
             },

@@ -4,15 +4,45 @@ import { bindHandlers } from 'react-bind-handlers';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import PositionDataTable from './positionDataTable';
+import * as queries from '../modules/tradeSubscription/queries';
 
 class Rows extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = { isOpen: false };
+        this.posTrades = {};
+        this.posTradeSubscription = {};
     }
 
     handleCollapse() {
-        this.setState({ isOpen: !this.state.isOpen });
+        //  this.setState({ isOpen: !this.state.isOpen });
+    }
+
+    handlePositions(NpID) {
+        const queryKey = {
+            accountKey: 'YQ-l1tsux3RYD0WLgi1sbQ==',
+            clientKey: 'YQ-l1tsux3RYD0WLgi1sbQ==',
+        };
+
+        queries.createSubscription(
+            this.props,
+            {
+                accountKey: queryKey.accountKey,
+                clientKey: queryKey.clientKey,
+                fieldGroups: ['DisplayAndFormat', 'PositionBase', 'PositionView'],
+                NetPositionId: NpID,
+            },
+            'Position',
+            this.handlePositionTradeUpdate,
+            (posTradeSubscription) => {
+                this.posTradeSubscription = posTradeSubscription;
+            }
+        );
+    }
+
+    handlePositionTradeUpdate(response) {
+        this.posTrades = queries.getUpdatedTrades(this.posTrades, 'PositionId', response.Data);
+
     }
 
     render() {
@@ -42,7 +72,7 @@ class Rows extends React.PureComponent {
                             {NetPositionView.AverageOpenPrice}
                         </td>
                         <td>
-                            <Glyphicon className="glyph pull-right" glyph={classNames({
+                            <Glyphicon className="glyph pull-right" onClick={this.handlePositions(this.props.value.NetPositionId)} glyph={classNames({
                                 'chevron-down': !this.state.isOpen,
                                 'chevron-up': this.state.isOpen,
                             })}
@@ -51,9 +81,9 @@ class Rows extends React.PureComponent {
 
                     </tr>
                 </tbody>
-                {this.props.positionDetails &&
+                {this.posTrades &&
                 <PositionDataTable
-                    positionDetails={this.props.positionDetails}
+                    positionDetails={this.posTrades}
                     isOpen={this.state.isOpen}
                     customKey={this.props.value.NetPositionId}
                 />}
