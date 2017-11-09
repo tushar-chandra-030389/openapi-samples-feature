@@ -6,20 +6,20 @@ import PropTypes from 'prop-types';
 function OptionChainTemplate(props) {
     const rows = [];
     _.forOwn(props.data, (val, key) => {
-        const callDataIndex = 0; // zeroth index for every entry is call data entity
-        const putDataIndex = 1; // similarly first index for every entry is putDataIndex entity
-        if (val[callDataIndex] && val[putDataIndex]) {
-            rows.push(
-                <tr key={key}>
-                    <td>{val[0].Uic}</td>
-                    <td>{val[0].UnderlyingUic}</td>
-                    <td><em><b>{key}</b></em></td>
-                    <td>{val[1].UnderlyingUic}</td>
-                    <td>{val[1].Uic}</td>
-                </tr>
-            );
-        }
+        const { Call, Put, Strike } = val;
+        rows.push(
+            <tr key={key}>
+                <td>{Call.PriceTypeBid === 'Pending' ? '-' : Call.Bid}</td>
+                <td>{Call.PriceTypeAsk === 'Pending' ? '-' : Call.Ask}</td>
+                <td>{Call.LastTraded ? Call.LastTraded : '-'}</td>
+                <td><em><b>{Strike}</b></em></td>
+                <td>{Put.PriceTypeBid === 'Pending' ? '-' : Put.Bid}</td>
+                <td>{Put.PriceTypeAsk === 'Pending' ? '-' : Put.Ask}</td>
+                <td>{Put.LastTraded ? Put.LastTraded : '-'}</td>
+            </tr>
+        );
     });
+
     return (
         <div>
             {
@@ -37,11 +37,13 @@ function OptionChainTemplate(props) {
                             </thead>
                             <thead>
                                 <tr>
-                                    <th>Uic</th>
-                                    <th>UnderLyingUic</th>
+                                    <th>Bid</th>
+                                    <th>Ask</th>
+                                    <th>LastTraded</th>
                                     <th><em>StrikePrice</em></th>
-                                    <th>UnderLyingUic</th>
-                                    <th>Uic</th>
+                                    <th>Bid</th>
+                                    <th>Ask</th>
+                                    <th>LastTraded</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -55,7 +57,7 @@ function OptionChainTemplate(props) {
 }
 
 OptionChainTemplate.propTypes = {
-    data: PropTypes.object,
+    data: PropTypes.array,
 };
 
 export default OptionChainTemplate;

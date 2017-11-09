@@ -35,14 +35,20 @@ class ChartStreaming extends React.PureComponent {
         }
     }
 
-    handleInstrumentSelected(instrument) {
-        this.setState({
-            instrumentSelected: false,
-        });
+    handleUnSubscribe() {
         if (this.chartSubscription) {
             unsubscribeChartData(this.props, this.chartSubscription);
         }
         this.chartData = [];
+    }
+
+    handleInstrumentSelected(instrument) {
+        this.setState({
+            instrumentSelected: false,
+        });
+
+        this.handleUnSubscribe();
+
         this.instrument = instrument;
         this.setState({
             instrumentSelected: true,
@@ -50,6 +56,7 @@ class ChartStreaming extends React.PureComponent {
     }
 
     handleChartData() {
+        this.handleUnSubscribe();
 
         if (_.isNumber(parseInt(this.state.horizon, 10)) && !_.isEmpty(this.instrument)) {
             const chartData = {
@@ -71,6 +78,7 @@ class ChartStreaming extends React.PureComponent {
     }
 
     handleHorizonSelection(eventKey) {
+        this.handleUnSubscribe();
         this.setState({
             horizon: eventKey.toString(),
         });
