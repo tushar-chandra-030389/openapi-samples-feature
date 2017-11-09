@@ -13,7 +13,9 @@ export function checkIfOption(asset) {
     @return true/false
 */
 export function checkIfPutCallExpiry(asset) {
-    return (asset === 'FxVanillaOption');
+    const options = ['FxVanillaOption', 'FxNoTouchOption', 'FxOneTouchOption'];
+    const index = _.findIndex(options, (elm) => (elm === asset));
+    return (index !== -1);
 }
 
 /* any async call can be made using this function and the loader toggle and network error handling
@@ -34,12 +36,7 @@ export function doWithLoader(props, apiFunc, callback) {
                 }
             },
             (error) => {
-                const { ErrorInfo, Message } = error.response;
-                if (ErrorInfo) {
-                    props.setErrMessage(ErrorInfo.Message);
-                } else if (Message) {
-                    props.setErrMessage(Message);
-                }
+                setGlobalErrMessage(props, error);
             })
             .catch(() => props.showError())
             .then(() => props.hideLoader());
@@ -84,5 +81,16 @@ export function doWithLoaderAll(props, apiFunc, onSuccessApiFunc, callback, next
     } else {
         props.showError();
         props.hideLoader();
+    }
+}
+
+export function setGlobalErrMessage(props, error) {
+    const { ErrorInfo, Message } = error.response;
+    if (ErrorInfo) {
+        props.setErrMessage(ErrorInfo.Message);
+    } else if (Message) {
+        props.setErrMessage(Message);
+    } else {
+        props.setErrMessage('Some error has occured.');
     }
 }

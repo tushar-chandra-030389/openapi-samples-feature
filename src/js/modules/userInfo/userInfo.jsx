@@ -13,7 +13,8 @@ class UserInfo extends React.PureComponent {
     }
 
     handleTokenChng(event) {
-        this.setState({ accessToken: event.target.value });
+        const token = event.target.value.trim();
+        this.setState({ accessToken: token });
     }
 
     handleFormSubmit(event) {

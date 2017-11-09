@@ -6,7 +6,7 @@ import {
     subscribePrices,
     removeIndividualSubscription,
 } from 'src/js/utils/api';
-import { doWithLoader } from 'src/js/utils/global';
+import { doWithLoader, setGlobalErrMessage } from 'src/js/utils/global';
 
 export function getAskBidFormData(instrumentInfo, currentOrder) {
     const askPrice = (instrumentInfo && instrumentInfo.Quote && instrumentInfo.Quote.Ask) ? instrumentInfo.Quote.Ask : 0.0;
@@ -208,8 +208,16 @@ export function getRelatedOrder(orderType, orderPrice, currentOrder) {
 }
 
 export function fetchInfoPrices(instrument, props, cb) {
-    instrument.expiry = instrument.Expiry ? instrument.Expiry : instrument.FxForwardMaxForwardDate;
-    doWithLoader(props, _.partial(getInfoPrices, props.accessToken, instrument), (result) => cb(result.response));
+
+    const { AssetType, Uic } = instrument;
+    const instrumentData = { AssetType, Uic };
+
+    if (instrument.Expiry && instrument.PutCall) {
+        instrumentData.expiryDate = instrument.Expiry;
+        instrumentData.PutCall = instrument.PutCall;
+    }
+
+    doWithLoader(props, _.partial(getInfoPrices, props.accessToken, instrumentData), (result) => cb(result.response));
 }
 
 export function postOrder(order, props, cb) {
@@ -239,12 +247,22 @@ export function removeSubscription(subscription, props, cb) {
 }
 
 export function createSubscription(instrument, props, onPriceUpdate, cb) {
+
+    const { AssetType, Uic } = instrument;
+    const instrumentData = { AssetType, Uic };
+
+    if (instrument.Expiry && instrument.PutCall) {
+        instrumentData.expiryDate = instrument.Expiry;
+        instrumentData.PutCall = instrument.PutCall;
+    }
+
     doWithLoader(
         props,
-        _.partial(subscribePrices, props.accessToken, {
-            AssetType: instrument.AssetType,
-            Uic: instrument.Uic,
-        }, onPriceUpdate),
+        _.partial(subscribePrices,
+            props.accessToken,
+            instrumentData,
+            onPriceUpdate,
+            setGlobalErrMessage.bind(null, props)),
         (result) => cb(result)
     );
 }

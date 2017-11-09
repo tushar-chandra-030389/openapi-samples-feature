@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { getOptionRootData } from 'src/js/utils/api';
+import { getOptionRootData, getInstrumentDetails } from 'src/js/utils/api';
 import { doWithLoader } from 'src/js/utils/global';
 
 export function getRearrangedDetails(instrumentDetails) {
@@ -48,4 +48,14 @@ function fetchOptionRootData(props, key, value, index, cb) {
     doWithLoader(props, _.partial(getOptionRootData, props.accessToken, value), (result) => {
         cb(result.response, key, index);
     });
+}
+
+export function fetchInstrumentDetails(instrument, props, cb) {
+    const { Expiry, PutCall, Uic, AssetType } = instrument;
+
+    doWithLoader(
+        props,
+        _.partial(getInstrumentDetails, props.accessToken, Uic, AssetType, Expiry, PutCall),
+        (result) => cb(result.response)
+    );
 }

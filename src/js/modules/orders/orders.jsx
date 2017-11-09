@@ -8,11 +8,11 @@ import _ from 'lodash';
 
 import DetailsHeader from 'src/js/components/detailsHeader';
 import Error from 'src/js/modules/error';
-import Instruments from 'src/js/modules/assets/instruments';
+import Assets from 'src/js/modules/assets';
 import Dropdown from 'src/js/components/dropdown';
 import FormTemplate from 'src/js/components/form/formTemplate';
 import OrdersNPositionsTab from 'src/js/components/ordersNPositionsTab';
-import { checkIfOption } from 'src/js/utils/global';
+import { checkIfOption, checkIfPutCallExpiry } from 'src/js/utils/global';
 
 class Orders extends React.PureComponent {
     constructor() {
@@ -126,13 +126,9 @@ class Orders extends React.PureComponent {
     }
 
     handleAssetTypeChange(assetType) {
-        if (!checkIfOption(assetType)) {
+        if (!checkIfOption(assetType) && !checkIfPutCallExpiry(assetType)) {
             this.setState({ optionRoot: null });
         }
-    }
-
-    handleOptionRoot(optionRoot) {
-        this.setState({ optionRoot });
     }
 
     handleAccountSelect(account) {
@@ -161,7 +157,7 @@ class Orders extends React.PureComponent {
                         Enter correct access token using
                         <a href="/userInfo"> this link.</a>
                     </Error>
-                    <Instruments
+                    <Assets
                         {...this.props}
                         onInstrumentSelected={this.handleInstrumentChange}
                         onOptionRootSelected={this.handleOptionRoot}
@@ -177,7 +173,7 @@ class Orders extends React.PureComponent {
                             value="AccountId"
                             id="accounts"
                         />
-                    </Instruments>
+                    </Assets>
                     <Panel header="Order Details" className="panel-primary">
                         <FormTemplate
                             {...this.state}

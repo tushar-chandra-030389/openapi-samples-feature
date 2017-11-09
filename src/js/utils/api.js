@@ -22,13 +22,15 @@ export function getInstruments(accessToken, assetTypes, keyword) {
 
 // fetch instrument details from client lib based on Uic and AssetType
 // eg: Query Params : { AssetType: 'FxSpot', Uic: 21 }
-export function getInstrumentDetails(accessToken, uic, assetTypes) {
+export function getInstrumentDetails(accessToken, uic, assetTypes, ExpiryDate, PutCall) {
     return services.getData({
         serviceGroup: 'ref',
         endPoint: 'v1/instruments/details/{Uic}/{AssetType}',
         queryParams: {
             Uic: uic,
             AssetType: assetTypes,
+            ExpiryDate,
+            PutCall,
         },
         accessToken,
     });
@@ -43,7 +45,7 @@ export function getInfoPrices(accessToken, instrumentDetails) {
         queryParams: {
             AssetType: instrumentDetails.AssetType,
             Uic: instrumentDetails.Uic,
-            ExpiryDate: instrumentDetails.expiry,
+            ExpiryDate: instrumentDetails.expiryDate,
             PutCall: instrumentDetails.PutCall,
             FieldGroups: [
                 'DisplayAndFormat',
@@ -167,8 +169,7 @@ export function subscribePrices(accessToken, instrumentData, onUpdate, onError) 
             endPoint: 'v1/Prices/subscriptions',
             queryParams: {
                 Arguments: {
-                    AssetType: instrumentData.AssetType,
-                    Uic: instrumentData.Uic,
+                    ...instrumentData,
                     FieldGroups: [
                         'Commissions',
                         'DisplayAndFormat',

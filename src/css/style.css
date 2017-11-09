@@ -280,3 +280,7 @@ textarea.form-group.form-control {
 .show-positions {
     background: #ddd;
 }
+
+.date-selector{
+    width:100%;
+}
