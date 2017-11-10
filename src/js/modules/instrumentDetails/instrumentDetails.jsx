@@ -6,7 +6,7 @@ import DetailsHeader from 'src/js/components/detailsHeader';
 import Error from 'src/js/modules/error';
 import { Col, Panel } from 'react-bootstrap';
 import _ from 'lodash';
-import { getSymbolForID, getRenderDetails, getRearrangedDetails } from './queries';
+import { getSymbolForID, getRenderDetails, getRearrangedDetails, fetchInstrumentDetails } from './queries';
 import { object } from 'prop-types';
 
 class InstrumentDetails extends React.PureComponent {
@@ -21,6 +21,7 @@ class InstrumentDetails extends React.PureComponent {
     }
 
     handleInstrumentSelection(instrumentDetails) {
+
         // put Uic and symbol on top of instrument details
         this.setState({ instrument: getRearrangedDetails(instrumentDetails) });
 
@@ -33,6 +34,12 @@ class InstrumentDetails extends React.PureComponent {
                 this.setState({ instrument: _.defaults({ [key]: response.Symbol }, instrumentDetails) });
             }
         }, this.props);
+    }
+
+    handlePutCallOrDateChange(instrumentDetails) {
+        fetchInstrumentDetails(instrumentDetails, this.props, (response) => {
+            this.setState({ instrument: response });
+        });
     }
 
     render() {
@@ -52,6 +59,7 @@ class InstrumentDetails extends React.PureComponent {
                             {...this.props}
                             onInstrumentSelected={this.handleInstrumentSelection}
                             onAssetTypeSelected={this.handleAssetTypeSelected}
+                            onPutCallOrDateChange={this.handlePutCallOrDateChange}
                         />
                         {
                             (instData.length > 0) &&

@@ -12,7 +12,12 @@ import Options from './options';
 class Assets extends React.PureComponent {
     constructor() {
         super();
-        this.state = { optionRoot: null, putCallExpiryRequired: false, optionRootSelected: false };
+        this.state = {
+            optionRoot: null,
+            putCallExpiryRequired: false,
+            optionRootSelected: false,
+            dateUpdated: false,
+        };
         this.putCallExpiry = null;
         this.putCall = 'Call';
         this.expiryDate = moment();
@@ -62,11 +67,18 @@ class Assets extends React.PureComponent {
     handleExpiryDateChange(date) {
         this.expiryDate = date;
         this.handleInstrumentSelection(this.instrumentDetails);
+
+        // this is specifically for capturing change of date
+        this.props.onPutCallOrDateChange(this.instrumentDetails);
+        this.setState({ dateUpdated: !this.state.dateUpdated });
     }
 
     handlePutCallChange(event) {
         this.putCall = event.target.value;
         this.handleInstrumentSelection(this.instrumentDetails);
+
+        // this is specifically for capturing change of date
+        this.props.onPutCallOrDateChange(this.instrumentDetails);
     }
 
     render() {
@@ -93,15 +105,17 @@ class Assets extends React.PureComponent {
                     <Panel>
                         <Form>
                             <Row>
-                                <Col sm={2}>
-                                    <DatePicker selected={this.expiryDate} onChange={this.handleExpiryDateChange}/>
+                                <Col sm={3}>
+                                    <DatePicker className="date-selector" selected={this.expiryDate}
+                                        onChange={this.handleExpiryDateChange}
+                                    />
                                 </Col>
-                                <Col sm={2}>
+                                <Col sm={3}>
                                     <FormControl componentClass="select" placeholder="Call"
                                         onChange={this.handlePutCallChange}
                                     >
-                                        <option value="Put">Put</option>
                                         <option value="Call">Call</option>
+                                        <option value="Put">Put</option>
                                     </FormControl>
                                 </Col>
                             </Row>
@@ -117,6 +131,7 @@ Assets.propTypes = {
     onInstrumentSelected: func.isRequired,
     showOptionsTemplate: bool,
     onAssetTypeSelected: func,
+    onPutCallOrDateChange: func,
 };
 
 Assets.defaultProps = { showOptionsTemplate: true };

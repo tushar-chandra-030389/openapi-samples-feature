@@ -2,9 +2,7 @@
   "data": [
     "FxSpot",
     "Bond",
-    "Cash",
     "Stock",
-    "ManagedFund",
     "StockIndex",
     "CfdOnFutures",
     "CfdOnIndex",

@@ -1,10 +1,16 @@
 import _ from 'lodash';
-import { doWithLoader } from 'src/js/utils/global';
+import { doWithLoader, checkIfPutCallExpiry } from 'src/js/utils/global';
 import { getInfoPrices, getInfoPricesList, subscribeInfoPrices, removeIndividualSubscription } from 'src/js/utils/api';
 
 export function fetchInfoPrices(instrument, props, cb) {
-    instrument.expiry = instrument.Expiry ? instrument.Expiry : instrument.FxForwardMaxForwardDate;
-    doWithLoader(props, _.partial(getInfoPrices, props.accessToken, instrument), (result) => {
+    const { AssetType, Uic } = instrument;
+    const instrumentData = { AssetType, Uic };
+
+    if (instrument.Expiry && instrument.PutCall) {
+        instrumentData.expiryDate = instrument.Expiry;
+        instrumentData.PutCall = instrument.PutCall;
+    }
+    doWithLoader(props, _.partial(getInfoPrices, props.accessToken, instrumentData), (result) => {
         cb(result.response);
     });
 }
@@ -23,13 +29,25 @@ export function createSubscription(selectedAssetTypes, selectedInstruments, prop
     // for each type of selected asset, we need to generate subscription
     _.forEach(selectedAssetTypes, (value, key) => {
         const uics = getUics(key, selectedInstruments);
-        doWithLoader(
-            props,
-            _.partial(subscribeInfoPrices, props.accessToken, { Uics: uics, AssetType: key }, onPriceUpdate),
-            (result) => {
-                cb(result, key);
-            }
-        );
+
+        const args = {
+            Uics: uics,
+            AssetType: key,
+        };
+
+        // as of now we are not sending requests for fxvanilla, fxnotouch, fxonetouch
+        if (checkIfPutCallExpiry(key)) {
+            props.setErrMessage('Subscriptions to fxvanilla, fxonetouch, fxnotouch options are unavailable.' +
+                ' Other instruments will be subscribed');
+        } else {
+            doWithLoader(
+                props,
+                _.partial(subscribeInfoPrices, props.accessToken, args, onPriceUpdate),
+                (result) => {
+                    cb(result, key);
+                }
+            );
+        }
     });
 }
 
@@ -71,3 +89,4 @@ function getUics(assetType, selectedInstruments) {
     });
     return uics;
 }
+

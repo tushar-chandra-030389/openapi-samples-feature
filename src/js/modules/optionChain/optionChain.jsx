@@ -9,11 +9,16 @@ import OptionChainTemplate from './optionChainTemplate';
 import { getInfo, createSubscription, removeSubscription } from './queries';
 import Error from 'src/js/modules/error';
 import DetailsHeader from 'src/js/components/detailsHeader';
+import * as allAssetTypes from 'src/js/data/allAssetTypes.json';
 
 class OptionChain extends React.PureComponent {
     constructor(props) {
         super(props);
-        this.assetTypes = ['FuturesOption', 'StockOption', 'StockIndexOption'];
+        this.assetTypes = ['FuturesOption',
+            'StockOption',
+            'StockIndexOption',
+            'FxSpot',
+        ];
         this.items = [];
         this.optionRootData = {};
         this.underlyingInstr = [];
@@ -126,7 +131,7 @@ class OptionChain extends React.PureComponent {
     }
 
     handleSearchUpdated(term) {
-        if (term.length > 2) {
+        if (term.length > 1) {
             getInfo('getInstruments', this.props, this.handleInstrumentsUpdated, this.assetTypes, term);
         }
     }
@@ -156,7 +161,7 @@ class OptionChain extends React.PureComponent {
                         data={this.underlyingInstr}
                         keyField="Uic"
                         dataSortFields={['Uic', 'AssetType']}
-                        width={'150'}
+                        width={'200'}
                     />
                     {this.expiries.length > 0 &&
                     _.map(this.expiries, (item, key) => (

@@ -7,6 +7,7 @@ import Error from 'src/js/modules/error';
 import Assets from 'src/js/modules/assets';
 import InfoPricesTemplate from './infoPricesTemplate';
 import * as queries from './queries';
+import { checkIfPutCallExpiry } from '../../utils/global';
 
 class InfoPrices extends React.PureComponent {
     constructor(props) {
@@ -27,8 +28,17 @@ class InfoPrices extends React.PureComponent {
     handleInstrumentSelected(instrument) {
         this.handleUnsubscribe();
         queries.fetchInfoPrices(instrument, this.props, (response) => {
-            this.selectedAssetTypes[response.AssetType] = { subscription: null };
-            this.selectedInstruments[response.Uic] = response;
+
+            const { AssetType, Uic } = response;
+
+            // this is for fxvanilla, fxnotouch, fxonetouch
+            if (checkIfPutCallExpiry(AssetType)) {
+                response.ExpiryDate = instrument.Expiry;
+                response.PutCall = instrument.PutCall;
+            }
+            this.selectedAssetTypes[AssetType] = { subscription: null };
+            this.selectedInstruments[Uic] = response;
+
             this.setState({ flag: !this.state.flag });
         });
     }
