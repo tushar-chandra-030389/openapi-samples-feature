@@ -9,7 +9,6 @@ import OptionChainTemplate from './optionChainTemplate';
 import { getInfo, createSubscription, removeSubscription } from './queries';
 import Error from 'src/js/modules/error';
 import DetailsHeader from 'src/js/components/detailsHeader';
-import * as allAssetTypes from 'src/js/data/allAssetTypes.json';
 
 class OptionChain extends React.PureComponent {
     constructor(props) {
