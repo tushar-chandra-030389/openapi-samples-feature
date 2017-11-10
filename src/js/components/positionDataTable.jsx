@@ -57,12 +57,12 @@ class PositionDataTable extends React.PureComponent {
     }
 }
 
-PositionDataTable
-    .propTypes = {
-        customKey: PropTypes.string,
-        isOpen: PropTypes.bool,
-        value: PropTypes.bool,
-        positionDetails: PropTypes.object,
-    };
+PositionDataTable.propTypes = {
+    customKey: PropTypes.string,
+    isOpen: PropTypes.bool,
+    value: PropTypes.bool,
+    positionDetails: PropTypes.object,
+};
+
 export default bindHandlers(PositionDataTable);
 

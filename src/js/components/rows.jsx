@@ -12,29 +12,19 @@ class Rows extends React.PureComponent {
         super(props);
         this.state = {
             isOpen: false,
-            isOpen1: false,
-        },
+            positionTradeUpdated: false,
+        };
         this.posTrades = {};
         this.posTradeSubscription = {};
     }
 
-    /*
-        handleCollapse() {
-            this.setState({ isOpen: !this.state.isOpen });
-        }
-    */
-
     createTradeSubscription(NpID) {
-
-        const queryKey = {
-            accountKey: 'YQ-l1tsux3RYD0WLgi1sbQ==',
-            clientKey: 'YQ-l1tsux3RYD0WLgi1sbQ==',
-        };
+        const { AccountKey, ClientKey } = this.props.currentAccountInformation;
         queries.createSubscription(
             this.props,
             {
-                accountKey: queryKey.accountKey,
-                clientKey: queryKey.clientKey,
+                accountKey: AccountKey,
+                clientKey: ClientKey,
                 fieldGroups: ['DisplayAndFormat', 'PositionBase', 'PositionView'],
                 NetPositionId: NpID,
             },
@@ -44,17 +34,17 @@ class Rows extends React.PureComponent {
                 this.posTradeSubscription = posTradeSubscription;
             }
         );
-
     }
 
     handlePositions(NpID) {
         this.disposeSubscription();
         this.setState({ isOpen: !this.state.isOpen });
-        this.createTradeSubscription(NpID);
+        if (!this.state.isOpen) {
+            this.createTradeSubscription(NpID);
+        }
     }
 
     disposeSubscription() {
-
         if (!_.isEmpty(this.posTradeSubscription)) {
             queries.unSubscribe(this.props, this.posTradeSubscription, () => {
                 this.posTrades = {};
@@ -65,8 +55,7 @@ class Rows extends React.PureComponent {
 
     handlePositionTradeUpdate(response) {
         this.posTrades = queries.getUpdatedTrades(this.posTrades, 'PositionId', response.Data);
-        this.setState({ isOpen1: !this.state.isOpen1 });
-
+        this.setState({ positionTradeUpdated: !this.state.positionTradeUpdated });
     }
 
     render() {
@@ -76,7 +65,8 @@ class Rows extends React.PureComponent {
                 <tbody>
                     <tr onClick={_.partial(this.handlePositions, this.props.value.NetPositionId)} className="net-position-row">
                         <td className="table-instrument">
-                            {this.props.index}</td>
+                            {this.props.index}
+                        </td>
                         <td className="table-status">
                             {NetPositionView.Status}
                         </td>
@@ -102,9 +92,9 @@ class Rows extends React.PureComponent {
                             })}
                             />
                         </td>
-
                     </tr>
                 </tbody>
+
                 {!_.isEmpty(this.posTrades) &&
                 <PositionDataTable
                     positionDetails={this.posTrades}
@@ -120,6 +110,7 @@ Rows.propTypes = {
     index: PropTypes.string,
     value: PropTypes.object,
     positionDetails: PropTypes.object,
+    currentAccountInformation: PropTypes.object,
 };
 
 export default bindHandlers(Rows);
