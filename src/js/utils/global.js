@@ -47,43 +47,6 @@ export function doWithLoader(props, apiFunc, callback) {
     }
 }
 
-export function doWithLoaderAll(props, apiFunc, onSuccessApiFunc, callback, nextCallback) {
-    props.showLoader();
-    props.hideError();
-    if (props.accessToken) {
-        apiFunc()
-            .then((result) => {
-                const intermediate = result;
-                return Promise.all([onSuccessApiFunc(), intermediate]);
-            }, (error) => {
-                const { ErrorInfo, Message } = error.response;
-                if (ErrorInfo) {
-                    props.setErrMessage(ErrorInfo.Message);
-                } else if (Message) {
-                    props.setErrMessage(Message);
-                }
-            }).then(([result, intermediate]) => {
-                if (callback) {
-                    callback(intermediate);
-                }
-                if (nextCallback) {
-                    nextCallback(result);
-                }
-            }, (error) => {
-                const { ErrorInfo, Message } = error.response;
-                if (ErrorInfo) {
-                    props.setErrMessage(ErrorInfo.Message);
-                } else if (Message) {
-                    props.setErrMessage(Message);
-                }
-            }).catch(() => props.showError())
-            .then(() => props.hideLoader());
-    } else {
-        props.showError();
-        props.hideLoader();
-    }
-}
-
 export function setGlobalErrMessage(props, error) {
     const { ErrorInfo, Message } = error.response;
     if (ErrorInfo) {

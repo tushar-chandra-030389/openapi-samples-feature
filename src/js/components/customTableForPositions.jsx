@@ -34,7 +34,7 @@ class CustomTableForPositions extends React.PureComponent {
         if (!_.isEmpty(this.props.data)) {
             const customTable = _.map(this.props.data, (value, index) => (
                 <div key={index}>
-                    <Rows positionDetails={this.props.positionDetails} index={value.DisplayAndFormat.Symbol} value={value}/>
+                    <Rows {...this.props} index={value.DisplayAndFormat.Symbol} value={value}/>
                 </div>));
             return customTable;
         }
