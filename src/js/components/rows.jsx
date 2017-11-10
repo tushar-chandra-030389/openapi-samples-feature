@@ -18,6 +18,11 @@ class Rows extends React.PureComponent {
         this.posTradeSubscription = {};
     }
 
+    // subscriptions need to be destroyed while navigating away from pages.
+    componentWillUnmount() {
+        this.disposeSubscription();
+    }
+
     createTradeSubscription(NpID) {
         const { AccountKey, ClientKey } = this.props.currentAccountInformation;
         queries.createSubscription(
