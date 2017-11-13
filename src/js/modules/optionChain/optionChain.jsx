@@ -16,7 +16,9 @@ class OptionChain extends React.PureComponent {
         this.assetTypes = ['FuturesOption',
             'StockOption',
             'StockIndexOption',
-            'FxSpot',
+            'FxVanillaOption',
+            'FxOneTouchOption',
+            'FxNoTouchOption',
         ];
         this.items = [];
         this.optionRootData = {};
@@ -39,7 +41,10 @@ class OptionChain extends React.PureComponent {
         // items property contains item array which contains list items for instruments.
         this.items = _.map(result.Data, (root, key) => (
             <ListGroupItem key={key} data-uic={root.Identifier} onClick={this.handleOptionRootSelected}>
-                {root.Symbol}
+                <div>
+                    <span>{root.Symbol}</span>
+                    <span className="asset-type-search">{root.AssetType}</span>
+                </div>
             </ListGroupItem>)
         );
         this.setState({ hasOptionRoots: !this.state.hasOptionRoots });

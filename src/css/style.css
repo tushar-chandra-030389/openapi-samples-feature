@@ -124,7 +124,7 @@ textarea.form-group.form-control {
 }
 
 .search-area {
-    width: 21.5%;
+    width: 30%;
     max-height: 300px;
     overflow: auto;
 }
@@ -227,7 +227,7 @@ textarea.form-group.form-control {
     }
 }
 
-.table-instrument{
+.table-instrument {
     width: 17%;
 }
 
@@ -259,28 +259,33 @@ textarea.form-group.form-control {
     width: 20%;
 }
 
-.table-instrument,.table-status,.table-amount,.table-exposure,.table-profit-loss,.table-profit-loss-base,.table-price:nth-child(1) {
+.table-instrument, .table-status, .table-amount, .table-exposure, .table-profit-loss, .table-profit-loss-base, .table-price:nth-child(1) {
     padding: 8px;
     line-height: 1.42857143;
     vertical-align: top;
-    border-top:1px solid #ddd;
+    border-top: 1px solid #ddd;
 }
 
-.table-price,.arrow-icon {
+.table-price, .arrow-icon {
     padding: 8px;
     line-height: 1.42857143;
     vertical-align: top;
-    border-top:1px solid #ddd;
+    border-top: 1px solid #ddd;
 }
 
 .net-position-row {
-    cursor:pointer;
+    cursor: pointer;
 }
 
 .show-positions {
     background: #ddd;
 }
 
-.date-selector{
-    width:100%;
+.date-selector {
+    width: 100%;
+}
+
+.asset-type-search {
+    font-size: 10px;
+    float: right;
 }
