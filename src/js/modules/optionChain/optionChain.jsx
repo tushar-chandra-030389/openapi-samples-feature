@@ -1,9 +1,9 @@
 import React from 'react';
 import { bindHandlers } from 'react-bind-handlers';
-import SearchInput from 'react-search-input';
-import { InputGroup, ListGroupItem, ListGroup } from 'react-bootstrap';
+import { ListGroupItem, ListGroup } from 'react-bootstrap';
 import _ from 'lodash';
 import { object, func } from 'prop-types';
+
 import CustomTable from 'src/js/components/customTable';
 import OptionChainTemplate from './optionChainTemplate';
 import { getInfo, createSubscription, removeSubscription } from './queries';
@@ -27,6 +27,7 @@ class OptionChain extends React.PureComponent {
             hasOptionRoots: false,
             hasUnderLying: false,
             hasStrikePrices: false,
+            searchText: '',
         };
     }
 
@@ -49,6 +50,8 @@ class OptionChain extends React.PureComponent {
     }
 
     handleOptionRootSelected(eventKey) {
+        this.setState({ searchText: '' });
+
         // this is for picking Uic and AssetType details of the selected instrument.
         const identifier = eventKey.target.getAttribute('data-identifier');
         const assetType = eventKey.target.getAttribute('data-assetType');
@@ -155,9 +158,11 @@ class OptionChain extends React.PureComponent {
         this.setState({ hasUnderLying: !this.state.hasUnderLying });
     }
 
-    handleSearchUpdated(term) {
-        if (term.length > 1) {
-            getInfo('getInstruments', this.props, this.handleInstrumentsUpdated, this.assetTypes, term);
+    handleSearchUpdated(event) {
+        const { value } = event.target;
+        this.setState({ searchText: value });
+        if (value.length > 1) {
+            getInfo('getInstruments', this.props, this.handleInstrumentsUpdated, this.assetTypes, value);
         }
     }
 
@@ -176,19 +181,15 @@ class OptionChain extends React.PureComponent {
                         Enter correct access token using
                         <a href="/userInfo"> this link.</a>
                     </Error>
-                    <InputGroup>
-                        <InputGroup.Addon>
-                            <img src="assets/images/search-icon.png" className="search-icon"/>
-                        </InputGroup.Addon>
-                        <SearchInput
-                            ref={this.handleSearchRef}
-                            className="search-input"
+                    <div className="search-box">
+                        <input type="search" className="form-control" value={this.state.searchText}
                             onChange={this.handleSearchUpdated}
                         />
-                    </InputGroup>
+                    </div>
                     <div className="search-area">
                         <ListGroup bsClass="search-group">{this.items}</ListGroup>
                     </div>
+                    <h3>{this.underlyingInstr.length > 0 && this.underlyingInstr[0].Symbol}</h3>
                     <CustomTable
                         data={this.underlyingInstr}
                         keyField="Uic"
