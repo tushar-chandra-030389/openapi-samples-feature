@@ -78,7 +78,9 @@ class Assets extends React.PureComponent {
         this.handleInstrumentSelection(this.instrumentDetails);
 
         // this is specifically for capturing change of date
-        this.props.onPutCallOrDateChange(this.instrumentDetails);
+        if (this.props.onPutCallOrDateChange) {
+            this.props.onPutCallOrDateChange(this.instrumentDetails);
+        }
     }
 
     render() {
