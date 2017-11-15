@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { bindHandlers } from 'react-bind-handlers';
 import { Button } from 'react-bootstrap';
 import { object } from 'prop-types';
-import { fetchChartData } from './queries';
+import { getInfo } from './queries';
 import DetailsHeader from 'src/js/components/detailsHeader';
 import DropDown from 'src/js/components/dropdown';
 import Instrument from 'src/js/modules/assets/instruments';
@@ -32,6 +32,15 @@ class ChartPolling extends React.PureComponent {
         this.instrument = instrument;
     }
 
+    handleOptionRootSelected(instrument) {
+        const { Identifier, AssetType } = instrument;
+        getInfo('getOptionChain', this.props, (result) => {
+            const { Uic } = result.DefaultOption;
+            this.instrument = result;
+            this.instrument.Uic = Uic;
+        }, Identifier, AssetType);
+    }
+
     handleChartData() {
 
         // this function handles request to display chart data
@@ -43,7 +52,7 @@ class ChartPolling extends React.PureComponent {
                 Horizon: this.state.horizon,
                 Count: this.state.candleCount,
             };
-            fetchChartData(this.props, this.handleChartDataDisplay, chartData);
+            getInfo('getChartData', this.props, this.handleChartDataDisplay, chartData);
         }
     }
 
@@ -77,7 +86,7 @@ class ChartPolling extends React.PureComponent {
                     </Error>
                     <Instrument {...this.props}
                         onInstrumentSelected={this.handleInstrumentSelected}
-                        onOptionRootSelected={this.handleInstrumentSelected}
+                        onOptionRootSelected={this.handleOptionRootSelected}
                     />
 
                     {/* drop down for selecting horizons*/}

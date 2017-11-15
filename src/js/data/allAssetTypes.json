@@ -1,7 +1,6 @@
 {
   "data": [
     "FxSpot",
-    "Bond",
     "Stock",
     "StockIndex",
     "CfdOnFutures",

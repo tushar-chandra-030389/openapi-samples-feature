@@ -107,17 +107,6 @@ export function getFormattedPrice(price, decimal, formatFlags) {
     return services.formatPrice(price, decimal, formatFlags);
 }
 
-// fetch option chain based on AssetType
-// eg: Query Params : { OptionRootId: 19 }
-export function getOptionRootData(accessToken, rootId) {
-    return services.getData({
-        serviceGroup: 'ref',
-        endPoint: `v1/instruments/contractoptionspaces/${rootId}`,
-        queryParams: null,
-        accessToken,
-    });
-}
-
 /* subscribe to Info prices for a set of instruments based on AssetType and Uics.
     eg: Query Params : {
         Arguments: {
@@ -214,7 +203,7 @@ export function subscribeChartStreamingData(accessToken, chartData, onUpdate, on
 
 // subscribe to Optionschain
 export function subscribeOptionsChain(accessToken, optionsData, onUpdate, onError) {
-    const { AssetType, OptionRootId } = optionsData;
+    const { identifier, assetType } = optionsData;
 
     return new Promise((resolve) => {
         const subscription = services.subscribe({
@@ -222,8 +211,8 @@ export function subscribeOptionsChain(accessToken, optionsData, onUpdate, onErro
             endPoint: 'v1/optionschain/subscriptions',
             queryParams: {
                 Arguments: {
-                    AssetType,
-                    Identifier: OptionRootId,
+                    AssetType: assetType,
+                    Identifier: identifier,
                     MaxStrikesPerExpiry: 4,
                 },
                 RefreshRate: 2000,

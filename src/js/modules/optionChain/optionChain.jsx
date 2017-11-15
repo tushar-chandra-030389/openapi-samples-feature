@@ -17,8 +17,6 @@ class OptionChain extends React.PureComponent {
             'StockOption',
             'StockIndexOption',
             'FxVanillaOption',
-            'FxOneTouchOption',
-            'FxNoTouchOption',
         ];
         this.items = [];
         this.optionRootData = {};
@@ -40,36 +38,60 @@ class OptionChain extends React.PureComponent {
 
         // items property contains item array which contains list items for instruments.
         this.items = _.map(result.Data, (root, key) => (
-            <ListGroupItem key={key} data-uic={root.Identifier} onClick={this.handleOptionRootSelected}>
-                <div>
-                    <span>{root.Symbol}</span>
-                    <span className="asset-type-search">{root.AssetType}</span>
-                </div>
+            <ListGroupItem key={key} data-identifier={root.Identifier} data-assetType={root.AssetType}
+                data-summaryType={root.SummaryType}
+                onClick={this.handleOptionRootSelected}
+            >
+                {root.Symbol}
             </ListGroupItem>)
         );
         this.setState({ hasOptionRoots: !this.state.hasOptionRoots });
     }
 
     handleOptionRootSelected(eventKey) {
-        this.optionRootData = {};
-        const OptionRootId = eventKey.target.getAttribute('data-uic');
-        getInfo('getOptionChain', this.props, this.handleOptionDataSuccess, OptionRootId);
+        // this is for picking Uic and AssetType details of the selected instrument.
+        const identifier = eventKey.target.getAttribute('data-identifier');
+        const assetType = eventKey.target.getAttribute('data-assetType');
+        const summaryType = eventKey.target.getAttribute('data-summaryType');
+
+        // this is for clearing the search list
+        this.items = [];
+
+        // this is for clearing the details of the previous option selected.
+        this.underlyingInstr = [];
+
+        this.optionRootData = {
+            identifier,
+            assetType,
+        };
+
+        if (summaryType && summaryType === 'ContractOptionRoot') {
+            this.fetchContractOption(this.optionRootData);
+        } else {
+            // for normal instruments, the identifier is the uic
+            this.optionRootData.Uic = identifier;
+            this.fetchInstrument(this.optionRootData);
+        }
     }
 
-    handleOptionDataSuccess(result) {
-        this.items = [];
-        this.underlyingInstr = [];
-        this.setState({ hasUnderLying: false });
-        this.optionRootData = result;
+    fetchContractOption(optionRootData) {
+        const { identifier, assetType } = optionRootData;
 
-        this.subscribeToOptionsChain(this.optionRootData);
+        // for contractoptions, uic comes in the result of this call
+        getInfo('getOptionChain', this.props, (result) => {
+            const { Uic } = result.DefaultOption;
+            const option = { identifier, Uic, assetType };
+            this.fetchInstrument(option);
+        }, identifier, assetType);
+    }
 
-        _.forEach(this.optionRootData.OptionSpace,
-            (data) => (data.ModifiedSpecificOptions = _.groupBy(data.SpecificOptions, 'StrikePrice')));
+    fetchInstrument(instrument) {
+        const { Uic, assetType } = instrument;
+        getInfo('getInstrumentDetails', this.props, this.handleInstrDetailsSuccess, Uic, assetType);
 
-        const { AssetType, DefaultOption } = result;
-        getInfo('getInstrumentDetails', this.props, this.handleInstrDetailsSuccess, DefaultOption.Uic, AssetType);
-        this.setState({ hasOptionRoots: false });
+        // call for subscribing to the options data for the selected option over socket.
+        this.subscribeToOptionsChain(instrument);
+        this.setState({ hasOptionRoots: !this.state.hasOptionRoots });
     }
 
     subscribeToOptionsChain(optionsData) {
@@ -129,14 +151,19 @@ class OptionChain extends React.PureComponent {
     }
 
     handleInstrDetailsSuccess(result) {
-        result = _.omit(result, ['TickSizeScheme', 'ExpiryDate']);
         this.underlyingInstr.push(result);
-        this.setState({ hasUnderLying: true });
+        this.setState({ hasUnderLying: !this.state.hasUnderLying });
     }
 
     handleSearchUpdated(term) {
         if (term.length > 1) {
             getInfo('getInstruments', this.props, this.handleInstrumentsUpdated, this.assetTypes, term);
+        }
+    }
+
+    handleSearchRef(elm) {
+        if (elm) {
+            this.searchText = elm;
         }
     }
 
@@ -154,6 +181,7 @@ class OptionChain extends React.PureComponent {
                             <img src="assets/images/search-icon.png" className="search-icon"/>
                         </InputGroup.Addon>
                         <SearchInput
+                            ref={this.handleSearchRef}
                             className="search-input"
                             onChange={this.handleSearchUpdated}
                         />
