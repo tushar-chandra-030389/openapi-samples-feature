@@ -1,6 +1,5 @@
 import _ from 'lodash';
-import { getOptionChain, getInstrumentDetails } from 'src/js/utils/api';
-import { doWithLoader } from 'src/js/utils/global';
+import { getInfo } from 'src/js/utils/queries';
 
 export function getRearrangedDetails(instrumentDetails) {
     return _.defaults({
@@ -19,10 +18,14 @@ export function getSymbolForID(instrumentDetails, cb, props) {
         if (_.some(idArrayForWhichSymbolRequired, (field) => field === key)) {
             if (_.isArray(value)) {
                 _.forEach(value, (val, index) => {
-                    fetchOptionRootData(props, key, value, index, cb);
+                    getInfo('getOptionChain', props, val, (result) => {
+                        cb(result, key, index);
+                    });
                 });
             } else {
-                fetchOptionRootData(props, key, value, null, cb);
+                getInfo('getOptionChain', props, value, (result) => {
+                    cb(result, key, null);
+                });
             }
         }
     });
@@ -42,20 +45,4 @@ export function getRenderDetails(instrumentDetails) {
         return result;
     }, []);
     return instData;
-}
-
-function fetchOptionRootData(props, key, value, index, cb) {
-    doWithLoader(props, _.partial(getOptionChain, props.accessToken, value), (result) => {
-        cb(result.response, key, index);
-    });
-}
-
-export function fetchInstrumentDetails(instrument, props, cb) {
-    const { Expiry, PutCall, Uic, AssetType } = instrument;
-
-    doWithLoader(
-        props,
-        _.partial(getInstrumentDetails, props.accessToken, Uic, AssetType, Expiry, PutCall),
-        (result) => cb(result.response)
-    );
 }

@@ -11,24 +11,26 @@ export function getUserDetails(accessToken) {
 
 // fetch instruments from client lib based on AssetType
 // eg: Query Params : { AssetType: 'FxSpot' }
-export function getInstruments(accessToken, assetTypes, keyword) {
+export function getInstruments(accessToken, params) {
+    const { AssetTypes, keyword } = params;
     return services.getData({
         serviceGroup: 'ref',
         endPoint: 'v1/instruments',
-        queryParams: { AssetTypes: assetTypes, Keywords: keyword },
+        queryParams: { AssetTypes, Keywords: keyword },
         accessToken,
     });
 }
 
 // fetch instrument details from client lib based on Uic and AssetType
 // eg: Query Params : { AssetType: 'FxSpot', Uic: 21 }
-export function getInstrumentDetails(accessToken, uic, assetTypes, ExpiryDate, PutCall) {
+export function getInstrumentDetails(accessToken, instrument) {
+    const { Uic, AssetType, ExpiryDate, PutCall } = instrument;
     return services.getData({
         serviceGroup: 'ref',
         endPoint: 'v1/instruments/details/{Uic}/{AssetType}',
         queryParams: {
-            Uic: uic,
-            AssetType: assetTypes,
+            Uic,
+            AssetType,
             ExpiryDate,
             PutCall,
         },
@@ -94,10 +96,10 @@ export function getChartData(accessToken, chartData) {
 
 // fetch option chain based on AssetType
 // eg: Query Params : { OptionRootId: 19 }
-export function getOptionChain(accessToken, optionId) {
+export function getOptionChain(accessToken, Identifier) {
     return services.getData({
         serviceGroup: 'ref',
-        endPoint: `v1/instruments/contractoptionspaces/${optionId}`,
+        endPoint: `v1/instruments/contractoptionspaces/${Identifier}`,
         queryParams: null,
         accessToken,
     });
@@ -203,7 +205,7 @@ export function subscribeChartStreamingData(accessToken, chartData, onUpdate, on
 
 // subscribe to Optionschain
 export function subscribeOptionsChain(accessToken, optionsData, onUpdate, onError) {
-    const { identifier, assetType } = optionsData;
+    const { Identifier, AssetType } = optionsData;
 
     return new Promise((resolve) => {
         const subscription = services.subscribe({
@@ -211,8 +213,8 @@ export function subscribeOptionsChain(accessToken, optionsData, onUpdate, onErro
             endPoint: 'v1/optionschain/subscriptions',
             queryParams: {
                 Arguments: {
-                    AssetType: assetType,
-                    Identifier: identifier,
+                    AssetType,
+                    Identifier,
                     MaxStrikesPerExpiry: 4,
                 },
                 RefreshRate: 2000,

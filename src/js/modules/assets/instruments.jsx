@@ -5,7 +5,7 @@ import { func, array } from 'prop-types';
 import * as allAssetTypes from 'src/js/data/allAssetTypes.json';
 import { checkIfOption } from 'src/js/utils/global';
 import Dropdown from 'src/js/components/dropdown';
-import { fetchInstruments, fetchInstrumentDetails } from './queries';
+import { getInfo } from 'src/js/utils/queries';
 
 class Instruments extends React.PureComponent {
     constructor() {
@@ -31,7 +31,7 @@ class Instruments extends React.PureComponent {
         } else {
             this.setState({ title: 'Select Instrument' });
         }
-        fetchInstruments(eventKey, this.props, (response) => {
+        getInfo('getInstruments', this.props, { AssetTypes: eventKey }, (response) => {
             this.setState({ instruments: response.Data });
         });
     }
@@ -45,7 +45,8 @@ class Instruments extends React.PureComponent {
         if (checkIfOption(instrument.AssetType)) {
             onOptionRootSelected(instrument);
         } else {
-            fetchInstrumentDetails(instrument, this.props, (response) => {
+            instrument.Uic = instrument.Identifier;
+            getInfo('getInstrumentDetails', this.props, instrument, (response) => {
                 onInstrumentSelected(response);
             });
         }
