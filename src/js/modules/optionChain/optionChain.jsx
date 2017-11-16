@@ -6,7 +6,7 @@ import { object, func } from 'prop-types';
 
 import CustomTable from 'src/js/components/customTable';
 import OptionChainTemplate from './optionChainTemplate';
-import { createSubscription, removeSubscription } from './queries';
+import { batchExpiries, createSubscription, removeSubscription } from './queries';
 import { getInfo } from 'src/js/utils/queries';
 import Error from 'src/js/modules/error';
 import DetailsHeader from 'src/js/components/detailsHeader';
@@ -126,34 +126,13 @@ class OptionChain extends React.PureComponent {
     handleOptionsChainSubscription(data) {
         const { Expiries } = data;
         if (Expiries) {
-            _.forEach(Expiries, (value) => {
-                const { Strikes } = value;
-                if (Strikes) {
-                    const strikeArr = [];
-                    _.forEach(Strikes, (val) => {
-                        if (val.Call) {
-                            strikeArr.push(val);
-                        }
-                    });
-
-                    const expiryDate = new Date(value.Expiry).toString();
-
-                    // this is for checking if the record is previously present inside this.expiries
-                    const isRecordPresent = _.find(this.expiries, { expiryDate });
-                    if (!isRecordPresent) {
-                        const obj = {
-                            expiryDate,
-                            strikeArr,
-                        };
-                        this.expiries.push(obj);
-                    }
-                }
-            });
+            this.expiries = batchExpiries(Expiries, this.expiries);
             this.setState({ hasStrikePrices: !this.state.hasStrikePrices });
         }
     }
 
     handleInstrDetailsSuccess(result) {
+        result = _.omit(result, ['TickSizeScheme', 'ExpiryDate']);
         this.underlyingInstr.push(result);
         this.setState({ hasUnderLying: !this.state.hasUnderLying });
     }
