@@ -124,9 +124,14 @@ textarea.form-group.form-control {
 }
 
 .search-area {
-    width: 30%;
+    width: 20%;
     max-height: 300px;
     overflow: auto;
+}
+
+.search-box {
+    width: 20%;
+    margin-left: 2%;
 }
 
 .row-head {
