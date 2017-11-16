@@ -44,7 +44,7 @@ class Prices extends React.PureComponent {
     }
 
     handleUnsubscribe() {
-        this.resetInstrument();
+        this.instrument = null;
         removeSubscription(this.subscription, this.props, () => {
             this.subscription = null;
         });
