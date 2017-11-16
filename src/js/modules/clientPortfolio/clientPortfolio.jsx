@@ -6,7 +6,8 @@ import { object } from 'prop-types';
 import OrdersNPositionsTab from 'src/js/components/ordersNPositionsTab';
 
 import ClientPortfolioTemplate from './clientPortfolioTemplate';
-import * as queries from './queries';
+import { getBalanceInfoObjectFromResponse } from './queries';
+import { getInfo } from 'src/js/utils/queries';
 import DetailsHeader from 'src/js/components/detailsHeader';
 import Error from 'src/js/modules/error';
 
@@ -32,7 +33,7 @@ class ClientPortfolio extends React.PureComponent {
     componentDidMount() {
 
         // need to fetch client information on page loading.
-        queries.getInfo('fetchClientInfo', this.props, this.handleClientAccounts);
+        getInfo('fetchClientInfo', this.props, null, this.handleClientAccounts);
     }
 
     handleAccountSelection(eventKey) {
@@ -52,7 +53,7 @@ class ClientPortfolio extends React.PureComponent {
             AccountKey,
         };
 
-        queries.getInfo('getBalancesInfo', this.props, this.handleBalanceInfo, balanceInfoQueryParams);
+        getInfo('getBalancesInfo', this.props, balanceInfoQueryParams, this.handleBalanceInfo);
 
         // setting the state for new account
         this.setState({
@@ -65,15 +66,13 @@ class ClientPortfolio extends React.PureComponent {
     handleClientAccounts(response) {
         this.clientInformation = response;
         const { Name, DefaultAccountId, ClientKey, DefaultAccountKey } = this.clientInformation;
-
-        queries.getInfo('getAccountInfo', this.props, this.handleAccountInfo);
+        getInfo('getAccountInfo', this.props, null, this.handleAccountInfo);
 
         const balanceInfoQueryParams = {
             ClientKey,
             AccountKey: DefaultAccountKey,
         };
-
-        queries.getInfo('getBalancesInfo', this.props, this.handleBalanceInfo, balanceInfoQueryParams);
+        getInfo('getBalancesInfo', this.props, balanceInfoQueryParams, this.handleBalanceInfo);
 
         this.setState({
             clientName: Name,
@@ -94,7 +93,7 @@ class ClientPortfolio extends React.PureComponent {
     }
 
     handleBalanceInfo(response) {
-        this.balancesInfo = queries.getBalanceInfoObjectFromResponse(response);
+        this.balancesInfo = getBalanceInfoObjectFromResponse(response);
         this.setState({ flag: !this.state.flag });
     }
 
@@ -118,7 +117,9 @@ class ClientPortfolio extends React.PureComponent {
                         < Row>
                             < Col sm={10}>
                                 <Panel header="Orders/Positions" className="panel-primary">
-                                    <OrdersNPositionsTab selectedAccount={this.currentAccountInformation} {...this.props}/>
+                                    <OrdersNPositionsTab
+                                        selectedAccount={this.currentAccountInformation} {...this.props}
+                                    />
                                 </Panel>
                             </Col>
                         </Row>

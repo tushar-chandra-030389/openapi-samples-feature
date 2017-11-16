@@ -6,7 +6,8 @@ import DetailsHeader from 'src/js/components/detailsHeader';
 import Error from 'src/js/modules/error';
 import { Col, Panel } from 'react-bootstrap';
 import _ from 'lodash';
-import { getSymbolForID, getRenderDetails, getRearrangedDetails, fetchInstrumentDetails } from './queries';
+import { getSymbolForID, getRenderDetails, getRearrangedDetails } from './queries';
+import { getInfo } from 'src/js/utils/queries';
 import { object } from 'prop-types';
 
 class InstrumentDetails extends React.PureComponent {
@@ -37,7 +38,7 @@ class InstrumentDetails extends React.PureComponent {
     }
 
     handlePutCallOrDateChange(instrumentDetails) {
-        fetchInstrumentDetails(instrumentDetails, this.props, (response) => {
+        getInfo('getInstrumentDetails', this.props, instrumentDetails, (response) => {
             this.setState({ instrument: response });
         });
     }
