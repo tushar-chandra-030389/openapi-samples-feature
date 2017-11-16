@@ -151,6 +151,7 @@ class OptionChain extends React.PureComponent {
     }
 
     handleInstrDetailsSuccess(result) {
+        result = _.omit(result, ['TickSizeScheme', 'ExpiryDate']);
         this.underlyingInstr.push(result);
         this.setState({ hasUnderLying: !this.state.hasUnderLying });
     }
