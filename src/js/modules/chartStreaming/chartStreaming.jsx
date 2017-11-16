@@ -103,14 +103,14 @@ class ChartStreaming extends React.PureComponent {
                         onOptionRootSelected={this.handleInstrumentSelected}
                     />
                     <DropDown
-                        id="charPollingDropDown1"
+                        id="charStreamingDropDown1"
                         title={this.state.horizon}
                         handleSelect={this.handleHorizonSelection}
                         data={Horizon}
                     />
 
                     <DropDown
-                        id="charPollingDropDown2"
+                        id="charStreamingDropDown2"
                         title={this.state.candleCount}
                         handleSelect={this.handleCandleCount}
                         data={CandleCount}
