@@ -6,6 +6,7 @@ import * as queries from './queries';
 import CustomTable from 'src/js/components/customTable';
 import CustomTableForPositions from 'src/js/components/customTableForPositions';
 import { TRADE_TYPE } from 'src/js/utils/constants';
+import { unSubscribe } from 'src/js/utils/queries';
 
 class TradeSubscriptions extends React.PureComponent {
     constructor(props) {
@@ -13,7 +14,7 @@ class TradeSubscriptions extends React.PureComponent {
         this.state = { tradeUpdated: false };
         this.trades = {};
         this.posTrades = {};
-        this.tradeSubscription = {};
+        this.tradeSubscription = null;
         this.currentAccountInformation = this.props.currentAccountInformation;
         this.tradeAccountSubscribed = this.currentAccountInformation.AccountId;
         this.tradeTypeId = `${this.props.tradeType}Id`;
@@ -70,12 +71,10 @@ class TradeSubscriptions extends React.PureComponent {
     }
 
     disposeSubscription() {
-        if (!_.isEmpty(this.tradeSubscription)) {
-            queries.unSubscribe(this.props, this.tradeSubscription, () => {
-                this.trades = {};
-                this.tradeSubscription = {};
-            });
-        }
+        unSubscribe(this.props, this.tradeSubscription, () => {
+            this.trades = {};
+            this.tradeSubscription = null;
+        });
     }
 
     render() {

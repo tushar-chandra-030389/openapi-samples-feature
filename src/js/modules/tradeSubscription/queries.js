@@ -2,10 +2,6 @@ import { doWithLoader } from 'src/js/utils/global';
 import * as API from 'src/js/utils/api';
 import _ from 'lodash';
 
-export function unSubscribe(props, subscription, cb) {
-    doWithLoader(props, _.partial(API.removeIndividualSubscription, props.accessToken, subscription), () => cb());
-}
-
 export function createSubscription(props, subscriptionArgs, tradeType, onUpdate, cb) {
     doWithLoader(
         props,

@@ -4,7 +4,7 @@ import _ from 'lodash';
 import { func, shape, string } from 'prop-types';
 import FormGroupTemplate from 'src/js/components/form/formGroupTemplate';
 import { getFormattedExpiry } from './queries';
-import { getInfo } from 'src/js/utils/queries';
+import { fetchInfo } from 'src/js/utils/queries';
 
 const CALL = 'Call';
 const PUT = 'Put';
@@ -25,7 +25,7 @@ class Options extends React.PureComponent {
 
     componentDidMount() {
         this.selectedOptionRoot = this.props.optionRoot;
-        getInfo('getOptionChain', this.props, this.selectedOptionRoot.Identifier, (response) => {
+        fetchInfo('getOptionChain', this.props, this.selectedOptionRoot.Identifier, (response) => {
             this.onSuccess(response);
         });
     }
@@ -33,7 +33,7 @@ class Options extends React.PureComponent {
     componentWillReceiveProps(newProps) {
         if (this.selectedOptionRoot.Identifier !== newProps.optionRoot.Identifier) {
             this.selectedOptionRoot = newProps.optionRoot;
-            getInfo('getOptionChain', this.props, this.selectedOptionRoot.Identifier, (response) => {
+            fetchInfo('getOptionChain', this.props, this.selectedOptionRoot.Identifier, (response) => {
                 this.onSuccess(response);
             });
         }
@@ -89,7 +89,7 @@ class Options extends React.PureComponent {
     selectInstrument() {
         _.forEach(this.state.selectedOptionSpace.SpecificOptions, (option) => {
             if (option.StrikePrice === parseFloat(this.strikePrice) && option.PutCall === this.callPut) {
-                getInfo('getInstrumentDetails', this.props, {
+                fetchInfo('getInstrumentDetails', this.props, {
                     Uic: option.Uic,
                     AssetType: this.props.optionRoot.AssetType,
                 }, (response) => {

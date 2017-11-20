@@ -4,7 +4,6 @@ import {
     placeOrder,
     getAccountInfo,
     subscribePrices,
-    removeIndividualSubscription,
 } from 'src/js/utils/api';
 import { doWithLoader, setGlobalErrMessage } from 'src/js/utils/global';
 
@@ -233,17 +232,6 @@ export function getAccountArray(accountInfo) {
         result.push(value);
         return result;
     }, []);
-}
-
-// methods for handling subscription for prices
-export function removeSubscription(subscription, props, cb) {
-    if (subscription) {
-        doWithLoader(
-            props,
-            _.partial(removeIndividualSubscription, props.accessToken, subscription),
-            () => cb()
-        );
-    }
 }
 
 export function createSubscription(instrument, props, onPriceUpdate, cb) {

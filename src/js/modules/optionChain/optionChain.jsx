@@ -6,8 +6,8 @@ import { object, func } from 'prop-types';
 
 import CustomTable from 'src/js/components/customTable';
 import OptionChainTemplate from './optionChainTemplate';
-import { batchExpiries, createSubscription, removeSubscription } from './queries';
-import { getInfo } from 'src/js/utils/queries';
+import { batchExpiries, createSubscription } from './queries';
+import { fetchInfo, unSubscribe } from 'src/js/utils/queries';
 import Error from 'src/js/modules/error';
 import DetailsHeader from 'src/js/components/detailsHeader';
 
@@ -33,7 +33,7 @@ class OptionChain extends React.PureComponent {
     }
 
     componentWillUnmount() {
-        removeSubscription('removeIndividualSubscription', this.subscription, this.props, this.handleSubscriptionDestroyed);
+        unSubscribe(this.props, this.subscription, this.handleSubscriptionDestroyed);
     }
 
     handleInstrumentsUpdated(result) {
@@ -82,7 +82,7 @@ class OptionChain extends React.PureComponent {
         const { Identifier, AssetType } = optionRootData;
 
         // for contractoptions, uic comes in the result of this call
-        getInfo('getOptionChain', this.props, Identifier, (result) => {
+        fetchInfo('getOptionChain', this.props, Identifier, (result) => {
             const { Uic } = result.DefaultOption;
             const option = { Identifier, Uic, AssetType };
             this.fetchInstrument(option);
@@ -90,7 +90,7 @@ class OptionChain extends React.PureComponent {
     }
 
     fetchInstrument(instrument) {
-        getInfo('getInstrumentDetails', this.props, instrument, this.handleInstrDetailsSuccess);
+        fetchInfo('getInstrumentDetails', this.props, instrument, this.handleInstrDetailsSuccess);
 
         // call for subscribing to the options data for the selected option over socket.
         this.subscribeToOptionsChain(instrument);
@@ -98,7 +98,7 @@ class OptionChain extends React.PureComponent {
     }
 
     subscribeToOptionsChain(optionsData) {
-        removeSubscription('removeIndividualSubscription', this.subscription, this.props, this.handleSubscriptionDestroyed);
+        unSubscribe(this.props, this.subscription, this.handleSubscriptionDestroyed);
 
         // eslint-disable-next-line max-params
         createSubscription('subscribeOptionsChain',
@@ -142,7 +142,7 @@ class OptionChain extends React.PureComponent {
         this.setState({ searchText: value });
         if (value.length > 1) {
             const searchParams = { AssetTypes: this.assetTypes, keyword: value };
-            getInfo('getInstruments', this.props, searchParams, this.handleInstrumentsUpdated);
+            fetchInfo('getInstruments', this.props, searchParams, this.handleInstrumentsUpdated);
         }
     }
 

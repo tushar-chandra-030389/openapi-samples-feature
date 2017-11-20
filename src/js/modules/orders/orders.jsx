@@ -2,10 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { bindHandlers } from 'react-bind-handlers';
 import { Panel } from 'react-bootstrap';
-import * as queries from './queries';
 import { object } from 'prop-types';
 import _ from 'lodash';
 
+import * as queries from './queries';
 import DetailsHeader from 'src/js/components/detailsHeader';
 import Error from 'src/js/modules/error';
 import Assets from 'src/js/modules/assets';
@@ -13,6 +13,7 @@ import Dropdown from 'src/js/components/dropdown';
 import FormTemplate from 'src/js/components/form/formTemplate';
 import OrdersNPositionsTab from 'src/js/components/ordersNPositionsTab';
 import { checkIfOption, checkIfPutCallExpiry } from 'src/js/utils/global';
+import { unSubscribe, fetchInfo } from 'src/js/utils/queries';
 
 class Orders extends React.PureComponent {
     constructor() {
@@ -71,7 +72,7 @@ class Orders extends React.PureComponent {
     }
 
     componentDidMount() {
-        queries.fetchAccountInfo(this.props, (response) => {
+        fetchInfo('getAccountInfo', this.props, null, (response) => {
             this.setState({ accounts: queries.getAccountArray(response) });
         });
     }
@@ -111,7 +112,7 @@ class Orders extends React.PureComponent {
     }
 
     handleUnsubscribe() {
-        queries.removeSubscription(this.subscription, this.props, () => {
+        unSubscribe(this.props, this.subscription, () => {
             this.subscription = null;
         });
     }

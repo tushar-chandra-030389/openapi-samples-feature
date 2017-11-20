@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { bindHandlers } from 'react-bind-handlers';
 import { Button } from 'react-bootstrap';
 import { object } from 'prop-types';
-import { getInfo } from 'src/js/utils/queries';
+import { fetchInfo } from 'src/js/utils/queries';
 import DetailsHeader from 'src/js/components/detailsHeader';
 import DropDown from 'src/js/components/dropdown';
 import Instrument from 'src/js/modules/assets/instruments';
@@ -34,7 +34,7 @@ class ChartPolling extends React.PureComponent {
 
     handleOptionRootSelected(instrument) {
         const { Identifier } = instrument;
-        getInfo('getOptionChain', this.props, Identifier, (result) => {
+        fetchInfo('getOptionChain', this.props, Identifier, (result) => {
             const { Uic } = result.DefaultOption;
             this.instrument = result;
             this.instrument.Uic = Uic;
@@ -52,7 +52,7 @@ class ChartPolling extends React.PureComponent {
                 Horizon: this.state.horizon,
                 Count: this.state.candleCount,
             };
-            getInfo('getChartData', this.props, chartData, this.handleChartDataDisplay);
+            fetchInfo('getChartData', this.props, chartData, this.handleChartDataDisplay);
         }
     }
 

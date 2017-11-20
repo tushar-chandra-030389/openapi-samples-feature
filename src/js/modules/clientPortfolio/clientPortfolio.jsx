@@ -7,7 +7,7 @@ import OrdersNPositionsTab from 'src/js/components/ordersNPositionsTab';
 
 import ClientPortfolioTemplate from './clientPortfolioTemplate';
 import { getBalanceInfoObjectFromResponse } from './queries';
-import { getInfo } from 'src/js/utils/queries';
+import { fetchInfo } from 'src/js/utils/queries';
 import DetailsHeader from 'src/js/components/detailsHeader';
 import Error from 'src/js/modules/error';
 
@@ -33,7 +33,7 @@ class ClientPortfolio extends React.PureComponent {
     componentDidMount() {
 
         // need to fetch client information on page loading.
-        getInfo('fetchClientInfo', this.props, null, this.handleClientAccounts);
+        fetchInfo('fetchClientInfo', this.props, null, this.handleClientAccounts);
     }
 
     handleAccountSelection(eventKey) {
@@ -53,7 +53,7 @@ class ClientPortfolio extends React.PureComponent {
             AccountKey,
         };
 
-        getInfo('getBalancesInfo', this.props, balanceInfoQueryParams, this.handleBalanceInfo);
+        fetchInfo('getBalancesInfo', this.props, balanceInfoQueryParams, this.handleBalanceInfo);
 
         // setting the state for new account
         this.setState({
@@ -66,13 +66,13 @@ class ClientPortfolio extends React.PureComponent {
     handleClientAccounts(response) {
         this.clientInformation = response;
         const { Name, DefaultAccountId, ClientKey, DefaultAccountKey } = this.clientInformation;
-        getInfo('getAccountInfo', this.props, null, this.handleAccountInfo);
+        fetchInfo('getAccountInfo', this.props, null, this.handleAccountInfo);
 
         const balanceInfoQueryParams = {
             ClientKey,
             AccountKey: DefaultAccountKey,
         };
-        getInfo('getBalancesInfo', this.props, balanceInfoQueryParams, this.handleBalanceInfo);
+        fetchInfo('getBalancesInfo', this.props, balanceInfoQueryParams, this.handleBalanceInfo);
 
         this.setState({
             clientName: Name,
