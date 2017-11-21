@@ -7,8 +7,7 @@ import PricesTemplate from './pricesTemplate';
 import Error from 'src/js/modules/error';
 import DetailsHeader from 'src/js/components/detailsHeader';
 import Assets from 'src/js/modules/assets';
-import { createSubscription } from './queries';
-import { unSubscribe } from 'src/js/utils/queries';
+import { unSubscribe, subscribePrices } from 'src/js/utils/queries';
 
 class Prices extends React.PureComponent {
     constructor() {
@@ -39,7 +38,7 @@ class Prices extends React.PureComponent {
     }
 
     handleSubscribe(instrument) {
-        createSubscription(instrument, this.props, this.handlePriceUpdate, (subscription) => {
+        subscribePrices(this.props, instrument, this.handlePriceUpdate, (subscription) => {
             this.subscription = subscription;
         });
     }

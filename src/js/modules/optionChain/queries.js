@@ -1,11 +1,4 @@
-import { doWithLoader } from 'src/js/utils/global';
-import * as API from 'src/js/utils/api';
 import _ from 'lodash';
-
-// eslint-disable-next-line max-params
-export function createSubscription(fn, props, onPriceUpdate, cb, onRequestError, paramObj) {
-    doWithLoader(props, _.partial(API[fn], props.accessToken, paramObj, onPriceUpdate, onRequestError), (res) => cb(res));
-}
 
 export function batchExpiries(dataExpiries, createdExpiries) {
     _.forEach(dataExpiries, (value) => {

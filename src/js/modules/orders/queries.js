@@ -2,10 +2,8 @@ import _ from 'lodash';
 import {
     getInfoPrices,
     placeOrder,
-    getAccountInfo,
-    subscribePrices,
 } from 'src/js/utils/api';
-import { doWithLoader, setGlobalErrMessage } from 'src/js/utils/global';
+import { doWithLoader } from 'src/js/utils/global';
 
 export function getAskBidFormData(instrumentInfo, currentOrder) {
     const askPrice = (instrumentInfo && instrumentInfo.Quote && instrumentInfo.Quote.Ask) ? instrumentInfo.Quote.Ask : 0.0;
@@ -223,36 +221,11 @@ export function postOrder(order, props, cb) {
     doWithLoader(props, _.partial(placeOrder, props.accessToken, order), (result) => cb(result.response));
 }
 
-export function fetchAccountInfo(props, cb) {
-    doWithLoader(props, _.partial(getAccountInfo, props.accessToken), (result) => cb(result.response));
-}
-
 export function getAccountArray(accountInfo) {
     return _.reduce(accountInfo.Data, (result, value) => {
         result.push(value);
         return result;
     }, []);
-}
-
-export function createSubscription(instrument, props, onPriceUpdate, cb) {
-
-    const { AssetType, Uic } = instrument;
-    const instrumentData = { AssetType, Uic };
-
-    if (instrument.Expiry && instrument.PutCall) {
-        instrumentData.expiryDate = instrument.Expiry;
-        instrumentData.PutCall = instrument.PutCall;
-    }
-
-    doWithLoader(
-        props,
-        _.partial(subscribePrices,
-            props.accessToken,
-            instrumentData,
-            onPriceUpdate,
-            setGlobalErrMessage.bind(null, props)),
-        (result) => cb(result)
-    );
 }
 
 // this function checks if everything is ok with the order or else it shows custom validation error

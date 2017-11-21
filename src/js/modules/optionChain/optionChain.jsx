@@ -6,8 +6,8 @@ import { object, func } from 'prop-types';
 
 import CustomTable from 'src/js/components/customTable';
 import OptionChainTemplate from './optionChainTemplate';
-import { batchExpiries, createSubscription } from './queries';
-import { fetchInfo, unSubscribe } from 'src/js/utils/queries';
+import { batchExpiries } from './queries';
+import { fetchInfo, unSubscribe, subscribe } from 'src/js/utils/queries';
 import Error from 'src/js/modules/error';
 import DetailsHeader from 'src/js/components/detailsHeader';
 
@@ -100,13 +100,12 @@ class OptionChain extends React.PureComponent {
     subscribeToOptionsChain(optionsData) {
         unSubscribe(this.props, this.subscription, this.handleSubscriptionDestroyed);
 
-        // eslint-disable-next-line max-params
-        createSubscription('subscribeOptionsChain',
+        subscribe('subscribeOptionsChain',
             this.props,
+            optionsData,
             this.handleOptionsChainSubscription,
-            this.handleSubscriptionCreated,
-            this.handleSubscriptionRequestError,
-            optionsData);
+            this.handleSubscriptionCreated
+        );
     }
 
     handleSubscriptionCreated(result) {
@@ -116,11 +115,6 @@ class OptionChain extends React.PureComponent {
     handleSubscriptionDestroyed() {
         this.subscription = null;
         this.expiries = [];
-    }
-
-    handleSubscriptionRequestError(res) {
-        const { Message } = res.response;
-        this.props.setErrMessage(Message);
     }
 
     handleOptionsChainSubscription(data) {
