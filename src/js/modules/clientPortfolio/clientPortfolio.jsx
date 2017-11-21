@@ -3,8 +3,8 @@ import { bindHandlers } from 'react-bind-handlers';
 import _ from 'lodash';
 import { Row, Col, Panel } from 'react-bootstrap';
 import { object } from 'prop-types';
-import OrdersNPositionsTab from 'src/js/components/ordersNPositionsTab';
 
+import OrdersNPositionsTab from 'src/js/components/ordersNPositionsTab';
 import ClientPortfolioTemplate from './clientPortfolioTemplate';
 import { getBalanceInfoObjectFromResponse } from './queries';
 import { fetchInfo } from 'src/js/utils/queries';
@@ -66,12 +66,14 @@ class ClientPortfolio extends React.PureComponent {
     handleClientAccounts(response) {
         this.clientInformation = response;
         const { Name, DefaultAccountId, ClientKey, DefaultAccountKey } = this.clientInformation;
+
         fetchInfo('getAccountInfo', this.props, null, this.handleAccountInfo);
 
         const balanceInfoQueryParams = {
             ClientKey,
             AccountKey: DefaultAccountKey,
         };
+
         fetchInfo('getBalancesInfo', this.props, balanceInfoQueryParams, this.handleBalanceInfo);
 
         this.setState({

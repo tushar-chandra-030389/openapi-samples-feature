@@ -49,7 +49,6 @@ class TradeSubscriptions extends React.PureComponent {
 
         const { tradeType } = this.props;
         if (tradeType === TRADE_TYPE.ORDER || tradeType === TRADE_TYPE.NETPOSITION) {
-
             subscribe(
                 `create${tradeType}Subscription`,
                 this.props,

@@ -1,8 +1,5 @@
 import _ from 'lodash';
-import {
-    getInfoPrices,
-    placeOrder,
-} from 'src/js/utils/api';
+import { getInfoPrices, placeOrder } from 'src/js/utils/api';
 import { doWithLoader } from 'src/js/utils/global';
 
 export function getAskBidFormData(instrumentInfo, currentOrder) {
@@ -213,7 +210,6 @@ export function fetchInfoPrices(instrument, props, cb) {
         instrumentData.expiryDate = instrument.Expiry;
         instrumentData.PutCall = instrument.PutCall;
     }
-
     doWithLoader(props, _.partial(getInfoPrices, props.accessToken, instrumentData), (result) => cb(result.response));
 }
 
@@ -231,7 +227,6 @@ export function getAccountArray(accountInfo) {
 // this function checks if everything is ok with the order or else it shows custom validation error
 export function validateOrder(order, props) {
     let isOrderOk = true;
-
     const { Uic, AccountKey, Amount, OrderPrice } = order;
 
     if (!Uic) {

@@ -2,6 +2,7 @@ import React from 'react';
 import { bindHandlers } from 'react-bind-handlers';
 import { ButtonToolbar, Row } from 'react-bootstrap';
 import { func, array } from 'prop-types';
+
 import * as allAssetTypes from 'src/js/data/allAssetTypes.json';
 import { checkIfOption } from 'src/js/utils/global';
 import Dropdown from 'src/js/components/dropdown';
@@ -31,6 +32,7 @@ class Instruments extends React.PureComponent {
         } else {
             this.setState({ title: 'Select Instrument' });
         }
+
         fetchInfo('getInstruments', this.props, { AssetTypes: eventKey }, (response) => {
             this.setState({ instruments: response.Data });
         });

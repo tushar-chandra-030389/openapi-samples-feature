@@ -1,4 +1,5 @@
 import _ from 'lodash';
+
 import { fetchInfo } from 'src/js/utils/queries';
 
 export function getRearrangedDetails(instrumentDetails) {

@@ -3,6 +3,7 @@ import _ from 'lodash';
 import { bindHandlers } from 'react-bind-handlers';
 import { Button } from 'react-bootstrap';
 import { object } from 'prop-types';
+
 import { fetchInfo } from 'src/js/utils/queries';
 import DetailsHeader from 'src/js/components/detailsHeader';
 import DropDown from 'src/js/components/dropdown';
