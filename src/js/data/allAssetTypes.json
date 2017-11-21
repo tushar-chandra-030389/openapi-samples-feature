@@ -1,0 +1,18 @@
+{
+  "data": [
+    "FxSpot",
+    "Stock",
+    "StockIndex",
+    "CfdOnFutures",
+    "CfdOnIndex",
+    "CfdOnStock",
+    "ContractFutures",
+    "FuturesStrategy",
+    "StockOption",
+    "StockIndexOption",
+    "FuturesOption",
+    "FxVanillaOption",
+    "FxOneTouchOption",
+    "FxNoTouchOption"
+  ]
+}
