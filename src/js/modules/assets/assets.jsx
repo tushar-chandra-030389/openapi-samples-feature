@@ -18,7 +18,6 @@ class Assets extends React.PureComponent {
             optionRootSelected: false,
             dateUpdated: false,
         };
-        this.putCallExpiry = null;
         this.putCall = 'Call';
         this.expiryDate = moment();
         this.instrumentDetails = {};

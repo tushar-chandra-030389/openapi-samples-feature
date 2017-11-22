@@ -2,12 +2,13 @@ import React from 'react';
 import { bindHandlers } from 'react-bind-handlers';
 import { object } from 'prop-types';
 import _ from 'lodash';
+
 import DetailsHeader from 'src/js/components/detailsHeader';
 import Error from 'src/js/modules/error';
 import Assets from 'src/js/modules/assets';
 import InfoPricesTemplate from './infoPricesTemplate';
 import * as queries from './queries';
-import { checkIfPutCallExpiry } from '../../utils/global';
+import { checkIfPutCallExpiry } from 'src/js/utils/global';
 
 class InfoPrices extends React.PureComponent {
     constructor(props) {
