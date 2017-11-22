@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { bindHandlers } from 'react-bind-handlers';
 import PropTypes from 'prop-types';
-import { getFormattedPrice } from '../utils/api';
+import { getFormattedPrice } from 'src/js/utils/apiServices/api';
 
 // Mutation observer is used for observing changes in data over the socket and handling them to show highlighted
 // periodic reflection in subscribed prices.

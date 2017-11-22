@@ -1,5 +1,5 @@
 import { doWithLoader, setGlobalErrMessage } from 'src/js/utils/global';
-import * as API from 'src/js/utils/api';
+import * as API from 'src/js/utils/apiServices/api';
 import _ from 'lodash';
 
 export function fetchInfo(fn, props, params, callBack) {

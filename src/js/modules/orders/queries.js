@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { getInfoPrices, placeOrder } from 'src/js/utils/api';
+import { getInfoPrices, placeOrder } from 'src/js/utils/apiServices/api';
 import { doWithLoader } from 'src/js/utils/global';
 
 export function getAskBidFormData(instrumentInfo, currentOrder) {

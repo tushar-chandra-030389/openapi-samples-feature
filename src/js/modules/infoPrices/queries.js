@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { doWithLoader, checkIfPutCallExpiry } from 'src/js/utils/global';
-import { getInfoPrices, getInfoPricesList, subscribeInfoPrices, removeIndividualSubscription } from 'src/js/utils/api';
+import { getInfoPrices, getInfoPricesList, subscribeInfoPrices, removeIndividualSubscription } from 'src/js/utils/apiServices/api';
 
 export function fetchInfoPrices(instrument, props, cb) {
     const { AssetType, Uic } = instrument;

@@ -1,5 +1,5 @@
 import { doWithLoader } from 'src/js/utils/global';
-import { subscribeChartStreamingData, removeIndividualSubscription } from 'src/js/utils/api';
+import { subscribeChartStreamingData, removeIndividualSubscription } from 'src/js/utils/apiServices/api';
 import _ from 'lodash';
 
 export function subscribeChartData(params, props, onUpdate, cb) {
