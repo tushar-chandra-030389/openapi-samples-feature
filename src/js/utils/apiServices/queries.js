@@ -25,6 +25,22 @@ export function subscriptionQuery(serviceGroup, endPoint, Arguments, accessToken
     });
 }
 
+// eslint-disable-next-line max-params
+export function subscriptionQueryBatch(serviceGroup, endPoint, Arguments, accessToken, onUpdate, onError) {
+    return new Promise((resolve) => {
+        const subscription = services.subscribeBatch({
+            serviceGroup,
+            endPoint,
+            queryParams: {
+                Arguments,
+                RefreshRate: 5,
+            },
+            accessToken,
+        }, onUpdate, onError);
+        resolve(subscription);
+    });
+}
+
 export function postQuery(serviceGroup, endPoint, queryParams, body, accessToken) {
     return services.postData({
         serviceGroup,
@@ -38,6 +54,13 @@ export function postQuery(serviceGroup, endPoint, queryParams, body, accessToken
 export function disposeQuery(subscription, accessToken) {
     return new Promise((resolve) => {
         services.disposeIndividualSubscription(accessToken, subscription);
+        resolve();
+    });
+}
+
+export function disposeQueryBatch(subscription, accessToken) {
+    return new Promise((resolve) => {
+        services.disposeIndividualSubscriptionBatch(accessToken, subscription);
         resolve();
     });
 }

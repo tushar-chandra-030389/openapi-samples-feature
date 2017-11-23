@@ -1,8 +1,8 @@
-import { fetchDataQuery, subscriptionQuery, formatQuery, disposeQuery, postQuery } from './queries';
+import * as queries from './queries';
 
 // fetches user data from openapi/port/v1/users/me
 export function getUserDetails(accessToken) {
-    return fetchDataQuery(
+    return queries.fetchDataQuery(
         'port',
         'v1/users/me',
         null, // for queryParams
@@ -14,7 +14,7 @@ export function getUserDetails(accessToken) {
 // eg: Query Params : { AssetType: 'FxSpot' }
 export function getInstruments(accessToken, params) {
     const { AssetTypes, keyword } = params;
-    return fetchDataQuery(
+    return queries.fetchDataQuery(
         'ref',
         'v1/instruments',
         { AssetTypes, Keywords: keyword },
@@ -26,7 +26,7 @@ export function getInstruments(accessToken, params) {
 // eg: Query Params : { AssetType: 'FxSpot', Uic: 21 }
 export function getInstrumentDetails(accessToken, instrument) {
     const { Uic, AssetType, ExpiryDate, PutCall } = instrument;
-    return fetchDataQuery(
+    return queries.fetchDataQuery(
         'ref',
         'v1/instruments/details/{Uic}/{AssetType}',
         {
@@ -41,7 +41,7 @@ export function getInstrumentDetails(accessToken, instrument) {
 
 // fetch Account details
 export function getAccountInfo(accessToken) {
-    return fetchDataQuery(
+    return queries.fetchDataQuery(
         'port',
         'v1/accounts/me',
         null,
@@ -52,7 +52,7 @@ export function getAccountInfo(accessToken) {
 // fetch Info Prices for a particular instrument based on AssetType and Uic
 // eg: Query Params : { AssetType: 'FxSpot', Uic: 21 }
 export function getInfoPrices(accessToken, instrumentDetails) {
-    return fetchDataQuery(
+    return queries.fetchDataQuery(
         'trade',
         'v1/infoprices',
         {
@@ -75,7 +75,7 @@ export function getInfoPrices(accessToken, instrumentDetails) {
 
 // fetch client details
 export function fetchClientInfo(accessToken) {
-    return fetchDataQuery(
+    return queries.fetchDataQuery(
         'port',
         'v1/clients/me',
         null,
@@ -87,7 +87,7 @@ export function fetchClientInfo(accessToken) {
 export function getChartData(accessToken, chartData) {
     const { AssetType, Uic, Horizon, Count } = chartData;
 
-    return fetchDataQuery(
+    return queries.fetchDataQuery(
         'chart',
         'v1/charts',
         {
@@ -108,7 +108,7 @@ export function getChartData(accessToken, chartData) {
 // fetch option chain based on AssetType
 // eg: Query Params : { OptionRootId: 19 }
 export function getOptionChain(accessToken, Identifier) {
-    return fetchDataQuery(
+    return queries.fetchDataQuery(
         'ref',
         `v1/instruments/contractoptionspaces/${Identifier}`,
         null,
@@ -119,12 +119,13 @@ export function getOptionChain(accessToken, Identifier) {
 // fetch Info Prices for a set of instruments based on AssetType and Uics
 // eg: Query Params : { AssetType: 'FxSpot', Uics: 21,2 }
 export function getInfoPricesList(accessToken, instrumentData) {
-    return fetchDataQuery(
+    const { AssetType, Uics } = instrumentData;
+    return queries.fetchDataQuery(
         'trade',
         'v1/infoprices/list',
         {
-            AssetType: instrumentData.AssetType,
-            Uics: instrumentData.Uics,
+            AssetType,
+            Uics,
             FieldGroups: [
                 'DisplayAndFormat',
                 'InstrumentPriceDetails',
@@ -140,7 +141,7 @@ export function getInfoPricesList(accessToken, instrumentData) {
 
 // return balance information
 export function getBalancesInfo(accessToken, params) {
-    return fetchDataQuery(
+    return queries.fetchDataQuery(
         'port',
         'v1/balances',
         params,
@@ -149,39 +150,7 @@ export function getBalancesInfo(accessToken, params) {
 }
 
 export function getFormattedPrice(price, decimal, formatFlags) {
-    return formatQuery(price, decimal, formatFlags);
-}
-
-/* subscribe to Info prices for a set of instruments based on AssetType and Uics.
-    eg: Query Params : {
-        Arguments: {
-            AssetType: 'FxSpot',
-            Uics: 21,2
-        },
-        RefreshRate: 5
-    }
-*/
-export function subscribeInfoPrices(accessToken, instrumentData, onUpdate, onError) {
-    return subscriptionQuery(
-        'trade',
-        'v1/infoPrices/subscriptions',
-        {
-            AssetType: instrumentData.AssetType,
-            Uics: instrumentData.Uics,
-            FieldGroups: [
-                'DisplayAndFormat',
-                'InstrumentPriceDetails',
-                'MarketDepth',
-                'PriceInfo',
-                'PriceInfoDetails',
-                'Quote',
-            ],
-        },
-
-        accessToken,
-        onUpdate,
-        onError
-    );
+    return queries.formatQuery(price, decimal, formatFlags);
 }
 
 /*  subscribe to Prices for a single instrument based on AssetType and Uic.
@@ -194,7 +163,7 @@ export function subscribeInfoPrices(accessToken, instrumentData, onUpdate, onErr
      }
 */
 export function subscribePrices(accessToken, instrumentData, onUpdate, onError) {
-    return subscriptionQuery(
+    return queries.subscriptionQuery(
         'trade',
         'v1/Prices/subscriptions',
 
@@ -222,7 +191,7 @@ export function subscribePrices(accessToken, instrumentData, onUpdate, onError) 
 /* handling chart streaming data*/
 
 export function subscribeChartStreamingData(accessToken, chartData, onUpdate, onError) {
-    return subscriptionQuery(
+    return queries.subscriptionQuery(
         'chart',
         'v1/charts/subscriptions',
         {
@@ -242,7 +211,7 @@ export function subscribeChartStreamingData(accessToken, chartData, onUpdate, on
 export function subscribeOptionsChain(accessToken, optionsData, onUpdate, onError) {
     const { Identifier, AssetType } = optionsData;
 
-    return subscriptionQuery(
+    return queries.subscriptionQuery(
         'trade',
         'v1/optionschain/subscriptions',
         {
@@ -259,12 +228,12 @@ export function subscribeOptionsChain(accessToken, optionsData, onUpdate, onErro
 
 // remove individual subscription
 export function removeIndividualSubscription(accessToken, subscription) {
-    return disposeQuery(subscription, accessToken);
+    return queries.disposeQuery(subscription, accessToken);
 }
 
 // create order subscription
 export function createOrderSubscription(accessToken, subscriptionArgs, onUpdate, onError) {
-    return subscriptionQuery(
+    return queries.subscriptionQuery(
         'port',
         'v1/orders/subscriptions',
         {
@@ -281,7 +250,7 @@ export function createOrderSubscription(accessToken, subscriptionArgs, onUpdate,
 // create positions subscription
 export function createPositionSubscription(accessToken, subscriptionArgs, onUpdate, onError) {
     const { accountKey, clientKey, fieldGroups, NetPositionId } = subscriptionArgs;
-    return subscriptionQuery(
+    return queries.subscriptionQuery(
         'port',
         'v1/positions/subscriptions',
         {
@@ -300,7 +269,7 @@ export function createPositionSubscription(accessToken, subscriptionArgs, onUpda
 // create net positions subscription
 export function createNetPositionSubscription(accessToken, subscriptionArgs, onUpdate, onError) {
     const { accountKey, clientKey, fieldGroups } = subscriptionArgs;
-    return subscriptionQuery(
+    return queries.subscriptionQuery(
         'port',
         'v1/netpositions/subscriptions',
         {
@@ -317,11 +286,38 @@ export function createNetPositionSubscription(accessToken, subscriptionArgs, onU
 
 // place order
 export function placeOrder(accessToken, order) {
-    return postQuery(
+    return queries.postQuery(
         'trade',
         'v2/orders',
         null,
         order,
         accessToken
     );
+}
+
+export function subscribeInfoPricesBatch(accessToken, instrumentData, onUpdate, onError) {
+    const { AssetType, Uics } = instrumentData;
+    return queries.subscriptionQueryBatch(
+        'trade',
+        'v1/infoPrices/subscriptions',
+        {
+            AssetType,
+            Uics,
+            FieldGroups: [
+                'DisplayAndFormat',
+                'InstrumentPriceDetails',
+                'MarketDepth',
+                'PriceInfo',
+                'PriceInfoDetails',
+                'Quote',
+            ],
+        },
+        accessToken,
+        onUpdate,
+        onError
+    );
+}
+
+export function removeIndividualSubscriptionBatch(accessToken, subscription) {
+    return queries.disposeQueryBatch(subscription, accessToken);
 }

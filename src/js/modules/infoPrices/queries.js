@@ -1,6 +1,11 @@
 import _ from 'lodash';
 import { doWithLoader, checkIfPutCallExpiry } from 'src/js/utils/global';
-import { getInfoPrices, getInfoPricesList, subscribeInfoPrices, removeIndividualSubscription } from 'src/js/utils/apiServices/api';
+import {
+    getInfoPrices,
+    getInfoPricesList,
+    subscribeInfoPricesBatch,
+    removeIndividualSubscriptionBatch
+} from 'src/js/utils/apiServices/api';
 
 export function fetchInfoPrices(instrument, props, cb) {
     const { AssetType, Uic } = instrument;
@@ -42,7 +47,7 @@ export function createSubscription(selectedAssetTypes, selectedInstruments, prop
         } else {
             doWithLoader(
                 props,
-                _.partial(subscribeInfoPrices, props.accessToken, args, onPriceUpdate),
+                _.partial(subscribeInfoPricesBatch, props.accessToken, args, onPriceUpdate),
                 (result) => {
                     cb(result, key);
                 }
@@ -56,7 +61,7 @@ export function removeSubscription(selectedAssetTypes, props, cb) {
         if (value.subscription) {
             doWithLoader(
                 props,
-                _.partial(removeIndividualSubscription, props.accessToken, value.subscription),
+                _.partial(removeIndividualSubscriptionBatch, props.accessToken, value.subscription),
                 () => cb(key)
             );
         }
