@@ -7,7 +7,7 @@ import PricesTemplate from './pricesTemplate';
 import Error from 'src/js/modules/error';
 import DetailsHeader from 'src/js/components/detailsHeader';
 import Assets from 'src/js/modules/assets';
-import { unSubscribe, subscribePrices } from 'src/js/utils/queries';
+import { unSubscribeBatch, subscribePriceBatch } from 'src/js/utils/queries';
 
 class Prices extends React.PureComponent {
     constructor() {
@@ -38,14 +38,14 @@ class Prices extends React.PureComponent {
     }
 
     handleSubscribe(instrument) {
-        subscribePrices(this.props, instrument, this.handlePriceUpdate, (subscription) => {
+        subscribePriceBatch(this.props, instrument, this.handlePriceUpdate, (subscription) => {
             this.subscription = subscription;
         });
     }
 
     handleUnsubscribe() {
         this.instrument = null;
-        unSubscribe(this.props, this.subscription, () => {
+        unSubscribeBatch(this.props, this.subscription, () => {
             this.subscription = null;
         });
     }

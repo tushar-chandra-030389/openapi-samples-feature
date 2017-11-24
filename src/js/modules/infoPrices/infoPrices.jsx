@@ -19,7 +19,6 @@ class InfoPrices extends React.PureComponent {
     }
 
     componentWillUnmount() {
-
         // subscription needs to be destroyed on navigating to other pages
         queries.removeSubscription(this.selectedAssetTypes, this.props, (assetType) => {
             this.selectedAssetTypes[assetType].subscription = null;
@@ -29,7 +28,6 @@ class InfoPrices extends React.PureComponent {
     handleInstrumentSelected(instrument) {
         this.handleUnsubscribe();
         queries.fetchInfoPrices(instrument, this.props, (response) => {
-
             const { AssetType, Uic } = response;
 
             // this is for fxvanilla, fxnotouch, fxonetouch

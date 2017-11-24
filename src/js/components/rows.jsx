@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import PositionDataTable from './positionDataTable';
 import * as queries from 'src/js/modules/tradeSubscription/queries';
-import { subscribe, unSubscribe } from 'src/js/utils/queries';
+import { subscribeBatch, unSubscribeBatch } from 'src/js/utils/queries';
 
 class Rows extends React.PureComponent {
     constructor(props) {
@@ -26,7 +26,7 @@ class Rows extends React.PureComponent {
 
     createTradeSubscription(NpID) {
         const { AccountKey, ClientKey } = this.props.currentAccountInformation;
-        subscribe(
+        subscribeBatch(
             'createPositionSubscription',
             this.props,
             {
@@ -52,7 +52,7 @@ class Rows extends React.PureComponent {
 
     disposeSubscription() {
         if (!_.isEmpty(this.posTradeSubscription)) {
-            unSubscribe(this.props, this.posTradeSubscription, () => {
+            unSubscribeBatch(this.props, this.posTradeSubscription, () => {
                 this.posTrades = {};
                 this.posTradeSubscription = {};
             });

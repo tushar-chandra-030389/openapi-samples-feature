@@ -6,7 +6,7 @@ import * as queries from './queries';
 import CustomTable from 'src/js/components/customTable';
 import CustomTableForPositions from 'src/js/components/customTableForPositions';
 import { TRADE_TYPE } from 'src/js/utils/constants';
-import { unSubscribe, subscribe } from 'src/js/utils/queries';
+import { unSubscribeBatch, subscribeBatch } from 'src/js/utils/queries';
 
 class TradeSubscriptions extends React.PureComponent {
     constructor(props) {
@@ -49,7 +49,7 @@ class TradeSubscriptions extends React.PureComponent {
 
         const { tradeType } = this.props;
         if (tradeType === TRADE_TYPE.ORDER || tradeType === TRADE_TYPE.NETPOSITION) {
-            subscribe(
+            subscribeBatch(
                 `create${tradeType}Subscription`,
                 this.props,
                 {
@@ -72,7 +72,7 @@ class TradeSubscriptions extends React.PureComponent {
     }
 
     disposeSubscription() {
-        unSubscribe(this.props, this.tradeSubscription, () => {
+        unSubscribeBatch(this.props, this.tradeSubscription, () => {
             this.trades = {};
             this.tradeSubscription = null;
         });

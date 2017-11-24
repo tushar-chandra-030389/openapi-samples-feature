@@ -13,7 +13,7 @@ import Dropdown from 'src/js/components/dropdown';
 import FormTemplate from 'src/js/components/form/formTemplate';
 import OrdersNPositionsTab from 'src/js/components/ordersNPositionsTab';
 import { checkIfOption, checkIfPutCallExpiry } from 'src/js/utils/global';
-import { unSubscribe, fetchInfo, subscribePrices } from 'src/js/utils/queries';
+import { unSubscribeBatch, fetchInfo, subscribePriceBatch } from 'src/js/utils/queries';
 
 class Orders extends React.PureComponent {
     constructor() {
@@ -106,13 +106,13 @@ class Orders extends React.PureComponent {
     }
 
     handleSubscribe(instrument) {
-        subscribePrices(this.props, instrument, this.handlePriceUpdate, (subscription) => {
+        subscribePriceBatch(this.props, instrument, this.handlePriceUpdate, (subscription) => {
             this.subscription = subscription;
         });
     }
 
     handleUnsubscribe() {
-        unSubscribe(this.props, this.subscription, () => {
+        unSubscribeBatch(this.props, this.subscription, () => {
             this.subscription = null;
         });
     }

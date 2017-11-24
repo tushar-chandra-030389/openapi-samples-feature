@@ -4,7 +4,7 @@ import {
     getInfoPrices,
     getInfoPricesList,
     subscribeInfoPricesBatch,
-    removeIndividualSubscriptionBatch
+    removeIndividualSubscriptionBatch,
 } from 'src/js/utils/apiServices/api';
 
 export function fetchInfoPrices(instrument, props, cb) {

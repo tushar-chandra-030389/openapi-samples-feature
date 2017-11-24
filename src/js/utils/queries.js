@@ -8,13 +8,12 @@ export function fetchInfo(fn, props, params, callBack) {
     });
 }
 
-export function unSubscribe(props, subscription, cb) {
+export function unSubscribeBatch(props, subscription, cb) {
     if (!_.isEmpty(subscription)) {
-        doWithLoader(props, _.partial(API.removeIndividualSubscription, props.accessToken, subscription), (result) => cb(result));
+        doWithLoader(props, _.partial(API.removeIndividualSubscriptionBatch, props.accessToken, subscription), (result) => cb(result));
     }
 }
-
-export function subscribePrices(props, instrument, onPriceUpdate, cb) {
+export function subscribePriceBatch(props, instrument, onPriceUpdate, cb) {
     const { AssetType, Uic } = instrument;
     const instrumentData = { AssetType, Uic };
 
@@ -22,19 +21,10 @@ export function subscribePrices(props, instrument, onPriceUpdate, cb) {
         instrumentData.expiryDate = instrument.Expiry;
         instrumentData.PutCall = instrument.PutCall;
     }
-
-    doWithLoader(
-        props,
-        _.partial(API.subscribePrices,
-            props.accessToken,
-            instrumentData,
-            onPriceUpdate,
-            setGlobalErrMessage.bind(null, props)),
-        (result) => cb(result)
-    );
+    subscribeBatch('subscribePricesBatch', props, instrumentData, onPriceUpdate, cb);
 }
 
-export function subscribe(fn, props, subscriptionArgs, onUpdate, cb) {
+export function subscribeBatch(fn, props, subscriptionArgs, onUpdate, cb) {
     doWithLoader(
         props,
         _.partial(API[fn], props.accessToken, subscriptionArgs, onUpdate, setGlobalErrMessage.bind(null, props)),

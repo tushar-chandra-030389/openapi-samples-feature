@@ -162,8 +162,8 @@ export function getFormattedPrice(price, decimal, formatFlags) {
          RefreshRate: 5
      }
 */
-export function subscribePrices(accessToken, instrumentData, onUpdate, onError) {
-    return queries.subscriptionQuery(
+export function subscribePricesBatch(accessToken, instrumentData, onUpdate, onError) {
+    return queries.subscriptionQueryBatch(
         'trade',
         'v1/Prices/subscriptions',
 

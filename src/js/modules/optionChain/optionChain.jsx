@@ -7,7 +7,7 @@ import { object, func } from 'prop-types';
 import CustomTable from 'src/js/components/customTable';
 import OptionChainTemplate from './optionChainTemplate';
 import { batchExpiries } from './queries';
-import { fetchInfo, unSubscribe, subscribe } from 'src/js/utils/queries';
+import { fetchInfo, unSubscribeBatch, subscribeBatch } from 'src/js/utils/queries';
 import Error from 'src/js/modules/error';
 import DetailsHeader from 'src/js/components/detailsHeader';
 
@@ -33,7 +33,7 @@ class OptionChain extends React.PureComponent {
     }
 
     componentWillUnmount() {
-        unSubscribe(this.props, this.subscription, this.handleSubscriptionDestroyed);
+        unSubscribeBatch(this.props, this.subscription, this.handleSubscriptionDestroyed);
     }
 
     handleInstrumentsUpdated(result) {
@@ -98,9 +98,9 @@ class OptionChain extends React.PureComponent {
     }
 
     subscribeToOptionsChain(optionsData) {
-        unSubscribe(this.props, this.subscription, this.handleSubscriptionDestroyed);
+        unSubscribeBatch(this.props, this.subscription, this.handleSubscriptionDestroyed);
 
-        subscribe('subscribeOptionsChain',
+        subscribeBatch('subscribeOptionsChain',
             this.props,
             optionsData,
             this.handleOptionsChainSubscription,
