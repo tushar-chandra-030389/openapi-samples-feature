@@ -1,4 +1,4 @@
 @import url('./style.css');
-@import url('bootstrap/dist/css/bootstrap.min.css');
-@import url('react-bootstrap-table/dist/react-bootstrap-table-all.min.css');
-@import url('react-datepicker/dist/react-datepicker.css');
+@import url('~/node_modules/bootstrap/dist/css/bootstrap.min.css');
+@import url('~/node_modules/react-bootstrap-table/dist/react-bootstrap-table-all.min.css');
+@import url('~/node_modules/react-datepicker/dist/react-datepicker.css');
